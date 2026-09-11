@@ -12,4 +12,18 @@
 #details-body details summary{cursor:pointer}
 #details-body details.detail-link p{margin:4px 0 8px 18px;color:var(--muted)}
 #details-body details.connections>summary{font-size:15px;font-weight:600;margin:24px 0 10px}
+/* Guided proficiency review */
+#review-dialog{color:var(--ink);background:#101b2b;border:1px solid #40516b;border-radius:12px;width:min(720px,92vw);max-height:90vh;padding:22px 26px;box-shadow:0 24px 90px #0009;overscroll-behavior:contain}
+#review-dialog::backdrop{background:#030912c4}
+#review-body h2{font-size:21px;margin:0}#review-body h2:focus{outline:none}#review-body h2:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.review-progress{display:grid;gap:4px;font-size:11px;color:var(--muted);margin-bottom:14px}.review-progress progress{width:100%;height:6px;accent-color:var(--accent)}
+.review-question{font-size:16px;font-weight:550;margin:6px 0 10px}
+.review-existing{font-size:12px;padding:6px 10px;border-radius:6px;margin:0 0 10px;border:1px solid}.review-existing.yes{color:#8fe6bd;border-color:#2f7a58;background:#12291f}.review-existing.no{color:#f3b3b0;border-color:#8a4644;background:#2b1718}
+.review-text{max-height:34vh;overflow:auto;overscroll-behavior:contain;padding:4px 14px 4px 0;font-size:14px;line-height:1.65;user-select:text;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.review-text:focus-visible{outline:1px solid var(--accent)}
+.review-answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 10px}.review-answer{padding:16px 12px;font-size:15px;font-weight:600;border-width:2px}
+.review-answer.no{border-color:#8a4644}.review-answer.no:hover{background:#3a1f22}.review-answer.yes{border-color:#2f7a58}.review-answer.yes:hover{background:#1b3a2c}
+.review-answer.current.no{background:#5a2b2c;box-shadow:0 0 0 2px #ef9290 inset}.review-answer.current.yes{background:#1f4d38;box-shadow:0 0 0 2px #59d49c inset}
+.review-controls{display:flex;gap:8px}.review-controls button{padding:5px 12px;font-size:12px}
+.review-start-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.review-counts{color:var(--muted);font-size:12px}.review-complete{color:#8fe6bd}.review-note{font-size:11px;color:var(--muted);margin:10px 0 0}.review-status{font-size:12px;color:var(--accent);min-height:1em;margin:6px 0 0}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

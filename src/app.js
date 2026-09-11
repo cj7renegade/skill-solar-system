@@ -5,6 +5,7 @@ import { starter } from './starter.js';
 import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
+import { createReviewDialog } from './review-dialog.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],viewer,proficiencyOn=false;
@@ -20,11 +21,11 @@ catch(error){$('render-error').hidden=false;$('render-error').textContent='3D vi
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [key,value]of Object.entries(props)){if(key==='text')node.textContent=value;else if(key.startsWith('on'))node.addEventListener(key.slice(2),value);else if(key==='class')node.className=value;else node[key]=value;}for(const child of children)if(child)node.append(child);return node;}
 function options(values,current){return values.map(value=>el('option',{value,text:value,selected:value===current}));}
 function field(title,input){return el('label',{class:'field'},document.createTextNode(title),input);}
-function cache(){try{localStorage.setItem(CACHE,JSON.stringify(graph));}catch{message('Draft cache unavailable. Save map to a JSON file now.');}}
+function cache(){try{localStorage.setItem(CACHE,JSON.stringify(graph));return true;}catch{message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
 function change(mutator,status){if(editing)commit(mutator,status);}
 function commit(mutator,status){
-  try{const next=clone(graph);mutator(next);const normalized=normalize(next);history.push(clone(graph));if(history.length>50)history.shift();graph=normalized;dirty=true;cache();render();message(status);}
-  catch(error){message(error.message);}
+  try{const next=clone(graph);mutator(next);const normalized=normalize(next);history.push(clone(graph));if(history.length>50)history.shift();graph=normalized;dirty=true;const cached=cache();render();message(cached?status:`${status} Draft cache unavailable: save the map to a JSON file now.`);return {ok:true,cached};}
+  catch(error){message(error.message);return {ok:false,cached:false};}
 }
 function replace(next,status){
   listActivation.reset();closeDetails();
@@ -111,7 +112,7 @@ $('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(windo
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 // Held navigation keys pan continuously, scaled by frame time; releasing, blurring, typing, or opening a dialog stops them.
 const heldKeys=new Map();let panFrame=null,panClock=0;
-function typingOrReading(){const target=document.activeElement;return $('details-dialog').open||['INPUT','TEXTAREA','SELECT','BUTTON'].includes(target.tagName)||target.isContentEditable;}
+function typingOrReading(){const target=document.activeElement;return $('details-dialog').open||$('review-dialog').open||['INPUT','TEXTAREA','SELECT','BUTTON'].includes(target.tagName)||target.isContentEditable;}
 function stopPanning(){heldKeys.clear();if(panFrame!==null)cancelAnimationFrame(panFrame);panFrame=null;}
 function panStep(time){
   if(!heldKeys.size||typingOrReading()){stopPanning();return;}
@@ -175,6 +176,13 @@ $('details-dialog').addEventListener('click',e=>{const r=$('details-dialog').get
 $('details-dialog').addEventListener('close',()=>{$('canvas').focus();});
 $('canvas').tabIndex=0;
 $('canvas').addEventListener('pointerdown',()=>{$('canvas').focus({preventScroll:true});});
+// Guided proficiency review: answers use the normal commit path (history, draft cache, dirty state).
+const reviewStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{return null;}},setItem:(key,value)=>localStorage.setItem(key,value)};
+const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-proficiency'),getGraph:()=>graph,storage:reviewStorage,
+  apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Kept in the local draft; Save map writes the JSON file.`);if(result.ok&&nextId)viewer?.focus(nextId);return result;},
+  show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
+  onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
+$('mark-proficiency').onclick=()=>review.open();
 viewer?.spacing(spacing);
 $('sphere-spacing').value=String(spacing);$('spacing-value').value=`${spacing.toFixed(2)}×`;
 render();viewer?.fit();

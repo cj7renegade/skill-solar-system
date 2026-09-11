@@ -1,9 +1,11 @@
 const { app, BrowserWindow, session, ipcMain, dialog } = require('electron');
 const path = require('node:path');
-const fs = require('node:fs/promises');
+const { writeFileAtomic } = require('./save.cjs');
 app.commandLine.appendSwitch('disable-background-networking');
 app.commandLine.appendSwitch('disable-component-update');
-let win;
+let win, saving = null;
+// A save in progress finishes before the app quits, so closing during a save cannot leave a partial file.
+app.on('before-quit', event => { if (saving) { event.preventDefault(); saving.catch(() => {}).then(() => app.quit()); } });
 app.whenReady().then(() => {
   session.defaultSession.webRequest.onBeforeRequest({ urls: ['http://*/*', 'https://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }, (_, done) => done({ cancel: true }));
   session.defaultSession.setPermissionRequestHandler((_, __, done) => done(false));
@@ -19,7 +21,8 @@ app.whenReady().then(() => {
     if (event.sender !== win.webContents || typeof content !== 'string' || Buffer.byteLength(content) > 10_000_000) throw Error('Invalid save request.');
     const result = await dialog.showSaveDialog(win, { defaultPath: 'Skill-Solar-System.json', filters: [{ name: 'Skill map', extensions: ['json'] }] });
     if (result.canceled) return false;
-    await fs.writeFile(result.filePath, content, 'utf8');
+    saving = writeFileAtomic(result.filePath, content);
+    try { await saving; } finally { saving = null; }
     return true;
   });
   win.loadFile(path.join(__dirname, '../dist/index.html'));
