@@ -213,7 +213,7 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 97 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 98 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
   - **With generated maps:** 96 checks (review 41, orbit 14, highlighting and shared proficiency 41).
   - **With a local master and its Computing sub-map:** 120 checks (review 46, orbit 14, highlighting and shared proficiency 46, real atlas 14).
