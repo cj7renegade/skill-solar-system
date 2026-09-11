@@ -9,4 +9,7 @@
 .spacing-control input[type=range]{width:140px;max-width:32vw;min-width:70px;padding:0;border:0;accent-color:var(--accent);cursor:ew-resize;height:24px;background:transparent}
 .spacing-control output{font-size:11px;min-width:42px;font-variant-numeric:tabular-nums;color:var(--accent)}
 .spacing-control button{padding:4px 8px;font-size:11px}
+#details-body details summary{cursor:pointer}
+#details-body details.detail-link p{margin:4px 0 8px 18px;color:var(--muted)}
+#details-body details.connections>summary{font-size:15px;font-weight:600;margin:24px 0 10px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

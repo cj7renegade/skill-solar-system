@@ -33,6 +33,24 @@ export function positionExplanation(graph, node) {
   const prerequisites = inputs.length ? `Its immediate prerequisites are ${inputs.join(', ')}. Its prerequisite depth is ${depth}.` : 'It has no recorded incoming prerequisite links, so its calculated prerequisite depth is zero. This does not prove that the subject needs no preparation.';
   return `Position (X, Y, Z): ${coordinates}. ${method} ${prerequisites} Supports and related links do not determine automatic height. ${node.pinned ? 'It is pinned against automatic arrangement.' : 'It is not pinned.'} Map height is not a proficiency score.`;
 }
+export const LEVEL_NOTE = 'Reference levels (1–100) are editorial ranks derived from recorded prerequisites. They set height in the spiral and are separate from your proficiency marking.';
+const listNames = names => names.length <= 2 ? names.join(' and ') : `${names.slice(0, 2).join(', ')} and ${names.length - 2} more`;
+// Reader-facing placement in at most two sentences, built only from the node's own edges.
+export function placementSummary(graph, node) {
+  const names = new Map(graph.nodes.map(n => [n.id, n.name]));
+  const linked = (type, end) => graph.edges.filter(e => e.type === type && e[end] === node.id).map(e => names.get(end === 'target' ? e.source : e.target));
+  const prerequisites = linked('prerequisite', 'target');
+  const builds = prerequisites.length ? `builds on ${listNames(prerequisites)}` : 'has no recorded prerequisites';
+  const first = node.layoutMode === 'vortex' ? `In the ${node.domain} strand of the spiral, it ${builds}.`
+    : node.layoutMode === 'prerequisites' ? (prerequisites.length ? `In the ${node.domain} column, it sits above ${listNames(prerequisites)}.` : `It starts the ${node.domain} column because it has no recorded prerequisites.`)
+    : node.layoutMode === 'manual' ? `It was positioned by hand and ${builds}.`
+    : `It keeps a saved position from an earlier layout and ${builds}.`;
+  const leads = linked('prerequisite', 'source'), supports = linked('supports', 'source');
+  const related = graph.edges.filter(e => e.type === 'related' && (e.source === node.id || e.target === node.id)).map(e => names.get(e.source === node.id ? e.target : e.source));
+  const second = node.pinned ? 'It is pinned, so automatic layouts leave it in place.'
+    : leads.length ? `It leads to ${listNames(leads)}.` : supports.length ? `It supports ${listNames(supports)}.` : related.length ? `It is related to ${listNames(related)}.` : '';
+  return second ? `${first} ${second}` : first;
+}
 export function validate(graph) {
   if (!graph || graph.schemaVersion !== 1 || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) throw Error('Expected a version 1 Skill Solar System map.');
   if (graph.nodes.length > 5000 || graph.edges.length > 20000) throw Error('This version supports at most 5,000 nodes and 20,000 connections.');

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { nodeColor, proficiencyLabel } from './model.js';
-import { panTranslation } from './camera.js';
+import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove } from './camera.js';
 import { createActivationTracker } from './interaction.js';
 import { visibleConnections } from './connections.js';
 import { nameplateProjection } from './nameplates.js';
@@ -24,6 +24,28 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const sphere = new THREE.SphereGeometry(8,24,16);
   const ray = new THREE.Raycaster(), pointer = new THREE.Vector2();
   let graph, selected, labelsOn=true, selectedConnectionsOnly=true, proficiencyOn=false, editable=false, objects=[], labels=[], dragging=null, down=null, spacing=1, connections=[];
+  // Wheel travel replaces OrbitControls zoom, so there is exactly one wheel handler (see camera.js).
+  controls.enableZoom = false;
+  let scale = { spacing:null, extent:0, key:'' };
+  function navigation() {
+    const forward = camera.getWorldDirection(new THREE.Vector3()).toArray();
+    const nearest = nearestAhead(objects.map(o=>o.position.toArray()), camera.position.toArray(), forward, 8);
+    return navigationDistance({ nearest, orbit:camera.position.distanceTo(controls.target), spacing:scale.spacing, extent:scale.extent, minimum:controls.minDistance });
+  }
+  // Right-drag pans the content at the navigation depth, not at a possibly stale target depth.
+  const syncPanSpeed = () => { const orbit=camera.position.distanceTo(controls.target); controls.panSpeed = orbit>0 ? navigation()/orbit : 1; };
+  controls.addEventListener('start', syncPanSpeed);
+  controls.addEventListener('change', syncPanSpeed);
+  renderer.domElement.addEventListener('wheel', e => {
+    if (!controls.enabled || dragging || e.buttons) return;
+    e.preventDefault();
+    const pixels = wheelPixels(e, renderer.domElement.clientHeight);
+    if (!pixels) return;
+    const forward = camera.getWorldDirection(new THREE.Vector3());
+    const move = wheelMove(pixels, { orbit:camera.position.distanceTo(controls.target), distance:navigation(), minDistance:controls.minDistance, maxDistance:controls.maxDistance });
+    camera.position.addScaledVector(forward, move.camera); controls.target.addScaledVector(forward, move.target);
+    controls.update();
+  }, { passive:false });
   const getRay = event => { const r=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);return ray; };
   function clear() {
     for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
@@ -60,6 +82,9 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   function updatePositions() {
     if(!graph)return;
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
+    // Local and overall scale for the navigation speed policy; recomputed only when positions change.
+    const points=[...positions.values()].map(v=>v.toArray()),key=`${spacing}:${points.length}:${points.reduce((s,p)=>s+p[0]+p[1]*3+p[2]*7,0)}`;
+    if(key!==scale.key){const box=new THREE.Box3().setFromPoints([...positions.values()]);scale={spacing:typicalSpacing(points),extent:box.isEmpty()?0:box.getSize(new THREE.Vector3()).length(),key};}
     for(const mesh of objects)mesh.position.copy(positions.get(mesh.userData.id));
     for(const {source,target,line,tip} of connections){
       const a=positions.get(source),b=positions.get(target),delta=b.clone().sub(a),length=delta.length();
@@ -121,11 +146,11 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const shift=new THREE.Vector3(...spacingCameraShift(controls.target.toArray(),spacing,next));
     spacing=next;camera.position.add(shift);controls.target.add(shift);
     updatePositions();controls.update();draw();
-  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},pan(horizontal,vertical){
+  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},pan(horizontal,vertical,seconds){
     camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();
-    const offset=new THREE.Vector3(...panTranslation(right,up,horizontal,vertical,camera.position.distanceTo(controls.target)));
+    const offset=new THREE.Vector3(...panOffset(right,up,horizontal,vertical,keyPanAmount(navigation(),seconds)));
     camera.position.add(offset);controls.target.add(offset);controls.update();draw();
   },fit,focus(id){const n=graph.nodes.find(n=>n.id===id);if(!n)return;const next=new THREE.Vector3(...displayPosition(n.position,spacing)),offset=camera.position.clone().sub(controls.target);controls.target.copy(next);camera.position.copy(next).add(offset);controls.update();draw();}};
 }
