@@ -65,7 +65,7 @@ It never adds personal maps to the repository.
   - Several subjects can be highlighted at once; click again to remove one, or use **Clear highlights**.
   - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.
   - Highlights are display only: they never select a skill, move the camera, or change the map.
-- A sphere-spacing slider (0.5×–4×) spreads the display without changing saved coordinates.
+- A sphere-spacing slider (0.5×–10×) spreads the display without changing saved coordinates.
 - Click to select a subject; double-click to open its details.
 
 **Data console**
