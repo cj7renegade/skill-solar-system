@@ -7,6 +7,7 @@ import { visibleConnections } from './connections.js';
 import { nameplateProjection } from './nameplates.js';
 import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
+import { HALO_MAX_DIAMETER_RATIO, SPHERE_RADIUS, SELECTED_SPHERE_SCALE, HALO_VERTEX_SHADER, HALO_FRAGMENT_SHADER } from './halo.js';
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -21,36 +22,35 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const environment=createEnvironment();renderer.autoClear=false;
   const activation=createActivationTracker();
   const group = new THREE.Group(); scene.add(group);
-  const sphere = new THREE.SphereGeometry(8,24,16);
-  // Subject halos: a domain-coloured shell around each highlighted sphere (visible up close) and a
-  // fixed-size ring (still visible at overview distance). They live outside the node group, so a
-  // toggle never rebuilds the graph, and they are never raycast, so every sphere stays selectable.
+  const sphere = new THREE.SphereGeometry(SPHERE_RADIUS,24,16);
+  // Subject halos: a domain-coloured ring around each highlighted sphere, sized in the world so it
+  // shrinks and grows with its sphere (see halo.js for the ≤ 2× rendered-diameter limit). Each halo
+  // copies its sphere's transform, including the selection scale. They live outside the node group,
+  // so a toggle never rebuilds the graph, and they are never raycast, so every sphere stays selectable.
   const haloGroup = new THREE.Group(); scene.add(haloGroup);
-  const ringTexture = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'); g.lineWidth = 6; g.strokeStyle = '#fff'; g.beginPath(); g.arc(32, 32, 26, 0, Math.PI * 2); g.stroke(); return new THREE.CanvasTexture(c); })();
   let subjects = new Set();
   const halos = new Map();
-  function disposeHalo(halo) { haloGroup.remove(halo.shells, halo.ring); halo.shells.material.dispose(); halo.shells.dispose(); halo.ring.geometry.dispose(); halo.ring.material.dispose(); }
+  function disposeHalo(halo) { haloGroup.remove(halo.shells); halo.shells.material.dispose(); halo.shells.dispose(); }
   function refreshHalos() {
     const members = new Map([...subjects].map(domain => [domain, []]));
     for (const n of graph?.nodes || []) members.get(n.domain)?.push(n);
     for (const [domain, halo] of halos) if (!members.get(domain)?.length) { disposeHalo(halo); halos.delete(domain); }
-    const matrix = new THREE.Matrix4();
+    const matrix = new THREE.Matrix4(), meshes = new Map(objects.map(o => [o.userData.id, o]));
     for (const [domain, nodes] of members) {
       if (!nodes.length) continue;
       let halo = halos.get(domain);
       if (!halo || halo.count !== nodes.length) {
         if (halo) disposeHalo(halo);
-        const color = new THREE.Color(DOMAINS[domain]);
-        halo = { count: nodes.length,
-          shells: new THREE.InstancedMesh(sphere, new THREE.MeshBasicMaterial({ color, side: THREE.BackSide, transparent: true, opacity: .8, depthWrite: false }), nodes.length),
-          ring: new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(nodes.length * 3), 3)), new THREE.PointsMaterial({ color, map: ringTexture, size: 20, sizeAttenuation: false, transparent: true, alphaTest: .3, depthWrite: false })) };
-        halo.shells.raycast = () => {}; halo.ring.raycast = () => {};
-        haloGroup.add(halo.shells, halo.ring); halos.set(domain, halo);
+        const material = new THREE.ShaderMaterial({ vertexShader: HALO_VERTEX_SHADER, fragmentShader: HALO_FRAGMENT_SHADER, side: THREE.BackSide, transparent: true, depthWrite: false,
+          uniforms: { color: { value: new THREE.Color(DOMAINS[domain]) }, opacity: { value: .9 }, ratio: { value: HALO_MAX_DIAMETER_RATIO }, sphereRadius: { value: SPHERE_RADIUS } } });
+        halo = { count: nodes.length, shells: new THREE.InstancedMesh(sphere, material, nodes.length) };
+        // The shader sizes each halo for the current view, so bounds from the instance matrices are not
+        // its drawn extent; halos draw after the spheres, which hide the part behind them.
+        halo.shells.raycast = () => {}; halo.shells.frustumCulled = false; halo.shells.renderOrder = 1;
+        haloGroup.add(halo.shells); halos.set(domain, halo);
       }
-      const positions = halo.ring.geometry.attributes.position;
-      nodes.forEach((n, i) => { const p = displayPosition(n.position, spacing), s = (n.id === selected ? 1.35 : 1) * 1.6; matrix.makeScale(s, s, s).setPosition(...p); halo.shells.setMatrixAt(i, matrix); positions.setXYZ(i, ...p); });
-      halo.shells.instanceMatrix.needsUpdate = true; positions.needsUpdate = true;
-      halo.shells.computeBoundingSphere(); halo.ring.geometry.computeBoundingSphere();
+      nodes.forEach((n, i) => { const mesh = meshes.get(n.id); if (mesh) matrix.compose(mesh.position, mesh.quaternion, mesh.scale); else matrix.makeTranslation(...displayPosition(n.position, spacing)); halo.shells.setMatrixAt(i, matrix); });
+      halo.shells.instanceMatrix.needsUpdate = true;
     }
     labelHost.dataset.highlighted = String([...halos.values()].reduce((sum, h) => sum + h.count, 0));
   }
@@ -115,7 +115,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     for(const n of graph.nodes) {
       const color=nodeColor(n,proficiencyOn);
       const mesh = new THREE.Mesh(sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
-      mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;if(n.id===selected)mesh.scale.setScalar(1.35);group.add(mesh);objects.push(mesh);
+      mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;if(n.id===selected)mesh.scale.setScalar(SELECTED_SPHERE_SCALE);group.add(mesh);objects.push(mesh);
       const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(proficiencyOn?' · '+proficiencyLabel(n.proficiency80):'')+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh});
     }
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
