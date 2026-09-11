@@ -95,6 +95,10 @@ export function arrange(graph) {
   }
   return result;
 }
+// Coordinate fields show two decimals; a field left at its shown value keeps the full stored coordinate.
+export function editedPosition(stored, values) {
+  return values.map((value, i) => Number(value) === Math.round(stored[i] * 100) / 100 ? stored[i] : Number(value));
+}
 export function removeNode(graph, id) {
   return { ...clone(graph), nodes: graph.nodes.filter(n => n.id !== id).map(clone), edges: graph.edges.filter(e => e.source !== id && e.target !== id).map(clone) };
 }
