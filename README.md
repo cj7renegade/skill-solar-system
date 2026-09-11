@@ -31,6 +31,10 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
 - Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
 - **Fit map** and **Front view** reset the camera.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
+- **Subject highlighting:** click a subject in the legend to put a halo in that subject's colour around every skill in it. A fixed-size ring keeps highlights visible at overview distance.
+  - Several subjects can be highlighted at once; click again to remove one, or use **Clear highlights**.
+  - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.
+  - Highlights are display only: they never select a skill, move the camera, or change the map.
 - A sphere-spacing slider (0.5×–4×) spreads the display without changing saved coordinates.
 - Click to select a subject; double-click to open its details.
 
@@ -44,7 +48,7 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
   - Add, edit, and delete subjects and connections.
   - Set the reference level, icon, coordinates, and pin state, or Shift-drag spheres to move them.
   - Coordinates, layout details, and placement notes appear here.
-  - Undo covers up to 50 steps.
+  - Undo and Redo cover up to 50 steps.
 
 **Proficiency review**
 - **Mark proficiency** opens a guided review. It asks, one skill at a time from the bottom of the map upward (by saved height, then name), whether you have at least 80% proficiency.
@@ -52,6 +56,21 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
 - Only the **Yes** and **No** buttons record an answer. **Back**, **Skip**, and **Pause** never change answers.
 - Skipped skills can be reviewed at the end.
 - Answers are stored in each subject's proficiency field and are kept in the local draft until you use **Save map**.
+
+**Shared proficiency**
+- Maps in the same *atlas family* share your proficiency answers on this computer. Answer a skill in a sub-map and the master atlas shows the same answer when you open it, and the other way round.
+  - Only proficiency is shared; descriptions, positions, levels, connections, and pins are never synchronized.
+- **Atlas family:** a map's family is `metadata.atlasFamily`. Atlas files made before that field existed are recognized by their `metadata.datasetId` (`sss-robotics-foundations-2026-09`). Maps without a family keep their answers to themselves, even if they reuse skill ids.
+- **Where answers live:** the shared record is a file per family in the app's user-data folder (`%APPDATA%\skill-solar-system\proficiency\` on Windows), outside every map file. It stores Yes, No, or an explicit Clear for each skill.
+- **Which answer wins:**
+  - Shared answers take precedence over answers saved inside older map files. A Clear also overrides an old Yes.
+  - A map's own Yes or No is added only for skills the shared record has no answer for.
+  - Unmarked skills in a map never erase a shared answer.
+- **Opening and saving:** opening a map applies shared answers first, then reports how many changed. Such a map is marked as a local draft until you **Save map**. Files you have not opened are never rewritten.
+- **Shared proficiency panel** (in the console):
+  - **Export record** and **Import record**, for backup or moving to another computer. Imported answers replace shared answers for the same skills; others are kept.
+  - **Use this file's answers instead…**, which deliberately replaces the shared answers with those saved in the map file you opened, after confirmation.
+- **Footer indicator:** shows whether shared answers were saved. **Retry** appears if a write failed or the record could not be read.
 
 **Layouts**
 - **Arrange level spiral**: estimates unassigned levels and raises levels to stay above their prerequisites.
@@ -102,7 +121,7 @@ npm run dist:win   # build + package a portable Windows executable into release/
 ```sh
 npm test           # Node test suite (tests/*.test.mjs)
 npm run build
-npm run test:e2e   # end-to-end check in the real Electron app
+npm run test:e2e   # end-to-end checks in the real Electron app
 ```
 
 `npm test` covers:
@@ -112,20 +131,28 @@ npm run test:e2e   # end-to-end check in the real Electron app
 - placement summaries;
 - the camera speed policy and wheel handling;
 - the proficiency review order and session logic;
+- subject highlighting;
+- the shared proficiency record: precedence rules, Undo/Redo, family isolation, import, and the on-disk store;
 - atomic saving;
 - spacing, nameplates, and click/keyboard interaction.
 
-`npm run test:e2e` launches the real app, including the WebGL viewer and the desktop save path, in an isolated profile. It drives the proficiency review with real mouse and keyboard events over the Chrome DevTools Protocol, using generated test maps. It needs a desktop session and a prior `npm run build`. Set `SSS_ATLAS=<path to a map>` to also open a large local map; the map is opened read-only and saves go to a temporary folder.
+`npm run test:e2e` launches the real app, including the WebGL viewer and the desktop save path, in an isolated profile with its own shared record. It drives the proficiency review, camera orbiting, subject highlighting, and shared proficiency with real mouse and keyboard events over the Chrome DevTools Protocol, using generated test maps. It needs a desktop session and a prior `npm run build`.
+
+Optional larger maps:
+- Set `SSS_ATLAS=<path to a map>` to also open a large local map.
+- Add `SSS_SUBMAP=<path to one of its sub-maps>` to repeat the Yes/No/Clear round trip between them.
+
+These maps are copied or opened read-only, and saves go to a temporary folder.
 
 `tests/console-smoke.mjs` is a separate, optional Playwright check of the data console. Playwright is not a project dependency. The check replaces the 3D viewer with a stub, so it does not test WebGL rendering.
 
 ## Project structure
 
 ```
-src/        renderer source (app, Three.js viewer, camera math, map model, layouts, proficiency review, starter map)
-desktop/    Electron main process, preload bridge, and atomic file saving
+src/        renderer source (app, Three.js viewer, camera math, map model, layouts, proficiency review, subject highlighting, shared proficiency, starter map)
+desktop/    Electron main process, preload bridge, atomic file saving, and the shared proficiency store
 scripts/    esbuild bundling script
-tests/      Node test suite, Electron end-to-end check, and optional Playwright smoke check
+tests/      Node test suite, Electron end-to-end checks, and optional Playwright smoke check
 *.cmd       Windows setup, launch, rebuild, and packaging scripts
 ```
 
@@ -136,12 +163,13 @@ tests/      Node test suite, Electron end-to-end check, and optional Playwright 
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 63 tests pass.
-- `npm run test:e2e`: all 46 end-to-end checks pass in Electron on Windows.
+- `npm test`: all 85 tests pass.
+- `npm run test:e2e`: all 106 end-to-end checks pass in Electron on Windows (review 46, orbit 14, highlighting and shared proficiency 46).
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
   - Portable packaging (`npm run dist:win`).
+  - Two app windows open at once: the last window to save the shared record wins for answers changed in both.
   - A fresh run of the Windows `.cmd` scripts on a new machine.
 
 ## Contributing
