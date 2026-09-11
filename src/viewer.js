@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { nodeColor, proficiencyLabel } from './model.js';
-import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove } from './camera.js';
+import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, centerOn } from './camera.js';
 import { createActivationTracker } from './interaction.js';
 import { visibleConnections } from './connections.js';
 import { nameplateProjection } from './nameplates.js';
@@ -27,6 +27,31 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   // Wheel travel replaces OrbitControls zoom, so there is exactly one wheel handler (see camera.js).
   controls.enableZoom = false;
   let scale = { spacing:null, extent:0, key:'' };
+  // The orbit centre follows the selection: a clicked sphere becomes the target (the camera turns
+  // toward it over a short animation) and stays the target until the user pans or deselects.
+  let anchor = null, flight = null;
+  const meshFor = id => objects.find(o => o.userData.id === id);
+  const anchored = () => { const mesh = anchor && meshFor(anchor); return !!mesh && mesh.position.distanceTo(controls.target) < 1e-3; };
+  function stopFlight(complete) {
+    if (!flight) return;
+    cancelAnimationFrame(flight.frame); controls.minDistance = flight.minDistance;
+    if (complete) { camera.position.copy(flight.camera); controls.target.copy(flight.target); controls.update(); }
+    flight = null;
+  }
+  function centerOnNode(id) {
+    stopFlight(false); anchor = id;
+    const mesh = meshFor(id); if (!mesh) return;
+    const end = centerOn(camera.position.toArray(), mesh.position.toArray(), controls.minDistance);
+    const from = { camera: camera.position.clone(), target: controls.target.clone() }, started = performance.now();
+    flight = { camera: new THREE.Vector3(...end.camera), target: new THREE.Vector3(...end.target), minDistance: controls.minDistance, frame: 0 };
+    controls.minDistance = 0; // the moving target may pass closer than the limit mid-turn
+    const step = now => {
+      const t = Math.min(1, (now - started) / 320), ease = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+      camera.position.lerpVectors(from.camera, flight.camera, ease); controls.target.lerpVectors(from.target, flight.target, ease); controls.update();
+      if (t < 1) flight.frame = requestAnimationFrame(step); else stopFlight(true);
+    };
+    flight.frame = requestAnimationFrame(step);
+  }
   function navigation() {
     const forward = camera.getWorldDirection(new THREE.Vector3()).toArray();
     const nearest = nearestAhead(objects.map(o=>o.position.toArray()), camera.position.toArray(), forward, 8);
@@ -38,11 +63,11 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   controls.addEventListener('change', syncPanSpeed);
   renderer.domElement.addEventListener('wheel', e => {
     if (!controls.enabled || dragging || e.buttons) return;
-    e.preventDefault();
+    e.preventDefault(); stopFlight(true);
     const pixels = wheelPixels(e, renderer.domElement.clientHeight);
     if (!pixels) return;
     const forward = camera.getWorldDirection(new THREE.Vector3());
-    const move = wheelMove(pixels, { orbit:camera.position.distanceTo(controls.target), distance:navigation(), minDistance:controls.minDistance, maxDistance:controls.maxDistance });
+    const move = wheelMove(pixels, { orbit:camera.position.distanceTo(controls.target), distance:navigation(), minDistance:controls.minDistance, maxDistance:controls.maxDistance, anchored:anchored() });
     camera.position.addScaledVector(forward, move.camera); controls.target.addScaledVector(forward, move.target);
     controls.update();
   }, { passive:false });
@@ -122,6 +147,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   controls.addEventListener('change',draw);
   new ResizeObserver(()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;camera.aspect=r.width/r.height;camera.updateProjectionMatrix();renderer.setSize(r.width,r.height);draw();}).observe(host);
   renderer.domElement.addEventListener('pointerdown',e=>{
+    stopFlight(true);
     if(e.button!==0)return;down={x:e.clientX,y:e.clientY};
     const hit=getRay(e).intersectObjects(objects)[0];
     if(editable&&e.shiftKey&&hit){
@@ -132,25 +158,26 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     }
   },true);
   renderer.domElement.addEventListener('pointermove',e=>{if(!dragging)return;const point=new THREE.Vector3();if(getRay(e).ray.intersectPlane(dragging.plane,point)){point.add(dragging.offset);dragging.position=storedPosition(point.toArray(),spacing);graph.nodes.find(n=>n.id===dragging.id).position=dragging.position;rebuild();}});
-  const end=e=>{if(dragging){const d=dragging;dragging=null;controls.enabled=true;onMove(d.id,d.position);down=null;activation.reset();return;}if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<5){const hit=getRay(e).intersectObjects(objects)[0];const id=hit?.object.userData.id||null;const action=activation.click(id,e.clientX,e.clientY,performance.now());onSelect(id);if(action==='open'&&!editable)onOpen(id);}else activation.reset();down=null;};
+  const end=e=>{if(dragging){const d=dragging;dragging=null;controls.enabled=true;onMove(d.id,d.position);down=null;activation.reset();return;}if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<5){const hit=getRay(e).intersectObjects(objects)[0];const id=hit?.object.userData.id||null;const action=activation.click(id,e.clientX,e.clientY,performance.now());onSelect(id);if(id)centerOnNode(id);else anchor=null;if(action==='open'&&!editable)onOpen(id);}else activation.reset();down=null;};
   renderer.domElement.addEventListener('pointerup',end);
   renderer.domElement.addEventListener('pointercancel',()=>{activation.reset();if(dragging){const d=dragging;dragging=null;controls.enabled=true;onMove(d.id,d.position);}down=null;});
   function fit(front=false) {
+    stopFlight(false);anchor=null;
     const box=new THREE.Box3();for(const n of graph?.nodes||[])box.expandByPoint(new THREE.Vector3(...displayPosition(n.position,spacing)));
     const center=box.isEmpty()?new THREE.Vector3(0,150,0):box.getCenter(new THREE.Vector3());const extent=box.isEmpty()?400:Math.max(box.getSize(new THREE.Vector3()).length(),300);
     const distance=extent/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*1.15/Math.min(camera.aspect||1,1);
     camera.position.copy(center).add(new THREE.Vector3(front?0:.18,front?0:.12,1).normalize().multiplyScalar(distance));controls.target.copy(center);controls.update();draw();
   }
   return {spacing(value){
-    const next=spacingValue(value);if(next===spacing||dragging)return;
+    const next=spacingValue(value);if(next===spacing||dragging)return;stopFlight(true);
     const shift=new THREE.Vector3(...spacingCameraShift(controls.target.toArray(),spacing,next));
     spacing=next;camera.position.add(shift);controls.target.add(shift);
     updatePositions();controls.update();draw();
   },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},pan(horizontal,vertical,seconds){
-    camera.updateMatrixWorld();
+    stopFlight(true);camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();
     const offset=new THREE.Vector3(...panOffset(right,up,horizontal,vertical,keyPanAmount(navigation(),seconds)));
     camera.position.add(offset);controls.target.add(offset);controls.update();draw();
-  },fit,focus(id){const n=graph.nodes.find(n=>n.id===id);if(!n)return;const next=new THREE.Vector3(...displayPosition(n.position,spacing)),offset=camera.position.clone().sub(controls.target);controls.target.copy(next);camera.position.copy(next).add(offset);controls.update();draw();}};
+  },fit,focus(id){stopFlight(false);const n=graph.nodes.find(n=>n.id===id);if(!n)return;anchor=id;const next=new THREE.Vector3(...displayPosition(n.position,spacing)),offset=camera.position.clone().sub(controls.target);controls.target.copy(next);camera.position.copy(next).add(offset);controls.update();draw();}};
 }
