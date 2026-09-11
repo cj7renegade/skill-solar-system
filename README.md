@@ -103,7 +103,7 @@ tests/      Node test suite and optional Playwright smoke check
 Skill Solar System is a personal project in active development at v0.4.0. Status as of this repository's setup:
 
 - `npm run build` succeeds.
-- `npm test`: 37 of 38 tests pass. `tests/positions.test.mjs` fails because it expects an `editedPosition` helper in `src/model.js` that has not been written yet. The test anticipates a pending fix to coordinate precision when applying unchanged coordinate fields.
+- `npm test`: all 39 tests pass, including `tests/positions.test.mjs`, which covers the coordinate-precision fix.
 - **Not verified during repository setup:**
   - WebGL rendering and interactive behavior inside the Electron window.
   - The optional Playwright smoke check.
