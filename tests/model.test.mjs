@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { validate, levels, arrange, removeNode, clone } from '../src/model.js';
+import { starter } from '../src/starter.js';
+test('starter map validates and round trips with exact positions',()=>{assert.deepEqual(validate(JSON.parse(JSON.stringify(starter))),starter);});
+test('prerequisite depth counts only prerequisite edges',()=>{const d=levels(starter);assert.equal(d.get('calculus'),2);assert.equal(d.get('integration'),0);});
+test('rejects prerequisite cycles but accepts support cycles',()=>{const g=clone(starter);g.edges.push({source:'calculus',target:'arithmetic',type:'prerequisite'});assert.throws(()=>validate(g),/cycle/);g.edges.at(-1).type='supports';assert.doesNotThrow(()=>validate(g));});
+test('rejects missing endpoints and self relationships',()=>{const g=clone(starter);g.edges.push({source:'missing',target:'algebra',type:'related'});assert.throws(()=>validate(g),/missing/);g.edges.at(-1).source='algebra';assert.throws(()=>validate(g),/itself/);});
+test('rejects reverse duplicate undirected connections',()=>{const g=clone(starter);g.edges.push({source:'actuation',target:'control',type:'related'});assert.throws(()=>validate(g),/already exists/);});
+test('rejects duplicate IDs and invalid coordinates',()=>{const g=clone(starter);g.nodes.push(clone(g.nodes[0]));assert.throws(()=>validate(g),/unique/);g.nodes.pop();g.nodes[0].position[0]=NaN;assert.throws(()=>validate(g),/finite/);});
+test('layout deterministic, nonmutating, and preserves pins',()=>{const g=clone(starter);g.nodes[0].pinned=true;const before=clone(g);const result=arrange(g);assert.deepEqual(g,before);assert.deepEqual(result,arrange(g));assert.deepEqual(result.nodes[0].position,g.nodes[0].position);assert.equal(result.nodes.find(n=>n.id==='calculus').position[1],180);});
+test('deleting subject removes incoming and outgoing edges',()=>{const g=removeNode(starter,'algebra');assert.doesNotThrow(()=>validate(g));assert.ok(!g.edges.some(e=>e.source==='algebra'||e.target==='algebra'));assert.ok(starter.nodes.some(n=>n.id==='algebra'));});
+test('empty map supported',()=>assert.doesNotThrow(()=>validate({schemaVersion:1,nodes:[],edges:[]})));

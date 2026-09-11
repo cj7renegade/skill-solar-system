@@ -1,0 +1,25 @@
+node_modules/
+dist/
+release/
+*.log
+
+# Packaged builds and downloaded archives
+*.exe
+*.blockmap
+*.zip
+*.7z
+
+# Local environment secrets
+.env
+.env.*
+
+# Personal saved maps and archived datasets stay local, outside the code repository.
+# The illustrative starter map lives in src/starter.js and remains tracked.
+/Archive/
+/Maps/
+/Skill-Solar-System*.json
+
+# OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store
