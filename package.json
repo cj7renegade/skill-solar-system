@@ -9,6 +9,7 @@
     "build": "node scripts/build.mjs",
     "start": "electron .",
     "test": "node --test tests/*.test.mjs",
+    "test:e2e": "node tests/review-e2e.mjs",
     "dist:win": "npm run build && electron-builder --win portable --x64"
   },
   "dependencies": {
