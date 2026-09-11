@@ -68,11 +68,23 @@ export function wheelPixels({ deltaY = 0, deltaMode = 0, ctrlKey = false }, page
 
 // Negative pixels move inward. Near the orbit limit the target is carried forward with the
 // camera, so inward travel continues through the atlas instead of stopping or crossing the target.
-export function wheelMove(pixels, { orbit, distance, minDistance, maxDistance }) {
+// While the orbit is anchored on a selected sphere, inward travel stops at the orbit limit so
+// the sphere stays the orbit centre.
+export function wheelMove(pixels, { orbit, distance, minDistance, maxDistance, anchored = false }) {
   const basis = Math.max(orbit, distance), factor = Math.exp(-Math.abs(pixels) * WHEEL_RATE);
   if (pixels < 0) {
     const step = basis * (1 - factor), remaining = orbit - step;
+    if (anchored) return { camera: Math.min(step, Math.max(0, orbit - minDistance)), target: 0 };
     return { camera: step, target: Math.max(0, minDistance - remaining) };
   }
   return { camera: -Math.min(basis * (1 / factor - 1), Math.max(0, maxDistance - orbit)), target: 0 };
+}
+
+// Makes a sphere the orbit centre. The camera stays where it is, so the view turns toward the
+// sphere without translating; it steps back along the same line only when closer than the limit.
+export function centerOn(camera, sphere, minDistance) {
+  const offset = minus(camera, sphere), distance = Math.hypot(...offset);
+  if (distance >= minDistance) return { camera: [...camera], target: [...sphere] };
+  const direction = distance > 1e-9 ? offset.map(v => v / distance) : [0, 0, 1];
+  return { camera: sphere.map((v, i) => v + direction[i] * minDistance), target: [...sphere] };
 }

@@ -2,19 +2,13 @@
 // real input events over the Chrome DevTools Protocol; no stubs). Run `npm run build` first, then
 // `npm run test:e2e`. Set SSS_ATLAS=<path> to also exercise a large local map: it is opened
 // read-only in an isolated profile, and any save goes to a temporary folder.
-import { spawn } from 'node:child_process';
-import { createRequire } from 'node:module';
-import { mkdtempSync, writeFileSync, readFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { writeFileSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import assert from 'node:assert/strict';
+import { launchApp, checker, sleep } from './e2e-harness.mjs';
 
-const root = path.resolve(import.meta.dirname, '..');
-const electron = createRequire(import.meta.url)('electron');
-const dir = mkdtempSync(path.join(tmpdir(), 'sss-review-e2e-'));
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-const passed = [];
-const check = (name, condition, detail = '') => { assert.ok(condition, `${name} ${detail}`); passed.push(name); console.log(`PASS ${name}${detail ? ` (${detail})` : ''}`); };
+const { check, passed } = checker();
+const app = await launchApp('sss-review-e2e-');
+const dir = app.dir;
 
 // Small fixture: three skills at the bottom (two share a name), two at 64, two at 128; one Yes and one No already marked.
 const long = topic => Array.from({ length: 9 }, (_, i) => `Sentence ${i + 1} about ${topic} adds one more detail so that the description is long enough to scroll inside the review dialog.`).join(' ');
@@ -27,43 +21,11 @@ const mapB = write('other-map.json', fixture('Another test map', nodes));
 const mapA2 = write('review-test-edited.json', fixture('Review test map', nodes.filter(n => n.id !== 'y')));
 const empty = write('empty.json', { schemaVersion: 1, title: 'Empty test map', nodes: [], edges: [] });
 
-const port = 9500 + Math.floor(Math.random() * 400);
-const child = spawn(electron, [`--remote-debugging-port=${port}`, path.join(root, 'tests', 'electron-launcher.cjs')], { env: { ...process.env, SSS_E2E_DIR: dir }, stdio: 'ignore' });
-let ws, seq = 0;
-const pending = new Map(), pageErrors = [];
 try {
-  let target;
-  for (let i = 0; i < 150 && !target; i++) { await sleep(200); try { target = (await (await fetch(`http://127.0.0.1:${port}/json/list`)).json()).find(t => t.type === 'page' && t.url.endsWith('index.html')); } catch {} }
-  assert.ok(target, 'Electron window did not start');
-  ws = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => { ws.onopen = resolve; ws.onerror = reject; });
-  ws.onmessage = m => {
-    const msg = JSON.parse(m.data);
-    if (msg.id && pending.has(msg.id)) { const { resolve, reject } = pending.get(msg.id); pending.delete(msg.id); msg.error ? reject(Error(JSON.stringify(msg.error))) : resolve(msg.result); }
-    else if (msg.method === 'Runtime.exceptionThrown') pageErrors.push(msg.params.exceptionDetails.exception?.description || msg.params.exceptionDetails.text);
-  };
-  const send = (method, params = {}) => new Promise((resolve, reject) => { const id = ++seq; pending.set(id, { resolve, reject }); ws.send(JSON.stringify({ id, method, params })); });
-  const evaluate = async expression => { const r = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text); return r.result.value; };
-  const waitFor = async (expression, timeout = 20000) => { const t = Date.now(); while (Date.now() - t < timeout) { if (await evaluate(expression)) return; await sleep(50); } throw Error(`timeout: ${expression}`); };
-  await send('Runtime.enable'); await send('DOM.enable');
-  await waitFor(`document.getElementById('counts').textContent.includes('subjects')`);
-
-  const open = async file => { const { root: doc } = await send('DOM.getDocument'); const { nodeId } = await send('DOM.querySelector', { nodeId: doc.nodeId, selector: '#file' }); await send('DOM.setFileInputFiles', { nodeId, files: [file] }); await waitFor(`/Opened ${path.basename(file).replace(/[.]/g, '\\.')}/.test(document.getElementById('status').textContent)`); await sleep(200); };
-  const mouse = (type, p, extra = {}) => send('Input.dispatchMouseEvent', { type, x: p.x, y: p.y, ...extra });
-  const center = sel => evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(sel)});if(!e)return null;const r=e.getBoundingClientRect();return {x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2)}})()`);
-  const click = async (sel, wait = 450) => { const p = await center(sel); assert.ok(p, `missing ${sel}`); await mouse('mouseMoved', p); await mouse('mousePressed', p, { button: 'left', buttons: 1, clickCount: 1 }); await mouse('mouseReleased', p, { button: 'left', buttons: 0, clickCount: 1 }); await sleep(wait); };
-  const keys = { ArrowRight: ['ArrowRight', 39], ArrowDown: ['ArrowDown', 40], w: ['KeyW', 87], Enter: ['Enter', 13, '\r'], Escape: ['Escape', 27], ' ': ['Space', 32, ' '] };
-  const key = async (k, repeats = 0) => {
-    const [code, vk, text] = keys[k], base = { key: k, code, windowsVirtualKeyCode: vk, nativeVirtualKeyCode: vk };
-    await send('Input.dispatchKeyEvent', { type: 'keyDown', ...base, ...(text ? { text } : {}) });
-    for (let i = 0; i < repeats; i++) { await sleep(33); await send('Input.dispatchKeyEvent', { type: 'keyDown', autoRepeat: true, ...base, ...(text ? { text } : {}) }); }
-    await send('Input.dispatchKeyEvent', { type: 'keyUp', ...base }); await sleep(120);
-  };
+  const { send, evaluate, waitFor, open, mouse, center, click, key, labels, selectedLabel, pageErrors } = app;
   const title = () => evaluate(`document.querySelector('#review-title')?.textContent ?? null`);
   const reviewOpen = () => evaluate(`document.getElementById('review-dialog').open`);
   const values = () => evaluate(`Object.fromEntries(JSON.parse(localStorage.getItem('skill-solar-system-v1')).nodes.map(n=>[n.id,n.proficiency80]))`);
-  const labels = () => evaluate(`[...document.querySelectorAll('#labels .node-label')].filter(e=>!e.hidden).map(e=>e.textContent.split(' · ')[0]+'@'+e.style.left+','+e.style.top+','+e.style.transform).sort().join('|')`);
-  const selectedLabel = () => evaluate(`document.querySelector('#labels .node-label.selected')?.textContent.split(' · ')[0] ?? null`);
 
   // --- Entry, order, and highlighting
   await open(mapA);
@@ -203,6 +165,5 @@ try {
   console.error(`FAIL ${error.message}`);
   process.exitCode = 1;
 } finally {
-  ws?.close();
-  child.kill();
+  app.close();
 }

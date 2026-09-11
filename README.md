@@ -25,7 +25,7 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
 - Spheres are colored by domain: Mathematics, Physics, Mechanics, Electronics, Computing, Robotics.
 - Connection styles: gold for prerequisite, dashed for supports, violet for related.
 - Navigation:
-  - Drag to orbit.
+  - Drag to orbit. Clicking a sphere (or choosing it in the list) makes it the orbit centre: the view turns to it smoothly, and it stays the centre while you orbit and zoom in, until you pan or click empty space.
   - Scroll to zoom. Near the orbit limit, scrolling keeps travelling forward instead of stopping.
   - Right-drag, arrow keys, or WASD to pan. Held keys move smoothly and stop when released.
 - Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.

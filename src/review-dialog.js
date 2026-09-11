@@ -31,7 +31,10 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
     if (!storeSession(storage, session, storedKey)) notice = 'Review progress could not be stored locally. You can still finish this review now.';
     storedKey = session.map;
   }
-  function focusTitle() { requestAnimationFrame(() => dialog.querySelector('#review-title')?.focus({ preventScroll: true })); }
+  // Focus moves synchronously: the content exists as soon as it is rendered, and animation frames
+  // are suspended while the window is covered, which would leave focus behind.
+  function focusTitle() { dialog.querySelector('#review-title')?.focus({ preventScroll: true }); }
+  function focusDefault() { (body.querySelector('#review-unmarked') || body.querySelector('#review-all') || body.querySelector('#review-close'))?.focus(); }
   function status(text) { const line = dialog.querySelector('#review-status'); if (line) line.textContent = text; }
 
   function renderStart() {
@@ -55,7 +58,7 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
       actions,
       el('p', { class: 'review-note', text: SAVE_NOTE })
     );
-    requestAnimationFrame(() => (body.querySelector('#review-unmarked') || body.querySelector('#review-all') || body.querySelector('#review-close'))?.focus());
+    if (dialog.open) focusDefault();
   }
 
   function begin(mode) {
@@ -141,6 +144,7 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
     onOpen(); gate.reset(); notice = '';
     renderStart();
     dialog.showModal();
+    focusDefault();
   }
   // Pause and close keep an unfinished session for Resume; nothing is answered on the way out.
   function close() {
