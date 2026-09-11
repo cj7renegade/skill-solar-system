@@ -16,12 +16,16 @@ try {
   const middle = await canvasCenter();
   const offCentre = (p, tolerance = 4) => p && Math.hypot(p.x - middle.x, p.y - middle.y) <= tolerance;
   const distance = p => p ? Math.round(Math.hypot(p.x - middle.x, p.y - middle.y)) : null;
+  // The chosen sphere must be away from the view centre and not under an overlay such as the legend.
+  const onCanvas = p => evaluate(`document.elementFromPoint(${p.x},${p.y})?.tagName==='CANVAS'`);
+  let target = null;
+  for (const name of ['North east', 'North west', 'South west', 'South east']) { const p = await sphereOnScreen(name); if (p && distance(p) > 80 && await onCanvas(p)) { target = name; break; } }
 
-  const before = await sphereOnScreen('North east');
+  const before = await sphereOnScreen(target);
   check('the chosen sphere starts away from the view centre', distance(before) > 80, `${distance(before)} px away`);
   await clickAt(before, 700);
-  check('clicking selects and highlights it', await selectedLabel() === 'North east');
-  const centred = await sphereOnScreen('North east');
+  check('clicking selects and highlights it', await selectedLabel() === target, target);
+  const centred = await sphereOnScreen(target);
   check('the clicked sphere moves to the view centre', offCentre(centred), `${distance(centred)} px from centre`);
   // A selected sphere is drawn 1.35 times larger, and its nameplate scales with it.
   const sizeRatio = centred.scale / 1.35 / before.scale;
@@ -29,19 +33,19 @@ try {
 
   const scene = await labels();
   await drag({ x: middle.x - 160, y: middle.y + 120 }, { x: middle.x + 140, y: middle.y + 60 });
-  check('orbiting rotates the view around the selected sphere', await labels() !== scene && offCentre(await sphereOnScreen('North east')), `${distance(await sphereOnScreen('North east'))} px from centre`);
+  check('orbiting rotates the view around the selected sphere', await labels() !== scene && offCentre(await sphereOnScreen(target)), `${distance(await sphereOnScreen(target))} px from centre`);
   await drag({ x: middle.x + 100, y: middle.y - 150 }, { x: middle.x - 50, y: middle.y + 100 });
-  check('it stays centred through a second orbit', offCentre(await sphereOnScreen('North east')), `${distance(await sphereOnScreen('North east'))} px`);
+  check('it stays centred through a second orbit', offCentre(await sphereOnScreen(target)), `${distance(await sphereOnScreen(target))} px`);
 
-  const far = await sphereOnScreen('North east');
+  const far = await sphereOnScreen(target);
   await wheel(-120, 60, middle);
-  const close = await sphereOnScreen('North east');
+  const close = await sphereOnScreen(target);
   check('zooming in approaches the selected sphere and stops in front of it', close && close.scale > far.scale * 1.5 && offCentre(close), `scale ${far.scale.toFixed(3)} -> ${close?.scale.toFixed(3)}`);
   await drag({ x: middle.x - 150, y: middle.y + 100 }, { x: middle.x + 150, y: middle.y + 100 });
-  check('orbiting at close range still circles the selected sphere', offCentre(await sphereOnScreen('North east')), `${distance(await sphereOnScreen('North east'))} px`);
+  check('orbiting at close range still circles the selected sphere', offCentre(await sphereOnScreen(target)), `${distance(await sphereOnScreen(target))} px`);
 
   await click('#canvas', 0); await key('ArrowRight', 8); await sleep(200);
-  const panned = await sphereOnScreen('North east');
+  const panned = await sphereOnScreen(target);
   check('panning moves the view off the sphere (the anchor is released)', !offCentre(panned, 20), `${distance(panned)} px from centre`);
   const beforeTravel = await labels();
   await wheel(-120, 10, middle);
