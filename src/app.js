@@ -1,5 +1,5 @@
 import { arrangeVortex } from './vortex.js';
-import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, proficiencyLabel, nodeColor } from './model.js';
+import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor } from './model.js';
 import { spacingValue } from './spacing.js';
 import { starter } from './starter.js';
 import { createViewer } from './viewer.js';
@@ -51,7 +51,7 @@ function renderList(){
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
   if(!n){panel.append(...[...emptyInspector.childNodes].map(n=>n.cloneNode(true)));return;}
-  panel.append(el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))));
+  panel.append(el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))));
   if(!editing){
     panel.append(el('p',{text:n.description}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n));
     return;
@@ -66,7 +66,7 @@ function inspect(){
   const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes · at least 80%',selected:n.proficiency80===true}),el('option',{value:'no',text:'No · below 80%',selected:n.proficiency80===false}));
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
-  panel.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
+  panel.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
   panel.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Subject updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its connections? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Subject deleted.');}})));
   panel.append(el('h3',{text:'Connections'}));
   const links=graph.edges.filter(e=>e.source===n.id||e.target===n.id);
@@ -136,20 +136,27 @@ function proficiencyControls(node){
 }
 function openDetails(){fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}
+// The card shows the 1–2 detail paragraphs, one short placement summary, and the connection list.
+// Coordinates, layout provenance, and placement notes stay in the file and the edit console.
 function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
-  body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',text:node.domain+(node.skillLevel!=null?` · Reference level ${node.skillLevel}/100`:' · Reference level unassigned')})),el('p',{class:'subject-summary',text:node.description}));
+  body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:node.domain+(node.skillLevel!=null?` · Reference level ${node.skillLevel}/100`:' · Reference level unassigned')})));
   const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
   for(const paragraph of paragraphs)body.append(el('p',{text:paragraph}));
-  if(!paragraphs.length)body.append(el('p',{class:'edge-note',text:'No extended description yet. In Edit mode, add two or three paragraphs in Detailed description.'}));
-  body.append(el('h3',{text:'How and why it is positioned here'}));
-  if(node.placementNote)body.append(el('p',{text:node.placementNote}));
-  body.append(el('p',{text:positionExplanation(graph,node)}));
+  if(!paragraphs.length)body.append(el('p',{class:'subject-summary',text:node.description||'No description yet. In Edit mode, add one or two paragraphs in Detailed description.'}));
+  body.append(el('h3',{text:'Where it sits'}),el('p',{text:placementSummary(graph,node)}));
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const links=graph.edges.filter(e=>e.source===node.id||e.target===node.id);
-  if(links.length){body.append(el('h3',{text:'Current connections'}));for(const edge of links){const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to';body.append(el('p',{class:'detail-link',text:`${names.get(edge.source)} ${verb} ${names.get(edge.target)}${edge.rationale?' — '+edge.rationale:''}`}));}}
+  if(links.length){
+    const list=el('details',{class:'connections',open:links.length<=12},el('summary',{text:`Connections (${links.length})`}));
+    for(const edge of links){
+      const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to',text=`${names.get(edge.source)} ${verb} ${names.get(edge.target)}`;
+      list.append(edge.rationale&&edge.rationale.length>80?el('details',{class:'detail-link'},el('summary',{text}),el('p',{text:edge.rationale})):el('p',{class:'detail-link',text:text+(edge.rationale?' — '+edge.rationale:'')}));
+    }
+    body.append(list);
+  }
   body.append(proficiencyControls(node));
 }
 $('details-close').onclick=closeDetails;
