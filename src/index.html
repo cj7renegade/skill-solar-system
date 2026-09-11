@@ -11,12 +11,14 @@
 <div id="render-error" hidden></div></section>
 <aside id="console"><div class="panel-title"><h2>Data console</h2><label class="switch"><input type="checkbox" id="edit-mode"> Edit mode</label></div>
 <div class="search"><input id="search" placeholder="Find a subject…" aria-label="Find a subject"></div><div id="node-list"></div>
-<div class="button-row"><button id="add-node" data-edit>+ New subject</button><button id="undo" data-edit>Undo</button></div>
+<div class="button-row"><button id="add-node" data-edit>+ New subject</button><button id="undo" data-edit>Undo</button><button id="redo" data-edit>Redo</button></div>
 <div id="inspector"><div class="empty"><span>◎</span><h3>Select a subject</h3><p>Inspect its description and connections, or switch to edit mode to grow your map.</p></div></div>
 <div class="layout-tools"><h3>Map layout</h3><p>Spiral: levels 1–100 set height; colored domains wind upward. Levels estimate recorded dependency depth, independently of proficiency. Pins keep their positions. Saved maps stay fixed.</p><button id="vortex" data-edit>Arrange level spiral</button><button id="recalculate-vortex" data-edit>Recalculate levels + spiral</button><button id="arrange" data-edit>Arrange by prerequisites</button><button id="blank" data-edit>New empty map</button><button id="reset" data-edit>Restore starter</button></div>
+<div class="shared-tools"><h3>Shared proficiency</h3><p id="shared-summary" class="edge-note"></p><p class="edge-note">Your answers are shared on this computer with other maps in the same atlas family, and they take precedence over answers saved inside older map files. Save map writes them into the JSON file you save.</p><div class="button-row"><button id="export-record">Export record</button><button id="import-record">Import record</button></div><button id="adopt-file" title="Replace shared answers with the answers saved in the map file you opened">Use this file’s answers instead…</button></div>
 <p class="caption">Starter connections are illustrative. Height represents a chosen layout, not measured difficulty or mastery.</p></aside></main>
-<footer><span id="counts"></span><span id="status" role="status">Ready · Save map to keep a portable copy.</span><span id="dirty">Saved layout</span></footer>
+<footer><span id="counts"></span><span id="status" role="status">Ready · Save map to keep a portable copy.</span><button id="sync-state" class="sync-state" hidden></button><span id="dirty">Saved layout</span></footer>
 <dialog id="details-dialog" aria-labelledby="details-title"><div class="dialog-heading"><h2 id="details-title"></h2><button id="details-close" aria-label="Close subject details">Close ×</button></div><div id="details-body"></div></dialog>
 <dialog id="review-dialog" aria-labelledby="review-title"><div id="review-body"></div></dialog>
 <input id="file" type="file" accept=".json,application/json" hidden>
+<input id="record-file" type="file" accept=".json,application/json" hidden>
 <script src="app.js"></script></body></html>

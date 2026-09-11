@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { nodeColor, proficiencyLabel } from './model.js';
+import { DOMAINS, nodeColor, proficiencyLabel } from './model.js';
 import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, centerOn } from './camera.js';
 import { createActivationTracker } from './interaction.js';
 import { visibleConnections } from './connections.js';
@@ -22,6 +22,38 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const activation=createActivationTracker();
   const group = new THREE.Group(); scene.add(group);
   const sphere = new THREE.SphereGeometry(8,24,16);
+  // Subject halos: a domain-coloured shell around each highlighted sphere (visible up close) and a
+  // fixed-size ring (still visible at overview distance). They live outside the node group, so a
+  // toggle never rebuilds the graph, and they are never raycast, so every sphere stays selectable.
+  const haloGroup = new THREE.Group(); scene.add(haloGroup);
+  const ringTexture = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'); g.lineWidth = 6; g.strokeStyle = '#fff'; g.beginPath(); g.arc(32, 32, 26, 0, Math.PI * 2); g.stroke(); return new THREE.CanvasTexture(c); })();
+  let subjects = new Set();
+  const halos = new Map();
+  function disposeHalo(halo) { haloGroup.remove(halo.shells, halo.ring); halo.shells.material.dispose(); halo.shells.dispose(); halo.ring.geometry.dispose(); halo.ring.material.dispose(); }
+  function refreshHalos() {
+    const members = new Map([...subjects].map(domain => [domain, []]));
+    for (const n of graph?.nodes || []) members.get(n.domain)?.push(n);
+    for (const [domain, halo] of halos) if (!members.get(domain)?.length) { disposeHalo(halo); halos.delete(domain); }
+    const matrix = new THREE.Matrix4();
+    for (const [domain, nodes] of members) {
+      if (!nodes.length) continue;
+      let halo = halos.get(domain);
+      if (!halo || halo.count !== nodes.length) {
+        if (halo) disposeHalo(halo);
+        const color = new THREE.Color(DOMAINS[domain]);
+        halo = { count: nodes.length,
+          shells: new THREE.InstancedMesh(sphere, new THREE.MeshBasicMaterial({ color, side: THREE.BackSide, transparent: true, opacity: .8, depthWrite: false }), nodes.length),
+          ring: new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(nodes.length * 3), 3)), new THREE.PointsMaterial({ color, map: ringTexture, size: 20, sizeAttenuation: false, transparent: true, alphaTest: .3, depthWrite: false })) };
+        halo.shells.raycast = () => {}; halo.ring.raycast = () => {};
+        haloGroup.add(halo.shells, halo.ring); halos.set(domain, halo);
+      }
+      const positions = halo.ring.geometry.attributes.position;
+      nodes.forEach((n, i) => { const p = displayPosition(n.position, spacing), s = (n.id === selected ? 1.35 : 1) * 1.6; matrix.makeScale(s, s, s).setPosition(...p); halo.shells.setMatrixAt(i, matrix); positions.setXYZ(i, ...p); });
+      halo.shells.instanceMatrix.needsUpdate = true; positions.needsUpdate = true;
+      halo.shells.computeBoundingSphere(); halo.ring.geometry.computeBoundingSphere();
+    }
+    labelHost.dataset.highlighted = String([...halos.values()].reduce((sum, h) => sum + h.count, 0));
+  }
   const ray = new THREE.Raycaster(), pointer = new THREE.Vector2();
   let graph, selected, labelsOn=true, selectedConnectionsOnly=true, proficiencyOn=false, editable=false, objects=[], labels=[], dragging=null, down=null, spacing=1, connections=[];
   // Wheel travel replaces OrbitControls zoom, so there is exactly one wheel handler (see camera.js).
@@ -119,6 +151,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       line.geometry.computeBoundingSphere();line.computeLineDistances();
       if(tip){tip.position.copy(end).addScaledVector(direction,-4);tip.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);}
     }
+    if(subjects.size||halos.size)refreshHalos();
   }
   function draw() {
     // Keep expanded maps visible even after panning or fitting a large atlas.
@@ -173,7 +206,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const shift=new THREE.Vector3(...spacingCameraShift(controls.target.toArray(),spacing,next));
     spacing=next;camera.position.add(shift);controls.target.add(shift);
     updatePositions();controls.update();draw();
-  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},pan(horizontal,vertical,seconds){
+  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},pan(horizontal,vertical,seconds){
     stopFlight(true);camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();
