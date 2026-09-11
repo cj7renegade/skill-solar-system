@@ -109,15 +109,26 @@ $('load').onclick=()=>{if(!dirty||confirm('Open another map? Current changes are
 $('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>10_000_000)throw Error('Map files must be smaller than 10 MB.');const next=validate(JSON.parse(await file.text()));replace(next,`Opened ${file.name}.`);dirty=false;render();}catch(error){message(`Could not open map: ${error.message}`);}e.target.value='';};
 $('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(window.desktop){if(!await window.desktop.saveMap(text)){message('Save canceled.');return;}}else{const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const a=el('a',{href:url,download:'Skill-Solar-System.json'});a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}dirty=false;render();message(window.desktop?'Map saved to file.':'Map download requested. Keep the downloaded JSON as your saved copy.');}catch(error){message(`Save failed: ${error.message}`);}};
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+// Held navigation keys pan continuously, scaled by frame time; releasing, blurring, typing, or opening a dialog stops them.
+const heldKeys=new Map();let panFrame=null,panClock=0;
+function typingOrReading(){const target=document.activeElement;return $('details-dialog').open||['INPUT','TEXTAREA','SELECT','BUTTON'].includes(target.tagName)||target.isContentEditable;}
+function stopPanning(){heldKeys.clear();if(panFrame!==null)cancelAnimationFrame(panFrame);panFrame=null;}
+function panStep(time){
+  if(!heldKeys.size||typingOrReading()){stopPanning();return;}
+  let horizontal=0,vertical=0;for(const [x,y]of heldKeys.values()){horizontal+=x;vertical+=y;}
+  if(horizontal||vertical)viewer?.pan(Math.sign(horizontal),Math.sign(vertical),(time-panClock)/1000);
+  panClock=time;panFrame=requestAnimationFrame(panStep);
+}
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();$('save').click();return;}
-  if($('details-dialog').open)return;
-  const target=document.activeElement;
-  if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(target.tagName)||target.isContentEditable)return;
+  if(typingOrReading())return;
   const direction=panDirection(e.key);
-  if(direction&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();viewer?.pan(...direction);}
+  if(direction&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();heldKeys.set(e.key.toLowerCase(),direction);if(panFrame===null){panClock=performance.now();panFrame=requestAnimationFrame(panStep);}}
   if(e.key==='Escape'){selected=null;render();viewer?.fit();}
 });
+document.addEventListener('keyup',e=>heldKeys.delete(e.key.toLowerCase()));
+window.addEventListener('blur',stopPanning);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopPanning();});
 function renderLegend(){
   $('legend').replaceChildren();
   const palette=proficiencyOn?{'Yes · at least 80%':'#59d49c','No · below 80%':'#ef9290','Not marked':'#99a9bc'}:DOMAINS;
@@ -134,7 +145,7 @@ function proficiencyControls(node){
   }
   group.append(row,el('p',{class:'proficiency-state',text:proficiencyLabel(node.proficiency80)}));return group;
 }
-function openDetails(){fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
+function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}
 // The card shows the 1–2 detail paragraphs, one short placement summary, and the connection list.
 // Coordinates, layout provenance, and placement notes stay in the file and the edit console.

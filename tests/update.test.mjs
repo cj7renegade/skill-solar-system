@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { starter } from '../src/starter.js';
 import { normalize, validate, clone, arrange, nodeColor, DOMAINS, positionExplanation } from '../src/model.js';
-import { panTranslation } from '../src/camera.js';
+import { panOffset } from '../src/camera.js';
 test('old maps migrate without modifying original nodes, edges, or coordinates',()=>{
  const before=clone(starter), upgraded=normalize(starter);
  assert.deepEqual(starter,before);
@@ -40,8 +40,8 @@ test('position explanation follows real changes and distinguishes layout provena
 });
 test('camera pan moves position and target equally, preserving angle and distance',()=>{
  const right=[0,0,-1],up=[0,1,0],camera=[20,10,0],target=[0,0,0];
- const delta=panTranslation(right,up,1,1,40);assert.deepEqual(delta,[0,1,-1]);
+ const delta=panOffset(right,up,1,1,Math.SQRT2);assert.ok(delta.every((v,i)=>Math.abs(v-[0,1,-1][i])<1e-12));
  const moved=camera.map((v,i)=>v+delta[i]),aim=target.map((v,i)=>v+delta[i]);
  assert.deepEqual(moved.map((v,i)=>v-aim[i]),camera.map((v,i)=>v-target[i]));
- const reverse=panTranslation(right,up,-1,-1,40);assert.ok(delta.every((v,i)=>Math.abs(v+reverse[i])<1e-10));
+ const reverse=panOffset(right,up,-1,-1,Math.SQRT2);assert.ok(delta.every((v,i)=>Math.abs(v+reverse[i])<1e-10));
 });
