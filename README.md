@@ -24,14 +24,34 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
 **3D view**
 - Spheres are colored by domain: Mathematics, Physics, Mechanics, Electronics, Computing, Robotics.
 - Connection styles: gold for prerequisite, dashed for supports, violet for related.
-- Drag to orbit, scroll to zoom, and right-drag, arrow keys, or WASD to pan. **Fit map** and **Front view** reset the camera.
+- Navigation:
+  - Drag to orbit.
+  - Scroll to zoom. Near the orbit limit, scrolling keeps travelling forward instead of stopping.
+  - Right-drag, arrow keys, or WASD to pan. Held keys move smoothly and stop when released.
+- Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
+- **Fit map** and **Front view** reset the camera.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
 - A sphere-spacing slider (0.5×–4×) spreads the display without changing saved coordinates.
 - Click to select a subject; double-click to open its details.
 
 **Data console**
-- Searchable subject list, an inspector, and a details dialog. The dialog shows the description, connections, and an explanation of why the subject sits where it does.
-- Edit mode: add, edit, and delete subjects and connections. You can set the reference level, icon, coordinates, and pin state, or Shift-drag spheres to move them. Undo covers up to 50 steps.
+- Searchable subject list and an inspector.
+- A details card with:
+  - the subject's one or two description paragraphs;
+  - a short "Where it sits" summary built from its actual connections;
+  - a collapsible connection list.
+- Edit mode:
+  - Add, edit, and delete subjects and connections.
+  - Set the reference level, icon, coordinates, and pin state, or Shift-drag spheres to move them.
+  - Coordinates, layout details, and placement notes appear here.
+  - Undo covers up to 50 steps.
+
+**Proficiency review**
+- **Mark proficiency** opens a guided review. It asks, one skill at a time from the bottom of the map upward (by saved height, then name), whether you have at least 80% proficiency.
+- Choose **Continue unmarked skills**, **Review all skills**, or **Resume review**.
+- Only the **Yes** and **No** buttons record an answer. **Back**, **Skip**, and **Pause** never change answers.
+- Skipped skills can be reviewed at the end.
+- Answers are stored in each subject's proficiency field and are kept in the local draft until you use **Save map**.
 
 **Layouts**
 - **Arrange level spiral**: estimates unassigned levels and raises levels to stay above their prerequisites.
@@ -42,6 +62,7 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
 
 **Files**
 - Maps are saved and opened as version-1 JSON (up to 10 MB, 5,000 subjects, and 20,000 connections). Ctrl+S saves.
+- Saves are atomic: the file is written in full to a temporary copy and then swapped into place, so an interrupted save leaves the previous file intact.
 - A local draft is cached between sessions. Closing with unsaved changes asks for confirmation.
 - Invalid map files are rejected with a message.
 
@@ -64,7 +85,7 @@ On Windows:
 | --- | --- |
 | `Setup-Windows.cmd` | One-time: `npm install`, then build the offline renderer. Needs internet. |
 | `Launch-Windows.cmd` | Start the app (offline). |
-| `Rebuild-Windows.cmd` | Rebuild after changing source files. |
+| `Rebuild-Windows.cmd` | Rebuild after changing source files or updating the code. |
 | `Build-Portable-Windows.cmd` | Package a portable `.exe` into `release/`. May download packaging tools. |
 
 With npm directly:
@@ -79,20 +100,32 @@ npm run dist:win   # build + package a portable Windows executable into release/
 ## Testing
 
 ```sh
-npm test
+npm test           # Node test suite (tests/*.test.mjs)
+npm run build
+npm run test:e2e   # end-to-end check in the real Electron app
 ```
 
-This runs the Node test suite (`tests/*.test.mjs`). It covers map validation and normalization, prerequisite depth and cycle rejection, the layouts, reference-level reconciliation, connection visibility, spacing, nameplate projection, camera panning, and click/keyboard interaction.
+`npm test` covers:
+- map validation and normalization;
+- prerequisite depth and cycle rejection;
+- the layouts and reference-level reconciliation;
+- placement summaries;
+- the camera speed policy and wheel handling;
+- the proficiency review order and session logic;
+- atomic saving;
+- spacing, nameplates, and click/keyboard interaction.
+
+`npm run test:e2e` launches the real app, including the WebGL viewer and the desktop save path, in an isolated profile. It drives the proficiency review with real mouse and keyboard events over the Chrome DevTools Protocol, using generated test maps. It needs a desktop session and a prior `npm run build`. Set `SSS_ATLAS=<path to a map>` to also open a large local map; the map is opened read-only and saves go to a temporary folder.
 
 `tests/console-smoke.mjs` is a separate, optional Playwright check of the data console. Playwright is not a project dependency. The check replaces the 3D viewer with a stub, so it does not test WebGL rendering.
 
 ## Project structure
 
 ```
-src/        renderer source (app, Three.js viewer, map model, layouts, starter map)
-desktop/    Electron main process and preload bridge
+src/        renderer source (app, Three.js viewer, camera math, map model, layouts, proficiency review, starter map)
+desktop/    Electron main process, preload bridge, and atomic file saving
 scripts/    esbuild bundling script
-tests/      Node test suite and optional Playwright smoke check
+tests/      Node test suite, Electron end-to-end check, and optional Playwright smoke check
 *.cmd       Windows setup, launch, rebuild, and packaging scripts
 ```
 
@@ -100,15 +133,16 @@ tests/      Node test suite and optional Playwright smoke check
 
 ## Project status
 
-Skill Solar System is a personal project in active development at v0.4.0. Status as of this repository's setup:
+Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 39 tests pass, including `tests/positions.test.mjs`, which covers the coordinate-precision fix.
-- **Not verified during repository setup:**
-  - WebGL rendering and interactive behavior inside the Electron window.
-  - The optional Playwright smoke check.
+- `npm test`: all 63 tests pass.
+- `npm run test:e2e`: all 46 end-to-end checks pass in Electron on Windows.
+- **Not yet verified:**
+  - A screen reader.
+  - A physical trackpad or touch input. The automated checks use synthetic input events.
   - Portable packaging (`npm run dist:win`).
-  - A fresh run of the Windows `.cmd` scripts.
+  - A fresh run of the Windows `.cmd` scripts on a new machine.
 
 ## Contributing
 
