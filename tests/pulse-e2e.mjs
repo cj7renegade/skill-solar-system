@@ -52,6 +52,11 @@ try {
   check('an unanswered skill is red too, not grey', reddish(unmarked.dim), `rgb ${unmarked.dim}`);
   check('the pulsing colour travels from green towards pale tea green', yes.bright[0] > yes.dim[0] + 10 && yes.bright[2] > yes.dim[2] + 10, `${yes.dim} -> ${yes.bright}`);
   check('the pulse is a glow on the sphere, not a growing halo', await evaluate(`Number(document.getElementById('labels').dataset.highlighted||0)`) === 0);
+  // The colour carries the state, so the answer is not repeated as text anywhere.
+  check('nameplates show the skill name only, with no proficiency wording', await evaluate(`[...document.querySelectorAll('#labels .node-label')].map(e=>e.textContent).sort().join('|')`) === 'Marked no|Marked yes|Unmarked');
+  check('the legend lists the two proficiency colours in use', await evaluate(`[...document.querySelectorAll('#legend div.legend-item')].map(e=>e.textContent).join('|')`) === 'Yes|No or unanswered');
+  await evaluate(`[...document.querySelectorAll('.node-item')].find(b=>b.textContent==='Marked yes').click()`); await sleep(400);
+  check('the console shows the answer through the pressed button, not a status line', await evaluate(`!document.querySelector('.proficiency-state') && document.querySelector('#inspector .proficiency-controls button.chosen')?.textContent === 'Yes'`));
   await click('#show-proficiency', 400);
   const after = await sample('Marked yes');
   check('switching proficiency colouring off stops the pulse', after.swing < 3, `swing ${after.swing.toFixed(2)}`);
