@@ -7,6 +7,7 @@ import { visibleConnections } from './connections.js';
 import { nameplateProjection } from './nameplates.js';
 import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
+import { pulseIntensity, steadyIntensity, pulsingIds } from './pulse.js';
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -53,6 +54,26 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       halo.shells.computeBoundingSphere(); halo.ring.geometry.computeBoundingSphere();
     }
     labelHost.dataset.highlighted = String([...halos.values()].reduce((sum, h) => sum + h.count, 0));
+  }
+  // Skills marked Yes pulse while proficiency colouring is on (see pulse.js). Only their glow changes,
+  // so a pulse frame re-renders the scene without touching nameplates or map data.
+  const reducedMotion = matchMedia?.('(prefers-reduced-motion: reduce)');
+  let pulsing = [], pulseFrame = null, pulseStarted = 0;
+  function stopPulse() { if (pulseFrame !== null) { cancelAnimationFrame(pulseFrame); pulseFrame = null; } }
+  function syncPulse() {
+    stopPulse();
+    const marked = new Set(pulsingIds(graph, proficiencyOn));
+    pulsing = objects.filter(mesh => marked.has(mesh.userData.id));
+    if (!pulsing.length) return;
+    if (reducedMotion?.matches) { for (const mesh of pulsing) mesh.material.emissiveIntensity = steadyIntensity(mesh.userData.id === selected); draw(); return; }
+    pulseStarted = performance.now();
+    const step = now => {
+      const seconds = (now - pulseStarted) / 1000;
+      for (const mesh of pulsing) mesh.material.emissiveIntensity = pulseIntensity(seconds, mesh.userData.id === selected);
+      renderScene();
+      pulseFrame = requestAnimationFrame(step);
+    };
+    pulseFrame = requestAnimationFrame(step);
   }
   const ray = new THREE.Raycaster(), pointer = new THREE.Vector2();
   let graph, selected, labelsOn=true, selectedConnectionsOnly=true, proficiencyOn=false, editable=false, objects=[], labels=[], dragging=null, down=null, spacing=1, connections=[];
@@ -106,6 +127,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const getRay = event => { const r=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);return ray; };
   function clear() {
     for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
+    stopPulse(); pulsing=[];
     labelHost.replaceChildren(); objects=[];labels=[];connections=[];
   }
   function rebuild() {
@@ -135,6 +157,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     }
     updatePositions();
     draw();
+    syncPulse();
   }
   function updatePositions() {
     if(!graph)return;
@@ -153,15 +176,18 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     }
     if(subjects.size||halos.size)refreshHalos();
   }
+  function renderScene() {
+    renderer.clear();
+    environment.render(renderer,camera);
+    renderer.render(scene,camera);
+  }
   function draw() {
     // Keep expanded maps visible even after panning or fitting a large atlas.
     const reach=Math.max(1000,...objects.map(o=>o.position.length()));
     const far=Math.max(30000,camera.position.length()+reach+1000);
     if(camera.far!==far){camera.far=far;camera.updateProjectionMatrix();}
     controls.maxDistance=Math.max(20000,reach*8);
-    renderer.clear();
-    environment.render(renderer,camera);
-    renderer.render(scene,camera);
+    renderScene();
     const size=host.getBoundingClientRect();
     const cameraSpace=new THREE.Vector3();
     for(const {el,mesh}of labels){

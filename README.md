@@ -61,6 +61,7 @@ It never adds personal maps to the repository.
 - Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
 - **Fit map** and **Front view** reset the camera.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
+- **Proficiency pulse:** with proficiency colouring on, skills marked **Yes** pulse: their own glow rises and falls in the proficiency colour, about once every 1.8 seconds. Skills marked No and unmarked skills stay steady. The pulse is a glow on the sphere, not a halo, it changes no map data, and it holds a steady glow instead when the system asks for reduced motion.
 - **Subject highlighting:** click a subject in the legend to put a halo in that subject's colour around every skill in it. A fixed-size ring keeps highlights visible at overview distance.
   - Several subjects can be highlighted at once; click again to remove one, or use **Clear highlights**.
   - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.
@@ -162,6 +163,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - the camera speed policy and wheel handling;
 - the proficiency review order and session logic;
 - subject highlighting;
+- the proficiency pulse: which skills pulse, and the shape, range, and repetition of the glow;
 - the shared proficiency record: precedence rules, Undo/Redo, family isolation, import, and the on-disk store;
 - the Computing edition:
   - unique, stable, namespaced ids;
@@ -177,7 +179,8 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - the proficiency review;
 - camera orbiting;
 - subject highlighting;
-- shared proficiency.
+- shared proficiency;
+- the proficiency pulse, measured as sphere brightness over a full pulse period.
 
 It needs a desktop session and a prior `npm run build`.
 
@@ -213,10 +216,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 98 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 102 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
-  - **With generated maps:** 96 checks (review 41, orbit 14, highlighting and shared proficiency 41).
-  - **With a local master and its Computing sub-map:** 120 checks (review 46, orbit 14, highlighting and shared proficiency 46, real atlas 14).
+  - **With generated maps:** 103 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 7).
+  - **With a local master and its Computing sub-map:** 127 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 7, real atlas 14).
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
