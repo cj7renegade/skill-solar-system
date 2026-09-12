@@ -7,7 +7,7 @@ import { visibleConnections } from './connections.js';
 import { nameplateProjection } from './nameplates.js';
 import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
-import { pulseIntensity, steadyIntensity, pulsingIds } from './pulse.js';
+import { pulseIntensity, pulseWave, steadyIntensity, pulsingIds, PULSE_COLORS } from './pulse.js';
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -59,16 +59,20 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   // so a pulse frame re-renders the scene without touching nameplates or map data.
   const reducedMotion = matchMedia?.('(prefers-reduced-motion: reduce)');
   let pulsing = [], pulseFrame = null, pulseStarted = 0;
+  // The colour travels with the glow, from the marked-Yes green to a pale tea green at the peak.
+  const pulseFrom = new THREE.Color(PULSE_COLORS.from), pulseTo = new THREE.Color(PULSE_COLORS.to), pulseTint = new THREE.Color();
   function stopPulse() { if (pulseFrame !== null) { cancelAnimationFrame(pulseFrame); pulseFrame = null; } }
   function syncPulse() {
     stopPulse();
     const marked = new Set(pulsingIds(graph, proficiencyOn));
     pulsing = objects.filter(mesh => marked.has(mesh.userData.id));
     if (!pulsing.length) return;
-    if (reducedMotion?.matches) { for (const mesh of pulsing) mesh.material.emissiveIntensity = steadyIntensity(mesh.userData.id === selected); draw(); return; }
+    const paint = wave => { pulseTint.copy(pulseFrom).lerp(pulseTo, wave); for (const mesh of pulsing) { mesh.material.color.copy(pulseTint); mesh.material.emissive.copy(pulseTint); } };
+    if (reducedMotion?.matches) { paint(.5); for (const mesh of pulsing) mesh.material.emissiveIntensity = steadyIntensity(mesh.userData.id === selected); draw(); return; }
     pulseStarted = performance.now();
     const step = now => {
       const seconds = (now - pulseStarted) / 1000;
+      paint(pulseWave(seconds));
       for (const mesh of pulsing) mesh.material.emissiveIntensity = pulseIntensity(seconds, mesh.userData.id === selected);
       renderScene();
       pulseFrame = requestAnimationFrame(step);
