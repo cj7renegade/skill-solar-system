@@ -61,7 +61,7 @@ It never adds personal maps to the repository.
 - Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
 - **Fit map** and **Front view** reset the camera.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
-- **Proficiency pulse:** with proficiency colouring on, skills marked **Yes** pulse: their own glow rises and falls in the proficiency colour, about once every 1.8 seconds. Skills marked No and unmarked skills stay steady. The pulse is a glow on the sphere, not a halo, it changes no map data, and it holds a steady glow instead when the system asks for reduced motion.
+- **Proficiency pulse:** with proficiency colouring on, skills marked **Yes** pulse: their own glow rises and falls in the proficiency colour, about once every 1.4 seconds, from dark to the fully saturated colour. Skills marked No and unmarked skills stay steady. The pulse is a glow on the sphere, not a halo, it changes no map data, and it holds a steady glow instead when the system asks for reduced motion.
 - **Subject highlighting:** click a subject in the legend to put a halo in that subject's colour around every skill in it. A fixed-size ring keeps highlights visible at overview distance.
   - Several subjects can be highlighted at once; click again to remove one, or use **Clear highlights**.
   - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.

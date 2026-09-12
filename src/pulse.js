@@ -2,8 +2,10 @@
 // proficiency colour. No and unmarked skills stay steady, so answered skills stand out on their own.
 // The wave is a smooth cosine, never a flash, and the viewer holds a steady glow instead when the
 // system asks for reduced motion.
-export const PULSE_PERIOD = 1.8; // seconds for one rise and fall
-export const PULSE_RANGE = { plain: [0.15, 0.85], selected: [0.5, 1.05] };
+export const PULSE_PERIOD = 1.44; // seconds for one rise and fall
+// Emissive intensity multiplies the proficiency colour. Past roughly 1.2 the brightest channel is
+// already at full, so higher values keep adding light but shift the glow towards white.
+export const PULSE_RANGE = { plain: [0, 1.25], selected: [0.35, 1.45] };
 
 // Emissive intensity at a moment in time. Selected spheres keep their brighter range.
 export function pulseIntensity(seconds, selected = false) {
