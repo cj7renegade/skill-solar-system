@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { DOMAINS, nodeColor, proficiencyLabel } from './model.js';
+import { DOMAINS, nodeColor } from './model.js';
 import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, centerOn } from './camera.js';
 import { createActivationTracker } from './interaction.js';
 import { visibleConnections } from './connections.js';
@@ -142,7 +142,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       const color=nodeColor(n,proficiencyOn);
       const mesh = new THREE.Mesh(sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
       mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;if(n.id===selected)mesh.scale.setScalar(1.35);group.add(mesh);objects.push(mesh);
-      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(proficiencyOn?' · '+proficiencyLabel(n.proficiency80):'')+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh});
+      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh});
     }
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
     for(const e of visibleConnections(graph.edges,selected,selectedConnectionsOnly)) {

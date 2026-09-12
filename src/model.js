@@ -10,7 +10,8 @@ export const clone = value => JSON.parse(JSON.stringify(value));
 // including skills that have not been answered yet. The answer itself is still Yes, No, or unmarked;
 // only the colour groups them.
 export const PROFICIENCY_COLORS = { yes:'#32CD32', no:'#ef9290' };
-export function proficiencyLabel(value) { return value === true ? 'Yes · at least 80%' : value === false ? 'No · below 80%' : 'Not marked'; }
+// Short words only: the sphere colour and its pulse already say which state a skill is in.
+export function proficiencyLabel(value) { return value === true ? 'Yes' : value === false ? 'No' : 'Not marked'; }
 export function nodeColor(node, proficiency) {
   return proficiency ? PROFICIENCY_COLORS[node.proficiency80 === true ? 'yes' : 'no'] : DOMAINS[node.domain];
 }

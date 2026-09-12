@@ -153,7 +153,10 @@ test('real atlas: Computing edition is present, consistent, and existing skills 
   }
   if (process.env.SSS_SUBMAP) {
     const sub = validate(JSON.parse(readFileSync(process.env.SSS_SUBMAP, 'utf8')));
-    assert.deepEqual(sub, computingSubmap(master), 'sub-map matches a fresh derivation from the master');
+    // Answers live in the shared record and are applied when a map is opened, so the two files may
+    // legitimately hold different proficiency values. Everything else must match exactly.
+    const withoutAnswers = graph => ({ ...graph, nodes: graph.nodes.map(n => ({ ...n, proficiency80: null })) });
+    assert.deepEqual(withoutAnswers(sub), withoutAnswers(computingSubmap(master)), 'sub-map matches a fresh derivation from the master, apart from answers');
     assert.equal(atlasFamily(sub), atlasFamily(master));
   }
 });

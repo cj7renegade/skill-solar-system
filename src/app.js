@@ -1,5 +1,5 @@
 import { arrangeVortex } from './vortex.js';
-import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor } from './model.js';
+import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
 import { spacingValue } from './spacing.js';
 import { starter } from './starter.js';
 import { createViewer } from './viewer.js';
@@ -115,7 +115,7 @@ function inspect(){
   const details=el('textarea',{value:n.details,maxLength:12000,id:'node-details'});
   const note=el('textarea',{value:n.placementNote,maxLength:12000,id:'node-placement-note'});
   const icon=el('select',{id:'node-icon'},...Object.entries(ICONS).map(([value,[text]])=>el('option',{value,text,selected:value===n.icon})));
-  const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes · at least 80%',selected:n.proficiency80===true}),el('option',{value:'no',text:'No · below 80%',selected:n.proficiency80===false}));
+  const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes',selected:n.proficiency80===true}),el('option',{value:'no',text:'No',selected:n.proficiency80===false}));
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
   panel.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
@@ -216,7 +216,7 @@ function renderLegend(){
   if(subjects.size)legend.append(el('button',{class:'legend-clear',id:'clear-highlights',text:'Clear highlights',onclick:()=>setSubjects(new Set())}));
   if(proficiencyOn){
     legend.append(el('div',{class:'legend-heading',text:'Sphere colour · proficiency'}));
-    for(const [name,color]of Object.entries({'Yes · at least 80%':'#59d49c','No · below 80%':'#ef9290','Not marked':'#99a9bc'})){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
+    for(const [name,color]of [['Yes',PROFICIENCY_COLORS.yes],['No or unanswered',PROFICIENCY_COLORS.no]]){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
     legend.append(el('div',{class:'edge-note',text:'Manual self-report'}));
   }
   legend.append(el('div',{class:'edge-note',text:'Gold → prerequisite'}),el('div',{class:'edge-note',text:'Dashed → supports'}),el('div',{class:'edge-note',text:'Violet — related'}));
@@ -276,7 +276,7 @@ function proficiencyControls(node){
     const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated. Save map to keep it in the file.','console')});
     b.setAttribute('aria-pressed',String(node.proficiency80===value));row.append(b);
   }
-  group.append(row,el('p',{class:'proficiency-state',text:proficiencyLabel(node.proficiency80)}));return group;
+  group.append(row);return group; // the chosen button and the sphere colour show the current answer
 }
 function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}

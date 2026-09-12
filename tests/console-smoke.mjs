@@ -31,7 +31,7 @@ try{
  assert.match(await page.textContent('#details-body'),/Arithmetic covers operations/);
  assert.ok(await page.locator('#inspector svg').count());
  await page.locator('#details-body').getByRole('button',{name:'Yes',exact:true}).click();
- assert.match(await page.locator('#details-body .proficiency-state').textContent(),/Yes/);
+ assert.equal(await page.locator('#details-body .proficiency-controls button.chosen').textContent(),'Yes');
  await page.click('#details-close');await page.check('#show-proficiency');
  assert.match(await page.textContent('#legend'),/Manual self-report/);
  await page.locator('#canvas').focus();await page.keyboard.press('ArrowRight');
