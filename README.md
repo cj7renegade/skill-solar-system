@@ -68,10 +68,13 @@ It never adds personal maps to the repository.
   - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.
   - Highlights are display only: they never select a skill, move the camera, or change the map.
 - A sphere-spacing slider (0.5×–10×) spreads the display without changing saved coordinates.
+- **Find skill:** a search box in the map tools. Type part of a name to see up to eight matches, with names that begin with what you typed listed first. Enter or a click selects the skill and moves the view to it; the arrow keys walk the list and Escape closes it. It keeps working when the console is hidden.
+- **Collapsible map tools:** the toolbar folds away to a **Tools** handle, and its state is remembered between sessions.
 - Click to select a subject; double-click to open its details.
 
 **Data console**
 - Searchable subject list and an inspector.
+- The subject card collapses to its name and icon with the ▾ toggle beside it, stays collapsed as you select other subjects, and is remembered between sessions.
 - A details card with:
   - the subject's one or two description paragraphs;
   - a short "Where it sits" summary built from its actual connections;
@@ -165,6 +168,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - the proficiency review order and session logic;
 - subject highlighting;
 - the proficiency pulse: which skills pulse, and the shape, range, and repetition of the glow;
+- the Find skill matcher: blank queries, substring matching, prefix-first ranking, and the result cap;
 - the shared proficiency record: precedence rules, Undo/Redo, family isolation, import, and the on-disk store;
 - the Computing edition:
   - unique, stable, namespaced ids;
@@ -181,7 +185,8 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - camera orbiting;
 - subject highlighting;
 - shared proficiency;
-- the proficiency pulse, measured as sphere brightness over a full pulse period.
+- the proficiency pulse, measured as sphere brightness over a full pulse period;
+- the Find skill box, and collapsing the map tools and the subject card.
 
 It needs a desktop session and a prior `npm run build`.
 
@@ -217,10 +222,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 104 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 109 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
-  - **With generated maps:** 110 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14).
-  - **With a local master and its Computing sub-map:** 134 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, real atlas 14).
+  - **With generated maps:** 124 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14).
+  - **With a local master and its Computing sub-map:** 148 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, real atlas 14).
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
