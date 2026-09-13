@@ -47,7 +47,8 @@
 .find-results .find-domain{margin-left:auto;padding-left:10px;font-size:9px;letter-spacing:.6px;text-transform:uppercase;color:#7f91a8}
 .find-results .caption{margin:4px 6px}
 /* Collapsing the map tools and the subject card leaves a handle to reopen them. */
-.view-tool-items{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+/* The items share the handle's line and wrap within it, so the handle never gets its own row. */
+.view-tool-items{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1 1 0;min-width:0}
 .view-tools.collapsed .view-tool-items{display:none}
 #view-tools-toggle{padding:4px 8px;font-size:11px;white-space:nowrap}
 .inspector-heading{display:flex;align-items:flex-start;gap:8px}
