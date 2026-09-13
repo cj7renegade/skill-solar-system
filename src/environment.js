@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GRID_SHADER } from './grid.js';
 
 // A screen-space ray/plane intersection has no mesh boundary. World-space
 // coordinates keep the grid stationary while panning in any horizontal direction.
@@ -15,6 +16,7 @@ export function createEnvironment() {
       uniform vec3 viewPosition;
       uniform mat4 viewWorld;
       uniform mat4 projectionInverse;
+      ${GRID_SHADER}
       float gridLine(vec2 coordinate){
         vec2 footprint=max(fwidth(coordinate),vec2(0.0001));
         vec2 distanceToLine=abs(fract(coordinate-0.5)-0.5)/footprint;
@@ -31,12 +33,17 @@ export function createEnvironment() {
         float safeY=abs(ray.y)<0.00001?(ray.y<0.0?-0.00001:0.00001):ray.y;
         float travel=(-25.0-viewPosition.y)/safeY;
         vec2 worldXZ=viewPosition.xz+ray.xz*travel;
-        float minor=gridLine(worldXZ/50.0);
-        float major=gridLine(worldXZ/250.0);
-        float fade=exp(-abs(travel)/6500.0)*(1.0-smoothstep(0.96,1.0,haze));
-        float visible=step(0.0,travel);
-        color+=vec3(0.10,0.19,0.28)*minor*fade*0.48*visible;
-        color+=vec3(0.16,0.27,0.36)*major*fade*0.50*visible;
+        // The spacing steps up as the camera pulls back, so cells keep a usable size on screen and the
+        // floor stays visible at any distance. The finer subdivision fades as the next level takes over.
+        vec2 cell=fwidth(worldXZ);
+        float perPixel=max(max(cell.x,cell.y),0.0001);
+        float spacing=gridSpacing(perPixel);
+        float minor=gridLine(worldXZ/spacing);
+        float major=gridLine(worldXZ/(spacing*GRID_STEP));
+        // Only the horizon fades now: a fade by distance is what made the floor vanish when zoomed out.
+        float fade=(1.0-smoothstep(0.90,1.0,haze))*step(0.0,travel);
+        color+=vec3(0.10,0.19,0.28)*minor*(1.0-gridBlend(perPixel))*fade*0.62;
+        color+=vec3(0.17,0.29,0.39)*major*fade*0.85;
         gl_FragColor=vec4(color,1.0);
       }`
   });

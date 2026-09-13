@@ -60,6 +60,7 @@ It never adds personal maps to the repository.
   - Right-drag, arrow keys, or WASD to pan. Held keys move smoothly and stop when released.
 - Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
 - **Fit map** and **Front view** reset the camera.
+- **Floor grid:** the ground grid steps its spacing up as the camera pulls back, so cells keep a usable size and the floor stays visible at any distance instead of fading out. The finer subdivision fades in as you come closer, and only the horizon fades.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
 - **Proficiency colouring** shows two states: skills marked **Yes** are green (`#32CD32`), and every other skill is red, including skills you have not answered yet. The stored answer is still Yes, No, or unmarked; only the colour groups them, and the console and the guided review still treat unanswered skills separately. The answer is not repeated as text: nameplates show just the skill name, and the console shows it through the pressed Yes, No, or Clear button.
 - **Proficiency pulse:** skills marked **Yes** pulse, about once every 1.4 seconds. The colour travels from green (`#32CD32`) to a pale tea green (`#DBF3C9`) and back, with a small added glow rising and falling in step, so colour and brightness always move together. The glow is deliberately gentle: the pale end of the pulse is already near full brightness, and a stronger glow would clip it to white. Every other skill stays steady red. The pulse is a glow on the sphere, not a halo, it changes no map data, and it holds a steady mid-pulse colour when the system asks for reduced motion.
@@ -169,6 +170,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - subject highlighting;
 - the proficiency pulse: which skills pulse, and the shape, range, and repetition of the glow;
 - the Find skill matcher: blank queries, substring matching, prefix-first ranking, and the result cap;
+- the floor grid spacing: level steps, cells that never collapse below a few pixels, and the subdivision blend;
 - the shared proficiency record: precedence rules, Undo/Redo, family isolation, import, and the on-disk store;
 - the Computing edition:
   - unique, stable, namespaced ids;
@@ -186,7 +188,8 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - subject highlighting;
 - shared proficiency;
 - the proficiency pulse, measured as sphere brightness over a full pulse period;
-- the Find skill box, and collapsing the map tools and the subject card.
+- the Find skill box, and collapsing the map tools and the subject card;
+- the floor grid, measured from screenshots as the camera pulls back.
 
 It needs a desktop session and a prior `npm run build`.
 
@@ -222,10 +225,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 109 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 115 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
-  - **With generated maps:** 124 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14).
-  - **With a local master and its Computing sub-map:** 148 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, real atlas 14).
+  - **With generated maps:** 129 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
+  - **With a local master and its Computing sub-map:** 153 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 14).
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
