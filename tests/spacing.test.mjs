@@ -13,6 +13,15 @@ test('the slider range matches the supported spacing range of 0.5 to 10 times',(
   const slider=readFileSync(new URL('../src/index.html',import.meta.url),'utf8').match(/<input id="sphere-spacing"[^>]*>/)[0];
   assert.match(slider,new RegExp(`min="${MIN_SPACING}"`));assert.match(slider,new RegExp(`max="${MAX_SPACING}"`));
 });
+test('the typed field shares the slider range and takes exact multipliers',()=>{
+  const field=readFileSync(new URL('../src/index.html',import.meta.url),'utf8').match(/<input id="spacing-value"[^>]*>/)[0];
+  assert.match(field,/type="number"/);
+  assert.match(field,new RegExp(`min="${MIN_SPACING}"`));assert.match(field,new RegExp(`max="${MAX_SPACING}"`));
+  for(const typed of ['1.25','3.5','2.05','9.99'])assert.equal(spacingValue(typed),Number(typed));
+  for(const typed of [1.25,3.5])assert.equal(spacingValue(typed),typed);
+  // Anything outside the range is pulled back to it rather than distorting the map.
+  assert.equal(spacingValue('25'),MAX_SPACING);assert.equal(spacingValue('0.1'),MIN_SPACING);
+});
 test('drag coordinates round trip at every supported slider step',()=>{
   for(let i=10;i<=200;i++){
     const factor=i/20,point=[-193.2,773.4,1200.8];

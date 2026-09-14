@@ -60,8 +60,27 @@ try {
   await click('#inspector-toggle', 300);
   check('expanding the subject card brings its description and buttons back', await evaluate(`!!document.querySelector('#inspector .inspector-body')?.offsetParent && !!document.querySelector('#inspector .proficiency-controls')`));
 
+  // Sphere spacing: the slider and the typed multiplier drive the same value.
+  const spacingState = () => evaluate(`(()=>{const s=document.getElementById('sphere-spacing'),n=document.getElementById('spacing-value');return {slider:Number(s.value),field:n.value}})()`);
+  const setField = async text => { await evaluate(`(()=>{const n=document.getElementById('spacing-value');n.focus();n.value=${JSON.stringify(text)};n.dispatchEvent(new Event('input'));n.dispatchEvent(new Event('change'));})()`); await sleep(400); };
+  // Separation in world units: the on-screen gap divided by the nameplate scale at that depth.
+  const gap = async () => { await click('#home', 400); const a = await sphereOnScreen('Loops and iteration'), b = await sphereOnScreen('Lists and dictionaries'); return a && b ? Math.hypot(a.x - b.x, a.y - b.y) / a.scale : null; };
+  const atOne = await gap();
+  await setField('3.5');
+  const typed = await spacingState(), spread = await gap();
+  check('typing an exact multiplier applies it and moves the slider', typed.slider === 3.5 && typed.field === '3.50', JSON.stringify(typed));
+  check('the map spreads by the typed amount', spread > atOne * 3 && spread < atOne * 4, `${Math.round(atOne)} -> ${Math.round(spread)} units apart`);
+  await setField('25');
+  check('a multiplier beyond the range is clamped and shows the value used', JSON.stringify(await spacingState()) === '{"slider":10,"field":"10.00"}', JSON.stringify(await spacingState()));
+  await setField('');
+  check('clearing the field keeps the current spacing instead of collapsing the map', JSON.stringify(await spacingState()) === '{"slider":10,"field":"10.00"}', JSON.stringify(await spacingState()));
+  await evaluate(`(()=>{const s=document.getElementById('sphere-spacing');s.value='2';s.dispatchEvent(new Event('input'));s.dispatchEvent(new Event('change'));})()`); await sleep(400);
+  check('the slider still works and updates the typed field', JSON.stringify(await spacingState()) === '{"slider":2,"field":"2.00"}', JSON.stringify(await spacingState()));
+  await click('#reset-spacing', 400);
+  check('Reset returns both controls to 1.00', JSON.stringify(await spacingState()) === '{"slider":1,"field":"1.00"}', JSON.stringify(await spacingState()));
+
   check('no uncaught page errors', pageErrors.length === 0, pageErrors.join(' | '));
-  console.log(`\n${passed.length} find and collapse checks passed.`);
+  console.log(`\n${passed.length} map tools checks passed.`);
 } catch (error) {
   console.error(`FAIL ${error.message}`);
   process.exitCode = 1;
