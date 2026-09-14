@@ -38,3 +38,20 @@
 .shared-tools{border-top:1px solid var(--line);margin-top:18px;padding-top:8px}.shared-tools>button{font-size:11px}
 .sync-state{border:0;background:transparent;padding:0;font-size:10px;color:var(--muted);white-space:nowrap}.sync-state:disabled{opacity:1;cursor:default}.sync-state.saved,.sync-state.ready{color:#8dc9ac}.sync-state.failed,.sync-state.unreadable{color:#ef9290;text-decoration:underline;cursor:pointer}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Find skill: a combobox in the map tools, so search still works when the console is hidden. */
+.find-control{position:relative}
+.find-control input{width:150px;max-width:34vw;padding:4px 8px;font-size:11px;border:1px solid var(--line);border-radius:5px;background:#0b1424;color:var(--ink)}
+.find-results{position:absolute;bottom:calc(100% + 6px);left:0;min-width:230px;max-width:60vw;max-height:212px;overflow:auto;display:grid;gap:2px;padding:4px;background:#0d1726f5;border:1px solid var(--line);border-radius:6px;z-index:5}
+.find-results button{display:flex;align-items:center;gap:7px;width:100%;padding:4px 7px;font-size:11px;text-align:left;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--muted)}
+.find-results button:hover,.find-results button.active{background:#1b2a3d;color:var(--ink);border-color:var(--accent)}
+.find-results .find-domain{margin-left:auto;padding-left:10px;font-size:9px;letter-spacing:.6px;text-transform:uppercase;color:#7f91a8}
+.find-results .caption{margin:4px 6px}
+/* Collapsing the map tools and the subject card leaves a handle to reopen them. */
+/* The items share the handle's line and wrap within it, so the handle never gets its own row. */
+.view-tool-items{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1 1 0;min-width:0}
+.view-tools.collapsed .view-tool-items{display:none}
+#view-tools-toggle{padding:4px 8px;font-size:11px;white-space:nowrap}
+.inspector-heading{display:flex;align-items:flex-start;gap:8px}
+.inspector-heading .subject-heading{flex:1;min-width:0}
+#inspector-toggle{padding:2px 8px;font-size:11px;line-height:1.7}
+#inspector.collapsed .inspector-body{display:none}

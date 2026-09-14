@@ -1,6 +1,7 @@
 import { arrangeVortex } from './vortex.js';
-import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor } from './model.js';
+import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
 import { spacingValue } from './spacing.js';
+import { findSkills } from './find.js';
 import { starter } from './starter.js';
 import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
@@ -14,6 +15,11 @@ const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
 const listActivation=createActivationTracker();
 const SPACING_CACHE='skill-solar-system-spacing';
+// Which panels the user has collapsed. Both start open, so nothing is hidden on a first run.
+const PANELS_CACHE='skill-solar-system-panels-v1';
+let panels={tools:true,card:true};
+try{const saved=JSON.parse(localStorage.getItem(PANELS_CACHE)||'{}');panels={...panels,...saved};}catch{}
+const savePanels=()=>{try{localStorage.setItem(PANELS_CACHE,JSON.stringify(panels));}catch{}};
 let spacing=1,spacingFrame=null;
 try{const saved=localStorage.getItem(SPACING_CACHE);if(saved!==null)spacing=spacingValue(saved);}catch{}
 const message=text=>{$('status').textContent=text;};
@@ -103,9 +109,13 @@ function renderList(){
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
   if(!n){panel.append(...[...emptyInspector.childNodes].map(n=>n.cloneNode(true)));return;}
-  panel.append(el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))));
+  const cardToggle=el('button',{id:'inspector-toggle',text:panels.card?'▾':'▸',title:panels.card?'Collapse this subject card':'Expand this subject card',ariaLabel:panels.card?'Collapse this subject card':'Expand this subject card',onclick:()=>{panels.card=!panels.card;savePanels();inspect();}});
+  cardToggle.setAttribute('aria-expanded',String(panels.card));
+  const body=el('div',{class:'inspector-body'});
+  panel.classList.toggle('collapsed',!panels.card);
+  panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))),cardToggle),body);
   if(!editing){
-    panel.append(el('p',{text:n.description}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n));
+    body.append(el('p',{text:n.description}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -115,27 +125,66 @@ function inspect(){
   const details=el('textarea',{value:n.details,maxLength:12000,id:'node-details'});
   const note=el('textarea',{value:n.placementNote,maxLength:12000,id:'node-placement-note'});
   const icon=el('select',{id:'node-icon'},...Object.entries(ICONS).map(([value,[text]])=>el('option',{value,text,selected:value===n.icon})));
-  const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes · at least 80%',selected:n.proficiency80===true}),el('option',{value:'no',text:'No · below 80%',selected:n.proficiency80===false}));
+  const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes',selected:n.proficiency80===true}),el('option',{value:'no',text:'No',selected:n.proficiency80===false}));
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
-  panel.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
-  panel.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Subject updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its connections? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Subject deleted.');}})));
-  panel.append(el('h3',{text:'Connections'}));
+  body.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
+  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Subject updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its connections? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Subject deleted.');}})));
+  body.append(el('h3',{text:'Connections'}));
   const links=graph.edges.filter(e=>e.source===n.id||e.target===n.id);
   for(const edge of links){
     const source=graph.nodes.find(x=>x.id===edge.source).name,target=graph.nodes.find(x=>x.id===edge.target).name;
     const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to';
-    panel.append(el('div',{class:'edge-item'},el('span',{text:`${source} ${verb} ${target}`}),el('button',{text:'×',title:'Remove connection',ariaLabel:'Remove connection',disabled:!editing,onclick:()=>change(next=>{next.edges=next.edges.filter(e=>!(e.source===edge.source&&e.target===edge.target&&e.type===edge.type));},'Connection removed.')})));
+    body.append(el('div',{class:'edge-item'},el('span',{text:`${source} ${verb} ${target}`}),el('button',{text:'×',title:'Remove connection',ariaLabel:'Remove connection',disabled:!editing,onclick:()=>change(next=>{next.edges=next.edges.filter(e=>!(e.source===edge.source&&e.target===edge.target&&e.type===edge.type));},'Connection removed.')})));
   }
-  if(!links.length)panel.append(el('p',{class:'edge-note',text:'No connections yet.'}));
+  if(!links.length)body.append(el('p',{class:'edge-note',text:'No connections yet.'}));
   if(!editing)return;
   const type=el('select',{id:'edge-type'},...options(TYPES,'supports'));
   const direction=el('select',{id:'edge-direction'},el('option',{value:'out',text:'This subject → other subject'}),el('option',{value:'in',text:'Other subject → this subject'}));
   const target=el('select',{id:'edge-target'},...graph.nodes.filter(x=>x.id!==n.id).map(x=>el('option',{value:x.id,text:x.name})));
-  panel.append(el('h3',{text:'Add a connection'}),field('Relationship',type),field('Direction',direction),field('Other subject',target),el('p',{class:'edge-note',text:'Prerequisite: source must come before target. Supports: directional contribution. Related: no learning order.'}),el('button',{text:'Connect subjects',id:'connect',disabled:graph.nodes.length<2,onclick:()=>change(next=>{next.edges.push({source:direction.value==='out'?n.id:target.value,target:direction.value==='out'?target.value:n.id,type:type.value});},'Connection added.')}));
+  body.append(el('h3',{text:'Add a connection'}),field('Relationship',type),field('Direction',direction),field('Other subject',target),el('p',{class:'edge-note',text:'Prerequisite: source must come before target. Supports: directional contribution. Related: no learning order.'}),el('button',{text:'Connect subjects',id:'connect',disabled:graph.nodes.length<2,onclick:()=>change(next=>{next.edges.push({source:direction.value==='out'?n.id:target.value,target:direction.value==='out'?target.value:n.id,type:type.value});},'Connection added.')}));
 }
 $('edit-mode').onchange=e=>{listActivation.reset();closeDetails();editing=e.target.checked;render();message(editing?'Edit mode · Apply changes commits console edits.':'View mode · Select a subject to inspect.');};
 $('search').oninput=renderList;
+// Find skill sits in the map tools, so searching still works when the console is hidden. It selects
+// and travels to a skill exactly as the console list does, and changes nothing in the map.
+let matches=[],activeMatch=-1;
+function closeFind(){const results=$('find-results');results.hidden=true;results.replaceChildren();$('find-skill').setAttribute('aria-expanded','false');$('find-skill').removeAttribute('aria-activedescendant');matches=[];activeMatch=-1;}
+function renderFind(){
+  const results=$('find-results');results.replaceChildren();
+  if(!$('find-skill').value.trim()){closeFind();return;}
+  matches=findSkills(graph.nodes,$('find-skill').value);
+  if(!matches.length)results.append(el('p',{class:'caption',text:'No skills found.'}));
+  matches.forEach((n,i)=>{
+    const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn);
+    const option=el('button',{id:`find-option-${i}`,class:i===activeMatch?'active':'',onclick:()=>chooseMatch(i)},dot,document.createTextNode(n.name),el('span',{class:'find-domain',text:n.domain}));
+    option.setAttribute('role','option');option.setAttribute('aria-selected',String(i===activeMatch));
+    results.append(option);
+  });
+  results.hidden=false;$('find-skill').setAttribute('aria-expanded','true');
+  if(activeMatch>=0)$('find-skill').setAttribute('aria-activedescendant',`find-option-${activeMatch}`);else $('find-skill').removeAttribute('aria-activedescendant');
+}
+function chooseMatch(index){
+  const node=matches[index];if(!node)return;
+  selected=node.id;$('find-skill').value=node.name;closeFind();render();viewer?.focus(node.id);message(`Found ${node.name}.`);
+}
+$('find-skill').oninput=()=>{activeMatch=-1;renderFind();};
+$('find-skill').onkeydown=e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){if(!matches.length)return;e.preventDefault();activeMatch=(activeMatch+(e.key==='ArrowDown'?1:-1)+matches.length)%matches.length;renderFind();}
+  else if(e.key==='Enter'&&matches.length){e.preventDefault();chooseMatch(activeMatch<0?0:activeMatch);}
+  else if(e.key==='Escape'){e.preventDefault();$('find-skill').value='';closeFind();}
+};
+// A click on a result must register before the list closes.
+$('find-skill').onblur=()=>setTimeout(closeFind,150);
+function applyToolsPanel(){
+  document.querySelector('.view-tools').classList.toggle('collapsed',!panels.tools);
+  const button=$('view-tools-toggle');
+  button.textContent=panels.tools?'Tools ▾':'Tools ▸';
+  button.title=panels.tools?'Hide the map tools':'Show the map tools';
+  button.setAttribute('aria-expanded',String(panels.tools));
+}
+$('view-tools-toggle').onclick=()=>{panels.tools=!panels.tools;savePanels();if(!panels.tools)closeFind();applyToolsPanel();};
+applyToolsPanel();
 $('console-toggle').onclick=()=>{document.body.classList.toggle('console-hidden');$('console-toggle').setAttribute('aria-expanded',String(!document.body.classList.contains('console-hidden')));};
 function setSpacing(value){
   spacing=spacingValue(value);
@@ -216,7 +265,7 @@ function renderLegend(){
   if(subjects.size)legend.append(el('button',{class:'legend-clear',id:'clear-highlights',text:'Clear highlights',onclick:()=>setSubjects(new Set())}));
   if(proficiencyOn){
     legend.append(el('div',{class:'legend-heading',text:'Sphere colour · proficiency'}));
-    for(const [name,color]of Object.entries({'Yes · at least 80%':'#59d49c','No · below 80%':'#ef9290','Not marked':'#99a9bc'})){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
+    for(const [name,color]of [['Yes',PROFICIENCY_COLORS.yes],['No or unanswered',PROFICIENCY_COLORS.no]]){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
     legend.append(el('div',{class:'edge-note',text:'Manual self-report'}));
   }
   legend.append(el('div',{class:'edge-note',text:'Gold → prerequisite'}),el('div',{class:'edge-note',text:'Dashed → supports'}),el('div',{class:'edge-note',text:'Violet — related'}));
@@ -276,7 +325,7 @@ function proficiencyControls(node){
     const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated. Save map to keep it in the file.','console')});
     b.setAttribute('aria-pressed',String(node.proficiency80===value));row.append(b);
   }
-  group.append(row,el('p',{class:'proficiency-state',text:proficiencyLabel(node.proficiency80)}));return group;
+  group.append(row);return group; // the chosen button and the sphere colour show the current answer
 }
 function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}

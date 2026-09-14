@@ -19,6 +19,36 @@ Skill levels and prerequisite relationships in Skill Solar System are **authored
 
 The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-connection robotics overview. It is not a validated curriculum and contains no proficiency markings. Larger maps are saved and opened as separate JSON files. They are not part of this repository.
 
+### Computing foundation edition
+
+`authoring/computing/` holds an authored Computing strand for robotics learners: 104 original skills with summaries, one or two paragraphs each, icons, and 268 relationships with a rationale for each. It covers:
+- programming foundations and development practice;
+- data structures and algorithms;
+- computer architecture and systems programming;
+- networking;
+- embedded and real-time computing;
+- robotics software;
+- machine-learning foundations.
+
+The edition also records a coverage checklist and a register of the public curricula and official documentation used to check coverage and accuracy (CS2023, the Python documentation, MIT OpenCourseWare, OSTEP, IETF RFCs, FreeRTOS, ROS 2, and others). The references are kept apart from the authored text; no source text was copied, and the prerequisites are editorial judgments, not an official curriculum graph. The edition is a coherent foundation, not exhaustive coverage.
+
+It connects to existing Mathematics, Electronics, and Robotics skills by their ids (for example binary representation, Boolean algebra, algorithm growth rates, and digital logic) without reclassifying them.
+
+To add it to a local master atlas (back the atlas up first):
+
+```sh
+node authoring/apply-computing.mjs path/to/Skill-Solar-System.json           # dry run: report only
+node authoring/apply-computing.mjs path/to/Skill-Solar-System.json --write   # write the master and the sub-map
+```
+
+The tool:
+- keeps every existing skill, coordinate, pin, level, and proficiency answer exactly as it was;
+- places the new skills in the Computing ribbon of the spiral at 1 + 3 × prerequisite depth;
+- writes `03-Computing-with-prerequisites.json` beside the master, holding every Computing skill and its full prerequisite closure with the same ids, so proficiency is shared with the master;
+- writes atomically and is safe to rerun.
+
+It never adds personal maps to the repository.
+
 ## Features
 
 **3D view**
@@ -30,16 +60,22 @@ The bundled starter map (`src/starter.js`) is an illustrative 18-subject, 26-con
   - Right-drag, arrow keys, or WASD to pan. Held keys move smoothly and stop when released.
 - Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
 - **Fit map** and **Front view** reset the camera.
+- **Floor grid:** the ground grid steps its spacing up as the camera pulls back, so cells keep a usable size and the floor stays visible at any distance instead of fading out. The finer subdivision fades in as you come closer, and only the horizon fades.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
+- **Proficiency colouring** shows two states: skills marked **Yes** are green (`#32CD32`), and every other skill is red, including skills you have not answered yet. The stored answer is still Yes, No, or unmarked; only the colour groups them, and the console and the guided review still treat unanswered skills separately. The answer is not repeated as text: nameplates show just the skill name, and the console shows it through the pressed Yes, No, or Clear button.
+- **Proficiency pulse:** skills marked **Yes** pulse, about once every 1.4 seconds. The colour travels from green (`#32CD32`) to a pale tea green (`#DBF3C9`) and back, with a small added glow rising and falling in step, so colour and brightness always move together. The glow is deliberately gentle: the pale end of the pulse is already near full brightness, and a stronger glow would clip it to white. Every other skill stays steady red. The pulse is a glow on the sphere, not a halo, it changes no map data, and it holds a steady mid-pulse colour when the system asks for reduced motion.
 - **Subject highlighting:** click a subject in the legend to put a halo in that subject's colour around every skill in it. A fixed-size ring keeps highlights visible at overview distance.
   - Several subjects can be highlighted at once; click again to remove one, or use **Clear highlights**.
   - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.
   - Highlights are display only: they never select a skill, move the camera, or change the map.
-- A sphere-spacing slider (0.5×–4×) spreads the display without changing saved coordinates.
+- A sphere-spacing slider (0.5×–10×) spreads the display without changing saved coordinates.
+- **Find skill:** a search box in the map tools. Type part of a name to see up to eight matches, with names that begin with what you typed listed first. Enter or a click selects the skill and moves the view to it; the arrow keys walk the list and Escape closes it. It keeps working when the console is hidden.
+- **Collapsible map tools:** the toolbar folds away to a **Tools** handle, and its state is remembered between sessions.
 - Click to select a subject; double-click to open its details.
 
 **Data console**
 - Searchable subject list and an inspector.
+- The subject card collapses to its name and icon with the ▾ toggle beside it, stays collapsed as you select other subjects, and is remembered between sessions.
 - A details card with:
   - the subject's one or two description paragraphs;
   - a short "Where it sits" summary built from its actual connections;
@@ -132,15 +168,40 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - the camera speed policy and wheel handling;
 - the proficiency review order and session logic;
 - subject highlighting;
+- the proficiency pulse: which skills pulse, and the shape, range, and repetition of the glow;
+- the Find skill matcher: blank queries, substring matching, prefix-first ranking, and the result cap;
+- the floor grid spacing: level steps, cells that never collapse below a few pixels, and the subdivision blend;
 - the shared proficiency record: precedence rules, Undo/Redo, family isolation, import, and the on-disk store;
+- the Computing edition:
+  - unique, stable, namespaced ids;
+  - valid, typed, unique relationships, each with its own rationale, and no prerequisite cycles;
+  - no other-domain prerequisites for elementary programming;
+  - checklist coverage and description rules;
+  - a merge that preserves existing skills, pins, levels, and proficiency;
+  - sub-map closure, and answers shared between the sub-map and the master;
 - atomic saving;
 - spacing, nameplates, and click/keyboard interaction.
 
-`npm run test:e2e` launches the real app, including the WebGL viewer and the desktop save path, in an isolated profile with its own shared record. It drives the proficiency review, camera orbiting, subject highlighting, and shared proficiency with real mouse and keyboard events over the Chrome DevTools Protocol, using generated test maps. It needs a desktop session and a prior `npm run build`.
+`npm run test:e2e` launches the real app, including the WebGL viewer and the desktop save path, in an isolated profile with its own shared record. It uses generated test maps and drives the app with real mouse and keyboard events over the Chrome DevTools Protocol, covering:
+- the proficiency review;
+- camera orbiting;
+- subject highlighting;
+- shared proficiency;
+- the proficiency pulse, measured as sphere brightness over a full pulse period;
+- the Find skill box, and collapsing the map tools and the subject card;
+- the floor grid, measured from screenshots as the camera pulls back.
 
-Optional larger maps:
+It needs a desktop session and a prior `npm run build`.
+
+Optional local maps:
 - Set `SSS_ATLAS=<path to a map>` to also open a large local map.
-- Add `SSS_SUBMAP=<path to one of its sub-maps>` to repeat the Yes/No/Clear round trip between them.
+- Add `SSS_SUBMAP=<path to one of its sub-maps>` to repeat the Yes/No/Clear round trip between them and to run `tests/atlas-e2e.mjs`. With the master and its Computing sub-map, that test checks:
+  - the Computing legend and highlight;
+  - a skill card;
+  - guided review;
+  - map switching.
+- Set `SSS_SHOTS=<folder>` to keep that test's screenshots.
+- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master before the Computing merge) enable a read-only check of the real files.
 
 These maps are copied or opened read-only, and saves go to a temporary folder.
 
@@ -151,6 +212,7 @@ These maps are copied or opened read-only, and saves go to a temporary folder.
 ```
 src/        renderer source (app, Three.js viewer, camera math, map model, layouts, proficiency review, subject highlighting, shared proficiency, starter map)
 desktop/    Electron main process, preload bridge, atomic file saving, and the shared proficiency store
+authoring/  Computing foundation edition (content, checklist, reference register) and the tool that adds it to a local atlas
 scripts/    esbuild bundling script
 tests/      Node test suite, Electron end-to-end checks, and optional Playwright smoke check
 *.cmd       Windows setup, launch, rebuild, and packaging scripts
@@ -163,8 +225,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 85 tests pass.
-- `npm run test:e2e`: all 106 end-to-end checks pass in Electron on Windows (review 46, orbit 14, highlighting and shared proficiency 46).
+- `npm test`: all 115 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm run test:e2e` passes in Electron on Windows:
+  - **With generated maps:** 129 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
+  - **With a local master and its Computing sub-map:** 153 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 14).
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.

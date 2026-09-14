@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { DOMAINS, nodeColor, proficiencyLabel } from './model.js';
+import { DOMAINS, nodeColor } from './model.js';
 import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, centerOn } from './camera.js';
 import { createActivationTracker } from './interaction.js';
 import { visibleConnections } from './connections.js';
 import { nameplateProjection } from './nameplates.js';
 import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
+import { pulseIntensity, pulseWave, steadyIntensity, pulsingIds, PULSE_COLORS } from './pulse.js';
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -53,6 +54,30 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       halo.shells.computeBoundingSphere(); halo.ring.geometry.computeBoundingSphere();
     }
     labelHost.dataset.highlighted = String([...halos.values()].reduce((sum, h) => sum + h.count, 0));
+  }
+  // Skills marked Yes pulse while proficiency colouring is on (see pulse.js). Only their glow changes,
+  // so a pulse frame re-renders the scene without touching nameplates or map data.
+  const reducedMotion = matchMedia?.('(prefers-reduced-motion: reduce)');
+  let pulsing = [], pulseFrame = null, pulseStarted = 0;
+  // The colour travels with the glow, from the marked-Yes green to a pale tea green at the peak.
+  const pulseFrom = new THREE.Color(PULSE_COLORS.from), pulseTo = new THREE.Color(PULSE_COLORS.to), pulseTint = new THREE.Color();
+  function stopPulse() { if (pulseFrame !== null) { cancelAnimationFrame(pulseFrame); pulseFrame = null; } }
+  function syncPulse() {
+    stopPulse();
+    const marked = new Set(pulsingIds(graph, proficiencyOn));
+    pulsing = objects.filter(mesh => marked.has(mesh.userData.id));
+    if (!pulsing.length) return;
+    const paint = wave => { pulseTint.copy(pulseFrom).lerp(pulseTo, wave); for (const mesh of pulsing) { mesh.material.color.copy(pulseTint); mesh.material.emissive.copy(pulseTint); } };
+    if (reducedMotion?.matches) { paint(.5); for (const mesh of pulsing) mesh.material.emissiveIntensity = steadyIntensity(mesh.userData.id === selected); draw(); return; }
+    pulseStarted = performance.now();
+    const step = now => {
+      const seconds = (now - pulseStarted) / 1000;
+      paint(pulseWave(seconds));
+      for (const mesh of pulsing) mesh.material.emissiveIntensity = pulseIntensity(seconds, mesh.userData.id === selected);
+      renderScene();
+      pulseFrame = requestAnimationFrame(step);
+    };
+    pulseFrame = requestAnimationFrame(step);
   }
   const ray = new THREE.Raycaster(), pointer = new THREE.Vector2();
   let graph, selected, labelsOn=true, selectedConnectionsOnly=true, proficiencyOn=false, editable=false, objects=[], labels=[], dragging=null, down=null, spacing=1, connections=[];
@@ -106,6 +131,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const getRay = event => { const r=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);return ray; };
   function clear() {
     for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
+    stopPulse(); pulsing=[];
     labelHost.replaceChildren(); objects=[];labels=[];connections=[];
   }
   function rebuild() {
@@ -116,7 +142,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       const color=nodeColor(n,proficiencyOn);
       const mesh = new THREE.Mesh(sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
       mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;if(n.id===selected)mesh.scale.setScalar(1.35);group.add(mesh);objects.push(mesh);
-      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(proficiencyOn?' · '+proficiencyLabel(n.proficiency80):'')+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh});
+      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh});
     }
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
     for(const e of visibleConnections(graph.edges,selected,selectedConnectionsOnly)) {
@@ -135,6 +161,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     }
     updatePositions();
     draw();
+    syncPulse();
   }
   function updatePositions() {
     if(!graph)return;
@@ -153,15 +180,18 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     }
     if(subjects.size||halos.size)refreshHalos();
   }
+  function renderScene() {
+    renderer.clear();
+    environment.render(renderer,camera);
+    renderer.render(scene,camera);
+  }
   function draw() {
     // Keep expanded maps visible even after panning or fitting a large atlas.
     const reach=Math.max(1000,...objects.map(o=>o.position.length()));
     const far=Math.max(30000,camera.position.length()+reach+1000);
     if(camera.far!==far){camera.far=far;camera.updateProjectionMatrix();}
     controls.maxDistance=Math.max(20000,reach*8);
-    renderer.clear();
-    environment.render(renderer,camera);
-    renderer.render(scene,camera);
+    renderScene();
     const size=host.getBoundingClientRect();
     const cameraSpace=new THREE.Vector3();
     for(const {el,mesh}of labels){
