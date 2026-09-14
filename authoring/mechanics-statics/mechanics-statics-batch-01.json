@@ -1,0 +1,592 @@
+{
+  "format": "sss-content-authoring-batch",
+  "formatVersion": 1,
+  "batchId": "sss-mechanics-statics-batch-01",
+  "date": "2026-09-14",
+  "status": "First planar statics expansion; not a complete mechanics curriculum",
+  "nodes": [
+    {
+      "id": "sss-mech-support-model",
+      "name": "Replace ideal planar supports with their allowed reaction components",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "Choose reaction unknowns from the motion an ideal support restrains.",
+      "details": "Choose reaction unknowns from the motion an ideal support restrains. A frictionless roller supplies a force normal to its surface, an ideal pin supplies two planar force components, and a fixed support also supplies a reaction moment.\n\nDraw these reactions on an isolated body before calculating their values. State the idealization explicitly: a real bolted or welded connection does not become an ideal pin or fixed end merely because it looks like a familiar diagram.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "supports"
+      ],
+      "proficiencyReference": "I can draw the allowed reactions for a roller, pin, and fixed support, including an inclined roller surface.",
+      "placementNote": "This connects free-body isolation to the support models needed for reaction calculations.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-couple-resultant",
+      "name": "Replace an equal-and-opposite force couple with its signed moment",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "Two equal, opposite, parallel forces on distinct lines have zero resultant force but a nonzero couple moment.",
+      "details": "Two equal, opposite, parallel forces on distinct lines have zero resultant force but a nonzero couple moment. Multiply one force magnitude by the perpendicular line separation and assign a consistent rotational sign.\n\nThe couple has the same net moment about every reference point on a rigid body. Include it even when summing moments about its drawn location; changing that location preserves external equilibrium effects, not necessarily internal stresses.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "couples"
+      ],
+      "proficiencyReference": "I can find the signed moment of a couple and explain why changing the moment center does not remove it.",
+      "placementNote": "This extends signed single-force torque to a force pair that cannot be replaced by a single resultant force.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-force-relocation",
+      "name": "Move a force to another point using an equivalent force-and-couple system",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "To represent a force applied at A by the same force at B, add a couple equal to the original force moment about B.",
+      "details": "To represent a force applied at A by the same force at B, add a couple equal to the original force moment about B. This preserves both resultant force and resultant moment for the rigid body.\n\nCheck the direction of the added couple with a sketch or signed moment calculation. Moving the force along its own line requires no added couple, while moving it across that line generally does; this equivalence does not preserve local stress distributions.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "equivalence"
+      ],
+      "proficiencyReference": "I can relocate a planar force and supply the correct compensating couple without changing its external static effect.",
+      "placementNote": "This follows couple representation and helps distinguish a changed load position from an equivalent load system.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-pin-roller-reactions",
+      "name": "Solve reactions of a stable pin-and-roller beam under point loads",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "For a straight horizontal beam with an ideal pin at one end and a vertical roller reaction at the other, calculate reactions from planar equilibrium.",
+      "details": "For a straight horizontal beam with an ideal pin at one end and a vertical roller reaction at the other, calculate reactions from planar equilibrium. Use specified point loads and known distances, taking moments about the pin to find the roller reaction.\n\nUse horizontal and vertical force balance to obtain the remaining pin components. Interpret signs relative to the assumed arrows and check whether an unanchored roller would need to pull; a negative contact reaction can invalidate that support assumption.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "reactions"
+      ],
+      "proficiencyReference": "I can determine all reactions for a pin-and-roller beam with known point loads and check whether contact remains possible.",
+      "placementNote": "This applies the existing equilibrium skill to an explicit support configuration instead of treating all supports alike.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-fixed-reactions",
+      "name": "Solve the force and moment reactions of a planar cantilever",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "An ideal fixed end can supply two force components and a moment reaction.",
+      "details": "An ideal fixed end can supply two force components and a moment reaction. For a cantilever with specified point forces and applied couples, balance total forces and total moments about the fixed end to determine all three reactions.\n\nAn end moment is not an additional force or a force multiplied by an arbitrary support width. Keep its units and sign distinct, and report reactions separately from bending stress or deflection, which require additional geometric and material information.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "reactions"
+      ],
+      "proficiencyReference": "I can calculate a cantilever support moment as well as its force reactions, including a separately applied couple.",
+      "placementNote": "This introduces the rotational reaction absent from a pin-and-roller support model.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-balance-audit",
+      "name": "Audit a proposed planar reaction solution using force and moment residuals",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "Substitute proposed reactions into horizontal force balance, vertical force balance, and a moment balance.",
+      "details": "Substitute proposed reactions into horizontal force balance, vertical force balance, and a moment balance. A nonzero residual exposes an inconsistency in the stated static model, subject to rounding and the units used.\n\nRepeat the moment check about a second convenient point to catch lever-arm and sign mistakes. Passing these balances verifies algebraic consistency with the diagram; it does not establish support stability, correct load assumptions, or sufficient member strength.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "equations"
+      ],
+      "proficiencyReference": "I can check a supplied reaction solution and distinguish a balanced equation set from a physically adequate model.",
+      "placementNote": "This builds on equilibrium to check solutions without requiring one particular support arrangement.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-support-stability",
+      "name": "Detect unrestrained planar rigid-body motion from support geometry",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "Inspect whether ideal support directions restrain both translations and rotation of a planar rigid body.",
+      "details": "Inspect whether ideal support directions restrain both translations and rotation of a planar rigid body. Counting three reaction unknowns is insufficient when their lines of action cannot resist an independent motion.\n\nFor example, vertical roller reactions alone cannot restrain horizontal translation. Concurrent reaction lines cannot resist rotation about their intersection; this is a geometric restraint check, separate from material buckling, and unilateral contacts still require admissible reaction signs.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "stability"
+      ],
+      "proficiencyReference": "I can identify an unrestrained motion in a simple support arrangement even when the number of reactions looks sufficient.",
+      "placementNote": "This checks the geometric meaning of support reactions before treating a numerical equilibrium solution as adequate.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-static-indeterminacy",
+      "name": "Recognize when support reactions require deformation compatibility",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "For a stable single planar rigid body, compare independent reaction unknowns with the available independent equilibrium equations.",
+      "details": "For a stable single planar rigid body, compare independent reaction unknowns with the available independent equilibrium equations. More unknown reactions than those balances can determine signals that equilibrium alone cannot produce a unique reaction solution.\n\nExplain what extra information is missing, such as deformation compatibility and member stiffness. Do not divide loads equally merely because supports appear similar, and check restraint geometry first: a poor arrangement can remain unstable despite having many reaction unknowns.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "stability"
+      ],
+      "proficiencyReference": "I can explain why a stable overconstrained support model needs stiffness and compatibility information beyond equilibrium.",
+      "placementNote": "This follows support stability and separates an incomplete static model from a solvable determinate one.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-two-force-member",
+      "name": "Recognize the conditions for an ideal two-force member",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "An isolated member in static equilibrium with only two nonzero applied forces and no applied couple must have equal, opposite, collinear forces.",
+      "details": "An isolated member in static equilibrium with only two nonzero applied forces and no applied couple must have equal, opposite, collinear forces. Their common line passes through the two force application points.\n\nCheck the entire loading before using this shortcut: member weight, a transverse contact force, or an applied couple can invalidate it. A pin at each end alone does not establish two-force behavior, and an internally curved member need not have simple uniform axial stress.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "members"
+      ],
+      "proficiencyReference": "I can decide whether the two-force shortcut applies and draw the resulting end-force directions.",
+      "placementNote": "This narrows member idealization to a specific equilibrium consequence rather than assuming every link carries axial load.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-joint-transfer",
+      "name": "Transfer a known joint force between separate member diagrams",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "When two members interact through an ideal joint, represent the force on one member as equal and opposite to the force on the other.",
+      "details": "When two members interact through an ideal joint, represent the force on one member as equal and opposite to the force on the other. Keep global axes and the identity of the receiving member explicit.\n\nIf one member diagram has a joint force of positive horizontal and negative vertical components, reverse both components on the neighboring member. These forces disappear from the combined-system diagram but remain essential when tracing loading through individual parts.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "transfer"
+      ],
+      "proficiencyReference": "I can carry a solved joint force into the next member diagram with the correct signs and no double counting.",
+      "placementNote": "This applies interaction-pair reasoning to sequential load transfer through an assembly.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mech-section-resultants",
+      "name": "Calculate internal normal force, shear, and bending moment at one beam cut",
+      "domain": "Mechanics",
+      "subdomain": "Planar statics and load transfer",
+      "icon": "gear",
+      "description": "Cut a planar beam at a specified section away from a concentrated load or applied couple, and isolate either side.",
+      "details": "Cut a planar beam at a specified section away from a concentrated load or applied couple, and isolate either side. Replace the removed material by an internal normal force, transverse shear, and bending moment with an explicitly stated sign convention.\n\nUse equilibrium of the retained segment to solve those three resultants from known external loads and reactions. They describe loading transmitted across that section, not a stress distribution; constructing full shear and moment diagrams is a separate existing skill.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "internal"
+      ],
+      "proficiencyReference": "I can isolate one side of a beam cut and solve its internal force and moment resultants with a declared sign convention.",
+      "placementNote": "This provides a single-section calculation that supports the existing full beam-diagram skill.",
+      "authoringOrigin": "sss-mechanics-statics-batch-01",
+      "contentAuthorship": "Original editorial content; references support facts, not an official dependency graph.",
+      "scopeNote": "Ideal planar rigid-body statics under explicitly stated loads and support assumptions.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-mech-support-model",
+      "type": "prerequisite",
+      "rationale": "The body must be isolated before its removed supports are represented by reaction unknowns.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-support-model",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "px-torque-sign",
+      "target": "sss-mech-couple-resultant",
+      "type": "prerequisite",
+      "rationale": "Signed moments and perpendicular lever arms are needed to combine the two force effects.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-torque",
+      "target": "sss-mech-couple-resultant",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-couple-resultant",
+      "target": "sss-mech-force-relocation",
+      "type": "prerequisite",
+      "rationale": "The compensating moment must be understood as a free couple rather than another unbalanced force.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-force-relocation",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-support-model",
+      "target": "sss-mech-pin-roller-reactions",
+      "type": "prerequisite",
+      "rationale": "The pin and roller define the available reaction components.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-equilibrium",
+      "target": "sss-mech-pin-roller-reactions",
+      "type": "prerequisite",
+      "rationale": "Force and moment equilibrium provide the equations for the unknown reactions.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "m-equation",
+      "target": "sss-mech-pin-roller-reactions",
+      "type": "prerequisite",
+      "rationale": "The reaction equations require solving for scalar unknowns.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-pin-roller-reactions",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-support-model",
+      "target": "sss-mech-fixed-reactions",
+      "type": "prerequisite",
+      "rationale": "A fixed support has a moment reaction as well as force components.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-couple-resultant",
+      "target": "sss-mech-fixed-reactions",
+      "type": "prerequisite",
+      "rationale": "An applied couple contributes directly to the moment balance.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-equilibrium",
+      "target": "sss-mech-fixed-reactions",
+      "type": "prerequisite",
+      "rationale": "Static balances determine the three support reactions.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-fixed-reactions",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-equilibrium",
+      "target": "sss-mech-balance-audit",
+      "type": "prerequisite",
+      "rationale": "The audit evaluates the same independent force and moment balances used to solve the model.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "m-add",
+      "target": "sss-mech-balance-audit",
+      "type": "prerequisite",
+      "rationale": "Residuals are signed sums of the supplied force and moment terms.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-balance-audit",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-support-model",
+      "target": "sss-mech-support-stability",
+      "type": "prerequisite",
+      "rationale": "Allowed reaction directions define the constraints being checked.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "px-torque-sign",
+      "target": "sss-mech-support-stability",
+      "type": "prerequisite",
+      "rationale": "A reaction through a point supplies no resisting moment about that point.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-support-stability",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-support-stability",
+      "target": "sss-mech-static-indeterminacy",
+      "type": "prerequisite",
+      "rationale": "Geometric instability must be distinguished from redundant restraint.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-equilibrium",
+      "target": "sss-mech-static-indeterminacy",
+      "type": "prerequisite",
+      "rationale": "The available independent balances set the limit of an equilibrium-only solution.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-static-indeterminacy",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-mech-two-force-member",
+      "type": "prerequisite",
+      "rationale": "All external loads on the isolated member must be identified.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-equilibrium",
+      "target": "sss-mech-two-force-member",
+      "type": "prerequisite",
+      "rationale": "Force and moment balance together require the end forces to be collinear.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-two-force-member",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "px-thirdlaw-pairs",
+      "target": "sss-mech-joint-transfer",
+      "type": "prerequisite",
+      "rationale": "The joint forces are an action-reaction pair acting on different bodies.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-mech-joint-transfer",
+      "type": "prerequisite",
+      "rationale": "Separate and combined system boundaries determine whether the joint force is external.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-load",
+      "target": "sss-mech-joint-transfer",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-mech-section-resultants",
+      "type": "prerequisite",
+      "rationale": "Cutting creates a new body boundary where internal interactions become external resultants.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-equilibrium",
+      "target": "sss-mech-section-resultants",
+      "type": "prerequisite",
+      "rationale": "The retained segment requires force and moment balance.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-couple-resultant",
+      "target": "sss-mech-section-resultants",
+      "type": "prerequisite",
+      "rationale": "The cut moment must be represented separately from its force resultants.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-beamforces",
+      "target": "sss-mech-section-resultants",
+      "type": "related",
+      "rationale": "This narrower ability develops part of the existing overview without replacing its scope or inheriting its proficiency.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-section-resultants",
+      "target": "s-beamforces",
+      "type": "supports",
+      "rationale": "Single-section equilibrium helps construct a full diagram without changing the old overview prerequisites.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-balance-audit",
+      "target": "s-mesh",
+      "type": "supports",
+      "rationale": "Reaction balance is one check used when comparing a numerical structural model with hand calculations.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mech-joint-transfer",
+      "target": "s-load",
+      "type": "supports",
+      "rationale": "Consistent member-level interactions make a proposed load path traceable through an assembly.",
+      "authorship": "editorial"
+    }
+  ],
+  "sources": {
+    "supports": {
+      "title": "Free-body diagrams",
+      "url": "https://engineeringstatics.org/Chapter_05-free-body-diagrams.html",
+      "accessed": "2026-09-14"
+    },
+    "couples": {
+      "title": "Couples",
+      "url": "https://engineeringstatics.org/Chapter_04-couples.html",
+      "accessed": "2026-09-14"
+    },
+    "equivalence": {
+      "title": "Equivalent transformations",
+      "url": "https://engineeringstatics.org/equivalent-tranformations.html",
+      "accessed": "2026-09-14"
+    },
+    "equations": {
+      "title": "Equations of equilibrium",
+      "url": "https://engineeringstatics.org/Chapter_05-equations-of-equilibrium.html",
+      "accessed": "2026-09-14"
+    },
+    "reactions": {
+      "title": "2D rigid body equilibrium",
+      "url": "https://engineeringstatics.org/Chapter_05-2d-rigid-body-equilibrium.html",
+      "accessed": "2026-09-14"
+    },
+    "stability": {
+      "title": "Stability and determinacy",
+      "url": "https://engineeringstatics.org/Chapter_05-stability-and-determinacy.html",
+      "accessed": "2026-09-14"
+    },
+    "members": {
+      "title": "Frames and machines",
+      "url": "https://engineeringstatics.org/frames-and-machines.html",
+      "accessed": "2026-09-14"
+    },
+    "transfer": {
+      "title": "Interactions between members",
+      "url": "https://engineeringstatics.org/Chapter_06-interactions-between-members.html",
+      "accessed": "2026-09-14"
+    },
+    "internal": {
+      "title": "Internal forces at a point",
+      "url": "https://engineeringstatics.org/internal_force_at_point.html",
+      "accessed": "2026-09-14"
+    }
+  },
+  "integration": {
+    "notAnOpenMapFile": true,
+    "requiredContentBatches": [],
+    "compatibleWith": [
+      "sss-dc-batch-01",
+      "sss-physics-foundations-batch-01"
+    ],
+    "preserveExistingNodes": true,
+    "newProficiency": null
+  },
+  "deferred": [
+    "Distributed-load resultants and centroids",
+    "Truss joint and section methods",
+    "Stress and strain decomposition",
+    "Material behavior and failure",
+    "Three-dimensional statics",
+    "Buckling and deformation compatibility calculations"
+  ]
+}

@@ -105,6 +105,22 @@ node authoring/apply-material-behavior.mjs path/to/Skill-Solar-System.json --wri
 
 It shares the same integration (`authoring/batch.mjs`) as the DC and Physics batches, so it keeps every existing skill, coordinate, level, pin, and answer as it was and adds no answers; derives levels from recorded prerequisite depth; places new skills in the Mechanics ribbon in rows beyond those each level already uses; ignores the authoring-only `layoutRequest`; is safe to rerun; and writes `Material-Behavior-Batch-01-with-prerequisites.json` beside the master, holding the 10 skills and their full prerequisite ancestry (41 skills, 71 connections). Its sources go under a `materialBehaviorExpansion` namespace, separate from every earlier expansion record.
 
+### Mechanics Statics batch 01
+
+`authoring/mechanics-statics/` holds a supplied content package and the tool that integrates it: 11 narrower Mechanics abilities in a new **Planar statics and load transfer** subdomain — support reaction models, couples, equivalent force-and-couple relocation, pin-and-roller and cantilever reactions, a residual audit of a proposed solution, restraint-geometry and indeterminacy checks, two-force members, joint force transfer, and internal resultants at one beam cut — with 36 connections (22 prerequisite, 11 related, 3 supports) and 9 public references. Like the others it is an authoring batch, not a map: it carries no coordinates, levels, or answers, and it cannot be opened with **Open map**.
+
+It reuses 10 skills the atlas already has rather than restating them, including `px-torque-sign` for signed torque, `p-equilibrium` for general force and moment balance, `px-fbd-isolate` for system boundaries, `px-thirdlaw-pairs` for interaction pairs, and `s-beamforces` for complete beam diagrams. Each new skill records its scope overlap with the topic it develops (`s-load`, `p-torque`, or `s-beamforces`) as a single **related** link that carries no learning order and never transfers an answer, and three **supports** links point back at existing skills without changing their prerequisites.
+
+To add it to a local master atlas (back the atlas up first):
+
+```sh
+python authoring/mechanics-statics/validate_batch.py path/to/Skill-Solar-System.json   # read-only pre-integration check
+node authoring/apply-mechanics-statics.mjs path/to/Skill-Solar-System.json             # dry run: report only
+node authoring/apply-mechanics-statics.mjs path/to/Skill-Solar-System.json --write     # write the master and the sub-map
+```
+
+It shares the same integration (`authoring/batch.mjs`) as the DC, Physics, and Material Behavior batches, so it keeps every existing skill, coordinate, level, pin, and answer as it was and adds no answers; derives levels from recorded prerequisite depth; places new skills in the Mechanics ribbon in rows beyond those each level already uses; ignores the authoring-only `layoutRequest`; is safe to rerun; and writes `Mechanics-Statics-Batch-01-with-prerequisites.json` beside the master, holding the 11 skills and their full prerequisite ancestry (47 skills, 79 connections). Its sources go under a `mechanicsStaticsExpansion` namespace, separate from every earlier expansion record.
+
 ## Features
 
 **3D view**
@@ -236,7 +252,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
   - checklist coverage and description rules;
   - a merge that preserves existing skills, pins, levels, and proficiency;
   - sub-map closure, and answers shared between the sub-map and the master;
-- the supplied content batches (DC Circuits, Physics Foundations, and Material Behavior): batch completeness and two-paragraph descriptions, scope overlap recorded as related links, a merge that changes nothing existing, unmarked initialization, refusal of name clashes and unresolved references, idempotent reruns, and sub-map closure and family identity;
+- the supplied content batches (DC Circuits, Physics Foundations, Material Behavior, and Mechanics Statics): batch completeness and two-paragraph descriptions, scope overlap recorded as related links, a merge that changes nothing existing, unmarked initialization, refusal of name clashes and unresolved references, idempotent reruns, and sub-map closure and family identity;
 - atomic saving;
 - spacing, nameplates, and click/keyboard interaction.
 
@@ -259,9 +275,9 @@ Optional local maps:
   - a skill card;
   - guided review;
   - map switching.
-- Add `SSS_DC_SUBMAP=<path>`, `SSS_PHYS_SUBMAP=<path>`, and `SSS_MAT_SUBMAP=<path>` to run `tests/dc-atlas-e2e.mjs`, `tests/physics-atlas-e2e.mjs`, and `tests/material-atlas-e2e.mjs`. With the master and the matching batch sub-map, each checks the subject legend and highlight, **Find skill** reaching the new branch, a skill card with both authored paragraphs, the guided-review count, marking a narrower skill without disturbing its overview answer, that the batches integrated earlier are still intact, and the Yes/Clear round trip to the sub-map and back.
+- Add `SSS_DC_SUBMAP=<path>`, `SSS_PHYS_SUBMAP=<path>`, `SSS_MAT_SUBMAP=<path>`, and `SSS_STATICS_SUBMAP=<path>` to run `tests/dc-atlas-e2e.mjs`, `tests/physics-atlas-e2e.mjs`, `tests/material-atlas-e2e.mjs`, and `tests/statics-atlas-e2e.mjs`. With the master and the matching batch sub-map, each checks the subject legend and highlight, **Find skill** reaching the new branch, a skill card with both authored paragraphs, the guided-review count, marking a narrower skill without disturbing its overview answer, that the batches integrated earlier are still intact, and the Yes/Clear round trip to the sub-map and back.
 - Set `SSS_SHOTS=<folder>` to keep that test's screenshots.
-- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, `SSS_DC_SUBMAP`, `SSS_PHYS_SUBMAP`, `SSS_MAT_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master as it was before the merge being checked) enable a read-only check of the real files.
+- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, `SSS_DC_SUBMAP`, `SSS_PHYS_SUBMAP`, `SSS_MAT_SUBMAP`, `SSS_STATICS_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master as it was before the merge being checked) enable a read-only check of the real files.
 
 These maps are copied or opened read-only, and saves go to a temporary folder.
 
@@ -285,10 +301,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 154 tests pass. Four real-atlas tests are skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 167 tests pass. Five real-atlas tests are skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
   - **With generated maps:** 135 checks (review 41, orbit 14, pan rate 6, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
-  - **With local maps:** 212 checks (review 46, orbit 14, pan rate 6, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19, Material Behavior integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
+  - **With local maps:** 231 checks (review 46, orbit 14, pan rate 6, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19, Material Behavior integration 19, Mechanics Statics integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.

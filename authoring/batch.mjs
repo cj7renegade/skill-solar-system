@@ -20,9 +20,9 @@ function placeNewSkills(graph, fresh) {
   const groups = new Map();
   for (const node of graph.nodes) {
     const key = `${node.domain}:${node.skillLevel}`;
-    if (!groups.has(key)) groups.set(key, { taken: 0, added: [] });
+    if (!groups.has(key)) groups.set(key, { taken: 0, added: [], existing: [] });
     const group = groups.get(key);
-    if (fresh.has(node.id)) group.added.push(node); else group.taken++;
+    if (fresh.has(node.id)) group.added.push(node); else { group.taken++; group.existing.push(node); }
   }
   for (const [key, group] of groups) {
     if (!group.added.length) continue;
@@ -30,7 +30,14 @@ function placeNewSkills(graph, fresh) {
     const t = (level - 1) / 99, center = Object.keys(DOMAINS).indexOf(domain) * Math.PI / 3 + t * Math.PI * 4;
     const baseRadius = 420 + 580 * t, arc = Math.PI / 3 * 0.76;
     const columns = Math.max(3, Math.floor(baseRadius * arc / 62));
-    const firstFreeRow = Math.ceil(group.taken / columns);
+    // Rows sit 70 apart. Counting how many rows the existing peers would fill assumes they sit
+    // densely from the innermost row outward, which stops being true as soon as one batch leaves a
+    // partly filled row: the next batch's count rounds to that same row and lays new skills into
+    // it, closer than one row spacing. Take whichever is further out, that estimate or the
+    // outermost row actually in use, so a new row is always genuinely empty.
+    const outermost = group.existing.reduce((row, node) =>
+      Math.max(row, Math.round((Math.hypot(node.position[0], node.position[2]) - baseRadius) / 70)), -1);
+    const firstFreeRow = Math.max(Math.ceil(group.taken / columns), outermost + 1);
     group.added.sort((a, b) => (a.subdomain || '').localeCompare(b.subdomain || '') || a.id.localeCompare(b.id));
     group.added.forEach((node, i) => {
       const row = Math.floor(i / columns), peersInRow = Math.min(columns, group.added.length - row * columns);
