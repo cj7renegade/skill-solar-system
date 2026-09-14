@@ -68,7 +68,7 @@ It never adds personal maps to the repository.
   - Several subjects can be highlighted at once; click again to remove one, or use **Clear highlights**.
   - Matching uses each skill's own domain, so a physics prerequisite inside a mathematics map counts as Physics.
   - Highlights are display only: they never select a skill, move the camera, or change the map.
-- **Sphere spacing (0.5×–10×):** a slider and a number field beside it spread the display without changing saved coordinates. Type an exact multiplier such as 1.25 or 3.5 and it applies as you type; pressing Enter or leaving the field pulls anything outside the range back to it and shows the value used. **Reset** returns both to 1.00.
+- A sphere-spacing slider (0.5×–10×) spreads the display without changing saved coordinates.
 - **Find skill:** a search box in the map tools. Type part of a name to see up to eight matches, with names that begin with what you typed listed first. Enter or a click selects the skill and moves the view to it; the arrow keys walk the list and Escape closes it. It keeps working when the console is hidden.
 - **Collapsible map tools:** the toolbar folds away to a **Tools** handle, and its state is remembered between sessions.
 - Click to select a subject; double-click to open its details.
@@ -188,7 +188,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 - subject highlighting;
 - shared proficiency;
 - the proficiency pulse, measured as sphere brightness over a full pulse period;
-- the map tools: Find skill, collapsing the tools and the subject card, and the sphere spacing slider and typed multiplier;
+- the Find skill box, and collapsing the map tools and the subject card;
 - the floor grid, measured from screenshots as the camera pulls back.
 
 It needs a desktop session and a prior `npm run build`.
@@ -225,10 +225,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 116 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 115 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
-  - **With generated maps:** 135 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, map tools 20, floor grid 5).
-  - **With a local master and its Computing sub-map:** 159 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, map tools 20, floor grid 5, real atlas 14).
+  - **With generated maps:** 129 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
+  - **With a local master and its Computing sub-map:** 153 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 14).
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.

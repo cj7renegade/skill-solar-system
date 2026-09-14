@@ -1,6 +1,6 @@
 import { arrangeVortex } from './vortex.js';
 import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
-import { spacingValue, MIN_SPACING, MAX_SPACING } from './spacing.js';
+import { spacingValue } from './spacing.js';
 import { findSkills } from './find.js';
 import { starter } from './starter.js';
 import { createViewer } from './viewer.js';
@@ -186,23 +186,16 @@ function applyToolsPanel(){
 $('view-tools-toggle').onclick=()=>{panels.tools=!panels.tools;savePanels();if(!panels.tools)closeFind();applyToolsPanel();};
 applyToolsPanel();
 $('console-toggle').onclick=()=>{document.body.classList.toggle('console-hidden');$('console-toggle').setAttribute('aria-expanded',String(!document.body.classList.contains('console-hidden')));};
-function setSpacing(value,{typed=false}={}){
+function setSpacing(value){
   spacing=spacingValue(value);
   $('sphere-spacing').value=String(spacing);
-  // While the number field is being typed in, leave its text alone so the caret cannot jump.
-  if(!typed)$('spacing-value').value=spacing.toFixed(2);
+  $('spacing-value').value=`${spacing.toFixed(2)}×`;
   $('sphere-spacing').setAttribute('aria-valuetext',`${spacing.toFixed(2)} times`);
   if(spacingFrame===null)spacingFrame=requestAnimationFrame(()=>{spacingFrame=null;viewer?.spacing(spacing);});
 }
-const rememberSpacing=()=>{try{localStorage.setItem(SPACING_CACHE,String(spacing));}catch{}};
 $('sphere-spacing').oninput=e=>setSpacing(e.target.value);
-$('sphere-spacing').onchange=rememberSpacing;
-// The number field takes an exact multiplier, such as 1.25 or 3.5. Typing applies it as soon as it is
-// a usable number; pressing Enter or leaving the field clamps anything outside the range and shows
-// the value that was actually used.
-$('spacing-value').oninput=e=>{const typed=Number(e.target.value);if(Number.isFinite(typed)&&typed>=MIN_SPACING&&typed<=MAX_SPACING)setSpacing(typed,{typed:true});};
-$('spacing-value').onchange=e=>{const raw=e.target.value.trim();setSpacing(raw===''||!Number.isFinite(Number(raw))?spacing:raw);rememberSpacing();};
-$('reset-spacing').onclick=()=>{setSpacing(1);rememberSpacing();};
+$('sphere-spacing').onchange=()=>{try{localStorage.setItem(SPACING_CACHE,String(spacing));}catch{}};
+$('reset-spacing').onclick=()=>{setSpacing(1);try{localStorage.setItem(SPACING_CACHE,'1');}catch{}};
 $('home').onclick=()=>viewer?.fit();$('front').onclick=()=>viewer?.fit(true);
 $('show-proficiency').onchange=e=>{proficiencyOn=e.target.checked;viewer?.proficiency(proficiencyOn);renderLegend();renderList();};
 $('show-labels').onchange=e=>viewer?.labels(e.target.checked);$('selected-connections').onchange=e=>viewer?.selectedConnections(e.target.checked);
@@ -371,7 +364,7 @@ const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-profic
   onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
 $('mark-proficiency').onclick=()=>review.open();
 viewer?.spacing(spacing);
-$('sphere-spacing').value=String(spacing);$('spacing-value').value=spacing.toFixed(2);
+$('sphere-spacing').value=String(spacing);$('spacing-value').value=`${spacing.toFixed(2)}×`;
 render();viewer?.fit();
 // Shared answers are applied to a recovered draft before the review can open.
 const startup=graph;$('mark-proficiency').disabled=true;
