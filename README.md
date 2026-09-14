@@ -138,6 +138,12 @@ node authoring/apply-robotics-foundations.mjs path/to/Skill-Solar-System.json --
 
 It shares the same integration (`authoring/batch.mjs`) as the other batches, so it keeps every existing skill, coordinate, level, pin, and answer as it was and adds no answers; derives levels from recorded prerequisite depth; places new skills in the Robotics ribbon in rows beyond those each level already uses; ignores the authoring-only `layoutRequest`; is safe to rerun; and writes `Robotics-Foundations-Batch-01-with-prerequisites.json` beside the master (61 skills, 96 connections). Its sources and frame conventions — right-handed frames, column vectors, `T_AB` mapping B into A, the second joint angle relative to link 1, radians — go under a `roboticsFoundationsExpansion` namespace, separate from every earlier expansion record.
 
+### Coverage roadmap
+
+`coverage-inventory/COVERAGE-ROADMAP.md` is the planning document behind these batches. It inventories all six domains with verified anchor ids and candidate outcomes to review, then sets a six-wave expansion sequence: robotics frames and kinematics first, then actuation and transmissions, trajectories and feedback, sensing and estimation, localization and planning, and finally the supporting physics, electronics, materials and computing branches that dependency reviews expose.
+
+It is an editorial plan, not a completeness claim. Node counts measure spheres, not independent competencies, and no branch is marked complete; the document is explicit that there is no fixed batch size and no equal-count target across subjects. It also sets out what a finished branch review requires: explicit scope and exclusions, every candidate outcome mapped to an existing skill, a justified new skill or a stated deferral, two descriptive paragraphs with a self-reflection criterion and sources, prerequisites justified by meaning rather than name, and no overview answer propagated into a narrower skill.
+
 ## Features
 
 **3D view**
