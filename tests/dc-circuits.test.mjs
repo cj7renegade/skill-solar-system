@@ -158,8 +158,16 @@ test('real atlas: the DC batch is present, consistent, and existing skills are p
   }
   if (process.env.SSS_DC_SUBMAP) {
     const sub = validate(JSON.parse(readFileSync(process.env.SSS_DC_SUBMAP, 'utf8')));
-    const withoutAnswers = graph => ({ ...graph, nodes: graph.nodes.map(n => ({ ...n, proficiency80: null })) });
-    assert.deepEqual(withoutAnswers(sub), withoutAnswers(dcSubmap(master)), 'sub-map matches a fresh derivation, apart from answers');
+    const fresh = dcSubmap(master);
+    const answerless = nodes => nodes.map(n => ({ ...n, proficiency80: null }));
+    // The skills and connections are the sub-map's contract and must match a fresh derivation
+    // exactly. Top-level records may legitimately differ: integrating a later batch adds its own
+    // expansion key to the master after this file was written, which never changes which skills
+    // the sub-map holds.
+    assert.deepEqual(answerless(sub.nodes), answerless(fresh.nodes), 'sub-map skills match a fresh derivation, apart from answers');
+    assert.deepEqual(sub.edges, fresh.edges, 'sub-map connections match a fresh derivation');
+    assert.equal(sub.title, fresh.title);
     assert.equal(atlasFamily(sub), atlasFamily(master));
+    for (const key of Object.keys(sub)) assert.ok(Object.hasOwn(master, key), `the sub-map carries ${key}, which the master does not`);
   }
 });

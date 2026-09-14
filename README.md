@@ -73,6 +73,22 @@ The tool:
 
 The supplied validator is read-only and refuses a batch that is already applied, which is its documented way of saying "reconcile, do not reapply". On Windows, run it as `python -X utf8 …`: it reads files with the locale codec, and the master contains UTF-8 characters.
 
+### Physics Foundations batch 01
+
+`authoring/physics-foundations/` holds a supplied content package and the tool that integrates it: 19 narrower Physics abilities across motion interpretation, motion graphs, motion models, free-fall interpretation, force interpretation, force models, and force equations, with 61 connections (38 prerequisite, 4 supports, 19 related) and 12 public references. Like the DC package, it is an authoring batch, not a map: it carries no coordinates, levels, or answers, and it cannot be opened with **Open map**.
+
+It reuses 28 skills the atlas already has instead of restating them: eight mathematics skills (`m-sign`, `m-ratio`, `m-slope`, `m-add`, `m-multiply`, `m-power`, `m-equation`, `m-inequality`) and twenty existing Physics skills, among them `px-distance`, `px-velocity-secant`, `px-fbd-isolate`, and `px-thirdlaw-pairs`. The eleven broader skills it overlaps (`p-position`, `p-accel`, `p-motiongraph`, `p-constantacc`, `p-freefall`, `p-weight`, `p-coupled`, `p-inertia`, `p-fbd`, `p-newton`, `p-thirdlaw`) are kept exactly as they are, and each overlap is recorded as a **related** link carrying no learning order, so a Yes on an overview never marks the narrower skills. Three of those overviews (`p-fbd`, `p-freefall`, `p-inertia`) are also a genuine **prerequisite** of the single narrower ability they lead to; the batch records both links deliberately, and neither transfers an answer.
+
+To add it to a local master atlas (back the atlas up first):
+
+```sh
+python authoring/physics-foundations/validate_batch.py path/to/Skill-Solar-System.json   # read-only pre-integration check
+node authoring/apply-physics-foundations.mjs path/to/Skill-Solar-System.json             # dry run: report only
+node authoring/apply-physics-foundations.mjs path/to/Skill-Solar-System.json --write     # write the master and the sub-map
+```
+
+Both batches share one integration (`authoring/batch.mjs`), so this tool behaves exactly like the DC one: it keeps every existing skill, coordinate, level, pin, and answer as it was and adds no answers; derives levels from recorded prerequisite depth, never below a skill's prerequisites; places new skills in the Physics ribbon in rows beyond those each level already uses; ignores the authoring-only `layoutRequest`; writes `Physics-Foundations-Batch-01-with-prerequisites.json` beside the master; and is safe to rerun. Its sources go under a `physicsFoundationsExpansion` namespace, kept separate from the older `physicsExpansion` record that describes the original Physics strand.
+
 ## Features
 
 **3D view**
@@ -203,6 +219,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
   - checklist coverage and description rules;
   - a merge that preserves existing skills, pins, levels, and proficiency;
   - sub-map closure, and answers shared between the sub-map and the master;
+- the supplied content batches (DC Circuits and Physics Foundations): batch completeness and two-paragraph descriptions, scope overlap recorded as related links, a merge that changes nothing existing, unmarked initialization, refusal of name clashes and unresolved references, idempotent reruns, and sub-map closure and family identity;
 - atomic saving;
 - spacing, nameplates, and click/keyboard interaction.
 
@@ -224,8 +241,9 @@ Optional local maps:
   - a skill card;
   - guided review;
   - map switching.
+- Add `SSS_DC_SUBMAP=<path>` and `SSS_PHYS_SUBMAP=<path>` to run `tests/dc-atlas-e2e.mjs` and `tests/physics-atlas-e2e.mjs`. With the master and the matching batch sub-map, each checks the subject legend and highlight, **Find skill** reaching the new branch, a skill card with both authored paragraphs, the guided-review count, marking a narrower skill without disturbing its overview answer, and the Yes/Clear round trip to the sub-map and back.
 - Set `SSS_SHOTS=<folder>` to keep that test's screenshots.
-- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master before the Computing merge) enable a read-only check of the real files.
+- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, `SSS_DC_SUBMAP`, `SSS_PHYS_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master as it was before the merge being checked) enable a read-only check of the real files.
 
 These maps are copied or opened read-only, and saves go to a temporary folder.
 
@@ -249,10 +267,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 124 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 137 tests pass. Three real-atlas tests are skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
   - **With generated maps:** 129 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
-  - **With local maps:** 168 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
+  - **With local maps:** 187 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
