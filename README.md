@@ -98,7 +98,8 @@ Both batches share one integration (`authoring/batch.mjs`), so this tool behaves
   - Drag to orbit. Clicking a sphere (or choosing it in the list) makes it the orbit centre: the view turns to it smoothly, and it stays the centre while you orbit and zoom in, until you pan or click empty space.
   - Scroll to zoom. Near the orbit limit, scrolling keeps travelling forward instead of stopping.
   - Right-drag, arrow keys, or WASD to pan. Held keys move smoothly and stop when released.
-- Movement speed scales with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
+- Wheel travel and right-drag panning scale with the distance to the nearest sphere ahead, bounded by the map's typical spacing and overall size, so close inspection stays precise without getting stuck.
+- **Held-key panning keeps one rate at any zoom:** arrow keys and WASD cross the same map distance every second, measured in sphere spacings, so travelling between skills takes the same time zoomed in as at overview. Very close up, where that rate would sweep several screen widths a second, it is capped in proportion to the nearest sphere ahead; the cap only slows it, and never back to the old close-range crawl.
 - **Fit map** and **Front view** reset the camera.
 - **Floor grid:** the ground grid steps its spacing up as the camera pulls back, so cells keep a usable size and the floor stays visible at any distance instead of fading out. The finer subdivision fades in as you come closer, and only the horizon fades.
 - Toggles: nameplate labels, selected-connections-only, and proficiency coloring.
@@ -226,6 +227,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
 `npm run test:e2e` launches the real app, including the WebGL viewer and the desktop save path, in an isolated profile with its own shared record. It uses generated test maps and drives the app with real mouse and keyboard events over the Chrome DevTools Protocol, covering:
 - the proficiency review;
 - camera orbiting;
+- the held-key pan rate, measured as the map distance covered per second at different zooms;
 - subject highlighting;
 - shared proficiency;
 - the proficiency pulse, measured as sphere brightness over a full pulse period;
@@ -267,10 +269,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 137 tests pass. Three real-atlas tests are skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 141 tests pass. Three real-atlas tests are skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
-  - **With generated maps:** 129 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
-  - **With local maps:** 187 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
+  - **With generated maps:** 135 checks (review 41, orbit 14, pan rate 6, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
+  - **With local maps:** 193 checks (review 46, orbit 14, pan rate 6, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
