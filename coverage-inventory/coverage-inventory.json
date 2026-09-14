@@ -1,0 +1,1168 @@
+{
+  "title": "Skill Solar System coverage inventory — revision 1",
+  "date": "2026-09-14",
+  "baselineSha256": "8397d3f950c661778116a10c396a0ecd41acbced6af15364969c9c0e6e5ac2a4",
+  "baselineCounts": {
+    "Mathematics": 1221,
+    "Physics": 181,
+    "Electronics": 79,
+    "Mechanics": 74,
+    "Robotics": 27,
+    "Computing": 104
+  },
+  "baselineEdges": 4882,
+  "deliveredBatches": [
+    {
+      "batchId": "sss-dc-batch-01",
+      "nodes": 26,
+      "edges": 84,
+      "integrationStatus": "Authored and delivered; local integration unverified"
+    },
+    {
+      "batchId": "sss-physics-foundations-batch-01",
+      "nodes": 19,
+      "edges": 61,
+      "integrationStatus": "Authored and delivered; local integration unverified"
+    },
+    {
+      "batchId": "sss-mechanics-statics-batch-01",
+      "nodes": 11,
+      "edges": 36,
+      "integrationStatus": "Authored and delivered; local integration unverified"
+    },
+    {
+      "batchId": "sss-material-behavior-batch-01",
+      "nodes": 10,
+      "edges": 32,
+      "integrationStatus": "Authored and delivered; local integration unverified"
+    }
+  ],
+  "conditionalCombinedTotals": {
+    "nodes": 1752,
+    "edges": 5095
+  },
+  "scope": "Branch-level planning audit for a general robotics-oriented atlas; not a complete curriculum certification or semantic audit of every skill.",
+  "branches": [
+    {
+      "domain": "Mathematics",
+      "branch": "Number and algebra foundations",
+      "status": "Detailed coverage; reconcile before expanding",
+      "priority": "Maintain",
+      "existingAnchors": [
+        {
+          "id": "m-ratio",
+          "name": "Ratios and unit rates"
+        },
+        {
+          "id": "m-equation",
+          "name": "Linear equations in one unknown"
+        },
+        {
+          "id": "m-sign",
+          "name": "Signed numbers"
+        }
+      ],
+      "candidateOutcomes": [
+        "Check duplicate representations across imported math collections",
+        "Verify prerequisite paths needed by new engineering skills"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mathematics",
+      "branch": "Calculus and linear algebra",
+      "status": "Detailed coverage; targeted dependency audit",
+      "priority": "Maintain",
+      "existingAnchors": [
+        {
+          "id": "m-slope",
+          "name": "Slope and intercept"
+        },
+        {
+          "id": "m-vector",
+          "name": "Vector components and arithmetic"
+        }
+      ],
+      "candidateOutcomes": [
+        "Audit mathematical prerequisites for transforms and Jacobians",
+        "Reuse equivalent existing operations instead of adding robotics-labeled copies"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mathematics",
+      "branch": "Existing named mathematics branches",
+      "status": "Inventory present; no completeness certification",
+      "priority": "Maintain",
+      "existingAnchors": [
+        {
+          "id": "m-ratio",
+          "name": "Ratios and unit rates"
+        }
+      ],
+      "candidateOutcomes": [
+        "Review all mathematics subdomains in the supplied index",
+        "Audit probability and numerical prerequisites when estimation and control branches are authored"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Measurement and uncertainty",
+      "status": "Mixed broad and granular coverage",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "p-uncertainty",
+          "name": "Measurement uncertainty"
+        },
+        {
+          "id": "px-calibrate",
+          "name": "Fit a straight-line measurement calibration"
+        },
+        {
+          "id": "px-randomerror",
+          "name": "Distinguish random and systematic measurement errors"
+        }
+      ],
+      "candidateOutcomes": [
+        "Separate repeatability from bias correction",
+        "Interpret calibration residuals",
+        "Propagate a stated sensor uncertainty into a derived quantity"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Kinematics and forces",
+      "status": "Mixed coverage; foundation batch authored",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "p-motiongraph",
+          "name": "Motion graphs and piecewise motion"
+        },
+        {
+          "id": "p-newton",
+          "name": "Newton's second law in components"
+        },
+        {
+          "id": "p-relative",
+          "name": "Relative motion and reference frames"
+        }
+      ],
+      "candidateOutcomes": [
+        "Transform one-dimensional motion between observers",
+        "Choose a valid motion interval and initial conditions",
+        "Check coupled-body force models"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Work energy momentum",
+      "status": "Mixed broad and granular coverage",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "p-energy",
+          "name": "Mechanical energy accounting"
+        },
+        {
+          "id": "p-collision",
+          "name": "Collision models"
+        },
+        {
+          "id": "px-impulse-graph",
+          "name": "Calculate impulse from a force-time graph"
+        }
+      ],
+      "candidateOutcomes": [
+        "Choose the system for an energy balance",
+        "Distinguish internal dissipation from energy transfer",
+        "Test when momentum conservation applies"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Rotation and vibration",
+      "status": "Mixed broad and granular coverage",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "p-rotdynamics",
+          "name": "Rotational dynamics about a fixed axis"
+        },
+        {
+          "id": "p-rolling",
+          "name": "Rolling without slipping"
+        },
+        {
+          "id": "p-damping",
+          "name": "Viscous damping and transient response"
+        }
+      ],
+      "candidateOutcomes": [
+        "Write a fixed-axis torque balance",
+        "Combine rolling translation and rotation",
+        "Relate damping parameters to a transient response"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Fluids and thermal systems",
+      "status": "Mixed broad and granular coverage",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "p-bernoulli",
+          "name": "Bernoulli energy relation"
+        },
+        {
+          "id": "p-firstlaw",
+          "name": "First law of thermodynamics"
+        },
+        {
+          "id": "p-cycle",
+          "name": "Thermodynamic cycles"
+        }
+      ],
+      "candidateOutcomes": [
+        "Check assumptions before a Bernoulli calculation",
+        "Track sign conventions in a thermal energy balance",
+        "Distinguish static pressure and flow losses"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Fields induction and waves",
+      "status": "Mixed broad and granular coverage",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "p-induction",
+          "name": "Faraday and Lenz induction"
+        },
+        {
+          "id": "p-wave",
+          "name": "Wave speed, frequency, and wavelength"
+        },
+        {
+          "id": "px-back-emf",
+          "name": "Explain speed-dependent back emf in a DC motor"
+        }
+      ],
+      "candidateOutcomes": [
+        "Compare flux change mechanisms",
+        "Connect back EMF to actuator operating conditions",
+        "Interpret phase and propagation delay"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Physics",
+      "branch": "Optics and modern physics",
+      "status": "Mixed coverage; application-dependent expansion",
+      "priority": "Later",
+      "existingAnchors": [
+        {
+          "id": "p-lens",
+          "name": "Thin-lens image formation"
+        },
+        {
+          "id": "p-photon",
+          "name": "Photon energy and photoelectric response"
+        },
+        {
+          "id": "px-rayleigh",
+          "name": "Estimate diffraction-limited angular resolution of a circular aperture"
+        }
+      ],
+      "candidateOutcomes": [
+        "Audit image-formation prerequisites for camera models",
+        "Separate optical resolution and pixel sampling",
+        "Expand modern physics only for a stated application"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "DC circuit analysis",
+      "status": "Broad coverage plus DC batch authored",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-nodal",
+          "name": "Nodal analysis"
+        },
+        {
+          "id": "e-thevenin",
+          "name": "Thevenin and Norton equivalents"
+        },
+        {
+          "id": "e-superposition",
+          "name": "Circuit superposition"
+        }
+      ],
+      "candidateOutcomes": [
+        "Handle dependent sources in an equivalent circuit",
+        "Check superposition limits for power calculations",
+        "Verify a solution using independent circuit balances"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "Transient and AC response",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-rc",
+          "name": "RC transient response"
+        },
+        {
+          "id": "e-rl",
+          "name": "RL transient response"
+        },
+        {
+          "id": "e-phasor",
+          "name": "Phasors and impedance"
+        },
+        {
+          "id": "e-resonant",
+          "name": "RLC resonance and quality factor"
+        }
+      ],
+      "candidateOutcomes": [
+        "Determine capacitor initial and final voltage",
+        "Determine inductor initial and final current",
+        "Interpret poles damping and resonance from a stated model"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "Semiconductors and switching",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-diode",
+          "name": "Diode behavior and limits"
+        },
+        {
+          "id": "e-mosfet",
+          "name": "MOSFET switching fundamentals"
+        },
+        {
+          "id": "e-bjt",
+          "name": "Bipolar transistors as switches"
+        }
+      ],
+      "candidateOutcomes": [
+        "Choose a valid device approximation",
+        "Check switch voltage and current limits",
+        "Distinguish conduction loss and switching loss"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "Analog sensing and amplification",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-opamp",
+          "name": "Operational-amplifier models"
+        },
+        {
+          "id": "e-differential",
+          "name": "Differential and instrumentation amplification"
+        },
+        {
+          "id": "e-comparator",
+          "name": "Comparators and hysteresis"
+        }
+      ],
+      "candidateOutcomes": [
+        "Check amplifier input and output range",
+        "Select gain from a sensor signal range",
+        "Determine hysteresis switching thresholds"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "Digital timing and conversion",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-timing",
+          "name": "Digital timing and metastability"
+        },
+        {
+          "id": "e-adc",
+          "name": "Analog-to-digital conversion"
+        },
+        {
+          "id": "e-sampling",
+          "name": "Sampling and aliasing"
+        }
+      ],
+      "candidateOutcomes": [
+        "Check setup and hold timing",
+        "Convert ADC codes with a stated reference",
+        "Choose sample rate and anti-alias filtering for a signal band"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "Power and motor drives",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-hbridge",
+          "name": "H-bridge motor drive"
+        },
+        {
+          "id": "e-gatedrive",
+          "name": "Gate-drive and dead-time concepts"
+        },
+        {
+          "id": "e-powerbudget",
+          "name": "Robot power budgets"
+        }
+      ],
+      "candidateOutcomes": [
+        "Trace motor current during drive and recirculation",
+        "Distinguish dead time from duty cycle",
+        "Budget peak and continuous supply demand"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "Instrumentation and sensor interfaces",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-scope",
+          "name": "Oscilloscope signals and probing"
+        },
+        {
+          "id": "e-multimeter",
+          "name": "Multimeter measurement choices"
+        },
+        {
+          "id": "e-encoder",
+          "name": "Incremental and absolute encoders"
+        },
+        {
+          "id": "e-imu",
+          "name": "Inertial measurement units"
+        }
+      ],
+      "candidateOutcomes": [
+        "Choose a probe connection and measurement reference",
+        "Decode encoder direction and counts",
+        "Interpret sensor saturation and range limits"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Electronics",
+      "branch": "PCB layout and interference",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "e-pcb",
+          "name": "PCB connectivity and physical layout"
+        },
+        {
+          "id": "e-grounding",
+          "name": "Grounding and interference paths"
+        },
+        {
+          "id": "e-decoupling",
+          "name": "Supply decoupling and return paths"
+        }
+      ],
+      "candidateOutcomes": [
+        "Trace high-current return loops",
+        "Separate schematic correctness from layout effects",
+        "Plan test points for diagnosing a board"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Statics and load transfer",
+      "status": "Broad coverage plus statics batch authored",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-load",
+          "name": "Load paths and structural idealization"
+        },
+        {
+          "id": "s-beamforces",
+          "name": "Beam shear and bending moments"
+        }
+      ],
+      "candidateOutcomes": [
+        "Replace a distributed load with an equivalent resultant",
+        "Solve selected truss joints",
+        "Check a load path through separate component diagrams"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Stress strain and material response",
+      "status": "Broad coverage plus material-response batch authored",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-stress",
+          "name": "Normal and shear stress"
+        },
+        {
+          "id": "s-strain",
+          "name": "Normal and shear strain"
+        },
+        {
+          "id": "s-tensile",
+          "name": "Interpreting tensile-test curves"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish shear stress from normal stress on a selected plane",
+        "Use Poisson response under explicit constraints",
+        "Identify the limits of a uniaxial material model"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Members deformation and stability",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-bending",
+          "name": "Beam bending stress"
+        },
+        {
+          "id": "s-deflection",
+          "name": "Beam deflection"
+        },
+        {
+          "id": "s-buckling",
+          "name": "Elastic buckling of columns"
+        }
+      ],
+      "candidateOutcomes": [
+        "Choose a bending axis and section property",
+        "Separate deflection limits from strength limits",
+        "Check effective-length assumptions in a buckling model"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Failure and durability",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-fatigue",
+          "name": "Fatigue under repeated loading"
+        },
+        {
+          "id": "s-fracture",
+          "name": "Cracks and fracture toughness"
+        },
+        {
+          "id": "s-concentration",
+          "name": "Stress concentrations"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish nominal and peak stress",
+        "Describe a fatigue load cycle",
+        "Distinguish yielding from crack-driven failure"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Material families and processing",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-steel",
+          "name": "Steels and their processing condition"
+        },
+        {
+          "id": "s-heattreat",
+          "name": "Heat treatment and microstructure"
+        },
+        {
+          "id": "s-polymer",
+          "name": "Thermoplastics and thermosets"
+        },
+        {
+          "id": "s-composite",
+          "name": "Fiber composites and load sharing"
+        }
+      ],
+      "candidateOutcomes": [
+        "Tie a property claim to material condition",
+        "Distinguish fiber direction effects from isotropic response",
+        "Relate processing choices to dimensional change"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Joints manufacturing and tolerances",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-fastener",
+          "name": "Bolted joints and preload"
+        },
+        {
+          "id": "s-welding",
+          "name": "Welding and heat-affected zones"
+        },
+        {
+          "id": "s-fits",
+          "name": "Fits, tolerances, and datum references"
+        },
+        {
+          "id": "s-stack",
+          "name": "Tolerance stack analysis"
+        }
+      ],
+      "candidateOutcomes": [
+        "Separate preload and externally applied load",
+        "Build a functional datum scheme",
+        "Trace a worst-case dimensional stack"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Mechanics",
+      "branch": "Thermal and environmental behavior",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "s-thermalexpand",
+          "name": "Thermal expansion and mismatch"
+        },
+        {
+          "id": "s-thermalresist",
+          "name": "Thermal resistance networks"
+        },
+        {
+          "id": "s-corrosion",
+          "name": "Corrosion and galvanic couples"
+        }
+      ],
+      "candidateOutcomes": [
+        "Calculate differential expansion between joined parts",
+        "Model a thermal contact path",
+        "Identify conditions needed for galvanic coupling"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Computing",
+      "branch": "Programming and development practice",
+      "status": "Foundation edition present; granularity review",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "c-functions",
+          "name": "Functions, parameters, and return values"
+        },
+        {
+          "id": "c-testing",
+          "name": "Unit testing"
+        },
+        {
+          "id": "c-debugging",
+          "name": "Systematic debugging"
+        },
+        {
+          "id": "c-git-branches",
+          "name": "Git branches and merging"
+        }
+      ],
+      "candidateOutcomes": [
+        "Write a function with a clear input-output contract",
+        "Design a boundary-case test",
+        "Reduce a failure to a reproducible example"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Computing",
+      "branch": "Algorithms and numerical computing",
+      "status": "Foundation edition present; granularity review",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "c-graph-code",
+          "name": "Graphs in code: representation and traversal"
+        },
+        {
+          "id": "c-code-cost",
+          "name": "Estimating the running time of code"
+        },
+        {
+          "id": "c-floats",
+          "name": "Floating-point numbers and rounding error"
+        }
+      ],
+      "candidateOutcomes": [
+        "Choose a graph representation for a robot problem",
+        "Identify numerical cancellation",
+        "Separate algorithm cost from measured latency"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Computing",
+      "branch": "Systems memory and concurrency",
+      "status": "Foundation edition present; granularity review",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "c-allocation",
+          "name": "Dynamic memory allocation and ownership"
+        },
+        {
+          "id": "c-synchronization",
+          "name": "Locks, semaphores, and condition variables"
+        },
+        {
+          "id": "c-deadlock",
+          "name": "Deadlock and lock ordering"
+        }
+      ],
+      "candidateOutcomes": [
+        "Explain object ownership across a task boundary",
+        "Detect a shared-state race",
+        "Analyze a lock-order cycle"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Computing",
+      "branch": "Networking embedded and real time",
+      "status": "Foundation edition present; granularity review",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "c-framing",
+          "name": "Message framing and serialization"
+        },
+        {
+          "id": "c-interrupts",
+          "name": "Interrupts and interrupt service routines"
+        },
+        {
+          "id": "c-rt-scheduling",
+          "name": "Real-time scheduling and priority inversion"
+        }
+      ],
+      "candidateOutcomes": [
+        "Recover message boundaries after malformed input",
+        "Bound interrupt work",
+        "Recognize priority inversion in a task schedule"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Computing",
+      "branch": "Robot software and integration",
+      "status": "Foundation edition present; granularity review",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "c-transforms",
+          "name": "Coordinate transforms in software"
+        },
+        {
+          "id": "c-control-loop",
+          "name": "Implementing a discrete-time control loop"
+        },
+        {
+          "id": "c-time-sync",
+          "name": "Timestamps and clock synchronization"
+        },
+        {
+          "id": "c-replay-testing",
+          "name": "Testing with simulation and recorded data"
+        }
+      ],
+      "candidateOutcomes": [
+        "Validate transform conventions in software",
+        "Handle stale sensor timestamps",
+        "Replay a recorded fault deterministically"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Computing",
+      "branch": "Machine learning for robots",
+      "status": "Foundation edition present; application-dependent depth",
+      "priority": "Later",
+      "existingAnchors": [
+        {
+          "id": "c-evaluation",
+          "name": "Evaluating models with metrics and held-out data"
+        },
+        {
+          "id": "c-overfitting",
+          "name": "Overfitting, underfitting, and regularization"
+        },
+        {
+          "id": "c-model-deployment",
+          "name": "Deploying learned models under robot constraints"
+        }
+      ],
+      "candidateOutcomes": [
+        "Prevent train-test leakage",
+        "Choose a metric for an asymmetric error cost",
+        "Check inference latency against a robot deadline"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Frames and rigid motion",
+      "status": "Broad coverage; decompose",
+      "priority": "Next",
+      "existingAnchors": [
+        {
+          "id": "r-frame",
+          "name": "Robot coordinate frames"
+        },
+        {
+          "id": "r-rigid",
+          "name": "Rigid transformations"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish a point from a displacement vector",
+        "Compose transforms in the correct order",
+        "Invert a rigid transform",
+        "State the frame in which a velocity is expressed"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Configuration and kinematics",
+      "status": "Broad coverage; decompose",
+      "priority": "Next",
+      "existingAnchors": [
+        {
+          "id": "r-dof",
+          "name": "Degrees of freedom and constraints"
+        },
+        {
+          "id": "r-configuration",
+          "name": "Configuration space"
+        },
+        {
+          "id": "r-forward",
+          "name": "Forward kinematics"
+        },
+        {
+          "id": "r-inverse",
+          "name": "Inverse kinematics"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish task space and joint space",
+        "Calculate a planar arm pose from joint values",
+        "Identify multiple inverse-kinematic solutions",
+        "Check joint-limit feasibility"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Jacobians statics and dynamics",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-jacobian",
+          "name": "Robot velocity Jacobians"
+        },
+        {
+          "id": "r-singular",
+          "name": "Kinematic singularities"
+        },
+        {
+          "id": "r-staticload",
+          "name": "Static joint-load estimation"
+        },
+        {
+          "id": "r-dynamics",
+          "name": "Robot dynamic models"
+        }
+      ],
+      "candidateOutcomes": [
+        "Map joint rates to end-effector velocity",
+        "Identify loss of motion directions",
+        "Map a tool load into joint torques",
+        "Separate inertia gravity and velocity-dependent model terms"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Actuation and transmissions",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-transmission",
+          "name": "Gears, belts, and transmission ratios"
+        },
+        {
+          "id": "r-actuator",
+          "name": "Actuator and drive matching"
+        },
+        {
+          "id": "r-compliance",
+          "name": "Compliance and backlash in mechanisms"
+        }
+      ],
+      "candidateOutcomes": [
+        "Translate motor speed and torque through a gear ratio",
+        "Check a motor operating point",
+        "Separate backlash from elastic compliance",
+        "Account for reflected inertia"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Trajectories and feedback",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-trajectory",
+          "name": "Trajectory timing and smoothness"
+        },
+        {
+          "id": "r-feedback",
+          "name": "Feedback-control concepts"
+        },
+        {
+          "id": "r-pid",
+          "name": "PID control concepts"
+        },
+        {
+          "id": "r-statespace",
+          "name": "State-space robot models"
+        },
+        {
+          "id": "r-observe",
+          "name": "Observability and controllability"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish a geometric path from a timed trajectory",
+        "Recognize actuator saturation and integral windup",
+        "Interpret a sampled response",
+        "Check model controllability assumptions"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Estimation and sensor fusion",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-estimation",
+          "name": "Probabilistic state estimation"
+        },
+        {
+          "id": "r-fusion",
+          "name": "Multisensor fusion"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish state prediction and measurement correction",
+        "Represent correlated uncertainty",
+        "Detect an inconsistent measurement innovation",
+        "Handle asynchronous observations"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Perception localization and navigation",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-cameramodel",
+          "name": "Camera geometry and calibration"
+        },
+        {
+          "id": "r-navigation",
+          "name": "Mobile-robot localization and navigation"
+        }
+      ],
+      "candidateOutcomes": [
+        "Distinguish camera intrinsics and extrinsics",
+        "Propagate wheel odometry",
+        "Recognize localization drift",
+        "Separate mapping from localization"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Planning and manipulation",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-planning",
+          "name": "Collision-aware motion planning"
+        },
+        {
+          "id": "r-grasp",
+          "name": "Grasping and contact mechanics"
+        }
+      ],
+      "candidateOutcomes": [
+        "Check collision for a candidate configuration",
+        "Distinguish path search and trajectory feasibility",
+        "Represent a friction-constrained contact",
+        "Check grasp assumptions"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "System integration and validation",
+      "status": "Broad coverage; decompose",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-system",
+          "name": "Robot system integration"
+        },
+        {
+          "id": "r-thermal",
+          "name": "Robot thermal integration"
+        },
+        {
+          "id": "r-structure",
+          "name": "Robot structural design"
+        }
+      ],
+      "candidateOutcomes": [
+        "Write a subsystem interface contract",
+        "Allocate timing power and thermal budgets",
+        "Define a measurable integration acceptance check",
+        "Trace a fault across sensing control and actuation"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Robot fault handling",
+      "status": "No dedicated branch record identified; related coverage exists",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-system",
+          "name": "Robot system integration"
+        },
+        {
+          "id": "c-watchdog",
+          "name": "Watchdog timers and fail-safe states"
+        }
+      ],
+      "candidateOutcomes": [
+        "Define detection and recovery behavior for a lost sensor",
+        "Distinguish a controlled stop from loss of power"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Calibration and identification",
+      "status": "No dedicated branch record identified; related coverage exists",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-cameramodel",
+          "name": "Camera geometry and calibration"
+        },
+        {
+          "id": "e-calibration",
+          "name": "Sensor calibration curves"
+        },
+        {
+          "id": "r-dynamics",
+          "name": "Robot dynamic models"
+        }
+      ],
+      "candidateOutcomes": [
+        "Separate sensor calibration from robot parameter identification",
+        "Design an experiment to estimate an uncertain model parameter"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    },
+    {
+      "domain": "Robotics",
+      "branch": "Mechanical machine elements",
+      "status": "No dedicated branch record identified; related coverage exists",
+      "priority": "Core",
+      "existingAnchors": [
+        {
+          "id": "r-transmission",
+          "name": "Gears, belts, and transmission ratios"
+        },
+        {
+          "id": "s-wear",
+          "name": "Wear and lubrication"
+        }
+      ],
+      "candidateOutcomes": [
+        "Choose bearing load directions in a conceptual assembly",
+        "Distinguish coupling misalignment from backlash"
+      ],
+      "interpretation": "Candidate outcomes require semantic comparison with full current node descriptions before any addition; not verified missing skills."
+    }
+  ]
+}
