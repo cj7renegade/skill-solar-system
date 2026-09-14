@@ -240,7 +240,8 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     stopFlight(true);camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();
-    const offset=new THREE.Vector3(...panOffset(right,up,horizontal,vertical,keyPanAmount(navigation(),seconds)));
+    const view={navigation:navigation(),orbit:camera.position.distanceTo(controls.target),spacing:scale.spacing};
+    const offset=new THREE.Vector3(...panOffset(right,up,horizontal,vertical,keyPanAmount(view,seconds)));
     camera.position.add(offset);controls.target.add(offset);controls.update();draw();
   },fit,focus(id){stopFlight(false);const n=graph.nodes.find(n=>n.id===id);if(!n)return;anchor=id;const next=new THREE.Vector3(...displayPosition(n.position,spacing)),offset=camera.position.clone().sub(controls.target);controls.target.copy(next);camera.position.copy(next).add(offset);controls.update();draw();}};
 }
