@@ -49,6 +49,30 @@ The tool:
 
 It never adds personal maps to the repository.
 
+### DC Circuits batch 01
+
+`authoring/dc-circuits/` holds a supplied content package and the tool that integrates it: 26 narrower Electronics abilities across DC interpretation, resistance, networks, dividers, power, measurement, and diagnosis, with 84 connections (53 prerequisite, 5 supports, 26 related) and 19 public references. The package is an authoring batch, not a map: it carries no coordinates, levels, or answers, and it cannot be opened with **Open map**.
+
+The nine broader skills it overlaps (`e-schematic`, `e-current`, `e-voltage`, `e-resistance`, `e-series`, `e-parallel`, `e-divider`, `e-power`, `e-multimeter`) are kept exactly as they are. Each overlap is recorded as a **related** link: it carries no learning order and never transfers an answer, so a Yes on an overview does not mark the narrower skills. Node totals therefore count spheres, not independent competencies.
+
+To add it to a local master atlas (back the atlas up first):
+
+```sh
+python authoring/dc-circuits/validate_batch.py path/to/Skill-Solar-System.json   # read-only pre-integration check
+node authoring/apply-dc-circuits.mjs path/to/Skill-Solar-System.json             # dry run: report only
+node authoring/apply-dc-circuits.mjs path/to/Skill-Solar-System.json --write     # write the master and the sub-map
+```
+
+The tool:
+- keeps every existing skill, coordinate, level, pin, and answer exactly as it was, and adds no answers;
+- derives levels from recorded prerequisite depth, never below a skill's prerequisites;
+- places new skills in the Electronics ribbon in rows beyond those each level already uses, so nothing existing moves;
+- ignores the batch's authoring-only `layoutRequest` and records sources under a `dcCircuitsExpansion` namespace;
+- writes `DC-Circuits-with-prerequisites.json` beside the master, holding the 26 skills and their full prerequisite ancestry with the same ids, so proficiency is shared with the master;
+- writes atomically and is safe to rerun: a second run changes nothing and keeps answers recorded in between.
+
+The supplied validator is read-only and refuses a batch that is already applied, which is its documented way of saying "reconcile, do not reapply". On Windows, run it as `python -X utf8 …`: it reads files with the locale codec, and the master contains UTF-8 characters.
+
 ## Features
 
 **3D view**
@@ -225,10 +249,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 115 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 124 tests pass. One real-atlas test is skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
   - **With generated maps:** 129 checks (review 41, orbit 14, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
-  - **With a local master and its Computing sub-map:** 153 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 14).
+  - **With local maps:** 168 checks (review 46, orbit 14, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.

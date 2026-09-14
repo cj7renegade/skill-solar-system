@@ -1,0 +1,1483 @@
+{
+  "format": "sss-content-authoring-batch",
+  "formatVersion": 1,
+  "batchId": "sss-dc-batch-01",
+  "date": "2026-09-14",
+  "status": "Editorial pilot; structurally validated against supplied master, pending local integration and visual review",
+  "scope": "Resistive DC interpretation, simple networks, dividers, power, meter use and single-fault reasoning",
+  "nodes": [
+    {
+      "id": "sss-dc-nodes",
+      "name": "Identify electrically common points on a DC schematic",
+      "domain": "Electronics",
+      "subdomain": "DC interpretation",
+      "icon": "circuit",
+      "description": "A circuit node consists of points joined by ideal conductors without a component between them.",
+      "details": "A circuit node consists of points joined by ideal conductors without a component between them. Trace the connections in a simple resistor-and-source schematic using junction dots and the drawing’s stated net-label conventions; physical proximity does not establish a connection.\n\nThe task is to assign the same node label to electrically common points even when wires bend or the drawing is rearranged. Distinct ground symbols or separate sheets require checking the schematic conventions rather than assuming every reference symbol is connected.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-WIRING",
+        "AAC-BUILD"
+      ],
+      "proficiencyReference": "I can label the nodes of a rearranged simple schematic without confusing crossing wires with junctions.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This provides the connectivity foundation for recognizing series and parallel groups.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-current-rate",
+      "name": "Calculate average current from charge transferred over time",
+      "domain": "Electronics",
+      "subdomain": "DC interpretation",
+      "icon": "circuit",
+      "description": "Average current describes net charge passing a cross-section during a stated interval: I = ΔQ/Δt.",
+      "details": "Average current describes net charge passing a cross-section during a stated interval: I = ΔQ/Δt. This skill uses coulombs and seconds consistently and distinguishes a rate of transfer from the total charge transferred.\n\nFor example, transferring 18 coulombs in 6 seconds gives an average current of 3 amperes. The result does not prove that the current was constant throughout the interval; determining an instantaneous current from a varying charge function is outside this skill.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-CURRENT"
+      ],
+      "proficiencyReference": "I can calculate and explain average current without treating amperes as a stored amount of charge.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This connects electric charge and unit rates to signed branch currents and resistive models.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-current-reference",
+      "name": "Interpret a signed current relative to a reference arrow",
+      "domain": "Electronics",
+      "subdomain": "DC interpretation",
+      "icon": "circuit",
+      "description": "A branch-current arrow defines the direction counted as positive.",
+      "details": "A branch-current arrow defines the direction counted as positive. A negative calculated current means conventional current runs opposite to that arrow; it does not make the circuit solution invalid.\n\nThis ability separates reference direction from physical carrier motion. In a metal, electron drift is opposite to conventional current. You should be able to redraw the reference arrow and change the sign while describing the same physical current.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-CURRENT"
+      ],
+      "proficiencyReference": "I can explain a negative branch current and distinguish conventional current from electron drift.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows average-current interpretation and supports reading current arrows in a series path.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-voltage-difference",
+      "name": "Calculate signed voltage between two labeled nodes",
+      "domain": "Electronics",
+      "subdomain": "DC interpretation",
+      "icon": "circuit",
+      "description": "Voltage between nodes A and B is V_AB = V_A − V_B when both node values use the same reference.",
+      "details": "Voltage between nodes A and B is V_AB = V_A − V_B when both node values use the same reference. Swapping the order reverses the sign. Neither terminal has to be the circuit’s reference node.\n\nIf A is at 8 volts and B is at 3 volts, V_AB is 5 volts and V_BA is −5 volts. The skill includes identifying the requested terminal order, rather than automatically subtracting the smaller value from the larger one.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-KIRCHHOFF"
+      ],
+      "proficiencyReference": "I can state which terminal is positive and calculate the signed difference.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This applies electric potential and subtraction to node voltages. It prepares parallel-path recognition and voltage measurement.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-ohmic-model",
+      "name": "Decide whether a constant-resistance model fits a stated DC case",
+      "domain": "Electronics",
+      "subdomain": "DC resistance",
+      "icon": "circuit",
+      "description": "A fixed resistor model assumes voltage is proportional to current over the operating conditions being considered.",
+      "details": "A fixed resistor model assumes voltage is proportional to current over the operating conditions being considered. Recognize a proportional voltage-current relationship and distinguish it from a nonlinear device or a resistance that changes appreciably with temperature.\n\nThis is model selection, not fitting a complete device model. A quoted V/I ratio at one operating point alone does not establish a constant resistance over a wider range. State the range and conditions before extending a calculation to another operating point.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-OHM",
+        "OS-RESISTANCE"
+      ],
+      "proficiencyReference": "I can explain when V = IR with a fixed R is a reasonable model and when it is not.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines current, voltage, and proportionality before using a constant-resistance calculation.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-ohm-calculation",
+      "name": "Solve for voltage, current, or resistance in one ohmic element",
+      "domain": "Electronics",
+      "subdomain": "DC resistance",
+      "icon": "circuit",
+      "description": "Use V = IR to find one unknown from two known quantities for the same ohmic component.",
+      "details": "Use V = IR to find one unknown from two known quantities for the same ohmic component. Keep unit prefixes consistent and distinguish a component’s voltage and current from quantities belonging to the whole network.\n\nFor a 2-kilohm resistor with 6 volts across it, the current is 3 milliamperes. Rearrangements for V, I, and R belong to this one ability; they do not become separate skills just because the unknown changes. Model selection remains a distinct prerequisite.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-OHM"
+      ],
+      "proficiencyReference": "I can choose the relevant component quantities, rearrange the equation, and report a consistent unit.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows selecting an ohmic model and rearranging formulas. It feeds resistor-network calculations and dissipation estimates.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-series-topology",
+      "name": "Recognize resistors that form an unbranched series path",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "Resistors form a simple series path when the intermediate connections have no other conducting branches.",
+      "details": "Resistors form a simple series path when the intermediate connections have no other conducting branches. Identify this condition from connectivity rather than from whether the resistor symbols appear in a straight row.\n\nThe purpose is to decide whether the same branch current passes through each resistor. A wire leading from their junction into another conducting branch changes the analysis, even if the original resistor symbols still appear end to end.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-TOPOLOGY"
+      ],
+      "proficiencyReference": "I can identify a valid series group after the drawing is rearranged.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows node identification and current-direction interpretation, before series resistance is combined.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-series-equivalent",
+      "name": "Calculate the equivalent resistance of a series group",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "Replace a valid series group by one resistance equal to the sum of its resistor values.",
+      "details": "Replace a valid series group by one resistance equal to the sum of its resistor values. The replacement preserves the group’s terminal voltage-current relationship, but does not retain its internal measurement points.\n\nFor positive resistances, the equivalent exceeds any individual member. Use this bound as a check and retain the original component labels for later analysis. Determining every internal voltage after the replacement is a separate operating-point task.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-SERIES"
+      ],
+      "proficiencyReference": "I can calculate the terminal equivalent and state what information the reduction hides.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows recognizing a series path and prepares reconstruction of its current and voltage drops.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-parallel-topology",
+      "name": "Recognize resistors connected across the same two nodes",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "Resistors are in parallel when each terminal pair connects to the same two circuit nodes.",
+      "details": "Resistors are in parallel when each terminal pair connects to the same two circuit nodes. Their shared terminal voltage follows from that connectivity, irrespective of where the symbols sit in the drawing.\n\nCheck both ends of every proposed parallel branch. Two resistors sharing only one node are not thereby parallel. This recognition task prepares network reduction without requiring the learner to have memorized the reciprocal-resistance formula.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-TOPOLOGY"
+      ],
+      "proficiencyReference": "I can identify parallel groups by node pairs rather than drawing appearance.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows node identification and signed voltage differences, before parallel resistances or branch currents are calculated.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-parallel-equivalent",
+      "name": "Calculate equivalent resistance using parallel conductances",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "For positive finite parallel resistors, add their reciprocal resistances and invert the result: 1/R_eq = Σ(1/R_i).",
+      "details": "For positive finite parallel resistors, add their reciprocal resistances and invert the result: 1/R_eq = Σ(1/R_i). This determines the equivalent seen at the shared terminals without requiring the individual branch currents first.\n\nThe equivalent must be less than the smallest branch resistance when at least two finite positive branches are present. Handle an open branch as contributing zero conductance; an ideal short is a separate limiting case, not a division by zero to enter in a calculator.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-PARALLEL"
+      ],
+      "proficiencyReference": "I can use the reciprocal formula and reject an impossible equivalent value.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines parallel connectivity with reciprocal arithmetic. It prepares mixed-network reduction and loaded-divider calculations.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-series-operating",
+      "name": "Determine current and individual drops in a one-source series circuit",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "For a fixed DC voltage source driving a series resistor chain, first obtain total resistance, then the shared current, and finally each component’s voltage drop.",
+      "details": "For a fixed DC voltage source driving a series resistor chain, first obtain total resistance, then the shared current, and finally each component’s voltage drop. Keep whole-circuit quantities separate from the quantities across one resistor.\n\nAn effective check is that the individual drops recover the applied source voltage. Knowing only the equivalent resistance is insufficient for describing internal voltages; this skill reconstructs the original circuit’s operating point from that reduced model.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-SERIES"
+      ],
+      "proficiencyReference": "I can recover each resistor voltage and check their sum against the supply.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines series equivalent resistance with Ohm’s law and prepares divider and fault analysis.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-parallel-operating",
+      "name": "Determine branch and supply currents in a one-source parallel circuit",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "In a resistor network connected directly across an ideal fixed-voltage DC source, each branch sees the source voltage.",
+      "details": "In a resistor network connected directly across an ideal fixed-voltage DC source, each branch sees the source voltage. Calculate branch currents separately and add them to obtain the source current.\n\nAn added resistive branch increases total source current in this model without reducing the voltage across the other branches. Real source resistance or current limiting can invalidate that conclusion. Distinguish this operating-point task from calculating terminal equivalent resistance.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-PARALLEL"
+      ],
+      "proficiencyReference": "I can calculate branch currents and explain the fixed-voltage assumption behind their sum.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines parallel topology with individual resistor calculations. Kirchhoff current law supports checking the total supply current.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-mixed-reduction",
+      "name": "Reduce a resistor network by successive series and parallel replacements",
+      "domain": "Electronics",
+      "subdomain": "DC networks",
+      "icon": "circuit",
+      "description": "Simplify a reducible resistor network one valid group at a time, redrawing its node connections after each replacement.",
+      "details": "Simplify a reducible resistor network one valid group at a time, redrawing its node connections after each replacement. A group that is not reducible initially may become reducible after an inner group is replaced.\n\nStop when a bridge or other connectivity prevents another valid series or parallel step. Recognizing that limitation is part of the skill; it prevents forcing a convenient formula onto the wrong topology. General nodal and mesh methods remain outside this task.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-NETWORKS"
+      ],
+      "proficiencyReference": "I can simplify a reducible network and identify when another analysis method is needed.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This joins the series and parallel reduction branches into one network-simplification ability.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-divider-unloaded",
+      "name": "Calculate the output of an unloaded two-resistor divider",
+      "domain": "Electronics",
+      "subdomain": "DC dividers",
+      "icon": "circuit",
+      "description": "For two positive resistors in series across a source, calculate the junction voltage relative to the lower terminal using V_out = V_in R_lower/(R_upper + R_lower).",
+      "details": "For two positive resistors in series across a source, calculate the junction voltage relative to the lower terminal using V_out = V_in R_lower/(R_upper + R_lower). Identify the output reference before assigning the numerator.\n\nThe unloaded condition means no additional output current is drawn. Check that the result lies between the source terminal potentials. This skill covers a fixed pair of resistors; choosing values for a desired output is a separate design task.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-DIVIDER"
+      ],
+      "proficiencyReference": "I can select the correct divider leg and explain the unloaded assumption.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This specializes the voltage split in a series circuit and precedes ratio selection and loading analysis.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-divider-ratio",
+      "name": "Choose a resistor ratio for a specified unloaded divider output",
+      "domain": "Electronics",
+      "subdomain": "DC dividers",
+      "icon": "circuit",
+      "description": "Work backward from a desired output fraction between zero and one to a resistor ratio.",
+      "details": "Work backward from a desired output fraction between zero and one to a resistor ratio. A specified voltage fraction sets the ratio, not a unique pair of resistor values.\n\nFor an output equal to one third of the input, the upper resistance is twice the lower resistance. Different pairs satisfy that ratio but draw different currents. This skill stops at nominal ratio selection; tolerance, power, loading, and preferred-value tradeoffs require additional checks.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-DIVIDER"
+      ],
+      "proficiencyReference": "I can determine the ratio and explain why it does not determine absolute resistor values.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows unloaded-divider analysis and formula rearrangement to work backward from an output target.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-divider-loaded",
+      "name": "Calculate divider output with a specified resistive load",
+      "domain": "Electronics",
+      "subdomain": "DC dividers",
+      "icon": "circuit",
+      "description": "When a resistive load is connected from a divider output to its lower reference terminal, combine that load in parallel with the lower divider resistor.",
+      "details": "When a resistive load is connected from a divider output to its lower reference terminal, combine that load in parallel with the lower divider resistor. Use the reduced lower leg to recalculate output voltage.\n\nThis predicts a different operating point from the unloaded divider. Treating the original ratio as unchanged overlooks the additional current path. The scope is a known positive resistive load and an ideal fixed input; active or time-varying loads require another model.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-VOLTMETER"
+      ],
+      "proficiencyReference": "I can draw the added load path and calculate the resulting output change.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines unloaded-divider analysis with parallel resistance. It prepares calculations of voltmeter loading.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-resistor-power",
+      "name": "Calculate steady DC power dissipated in a resistor",
+      "domain": "Electronics",
+      "subdomain": "DC power",
+      "icon": "circuit",
+      "description": "Calculate heat dissipation in a passive resistor using P = VI, I²R, or V²/R with quantities belonging to that resistor.",
+      "details": "Calculate heat dissipation in a passive resistor using P = VI, I²R, or V²/R with quantities belonging to that resistor. Choose the expression supported by the known values and check unit conversions.\n\nThe answer is power in watts, not energy accumulated over time and not the resistor’s allowed rating. A correct calculation can still describe an overloaded part. Comparing dissipation with a specified component limit is a separate judgment.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-POWER"
+      ],
+      "proficiencyReference": "I can calculate resistor dissipation without substituting a supply voltage that is not across that resistor.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows single-resistor Ohm’s-law calculations and prepares comparison with component power limits.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-power-rating",
+      "name": "Compare resistor dissipation with a stated derated power limit",
+      "domain": "Electronics",
+      "subdomain": "DC power",
+      "icon": "circuit",
+      "description": "Compare calculated resistor dissipation with the permitted power under the datasheet’s stated mounting and temperature conditions.",
+      "details": "Compare calculated resistor dissipation with the permitted power under the datasheet’s stated mounting and temperature conditions. A nominal wattage printed in a catalog is not automatically the permitted value in every environment.\n\nThis skill uses a provided derating limit and any required design margin; it does not invent a universal safety factor. Recognize a part that fails the comparison and identify the missing specification when the operating conditions are insufficiently described.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-RESISTORS"
+      ],
+      "proficiencyReference": "I can explain whether a stated resistor choice meets a provided power limit and margin.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows dissipation calculation and supports checking an LED’s series resistor rating.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-voltage-measurement",
+      "name": "Measure DC voltage between specified points in a low-energy circuit",
+      "domain": "Electronics",
+      "subdomain": "DC measurement",
+      "icon": "sensor",
+      "description": "Select the meter’s DC-voltage function and appropriate terminals and range for a low-voltage, current-limited teaching circuit.",
+      "details": "Select the meter’s DC-voltage function and appropriate terminals and range for a low-voltage, current-limited teaching circuit. Connect across the specified points; the signed reading follows the order of the probes.\n\nThe meter measures a difference, not an absolute voltage at a lone point. Check the meter manual and probe condition, and avoid bridging neighboring conductors. This ability concerns making a reading; calculating how the meter changes the circuit is addressed separately.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-METERS",
+        "AAC-METER-SAFETY"
+      ],
+      "proficiencyReference": "I can choose the voltage setup, identify both test points, and interpret the sign.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This connects node identification and signed voltage differences to practical measurements.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-current-measurement",
+      "name": "Measure branch DC current by inserting a meter in series",
+      "domain": "Electronics",
+      "subdomain": "DC measurement",
+      "icon": "sensor",
+      "description": "In a low-energy, current-limited teaching circuit, select a suitable fused current input and range, then insert the meter into the intended branch with power removed while changing connections.",
+      "details": "In a low-energy, current-limited teaching circuit, select a suitable fused current input and range, then insert the meter into the intended branch with power removed while changing connections. The branch current must pass through the meter.\n\nAn ammeter connected directly across a voltage source creates an unintended low-resistance path. Check current-input limits and restore the appropriate lead position afterward. This skill is distinct from voltage measurement because both the connection and the meter’s internal path differ.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-METER-SAFETY"
+      ],
+      "proficiencyReference": "I can identify the branch to interrupt and avoid placing the current input across a supply.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows series-path recognition and signed-current interpretation, before meter burden is estimated.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-resistance-measurement",
+      "name": "Measure an isolated resistor in a de-energized circuit",
+      "domain": "Electronics",
+      "subdomain": "DC measurement",
+      "icon": "sensor",
+      "description": "A resistance meter applies its own test stimulus.",
+      "details": "A resistance meter applies its own test stimulus. Remove external power, ensure stored energy is discharged appropriately, and isolate the resistor from alternative paths before interpreting the reading as that resistor’s resistance.\n\nSelect the proper terminals and range according to the meter manual. A reading with the part still connected may represent multiple paths, while an overrange indication is not proof of infinite resistance. This task concerns obtaining a meaningful component measurement rather than diagnosing an entire board.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-OHMMETER",
+        "AAC-METER-SAFETY"
+      ],
+      "proficiencyReference": "I can explain why power and parallel paths must be excluded before interpreting the reading.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines resistance-model understanding with recognizing alternative parallel paths.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-voltmeter-loading",
+      "name": "Estimate divider measurement error from finite voltmeter input resistance",
+      "domain": "Electronics",
+      "subdomain": "DC measurement",
+      "icon": "sensor",
+      "description": "Represent a DC voltmeter’s specified input resistance as an additional load across the measurement points.",
+      "details": "Represent a DC voltmeter’s specified input resistance as an additional load across the measurement points. For a resistor divider, compute the loaded reading and compare it with the original unloaded output.\n\nA high input resistance reduces loading but does not guarantee a negligible error for every circuit. The scope is the resistive DC input model; probe capacitance and frequency response belong elsewhere. Decide whether the resulting difference matters against a stated error allowance.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-VOLTMETER"
+      ],
+      "proficiencyReference": "I can predict whether the voltmeter meaningfully disturbs a specified divider.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This joins loaded-divider calculation with voltage measurement and supports selecting diagnostic test points.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-ammeter-burden",
+      "name": "Estimate the current change caused by a meter’s series resistance",
+      "domain": "Electronics",
+      "subdomain": "DC measurement",
+      "icon": "sensor",
+      "description": "A real ammeter introduces resistance and therefore a voltage drop into the branch it measures.",
+      "details": "A real ammeter introduces resistance and therefore a voltage drop into the branch it measures. In a single-source series circuit, add the specified meter resistance and recompute current to estimate that disturbance.\n\nThe meter can report the altered current accurately while the original circuit would have carried a different current. Distinguish this loading effect from display accuracy. Use the resistance or burden information for the selected range, rather than assuming a universal meter value.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-AMMETER"
+      ],
+      "proficiencyReference": "I can compare the circuit current before and after inserting the specified meter model.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This joins series-circuit calculations with current measurement to account for the measuring instrument.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-open-fault",
+      "name": "Predict the effect of one open resistor in a simple DC network",
+      "domain": "Electronics",
+      "subdomain": "DC diagnosis",
+      "icon": "circuit",
+      "description": "Model one failed resistor as an open circuit and determine which current paths remain.",
+      "details": "Model one failed resistor as an open circuit and determine which current paths remain. In a series chain the current ceases; in a parallel network supplied by an ideal fixed voltage, the other intact branches can continue operating.\n\nThe location of the break matters more than the drawing’s shape. A break can have voltage across it despite zero current through it. This prediction concerns the altered circuit, not automatically proving which physical component failed from one reading.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-FAULTS"
+      ],
+      "proficiencyReference": "I can redraw one open fault and explain its effect on surviving current paths.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows series and parallel operating-point analysis and prepares diagnostic voltage-test selection.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-short-fault",
+      "name": "Predict the effect of a bypass short in a simple DC network",
+      "domain": "Electronics",
+      "subdomain": "DC diagnosis",
+      "icon": "circuit",
+      "description": "Model a specified bypass fault as a near-zero-resistance connection and determine which nodes become effectively joined.",
+      "details": "Model a specified bypass fault as a near-zero-resistance connection and determine which nodes become effectively joined. A resistor bypassed by that path has approximately zero terminal voltage, while currents elsewhere may change.\n\nAn ideal short directly across an ideal voltage source is not a finite-current calculation. Source impedance or current limiting must be included to predict a realizable value. Use diagrams or simulation for fault prediction rather than deliberately shorting a physical supply.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-FAULTS"
+      ],
+      "proficiencyReference": "I can locate the bypassed element and recognize when the ideal model cannot predict fault current.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This follows series and parallel operating-point analysis and prepares diagnostic voltage-test selection.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    },
+    {
+      "id": "sss-dc-test-point-choice",
+      "name": "Choose a voltage test point that distinguishes two stated DC fault hypotheses",
+      "domain": "Electronics",
+      "subdomain": "DC diagnosis",
+      "icon": "circuit",
+      "description": "Given a simple resistive circuit and two proposed faults, predict a voltage reading for each and select a test point where the predictions differ.",
+      "details": "Given a simple resistive circuit and two proposed faults, predict a voltage reading for each and select a test point where the predictions differ. Specify both probe nodes and the expected polarity.\n\nThe task is to gather discriminating evidence rather than replace parts at random. A matching observation supports a hypothesis but does not exclude every other possible fault. Recheck connectivity and measurement loading when observations fail to match either prediction.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "AAC-FAULTS",
+        "AAC-WIRING"
+      ],
+      "proficiencyReference": "I can explain why a chosen reading helps distinguish two specified open or bypass faults.",
+      "contentAuthorship": "Original editorial content; source-aligned scope, not an official prerequisite graph.",
+      "authoringOrigin": "sss-dc-batch-01",
+      "scopeNote": "Steady-state low-voltage, current-limited resistive DC examples; no mains work or high-energy battery work.",
+      "placementNote": "This combines open-fault and short-fault predictions with voltage measurement to choose an informative observation.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "preserveExistingPositions": true,
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "p-charge",
+      "target": "sss-dc-current-rate",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The calculation refers to transferred electric charge, not energy."
+    },
+    {
+      "source": "m-ratio",
+      "target": "sss-dc-current-rate",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Current is a quantity per unit time."
+    },
+    {
+      "source": "sss-dc-current-rate",
+      "target": "sss-dc-current-reference",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The sign is attached to an understood current quantity."
+    },
+    {
+      "source": "p-potentialelectric",
+      "target": "sss-dc-voltage-difference",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Node subtraction represents a potential difference."
+    },
+    {
+      "source": "m-add",
+      "target": "sss-dc-voltage-difference",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The calculation subtracts signed values."
+    },
+    {
+      "source": "m-ratio",
+      "target": "sss-dc-ohmic-model",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Recognizing proportionality requires comparing ratios."
+    },
+    {
+      "source": "sss-dc-current-rate",
+      "target": "sss-dc-ohmic-model",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The model relates current to voltage."
+    },
+    {
+      "source": "p-potentialelectric",
+      "target": "sss-dc-ohmic-model",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The model uses voltage across a component."
+    },
+    {
+      "source": "sss-dc-ohmic-model",
+      "target": "sss-dc-ohm-calculation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The formula is applied only after accepting the constant-resistance model."
+    },
+    {
+      "source": "m-formula",
+      "target": "sss-dc-ohm-calculation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The unknown must be isolated in V = IR."
+    },
+    {
+      "source": "sss-dc-nodes",
+      "target": "sss-dc-series-topology",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Series recognition depends on which elements share each node."
+    },
+    {
+      "source": "sss-dc-current-reference",
+      "target": "sss-dc-series-topology",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A series path is understood in terms of a shared branch current."
+    },
+    {
+      "source": "sss-dc-series-topology",
+      "target": "sss-dc-series-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Adding resistances is valid only for an actual series group."
+    },
+    {
+      "source": "sss-dc-ohmic-model",
+      "target": "sss-dc-series-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The members are treated as fixed resistances."
+    },
+    {
+      "source": "m-add",
+      "target": "sss-dc-series-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The equivalent is formed by adding resistor values."
+    },
+    {
+      "source": "sss-dc-nodes",
+      "target": "sss-dc-parallel-topology",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Parallel branches are defined by two shared nodes."
+    },
+    {
+      "source": "sss-dc-voltage-difference",
+      "target": "sss-dc-parallel-topology",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The same ordered node pair has the same voltage difference."
+    },
+    {
+      "source": "sss-dc-parallel-topology",
+      "target": "sss-dc-parallel-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The reciprocal rule requires a common pair of nodes."
+    },
+    {
+      "source": "sss-dc-ohmic-model",
+      "target": "sss-dc-parallel-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Each branch is represented by a fixed resistor."
+    },
+    {
+      "source": "m-fracadd",
+      "target": "sss-dc-parallel-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Reciprocal resistances must be added correctly."
+    },
+    {
+      "source": "m-fracmul",
+      "target": "sss-dc-parallel-equivalent",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The summed conductance must be inverted."
+    },
+    {
+      "source": "sss-dc-series-equivalent",
+      "target": "sss-dc-series-operating",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The chain is first replaced by its terminal resistance."
+    },
+    {
+      "source": "sss-dc-ohm-calculation",
+      "target": "sss-dc-series-operating",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The equivalent current and individual drops use Ohm’s law."
+    },
+    {
+      "source": "sss-dc-parallel-topology",
+      "target": "sss-dc-parallel-operating",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Each branch must actually share the source terminals."
+    },
+    {
+      "source": "sss-dc-ohm-calculation",
+      "target": "sss-dc-parallel-operating",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The branch current follows from its own resistance and voltage."
+    },
+    {
+      "source": "m-add",
+      "target": "sss-dc-parallel-operating",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The source supplies the sum of the branch currents."
+    },
+    {
+      "source": "sss-dc-series-equivalent",
+      "target": "sss-dc-mixed-reduction",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "One allowed replacement is a series equivalent."
+    },
+    {
+      "source": "sss-dc-parallel-equivalent",
+      "target": "sss-dc-mixed-reduction",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The other allowed replacement is a parallel equivalent."
+    },
+    {
+      "source": "sss-dc-series-operating",
+      "target": "sss-dc-divider-unloaded",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The divider expression describes the voltage split in a series chain."
+    },
+    {
+      "source": "sss-dc-divider-unloaded",
+      "target": "sss-dc-divider-ratio",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The design reverses the unloaded divider relationship."
+    },
+    {
+      "source": "m-formula",
+      "target": "sss-dc-divider-ratio",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The ratio must be isolated from the target-output equation."
+    },
+    {
+      "source": "sss-dc-divider-unloaded",
+      "target": "sss-dc-divider-loaded",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The unloaded divider provides the starting topology and expression."
+    },
+    {
+      "source": "sss-dc-parallel-equivalent",
+      "target": "sss-dc-divider-loaded",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Loading changes the lower leg through a parallel equivalent."
+    },
+    {
+      "source": "sss-dc-ohm-calculation",
+      "target": "sss-dc-resistor-power",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Equivalent power expressions use the same resistor’s voltage-current relationship."
+    },
+    {
+      "source": "sss-dc-resistor-power",
+      "target": "sss-dc-power-rating",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The comparison needs the resistor’s actual dissipation."
+    },
+    {
+      "source": "sss-dc-voltage-difference",
+      "target": "sss-dc-voltage-measurement",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The measurement represents an ordered potential difference."
+    },
+    {
+      "source": "sss-dc-nodes",
+      "target": "sss-dc-voltage-measurement",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The probes must touch the intended circuit nodes."
+    },
+    {
+      "source": "sss-dc-series-topology",
+      "target": "sss-dc-current-measurement",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The meter must share the current path being measured."
+    },
+    {
+      "source": "sss-dc-current-reference",
+      "target": "sss-dc-current-measurement",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The indicated sign depends on the chosen current direction."
+    },
+    {
+      "source": "sss-dc-ohmic-model",
+      "target": "sss-dc-resistance-measurement",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The measured quantity describes a resistance under stated conditions."
+    },
+    {
+      "source": "sss-dc-parallel-topology",
+      "target": "sss-dc-resistance-measurement",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Alternative connections can alter the resistance seen by the meter."
+    },
+    {
+      "source": "sss-dc-divider-loaded",
+      "target": "sss-dc-voltmeter-loading",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The meter is modeled as the divider’s resistive load."
+    },
+    {
+      "source": "sss-dc-voltage-measurement",
+      "target": "sss-dc-voltmeter-loading",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Its connection determines where the load is introduced."
+    },
+    {
+      "source": "m-add",
+      "target": "sss-dc-voltmeter-loading",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The error comparison subtracts loaded and unloaded results."
+    },
+    {
+      "source": "sss-dc-series-operating",
+      "target": "sss-dc-ammeter-burden",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The inserted resistance changes the series operating point."
+    },
+    {
+      "source": "sss-dc-current-measurement",
+      "target": "sss-dc-ammeter-burden",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The meter is inserted into the measured current path."
+    },
+    {
+      "source": "sss-dc-series-operating",
+      "target": "sss-dc-open-fault",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The original series response provides one comparison case."
+    },
+    {
+      "source": "sss-dc-parallel-operating",
+      "target": "sss-dc-open-fault",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The original parallel response provides the other comparison case."
+    },
+    {
+      "source": "sss-dc-series-operating",
+      "target": "sss-dc-short-fault",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A bypass changes series-chain voltage and current distribution."
+    },
+    {
+      "source": "sss-dc-parallel-operating",
+      "target": "sss-dc-short-fault",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A short can create an additional parallel current path."
+    },
+    {
+      "source": "sss-dc-open-fault",
+      "target": "sss-dc-test-point-choice",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "One hypothesis may remove a conducting path."
+    },
+    {
+      "source": "sss-dc-short-fault",
+      "target": "sss-dc-test-point-choice",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Another hypothesis may join previously distinct nodes."
+    },
+    {
+      "source": "sss-dc-voltage-measurement",
+      "target": "sss-dc-test-point-choice",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A useful proposed observation must specify a valid voltage measurement."
+    },
+    {
+      "source": "e-kcl",
+      "target": "sss-dc-parallel-operating",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "Current conservation supplies an independent check on the sum of branch currents."
+    },
+    {
+      "source": "e-kvl",
+      "target": "sss-dc-series-operating",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "Loop voltage conservation supplies an independent check on the reconstructed voltage drops."
+    },
+    {
+      "source": "sss-dc-voltmeter-loading",
+      "target": "sss-dc-test-point-choice",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "A predicted test voltage is more useful when instrument loading is understood."
+    },
+    {
+      "source": "sss-dc-power-rating",
+      "target": "e-led",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "A series LED resistor also needs a suitable dissipation rating; diode behavior is still required separately."
+    },
+    {
+      "source": "sss-dc-divider-loaded",
+      "target": "e-adc",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "A resistive input model illustrates one source of divider loading; real ADC sampling behavior requires further study."
+    },
+    {
+      "source": "e-schematic",
+      "target": "sss-dc-nodes",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-current",
+      "target": "sss-dc-current-rate",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-current",
+      "target": "sss-dc-current-reference",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-voltage",
+      "target": "sss-dc-voltage-difference",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-resistance",
+      "target": "sss-dc-ohmic-model",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-resistance",
+      "target": "sss-dc-ohm-calculation",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-series",
+      "target": "sss-dc-series-topology",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-series",
+      "target": "sss-dc-series-equivalent",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-series",
+      "target": "sss-dc-series-operating",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-series",
+      "target": "sss-dc-mixed-reduction",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-series",
+      "target": "sss-dc-open-fault",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-parallel",
+      "target": "sss-dc-parallel-topology",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-parallel",
+      "target": "sss-dc-parallel-equivalent",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-parallel",
+      "target": "sss-dc-parallel-operating",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-parallel",
+      "target": "sss-dc-short-fault",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-divider",
+      "target": "sss-dc-divider-unloaded",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-divider",
+      "target": "sss-dc-divider-ratio",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-divider",
+      "target": "sss-dc-divider-loaded",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-power",
+      "target": "sss-dc-resistor-power",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-power",
+      "target": "sss-dc-power-rating",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-multimeter",
+      "target": "sss-dc-voltage-measurement",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-multimeter",
+      "target": "sss-dc-current-measurement",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-multimeter",
+      "target": "sss-dc-resistance-measurement",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-multimeter",
+      "target": "sss-dc-voltmeter-loading",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-multimeter",
+      "target": "sss-dc-ammeter-burden",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    },
+    {
+      "source": "e-multimeter",
+      "target": "sss-dc-test-point-choice",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview includes this narrower ability; the link records scope overlap and does not transfer proficiency or impose a prerequisite."
+    }
+  ],
+  "overviewMappings": [
+    {
+      "id": "e-schematic",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-nodes"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-current",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-current-rate",
+        "sss-dc-current-reference"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-voltage",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-voltage-difference"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-resistance",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-ohmic-model",
+        "sss-dc-ohm-calculation"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-series",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-series-topology",
+        "sss-dc-series-equivalent",
+        "sss-dc-series-operating",
+        "sss-dc-mixed-reduction",
+        "sss-dc-open-fault"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-parallel",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-parallel-topology",
+        "sss-dc-parallel-equivalent",
+        "sss-dc-parallel-operating",
+        "sss-dc-short-fault"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-divider",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-divider-unloaded",
+        "sss-dc-divider-ratio",
+        "sss-dc-divider-loaded"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-power",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-resistor-power",
+        "sss-dc-power-rating"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    },
+    {
+      "id": "e-multimeter",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-dc-voltage-measurement",
+        "sss-dc-current-measurement",
+        "sss-dc-resistance-measurement",
+        "sss-dc-voltmeter-loading",
+        "sss-dc-ammeter-burden",
+        "sss-dc-test-point-choice"
+      ],
+      "note": "Intentional transitional overlap; do not copy overview answers to narrower skills or claim these counts are deduplicated competencies."
+    }
+  ],
+  "sources": {
+    "OS-CURRENT": {
+      "title": "Electrical current",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-1-electrical-current",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "OS-RESISTANCE": {
+      "title": "Resistivity and resistance",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-3-resistivity-and-resistance",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "OS-OHM": {
+      "title": "Ohm’s law",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-4-ohms-law",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "OS-POWER": {
+      "title": "Electrical energy and power",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-5-electrical-energy-and-power",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "OS-NETWORKS": {
+      "title": "Resistors in series and parallel",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "OS-KIRCHHOFF": {
+      "title": "Kirchhoff’s rules",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-3-kirchhoffs-rules",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "OS-METERS": {
+      "title": "Electrical measuring instruments",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-4-electrical-measuring-instruments",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-TOPOLOGY": {
+      "title": "Series and parallel connectivity",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-5/what-are-series-and-parallel-circuits/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-SERIES": {
+      "title": "Series circuits",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-5/simple-series-circuits/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-PARALLEL": {
+      "title": "Parallel circuits",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-5/simple-parallel-circuits/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-DIVIDER": {
+      "title": "Voltage divider circuits",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-6/voltage-divider-circuits/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-VOLTMETER": {
+      "title": "Voltmeter impact",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-8/voltmeter-impact-measured-circuit/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-AMMETER": {
+      "title": "Ammeter impact",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-8/ammeter-impact-measured-circuit/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-WIRING": {
+      "title": "Circuit wiring",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-2/circuit-wiring/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-BUILD": {
+      "title": "Building resistor circuits",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-5/building-simple-resistor-circuits/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-RESISTORS": {
+      "title": "Resistors and ratings",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-2/resistors/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-METER-SAFETY": {
+      "title": "Meter usage",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-3/safe-meter-usage/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-OHMMETER": {
+      "title": "Ohmmeter design",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-8/ohmmeter-design/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    },
+    "AAC-FAULTS": {
+      "title": "Component failure analysis",
+      "url": "https://www.allaboutcircuits.com/textbook/direct-current/chpt-5/component-failure-analysis/",
+      "checked": "2026-09-14",
+      "use": "Coverage/fact reference; node descriptions and edges are original editorial material."
+    }
+  },
+  "integration": {
+    "notAnOpenMapFile": true,
+    "doNotModifyExistingNodes": true,
+    "newProficiencyDefault": null,
+    "honorExistingSharedRecordForSameStableId": true,
+    "deduplicateEdgesBy": [
+      "source",
+      "target",
+      "type"
+    ],
+    "relatedEdgesUndirectedForDeduplication": true,
+    "deferred": [
+      "General nodal/mesh decomposition",
+      "Thevenin/Norton and superposition decomposition",
+      "Resistor tolerances and preferred-value selection",
+      "Source internal resistance/current limiting as separate skills",
+      "Breadboard construction and continuity testing",
+      "Current-divider design",
+      "Formal organizing-topic UI"
+    ]
+  }
+}

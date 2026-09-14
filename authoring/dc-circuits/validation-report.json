@@ -1,0 +1,123 @@
+{
+  "status": "passed",
+  "baselineSha256": "8397d3f950c661778116a10c396a0ecd41acbced6af15364969c9c0e6e5ac2a4",
+  "baselineNodeCount": 1686,
+  "baselineEdgeCount": 4882,
+  "newNodeCount": 26,
+  "newEdgeCount": 84,
+  "edgeTypes": {
+    "prerequisite": 53,
+    "supports": 5,
+    "related": 26
+  },
+  "prospectiveNodes": 1712,
+  "prospectiveEdges": 4966,
+  "newPrerequisiteDepthRange": [
+    0,
+    18
+  ],
+  "newLevelRangeIfLegacyDepthFormulaUsed": [
+    1,
+    55
+  ],
+  "prerequisiteClosureNodeCount": 60,
+  "externalReferences": [
+    {
+      "id": "e-adc",
+      "name": "Analog-to-digital conversion"
+    },
+    {
+      "id": "e-current",
+      "name": "Current and charge flow"
+    },
+    {
+      "id": "e-divider",
+      "name": "Voltage dividers and loading"
+    },
+    {
+      "id": "e-kcl",
+      "name": "Kirchhoff current law"
+    },
+    {
+      "id": "e-kvl",
+      "name": "Kirchhoff voltage law"
+    },
+    {
+      "id": "e-led",
+      "name": "LED current limiting"
+    },
+    {
+      "id": "e-multimeter",
+      "name": "Multimeter measurement choices"
+    },
+    {
+      "id": "e-parallel",
+      "name": "Parallel resistor networks"
+    },
+    {
+      "id": "e-power",
+      "name": "Electrical power and dissipation"
+    },
+    {
+      "id": "e-resistance",
+      "name": "Resistance and Ohm's law"
+    },
+    {
+      "id": "e-schematic",
+      "name": "Reading schematics and connectivity"
+    },
+    {
+      "id": "e-series",
+      "name": "Series resistor networks"
+    },
+    {
+      "id": "e-voltage",
+      "name": "Voltage references and ground"
+    },
+    {
+      "id": "m-add",
+      "name": "Addition and subtraction"
+    },
+    {
+      "id": "m-formula",
+      "name": "Rearranging formulas"
+    },
+    {
+      "id": "m-fracadd",
+      "name": "Adding unlike fractions"
+    },
+    {
+      "id": "m-fracmul",
+      "name": "Fraction products and quotients"
+    },
+    {
+      "id": "m-ratio",
+      "name": "Ratios and unit rates"
+    },
+    {
+      "id": "p-charge",
+      "name": "Electric charge and conservation"
+    },
+    {
+      "id": "p-potentialelectric",
+      "name": "Electric potential and voltage"
+    }
+  ],
+  "checks": [
+    "unique new IDs and normalized names",
+    "all edge endpoints resolve",
+    "new edges unique including reverse related edges",
+    "merged prerequisite graph acyclic",
+    "two paragraphs per new skill",
+    "source IDs resolve",
+    "new skills unmarked",
+    "no fabricated positions/levels",
+    "read-only baseline"
+  ],
+  "notVerified": [
+    "current local app schema/build/Electron rendering",
+    "local shared proficiency store",
+    "independent expert curriculum review"
+  ],
+  "integrationWarning": "Existing overview nodes and their original prerequisites remain unchanged; overview/narrow-skill overlap is intentionally retained. These totals are node counts, not distinct competency totals."
+}
