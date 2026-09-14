@@ -1,0 +1,119 @@
+{
+  "status": "passed",
+  "baselineSha256": "8397d3f950c661778116a10c396a0ecd41acbced6af15364969c9c0e6e5ac2a4",
+  "baselineNodeCount": 1686,
+  "baselineEdgeCount": 4882,
+  "newNodeCount": 17,
+  "newEdgeCount": 47,
+  "edgeTypes": {
+    "prerequisite": 27,
+    "related": 17,
+    "supports": 3
+  },
+  "prospectiveNodes": 1703,
+  "prospectiveEdges": 4929,
+  "newPrerequisiteDepthRange": [
+    0,
+    17
+  ],
+  "newLevelRangeIfLegacyDepthFormulaUsed": [
+    1,
+    52
+  ],
+  "prerequisiteClosureNodeCount": 61,
+  "externalReferences": [
+    {
+      "id": "c-transforms",
+      "name": "Coordinate transforms in software"
+    },
+    {
+      "id": "m-invtrig",
+      "name": "Inverse trigonometry and quadrants"
+    },
+    {
+      "id": "m-matrix",
+      "name": "Matrix arithmetic"
+    },
+    {
+      "id": "m-norm",
+      "name": "Vector length and normalization"
+    },
+    {
+      "id": "m-partial",
+      "name": "Partial derivatives"
+    },
+    {
+      "id": "m-radian",
+      "name": "Radians and arc length"
+    },
+    {
+      "id": "m-transdiff",
+      "name": "Trigonometric and exponential derivatives"
+    },
+    {
+      "id": "m-unitcircle",
+      "name": "Unit-circle trigonometry"
+    },
+    {
+      "id": "m-vector",
+      "name": "Vector components and arithmetic"
+    },
+    {
+      "id": "r-configuration",
+      "name": "Configuration space"
+    },
+    {
+      "id": "r-dof",
+      "name": "Degrees of freedom and constraints"
+    },
+    {
+      "id": "r-forward",
+      "name": "Forward kinematics"
+    },
+    {
+      "id": "r-frame",
+      "name": "Robot coordinate frames"
+    },
+    {
+      "id": "r-inverse",
+      "name": "Inverse kinematics"
+    },
+    {
+      "id": "r-jacobian",
+      "name": "Robot velocity Jacobians"
+    },
+    {
+      "id": "r-planning",
+      "name": "Collision-aware motion planning"
+    },
+    {
+      "id": "r-rigid",
+      "name": "Rigid transformations"
+    },
+    {
+      "id": "r-singular",
+      "name": "Kinematic singularities"
+    },
+    {
+      "id": "r-trajectory",
+      "name": "Trajectory timing and smoothness"
+    }
+  ],
+  "checks": [
+    "unique new IDs and normalized names",
+    "all edge endpoints resolve",
+    "new edges unique including reverse related edges",
+    "merged prerequisite graph acyclic",
+    "two paragraphs per new skill",
+    "source IDs resolve",
+    "new skills unmarked",
+    "no fabricated positions/levels",
+    "read-only baseline"
+  ],
+  "notVerified": [
+    "current local app schema/build/Electron rendering",
+    "local shared proficiency store",
+    "independent expert curriculum review"
+  ],
+  "integrationWarning": "Existing overview nodes and their original prerequisites remain unchanged; overview/narrow-skill overlap is intentionally retained. These totals are node counts, not distinct competency totals."
+}

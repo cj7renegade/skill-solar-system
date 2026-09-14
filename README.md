@@ -121,6 +121,23 @@ node authoring/apply-mechanics-statics.mjs path/to/Skill-Solar-System.json --wri
 
 It shares the same integration (`authoring/batch.mjs`) as the DC, Physics, and Material Behavior batches, so it keeps every existing skill, coordinate, level, pin, and answer as it was and adds no answers; derives levels from recorded prerequisite depth; places new skills in the Mechanics ribbon in rows beyond those each level already uses; ignores the authoring-only `layoutRequest`; is safe to rerun; and writes `Mechanics-Statics-Batch-01-with-prerequisites.json` beside the master, holding the 11 skills and their full prerequisite ancestry (47 skills, 79 connections). Its sources go under a `mechanicsStaticsExpansion` namespace, separate from every earlier expansion record.
 
+### Robotics Foundations batch 01
+
+`authoring/robotics-foundations/` holds a supplied content package and the tool that integrates it: 17 narrower Robotics abilities in a new **Frames and kinematics foundations** subdomain — frame labelling, rotation matrices from axes, proper-rotation checks, point versus free-displacement conversion, transform composition and inversion, serial-chain coordinate counting, joint conventions, task versus joint space, planar forward kinematics, fixed tool offsets, geometric reach, both regular inverse branches, candidate verification, the position Jacobian, joint-to-tip velocity, and singular directions — with 47 connections (27 prerequisite, 17 related, 3 supports) and 10 public references. Like the others it is an authoring batch, not a map: it carries no coordinates, levels, or answers, and it cannot be opened with **Open map**.
+
+It reuses 19 skills the atlas already has, mostly mathematics prerequisites (`m-vector`, `m-matrix`, `m-radian`, `m-unitcircle`, `m-invtrig`, `m-norm`, `m-partial`, `m-transdiff`). The eight broad robotics topics it develops (`r-frame`, `r-rigid`, `r-dof`, `r-configuration`, `r-forward`, `r-inverse`, `r-jacobian`, `r-singular`) are kept exactly as they are, and **every** new skill records its scope overlap as a single **related** link that carries no learning order and never transfers an answer. Three **supports** links point back at `r-planning`, `r-trajectory`, and `c-transforms` without changing their prerequisites.
+
+This package ships two checks. `validate_batch.py` is the usual read-only pre-integration check; `check_examples.py` independently verifies the authored equations — known forward poses, both regular inverse branches, central-difference agreement with the Jacobian, the determinant identity, and a rigid-transform round trip.
+
+```sh
+python authoring/robotics-foundations/validate_batch.py path/to/Skill-Solar-System.json   # read-only pre-integration check
+python authoring/robotics-foundations/check_examples.py                                   # equation spot checks, no app dependencies
+node authoring/apply-robotics-foundations.mjs path/to/Skill-Solar-System.json             # dry run: report only
+node authoring/apply-robotics-foundations.mjs path/to/Skill-Solar-System.json --write     # write the master and the sub-map
+```
+
+It shares the same integration (`authoring/batch.mjs`) as the other batches, so it keeps every existing skill, coordinate, level, pin, and answer as it was and adds no answers; derives levels from recorded prerequisite depth; places new skills in the Robotics ribbon in rows beyond those each level already uses; ignores the authoring-only `layoutRequest`; is safe to rerun; and writes `Robotics-Foundations-Batch-01-with-prerequisites.json` beside the master (61 skills, 96 connections). Its sources and frame conventions — right-handed frames, column vectors, `T_AB` mapping B into A, the second joint angle relative to link 1, radians — go under a `roboticsFoundationsExpansion` namespace, separate from every earlier expansion record.
+
 ## Features
 
 **3D view**
@@ -252,7 +269,7 @@ npm run test:e2e   # end-to-end checks in the real Electron app
   - checklist coverage and description rules;
   - a merge that preserves existing skills, pins, levels, and proficiency;
   - sub-map closure, and answers shared between the sub-map and the master;
-- the supplied content batches (DC Circuits, Physics Foundations, Material Behavior, and Mechanics Statics): batch completeness and two-paragraph descriptions, scope overlap recorded as related links, a merge that changes nothing existing, unmarked initialization, refusal of name clashes and unresolved references, idempotent reruns, and sub-map closure and family identity;
+- the supplied content batches (DC Circuits, Physics Foundations, Material Behavior, Mechanics Statics, and Robotics Foundations): batch completeness and two-paragraph descriptions, scope overlap recorded as related links, a merge that changes nothing existing, unmarked initialization, refusal of name clashes and unresolved references, idempotent reruns, and sub-map closure and family identity;
 - atomic saving;
 - spacing, nameplates, and click/keyboard interaction.
 
@@ -275,9 +292,9 @@ Optional local maps:
   - a skill card;
   - guided review;
   - map switching.
-- Add `SSS_DC_SUBMAP=<path>`, `SSS_PHYS_SUBMAP=<path>`, `SSS_MAT_SUBMAP=<path>`, and `SSS_STATICS_SUBMAP=<path>` to run `tests/dc-atlas-e2e.mjs`, `tests/physics-atlas-e2e.mjs`, `tests/material-atlas-e2e.mjs`, and `tests/statics-atlas-e2e.mjs`. With the master and the matching batch sub-map, each checks the subject legend and highlight, **Find skill** reaching the new branch, a skill card with both authored paragraphs, the guided-review count, marking a narrower skill without disturbing its overview answer, that the batches integrated earlier are still intact, and the Yes/Clear round trip to the sub-map and back.
+- Add `SSS_DC_SUBMAP=<path>`, `SSS_PHYS_SUBMAP=<path>`, `SSS_MAT_SUBMAP=<path>`, `SSS_STATICS_SUBMAP=<path>`, and `SSS_ROB_SUBMAP=<path>` to run `tests/dc-atlas-e2e.mjs`, `tests/physics-atlas-e2e.mjs`, `tests/material-atlas-e2e.mjs`, `tests/statics-atlas-e2e.mjs`, and `tests/robotics-atlas-e2e.mjs`. With the master and the matching batch sub-map, each checks the subject legend and highlight, **Find skill** reaching the new branch, a skill card with both authored paragraphs, the guided-review count, marking a narrower skill without disturbing its overview answer, that the batches integrated earlier are still intact, and the Yes/Clear round trip to the sub-map and back.
 - Set `SSS_SHOTS=<folder>` to keep that test's screenshots.
-- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, `SSS_DC_SUBMAP`, `SSS_PHYS_SUBMAP`, `SSS_MAT_SUBMAP`, `SSS_STATICS_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master as it was before the merge being checked) enable a read-only check of the real files.
+- For `npm test`, `SSS_ATLAS`, `SSS_SUBMAP`, `SSS_DC_SUBMAP`, `SSS_PHYS_SUBMAP`, `SSS_MAT_SUBMAP`, `SSS_STATICS_SUBMAP`, `SSS_ROB_SUBMAP`, and `SSS_ATLAS_BACKUP` (the master as it was before the merge being checked) enable a read-only check of the real files.
 
 These maps are copied or opened read-only, and saves go to a temporary folder.
 
@@ -301,10 +318,10 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 Skill Solar System is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
-- `npm test`: all 167 tests pass. Five real-atlas tests are skipped unless `SSS_ATLAS` is set.
+- `npm test`: all 181 tests pass. Six real-atlas tests are skipped unless `SSS_ATLAS` is set.
 - `npm run test:e2e` passes in Electron on Windows:
   - **With generated maps:** 135 checks (review 41, orbit 14, pan rate 6, highlighting and shared proficiency 41, proficiency pulse 14, find and collapse 14, floor grid 5).
-  - **With local maps:** 231 checks (review 46, orbit 14, pan rate 6, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19, Material Behavior integration 19, Mechanics Statics integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
+  - **With local maps:** 250 checks (review 46, orbit 14, pan rate 6, highlighting and shared proficiency 46, proficiency pulse 14, find and collapse 14, floor grid 5, real atlas 13, DC integration 16, Physics integration 19, Material Behavior integration 19, Mechanics Statics integration 19, Robotics Foundations integration 19). The real-atlas suite reports 14 when the lowest unmarked skill is also in the Computing sub-map.
 - **Not yet verified:**
   - A screen reader.
   - A physical trackpad or touch input. The automated checks use synthetic input events.
