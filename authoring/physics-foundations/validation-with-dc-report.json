@@ -1,0 +1,156 @@
+{
+  "status": "passed",
+  "baselineSha256": "a9edd1831675015196f4c25d89638500e8b54b076fcfa9b38f27c1782e7e7e64",
+  "baselineNodeCount": 1712,
+  "baselineEdgeCount": 4966,
+  "newNodeCount": 19,
+  "newEdgeCount": 61,
+  "edgeTypes": {
+    "prerequisite": 38,
+    "supports": 4,
+    "related": 19
+  },
+  "prospectiveNodes": 1731,
+  "prospectiveEdges": 5027,
+  "newPrerequisiteDepthRange": [
+    3,
+    15
+  ],
+  "newLevelRangeIfLegacyDepthFormulaUsed": [
+    10,
+    46
+  ],
+  "prerequisiteClosureNodeCount": 51,
+  "externalReferences": [
+    {
+      "id": "m-add",
+      "name": "Addition and subtraction"
+    },
+    {
+      "id": "m-equation",
+      "name": "Linear equations in one unknown"
+    },
+    {
+      "id": "m-inequality",
+      "name": "Linear inequalities and intervals"
+    },
+    {
+      "id": "m-multiply",
+      "name": "Multiplication and division"
+    },
+    {
+      "id": "m-power",
+      "name": "Integer powers"
+    },
+    {
+      "id": "m-ratio",
+      "name": "Ratios and unit rates"
+    },
+    {
+      "id": "m-sign",
+      "name": "Signed numbers"
+    },
+    {
+      "id": "m-slope",
+      "name": "Slope and intercept"
+    },
+    {
+      "id": "p-accel",
+      "name": "Acceleration"
+    },
+    {
+      "id": "p-constantacc",
+      "name": "Constant-acceleration motion"
+    },
+    {
+      "id": "p-coupled",
+      "name": "Coupled masses and pulleys"
+    },
+    {
+      "id": "p-fbd",
+      "name": "Free-body diagrams"
+    },
+    {
+      "id": "p-freefall",
+      "name": "Free fall near Earth"
+    },
+    {
+      "id": "p-inertia",
+      "name": "Mass, inertia, and net force"
+    },
+    {
+      "id": "p-motiongraph",
+      "name": "Motion graphs and piecewise motion"
+    },
+    {
+      "id": "p-newton",
+      "name": "Newton's second law in components"
+    },
+    {
+      "id": "p-position",
+      "name": "Position and displacement"
+    },
+    {
+      "id": "p-projectile",
+      "name": "Projectile trajectories"
+    },
+    {
+      "id": "p-thirdlaw",
+      "name": "Interaction pairs and multiple bodies"
+    },
+    {
+      "id": "p-units",
+      "name": "Physical quantities and SI units"
+    },
+    {
+      "id": "p-weight",
+      "name": "Weight, normal force, and tension"
+    },
+    {
+      "id": "px-distance",
+      "name": "Distinguish path distance from displacement"
+    },
+    {
+      "id": "px-fbd-isolate",
+      "name": "Choose a system boundary for a free-body diagram"
+    },
+    {
+      "id": "px-force-components",
+      "name": "Resolve a force vector along chosen axes"
+    },
+    {
+      "id": "px-randomerror",
+      "name": "Distinguish random and systematic measurement errors"
+    },
+    {
+      "id": "px-static-friction",
+      "name": "Determine the required static-friction force"
+    },
+    {
+      "id": "px-thirdlaw-pairs",
+      "name": "Identify the two bodies in a Newton third-law pair"
+    },
+    {
+      "id": "px-velocity-secant",
+      "name": "Find average velocity from two position readings"
+    }
+  ],
+  "checks": [
+    "unique new IDs and normalized names",
+    "all edge endpoints resolve",
+    "new edges unique including reverse related edges",
+    "merged prerequisite graph acyclic",
+    "two paragraphs per new skill",
+    "source IDs resolve",
+    "new skills unmarked",
+    "no fabricated positions/levels",
+    "read-only baseline"
+  ],
+  "notVerified": [
+    "current local app schema/build/Electron rendering",
+    "local shared proficiency store",
+    "independent expert curriculum review"
+  ],
+  "integrationWarning": "Existing overview nodes and their original prerequisites remain unchanged; overview/narrow-skill overlap is intentionally retained. These totals are node counts, not distinct competency totals.",
+  "baselineContext": "Virtual combination of supplied master and DC Batch 01; does not assert DC was installed locally."
+}

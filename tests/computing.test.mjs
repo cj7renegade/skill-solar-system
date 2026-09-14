@@ -154,9 +154,9 @@ test('real atlas: Computing edition is present, consistent, and existing skills 
   if (process.env.SSS_SUBMAP) {
     const sub = validate(JSON.parse(readFileSync(process.env.SSS_SUBMAP, 'utf8')));
     // Answers live in the shared record and are applied when a map is opened, so the two files may
-    // legitimately hold different proficiency values. Everything else must match exactly.
-    // Answers live in the shared record, and later expansions add their own top-level metadata to the
-    // master, so compare what this sub-map is responsible for: its skills, its connections, and its identity.
+    // legitimately hold different proficiency values. Integrating a later batch also adds its own
+    // expansion key to the master after this file was written. So compare what this sub-map is
+    // responsible for: its skills, its connections, and its identity.
     const fresh = computingSubmap(master);
     const withoutAnswers = nodes => nodes.map(n => ({ ...n, proficiency80: null }));
     assert.deepEqual(withoutAnswers(sub.nodes), withoutAnswers(fresh.nodes), 'sub-map skills match a fresh derivation, apart from answers');
