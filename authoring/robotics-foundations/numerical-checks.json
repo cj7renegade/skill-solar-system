@@ -1,0 +1,1 @@
+{"status": "passed", "checks": ["known forward poses", "both regular inverse branches at three targets", "Jacobian central-difference checks", "determinant identity", "rigid-transform inverse round trip", "full-extension radial velocity restriction"], "notVerified": ["application integration", "general spatial kinematics", "robot hardware behavior"]}
