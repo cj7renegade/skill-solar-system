@@ -19,6 +19,10 @@ release/
 /Maps/
 /Skill-Solar-System*.json
 
+# Supplied content and planning packages, extracted locally for reference. Each one that has been
+# integrated also has a reviewed copy under authoring/, which is the version that is tracked.
+/packages/
+
 # OS clutter
 Thumbs.db
 desktop.ini
