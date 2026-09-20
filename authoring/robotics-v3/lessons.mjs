@@ -16,6 +16,21 @@ export const STATUS = {
   roadmap: 'roadmap note, not assessed'
 };
 
+// The preview generator stamped every entry, authored or not, with one planning-era lesson status:
+// "scope and assessment specified; full lesson authoring pending". Left alone it now contradicts
+// the 254 entries that do have an introductory card. These restate it per entry, so an introductory
+// card being available is never confused with the extended lesson and practice work still to come,
+// and the roadmap note is never presented as something to be assessed.
+export const LESSON_STATUS = {
+  authored: 'introductory lesson available; extended lesson and further practice authoring pending',
+  pending: 'scope and assessment specified; introductory lesson not yet authored',
+  roadmap: 'roadmap note; not assessed, and no lesson is planned for it'
+};
+
+// A stable identity for this dataset's guided-review sessions, so restating the counts in the title
+// no longer restarts a review in progress. See mapKey/sameMap in src/review.js.
+export const DATASET_KEY = 'robotics-curriculum-v3';
+
 // The fingerprint each lesson carries hashes the original Python `json.dumps(..., sort_keys=True)`
 // of the specification node's id, name, requires and demonstration. Python's defaults differ from
 // JSON.stringify in two ways that change the bytes: it puts a space after ',' and ':', and it
@@ -75,10 +90,13 @@ function cardFor(lesson, specNode, edition, authored) {
 }
 
 // Applies every lesson that reconciles cleanly. Returns a new graph; the input is not modified.
+// An entry that already carries an authored lesson is compared, never silently replaced: if the
+// supplied edition would change it, the existing record is kept and the difference is reported.
 export function applyLessons(graph, { spec, editions }) {
   const specNodes = new Map(spec.nodes.map(n => [n.id, n]));
   const byRuntimeId = new Map(graph.nodes.map(n => [n.id, n]));
   const reconciled = [], apply = new Map(), seen = new Map();
+  const superseded = [];
 
   for (const { metadata, lessons } of editions) {
     for (const lesson of lessons) {
@@ -87,24 +105,34 @@ export function applyLessons(graph, { spec, editions }) {
       const duplicate = seen.get(lesson.id);
       if (duplicate) outcome.problems.push(`planning id already supplied by edition ${duplicate}`);
       else seen.set(lesson.id, metadata.edition);
+      // An entry that already holds this exact lesson is re-applied harmlessly. One that holds a
+      // different lesson is left as it is: the edition does not get to overwrite later work.
+      if (!outcome.problems.length && node.lesson && !same(node.lesson, lesson)) {
+        superseded.push({ planningId: lesson.id, runtimeId: node.id, edition: metadata.edition, keptEdition: node.lessonCard?.edition ?? null,
+          differingFields: [...new Set([...Object.keys(node.lesson), ...Object.keys(lesson)])].filter(key => !same(node.lesson[key], lesson[key])) });
+        outcome.problems.push('the entry already carries a different authored lesson; the existing record was kept');
+      }
       reconciled.push(outcome);
       if (!outcome.problems.length) apply.set(node.id, { lesson, card: cardFor(lesson, specNode, metadata.edition, metadata.authored) });
     }
   }
 
-  const changed = [], unchanged = [];
+  const changed = [], unchanged = [], relabelled = [];
   const nodes = graph.nodes.map(node => {
     const match = apply.get(node.id);
     const specNode = specNodes.get(node.planningId);
-    const status = match ? STATUS.authored : specNode?.kind === 'roadmap' ? STATUS.roadmap : STATUS.pending;
+    // An entry keeps its authored status when it already has a lesson no edition replaced.
+    const authored = !!match || !!node.lesson;
+    const kind = authored ? 'authored' : specNode?.kind === 'roadmap' ? 'roadmap' : 'pending';
     // Key order is fixed, so a second run serializes to the same bytes as the first.
-    const next = { ...node, contentStatus: status };
+    const next = { ...node, lessonStatus: LESSON_STATUS[kind], contentStatus: STATUS[kind] };
     if (match) {
       next.details = match.lesson.details;
       next.placementNote = match.lesson.placement_note;
       next.lessonCard = match.card;
       next.lesson = match.lesson;
     }
+    if (node.lessonStatus !== next.lessonStatus) relabelled.push(node.id);
     (same(node, next) ? unchanged : changed).push(node.id);
     return next;
   });
@@ -115,6 +143,9 @@ export function applyLessons(graph, { spec, editions }) {
   // original Skill Solar System record, and preservationDiff fails if the patch ever changes it.
   const metadata = {
     ...graph.metadata,
+    // A stable review identity, so the counts below can be restated in the title without
+    // discarding a review in progress. src/review.js migrates a session saved before this existed.
+    datasetKey: DATASET_KEY,
     scope: `Reviewed robotics curriculum specification v3 with the authored introductory learning editions applied. ${counted(STATUS.authored)} of ${nodes.length} entries have an introductory lesson; ${counted(STATUS.pending)} assessable entries are still pending and ${counted(STATUS.roadmap)} is a roadmap note.`,
     contentEditions: [...new Set([...apply.values()].map(m => m.card.edition))],
     contentStatusPolicy: 'Introductory content status is separate from proficiency. An authored lesson is not an answer, and opening a card, revealing an answer or finishing an exercise never marks a skill.'
@@ -126,12 +157,14 @@ export function applyLessons(graph, { spec, editions }) {
       reconciled,
       applied: [...apply.keys()],
       conflicted: reconciled.filter(r => r.problems.length),
+      superseded, relabelled,
       changed, unchanged,
       counts: {
         mapNodes: graph.nodes.length,
         lessonsSupplied: reconciled.length,
         imported: apply.size,
         skipped: reconciled.length - apply.size,
+        keptExistingOverEdition: superseded.length,
         authored: counted(STATUS.authored),
         pending: counted(STATUS.pending),
         roadmap: counted(STATUS.roadmap)
@@ -143,6 +176,8 @@ export function applyLessons(graph, { spec, editions }) {
 // Everything this patch must leave alone, compared field by field before and after.
 export const PRESERVED = ['id', 'name', 'domain', 'subdomain', 'description', 'position', 'pinned', 'proficiency80', 'skillLevel', 'icon', 'layoutMode', 'planningId', 'nodeKind', 'assessable', 'feedsMilestones', 'tier', 'pathRole'];
 // The only metadata the patch may restate. Everything else, atlasFamily above all, must survive.
+// datasetKey is written once and then fixed; changing it would orphan saved review sessions, so
+// preservationDiff reports it as a problem whenever an input already declares a different one.
 const METADATA_MAY_CHANGE = new Set(['scope', 'contentEditions', 'contentStatusPolicy']);
 
 export function preservationDiff(before, after) {
@@ -150,8 +185,11 @@ export function preservationDiff(before, after) {
   const problems = [];
   if (before.nodes.length !== after.nodes.length) problems.push(`node count changed: ${before.nodes.length} to ${after.nodes.length}`);
   if (!same(before.edges, after.edges)) problems.push('edges changed');
-  for (const key of new Set([...Object.keys(before.metadata ?? {}), ...Object.keys(after.metadata ?? {})]))
-    if (!METADATA_MAY_CHANGE.has(key) && !same(before.metadata?.[key], after.metadata?.[key])) problems.push(`metadata.${key} changed`);
+  for (const key of new Set([...Object.keys(before.metadata ?? {}), ...Object.keys(after.metadata ?? {})])) {
+    if (METADATA_MAY_CHANGE.has(key) || same(before.metadata?.[key], after.metadata?.[key])) continue;
+    if (key === 'datasetKey' && before.metadata?.datasetKey === undefined) continue; // first declaration
+    problems.push(`metadata.${key} changed`);
+  }
   if (before.nodes.map(n => n.id).join() !== after.nodes.map(n => n.id).join()) problems.push('node order changed');
   for (const node of after.nodes) {
     const was = old.get(node.id);

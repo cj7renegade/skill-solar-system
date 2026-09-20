@@ -35,14 +35,37 @@ function hash(text) {
   for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 0x01000193); }
   return (h >>> 0).toString(16).padStart(8, '0');
 }
-// Identity of the loaded map: its title plus the set of node ids (stable across edits to text or layout).
-export function mapKey(graph) {
+// A map may declare a stable identity for its review sessions. Without one, the title is the
+// identity, which is what every map written before this field did; a retitled map then starts a
+// new review. A map that declares one may be retitled — to restate a content count, say — and its
+// saved review continues, because the declared key and the node set say it is the same dataset.
+const DATASET_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,119}$/;
+export function datasetKey(graph) {
+  const key = graph?.metadata?.datasetKey;
+  return typeof key === 'string' && DATASET_KEY.test(key) ? key : null;
+}
+// The node set alone, as a key suffix. A session saved before a dataset key was declared is found
+// by this suffix, so the progress survives the change rather than being silently discarded.
+export function nodeSetKey(graph) {
   const ids = graph.nodes.map(n => n.id).sort();
-  return `${graph.title || ''}|${ids.length}|${hash(ids.join('\n'))}`;
+  return `|${ids.length}|${hash(ids.join('\n'))}`;
+}
+// Identity of the loaded map: its declared dataset key, else its title, plus the set of node ids
+// (stable across edits to text or layout).
+export function mapKey(graph) {
+  const key = datasetKey(graph);
+  return `${key ? `dataset:${key}` : graph.title || ''}${nodeSetKey(graph)}`;
+}
+// Whether a stored session belongs to this map. A map with a declared dataset key matches its own
+// key or any session saved over the same node set; otherwise the title must match, as before.
+function sameMap(s, graph) {
+  const key = datasetKey(graph);
+  if (!key) return (graph.title || '') === s.title;
+  return s.dataset === key || String(s.map || '').endsWith(nodeSetKey(graph));
 }
 
 export function startSession(graph, mode, now = Date.now()) {
-  return { version: 1, map: mapKey(graph), title: graph.title || '', mode, queue: buildQueue(graph, mode), position: 0, visited: [], skipped: [], answers: {}, round: 1, updated: now };
+  return { version: 1, map: mapKey(graph), dataset: datasetKey(graph), title: graph.title || '', mode, queue: buildQueue(graph, mode), position: 0, visited: [], skipped: [], answers: {}, round: 1, updated: now };
 }
 export const currentId = s => s.queue[s.position] ?? null;
 export const isFinished = s => s.position >= s.queue.length;
@@ -81,12 +104,12 @@ export function progress(s, graph) {
   return result;
 }
 
-// Validates a stored session against the loaded map. Sessions never carry over to a map with a
-// different title or mostly different nodes. Deleted nodes are dropped, and answers that were
+// Validates a stored session against the loaded map. Sessions never carry over to a different map
+// or to one with mostly different nodes. Deleted nodes are dropped, and answers that were
 // undone since (the map shows the skill unmarked again) return to the pending list.
 export function resumeCheck(s, graph) {
   if (!s || s.version !== 1 || !Array.isArray(s.queue)) return { ok: false, reason: 'none' };
-  if ((graph.title || '') !== s.title) return { ok: false, reason: 'different-map' };
+  if (!sameMap(s, graph)) return { ok: false, reason: 'different-map' };
   const nodes = new Map(graph.nodes.map(n => [n.id, n]));
   const queue = s.queue.filter(id => nodes.has(id));
   if (!queue.length || s.queue.length - queue.length > Math.max(3, Math.floor(s.queue.length * 0.1))) return { ok: false, reason: 'map-changed' };
@@ -102,7 +125,9 @@ export function resumeCheck(s, graph) {
     else answers[id] = nodes.get(id).proficiency80 === value ? value : nodes.get(id).proficiency80;
   }
   const skipped = [...new Set([...s.skipped.filter(id => index.has(id)), ...undone])].sort((a, b) => index.get(a) - index.get(b));
-  return { ok: true, missing, undone, session: { ...s, map: mapKey(graph), queue, position, visited, skipped, answers } };
+  // The resumed session is restamped with this map's current identity and title, so a session
+  // carried across a rename is stored under the new key and the old one is replaced, not left behind.
+  return { ok: true, missing, undone, session: { ...s, map: mapKey(graph), dataset: datasetKey(graph), title: graph.title || '', queue, position, visited, skipped, answers } };
 }
 
 // One deliberate answer marks exactly one skill: it must name the skill on screen and arrive after
@@ -140,11 +165,12 @@ export function dropSession(storage, key, limit = 8) {
   delete sessions[key];
   return writeSessions(storage, sessions, limit);
 }
-// The unfinished session for this map, if any: an exact identity match first, then a same-titled
-// session whose queue still matches after deleted nodes are removed.
+// The unfinished session for this map, if any: an exact identity match first, then a session that
+// belongs to the same map (same declared dataset or same node set; failing that, the same title)
+// whose queue still matches after deleted nodes are removed.
 export function findSession(storage, graph) {
   const sessions = loadSessions(storage), key = mapKey(graph);
-  const candidates = Object.values(sessions).filter(s => s.map === key || s.title === (graph.title || '')).sort((a, b) => (b.map === key) - (a.map === key) || b.updated - a.updated);
+  const candidates = Object.values(sessions).filter(s => s.map === key || sameMap(s, graph)).sort((a, b) => (b.map === key) - (a.map === key) || b.updated - a.updated);
   for (const stored of candidates) {
     const check = resumeCheck(stored, graph);
     if (check.ok && isUnfinished(check.session)) return { ...check, storedKey: stored.map };

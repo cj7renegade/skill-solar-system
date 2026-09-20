@@ -5,10 +5,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { applyLessons, preservationDiff, reconcileLesson, contractHash, pythonJson, STATUS } from '../authoring/robotics-v3/lessons.mjs';
-import { lessonSections, hasLesson, contentStatusLine, exerciseKind, demonstrationKind } from '../src/lesson.js';
+import { applyLessons, preservationDiff, reconcileLesson, contractHash, pythonJson, STATUS, LESSON_STATUS, DATASET_KEY } from '../authoring/robotics-v3/lessons.mjs';
+import { lessonSections, hasLesson, contentStatusLine, contentPendingLine, exerciseKind, demonstrationKind } from '../src/lesson.js';
 import { validate } from '../src/model.js';
 import { atlasFamily, emptyRecord, recordAnswers, reconcile } from '../src/proficiency.js';
+import { startSession, resumeCheck, currentId, answer, skip, mapKey, datasetKey, findSession, storeSession } from '../src/review.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 
@@ -112,6 +113,29 @@ test('a lesson that no longer matches the reviewed contract is reported, not for
   assert.equal(graph.nodes[0].details, 'LESSON NOT YET AUTHORED. Planning record.');
 });
 
+test('an entry whose lesson was improved later keeps it; the edition does not overwrite it', () => {
+  const imported = applyLessons(standIn(), { spec, editions }).graph;
+  // A later edit to the authored card, of the kind a fix between editions would make.
+  imported.nodes[0].lesson = { ...imported.nodes[0].lesson, explanation: 'A later, better explanation.' };
+  const { graph, report } = applyLessons(imported, { spec, editions });
+  assert.equal(report.counts.keptExistingOverEdition, 1);
+  assert.equal(report.counts.imported, 0);
+  assert.deepEqual(report.superseded[0].differingFields, ['explanation']);
+  assert.equal(report.superseded[0].planningId, 'A1');
+  assert.equal(graph.nodes[0].lesson.explanation, 'A later, better explanation.', 'the newer text is kept');
+  assert.equal(graph.nodes[0].contentStatus, STATUS.authored, 'and the entry is still counted as authored');
+  assert.match(report.conflicted[0].problems.join(' '), /already carries a different authored lesson/);
+});
+
+test('an entry that no edition supplies keeps the lesson it already has', () => {
+  const imported = applyLessons(standIn(), { spec, editions }).graph;
+  const { graph, report } = applyLessons(imported, { spec, editions: [] });
+  assert.equal(report.counts.authored, 1, 'the existing card still counts');
+  assert.equal(graph.nodes[0].lesson.explanation, 'Explanation for A1.');
+  assert.equal(graph.nodes[0].contentStatus, STATUS.authored);
+  assert.equal(graph.nodes[0].lessonStatus, LESSON_STATUS.authored);
+});
+
 test('a lesson asking for a proficiency write is refused', () => {
   const pushy = lesson('A1', { proficiency_write: true });
   const outcome = reconcileLesson(pushy, { specNode: spec.nodes[0], node: standIn().nodes[0], edition: 'e' });
@@ -152,8 +176,12 @@ test('the card sections read the authored fields and hide what is missing', () =
   assert.ok(!JSON.stringify(sections).includes('[object Object]'));
   // No section at all for an entry with no authored lesson.
   assert.deepEqual(lessonSections(graph.nodes[1]), []);
-  assert.equal(contentStatusLine(graph.nodes[1]), 'Introductory lesson pending');
-  assert.match(contentStatusLine(graph.nodes[0]), /^Introductory lesson authored · shared foundations, edition 01/);
+  assert.equal(contentStatusLine(graph.nodes[1]), 'No introductory lesson for this entry yet');
+  assert.match(contentStatusLine(graph.nodes[0]), /^Introductory lesson available · shared foundations, edition 01/);
+  // An entry with a card still says what is missing; one without a card makes no such claim.
+  assert.match(contentPendingLine(graph.nodes[0]), /Extended lessons and further practice/);
+  assert.equal(contentPendingLine(graph.nodes[1]), null);
+  assert.equal(contentPendingLine(graph.nodes[2]), null, 'the roadmap note says it once, in the status line');
 });
 
 test('a lesson with no references or answer keys drops those parts rather than showing empty ones', () => {
@@ -168,7 +196,9 @@ test('a lesson with no references or answer keys drops those parts rather than s
 test('introductory exercises, simulations and physical demonstrations are named apart', () => {
   const node = kind => ({ lesson: {}, lessonCard: { practiceMode: kind, assessmentContract: { mode: 'drawing, calculation or supervised fabrication' } } });
   assert.match(exerciseKind(node('introductory paper/code/design exercise; complete the stated demonstration separately')), /on paper, in code or as a design/);
-  assert.match(exerciseKind(node('paper/code preparation; physical or target-device evidence required for full demonstration')), /physical or target-device evidence/);
+  assert.match(exerciseKind(node('paper/code preparation; physical or target-device evidence required for full demonstration')), /physical or deployed-system evidence/);
+  // Edition 03 words the same idea differently; the card must still say evidence is needed.
+  assert.match(exerciseKind(node('Paper/code/design preparation. Physical or deployed-system evidence remains necessary where the full demonstration requires it.')), /physical or deployed-system evidence/);
   assert.match(exerciseKind(node(null)), /^Introductory exercise\./);
   assert.match(demonstrationKind(node(null)), /^Physical work/);
   assert.match(demonstrationKind({ lessonCard: { assessmentContract: { mode: 'runnable code or trace' } } }), /^Software/);
@@ -178,19 +208,35 @@ test('introductory exercises, simulations and physical demonstrations are named 
 
 // The real package, when it has been extracted locally.
 const REAL_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
-test('the integrated robotics v3 map carries all 193 lessons and 187 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+test('the integrated robotics v3 map carries all 254 lessons and 126 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
   const graph = validate(JSON.parse(readFileSync(REAL_MAP, 'utf8')));
   assert.equal(graph.nodes.length, 381);
   assert.equal(graph.edges.length, 894);
   assert.equal(atlasFamily(graph), 'robotics-foundations-integration-v3-review');
+  assert.equal(datasetKey(graph), DATASET_KEY, 'a stable review identity, so the title can restate the counts');
   const authored = graph.nodes.filter(n => n.contentStatus === STATUS.authored);
-  assert.equal(authored.length, 193);
-  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 187);
+  assert.equal(authored.length, 254);
+  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 126);
   assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.roadmap).length, 1);
   assert.equal(graph.nodes.filter(n => n.proficiency80 != null).length, 0);
-  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 2);
+  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 3);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'shared-foundations-01').length, 77);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'controlled-joint-02').length, 116);
+  assert.equal(authored.filter(n => n.lessonCard.edition === 'complete-arm-03').length, 61);
+  // Every entry's lesson status agrees with whether it actually has a card, and the roadmap note
+  // is never described as something to be assessed.
+  for (const node of graph.nodes) assert.equal(node.lessonStatus, LESSON_STATUS[node.contentStatus === STATUS.authored ? 'authored' : node.contentStatus === STATUS.roadmap ? 'roadmap' : 'pending'], node.id);
+  const roadmap = graph.nodes.find(n => n.contentStatus === STATUS.roadmap);
+  assert.match(contentStatusLine(roadmap), /not an assessed entry, and no lesson is planned/);
+  assert.equal(hasLesson(roadmap), false);
+  assert.equal(roadmap.assessable, false);
+  // The six entries the edition 03 handoff asks to see are all present and authored.
+  for (const id of ['rob3:K03', 'rob3:m-jacobian', 'rob3:K10', 'rob3:K11', 'rob3:G04', 'rob3:I02']) {
+    const node = graph.nodes.find(n => n.id === id);
+    assert.ok(node, `${id} is missing`);
+    assert.equal(node.contentStatus, STATUS.authored, id);
+    assert.equal(node.lessonCard.edition, 'complete-arm-03', id);
+  }
   for (const node of authored) {
     const sections = lessonSections(node);
     assert.ok(sections.length >= 5, `${node.id} has only ${sections.length} sections`);
@@ -202,4 +248,72 @@ test('the integrated robotics v3 map carries all 193 lessons and 187 pending ent
   // Every entry says what content it has, and no lesson claims a proficiency write.
   assert.ok(graph.nodes.every(n => typeof n.contentStatus === 'string' && n.contentStatus));
   assert.ok(authored.every(n => n.lesson.proficiency_write === false));
+});
+
+// --- Guided review across a retitled map -------------------------------------------------------
+// The previous import restated the counts in the title, which restarted every saved review because
+// sessions were keyed on the title. These check the migration that replaced that behaviour.
+
+const reviewMap = (title, metadata = {}) => validate({
+  schemaVersion: 1, title, metadata: { atlasFamily: 'robotics-foundations-integration-v3-review', ...metadata },
+  nodes: ['a', 'b', 'c', 'd', 'e'].map((id, i) => ({ id, name: `Skill ${id}`, domain: 'Mathematics', description: '', position: [0, i * 10, 0], pinned: false, proficiency80: null, icon: 'calculator', layoutMode: 'vortex' })),
+  edges: []
+});
+const memoryStore = () => { const data = new Map(); return { getItem: k => data.get(k) ?? null, setItem: (k, v) => data.set(k, v) }; };
+
+test('a review in progress survives the map being retitled once a dataset key is declared', () => {
+  const store = memoryStore();
+  // A session begun on the map as it was: no dataset key, title carrying the old counts.
+  const before = reviewMap('Robotics curriculum v3 — 193 introductory lessons, 187 pending');
+  let session = startSession(before, 'unmarked', 1);
+  session = skip(session, currentId(session));
+  before.nodes.find(n => n.id === 'b').proficiency80 = true;
+  session = answer(session, 'b', true);
+  const standing = currentId(session), position = session.position;
+  assert.ok(storeSession(store, session));
+
+  // The import declares a stable key and restates the counts in the title.
+  const after = reviewMap('Robotics curriculum v3 — 254 introductory lessons, 126 pending', { datasetKey: DATASET_KEY });
+  after.nodes.find(n => n.id === 'b').proficiency80 = true;
+  assert.notEqual(mapKey(before), mapKey(after), 'the storage key does change');
+
+  const found = findSession(store, after);
+  assert.ok(found, 'the saved review is still offered after the rename');
+  assert.equal(currentId(found.session), standing, 'it resumes on the same skill');
+  assert.equal(found.session.position, position, 'at the same queue position');
+  assert.deepEqual(found.session.skipped, session.skipped, 'with the same skipped skills');
+  assert.deepEqual(found.session.answers, session.answers, 'and the same answers');
+  assert.deepEqual(found.session.queue, session.queue, 'over the same queue');
+  assert.equal(found.session.map, mapKey(after), 'restamped with the new key');
+  assert.equal(found.storedKey, session.map, 'so the old entry is the one replaced, not left behind');
+});
+
+test('a declared dataset key does not merge genuinely different maps, and untitled-key maps behave as before', () => {
+  const store = memoryStore();
+  const one = reviewMap('Dataset one', { datasetKey: DATASET_KEY });
+  storeSession(store, skip(startSession(one, 'all', 1), 'a'));
+  // Same declared key but a different node set: not the same dataset, so no session is offered.
+  const different = validate({ ...reviewMap('Dataset one', { datasetKey: DATASET_KEY }), nodes: [{ id: 'z', name: 'Z', domain: 'Mathematics', description: '', position: [0, 0, 0], pinned: false, proficiency80: null, icon: 'calculator', layoutMode: 'vortex' }] });
+  assert.equal(findSession(store, different), null);
+  // A map that declares no key keeps the old title-only rule.
+  const legacy = reviewMap('Legacy map');
+  storeSession(store, skip(startSession(legacy, 'all', 2), 'a'));
+  assert.ok(findSession(store, legacy));
+  assert.equal(findSession(store, reviewMap('Legacy map renamed')), null);
+  assert.equal(datasetKey(legacy), null);
+});
+
+test('the real map keeps a review session across this import', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+  const after = validate(JSON.parse(readFileSync(REAL_MAP, 'utf8')));
+  // The map as it was before this import: the earlier title and no dataset key.
+  const before = { ...after, title: 'Robotics curriculum v3 — 193 introductory lessons, 187 pending', metadata: { ...after.metadata, datasetKey: undefined } };
+  let session = startSession(before, 'unmarked', 1);
+  session = skip(session, currentId(session));
+  const standing = currentId(session);
+  const resumed = resumeCheck(session, after);
+  assert.ok(resumed.ok, `resume refused: ${resumed.reason}`);
+  assert.equal(currentId(resumed.session), standing);
+  assert.equal(resumed.session.position, session.position);
+  assert.deepEqual(resumed.session.queue, session.queue, 'the queue is unchanged: no node moved, was added or was removed');
+  assert.deepEqual(resumed.missing, []);
 });

@@ -10,8 +10,8 @@ import { copyFileSync, readFileSync, writeFileSync, readdirSync, existsSync, mkd
 import path from 'node:path';
 import { launchApp, checker, sleep } from './e2e-harness.mjs';
 import { screenshot } from './e2e-pixels.mjs';
-import { lessonSections } from '../src/lesson.js';
-import { buildQueue } from '../src/review.js';
+import { lessonSections, EDITION_NAMES as EDITIONS } from '../src/lesson.js';
+import { buildQueue, startSession, skip, currentId, REVIEW_STORE } from '../src/review.js';
 
 if (!process.env.SSS_V3_MAP) { console.log('Skipped: set SSS_V3_MAP to the imported robotics v3 map.'); process.exit(0); }
 const { check, passed } = checker();
@@ -19,11 +19,15 @@ const source = path.resolve(process.env.SSS_V3_MAP);
 const data = JSON.parse(readFileSync(source, 'utf8'));
 const byId = new Map(data.nodes.map(n => [n.id, n]));
 
-// One card from each area the handoff asks to see, plus the milestone the whole chain leads to.
+// The cards each handoff asks to see. Editions 01 and 02 are rechecked alongside edition 03, so an
+// older card is confirmed to still render after every import.
 const REPRESENTATIVE = [
   ['mathematics', 'rob3:m-trig'], ['electronics', 'rob3:E02'], ['mechanics', 'rob3:B-D05'],
-  ['programming', 'rob3:c-bitwise'], ['PID control', 'rob3:C03'], ['I01 milestone', 'rob3:I01']
+  ['programming', 'rob3:c-bitwise'], ['PID control', 'rob3:C03'], ['I01 milestone', 'rob3:I01'],
+  ['frame transforms', 'rob3:K03'], ['the Jacobian', 'rob3:m-jacobian'], ['arm workspace', 'rob3:K10'],
+  ['arm singularities', 'rob3:K11'], ['grasping', 'rob3:G04'], ['I02 milestone', 'rob3:I02']
 ];
+const EXPECT = { authored: 254, pending: 126, roadmap: 1, nodes: 381 };
 const PENDING = data.nodes.find(n => n.contentStatus === 'introductory lesson pending');
 const ROADMAP = data.nodes.find(n => n.contentStatus === 'roadmap note, not assessed');
 // A card whose authored text uses symbols that must survive the whole path into the DOM.
@@ -54,9 +58,10 @@ try {
   const visibleAnswers = () => evaluate(`[...document.querySelectorAll('#details-body .lesson-answer')].filter(p=>!p.hidden).map(p=>p.textContent)`);
 
   await open(map);
-  check('the imported map opens with every entry', await nodeCount() === 381, '381 entries');
+  check('the imported map opens with every entry', await nodeCount() === EXPECT.nodes, `${EXPECT.nodes} entries`);
   const statuses = await fromDraft(`g.nodes.reduce((t,n)=>(t[n.contentStatus]=(t[n.contentStatus]||0)+1,t),{})`);
-  check('the authored and pending counts survive the open', statuses['introductory lesson authored'] === 193 && statuses['introductory lesson pending'] === 187 && statuses['roadmap note, not assessed'] === 1, '193 / 187 / 1');
+  check('the authored and pending counts survive the open', statuses['introductory lesson authored'] === EXPECT.authored && statuses['introductory lesson pending'] === EXPECT.pending && statuses['roadmap note, not assessed'] === EXPECT.roadmap, `${EXPECT.authored} / ${EXPECT.pending} / ${EXPECT.roadmap}`);
+  check('the map title states the counts it actually holds', await evaluate(`document.getElementById('map-name').textContent`) === data.title && data.title.includes(String(EXPECT.authored)) && data.title.includes(String(EXPECT.pending)), data.title);
   check('no answer arrives with the content', await fromDraft('g.nodes.every(n=>n.proficiency80===null)') && !record()?.entries?.['rob3:I01']);
   // The review queue is rebuilt from the opened map's own ids, names and saved heights.
   const queued = await fromDraft(`g.nodes.map(n=>({id:n.id,name:n.name,position:n.position,proficiency80:n.proficiency80}))`);
@@ -70,7 +75,9 @@ try {
     const titles = await sectionTitles();
     check(`the ${area} card opens with its authored sections`, titles.join('|') === expected.map(s => s.title).join('|'), titles.join(', ').slice(0, 90));
     check(`the ${area} card starts with every section closed`, await evaluate(`document.querySelectorAll('#details-body details.lesson-section[open]').length`) === 0);
-    check(`the ${area} card says which edition authored it`, /Introductory lesson authored · (shared foundations, edition 01|controlled joint, edition 02)/.test(await cardText()));
+    const header = await cardText();
+    check(`the ${area} card says which edition wrote it`, new RegExp(`Introductory lesson available · ${EDITIONS[node.lessonCard.edition]}`).test(header), node.lessonCard.edition);
+    check(`the ${area} card separates an available card from the extended work still pending`, /Extended lessons and further practice for this entry are still to be authored/.test(header));
 
     await openSection('Explanation and worked example');
     const body = await cardText();
@@ -152,7 +159,7 @@ try {
 
   await openCard(PENDING.id);
   const pending = await cardText();
-  check('an entry with no authored lesson says so', pending.includes('Introductory lesson pending'));
+  check('an entry with no authored lesson says so, and does not claim one is merely unfinished', pending.includes('No introductory lesson for this entry yet') && !pending.includes('Introductory lesson available'));
   check('it offers no empty lesson sections', (await sectionTitles()).length === 0);
   check('it still shows the planning text it always had', pending.includes(PENDING.details.split('\n')[0].slice(0, 50)));
   check('it still offers the manual proficiency controls', await evaluate(`[...document.querySelectorAll('#details-body .proficiency-controls button')].map(b=>b.textContent).join('|')`) === 'Yes|No|Clear');
@@ -160,8 +167,32 @@ try {
   await click('#details-close', 200);
 
   await openCard(ROADMAP.id);
-  check('the roadmap note opens without a lesson and without error', (await sectionTitles()).length === 0 && (await cardText()).includes('roadmap note'));
+  const roadmap = await cardText();
+  check('the roadmap note opens without a lesson and without error', (await sectionTitles()).length === 0);
+  check('the roadmap note is not presented as something to be assessed', /not an assessed entry, and no lesson is planned for it/.test(roadmap) && !/Introductory lesson available/.test(roadmap), roadmap.replace(/\s+/g, ' ').slice(0, 140));
   await click('#details-close', 200);
+
+  // A guided review begun on the map as it was titled before this import must still be offered,
+  // at the same skill and queue position, after the import restated the counts in the title.
+  // The session is planted in the app's own review store exactly as the old build would have left it.
+  const legacyTitle = 'Robotics curriculum v3 — 193 introductory lessons, 187 pending';
+  const legacy = startSession({ ...data, title: legacyTitle, metadata: { ...data.metadata, datasetKey: undefined } }, 'unmarked', 1);
+  const worked = skip(legacy, currentId(legacy));
+  const standingId = currentId(worked), standingName = byId.get(standingId).name;
+  await evaluate(`localStorage.setItem(${JSON.stringify(REVIEW_STORE)}, ${JSON.stringify(JSON.stringify({ sessions: { [worked.map]: worked } }))})`);
+  await open(map); // reopen so the review start view reads the planted session
+  await click('#mark-proficiency', 500);
+  const resumeLabel = await evaluate(`document.getElementById('review-resume')?.textContent ?? ''`);
+  check('a review saved under the previous title is still offered after the import', resumeLabel.includes('Resume review'), resumeLabel);
+  check('it reports the same number of skills still to go', resumeLabel.includes(String(worked.queue.length - worked.position)), `${worked.queue.length - worked.position} left`);
+  await click('#review-resume', 500);
+  check('it resumes on the same skill it was left on', await evaluate(`document.getElementById('review-title')?.textContent`) === standingName, standingName);
+  const storedNow = await evaluate(`Object.values(JSON.parse(localStorage.getItem(${JSON.stringify(REVIEW_STORE)})).sessions)`);
+  check('the session was re-keyed on the dataset, and the old entry was replaced, not duplicated', storedNow.length === 1 && storedNow[0].dataset === data.metadata.datasetKey && storedNow[0].map.startsWith('dataset:'), storedNow.map(x => x.map).join(' | '));
+  check('the resumed queue and skipped list are the ones it was saved with', JSON.stringify(storedNow[0].queue) === JSON.stringify(worked.queue) && JSON.stringify(storedNow[0].skipped) === JSON.stringify(worked.skipped));
+  check('resuming a review changed no proficiency', await fromDraft('g.nodes.every(n=>n.proficiency80===null)'));
+  await key('Escape'); await sleep(300);
+  await keep('05-review-resumed');
 
   // A manual answer still works, still reaches the shared record, and survives save and reopen.
   await selectById('rob3:I01');
@@ -170,14 +201,14 @@ try {
   check('marking the milestone left its prerequisites alone', await answerOf('rob3:C03') === null);
   await click('#save', 600);
   const saved = JSON.parse(readFileSync(path.join(app.dir, 'saved.json'), 'utf8'));
-  check('the saved file keeps every lesson', saved.nodes.filter(n => n.lesson).length === 193);
+  check('the saved file keeps every lesson', saved.nodes.filter(n => n.lesson).length === EXPECT.authored);
   check('the saved file keeps the authored fields the card does not show', saved.nodes.find(n => n.id === 'rob3:C03').lesson.node_contract_sha256 === byId.get('rob3:C03').lesson.node_contract_sha256 && saved.nodes.find(n => n.id === 'rob3:C03').lesson.dependency_depth != null);
   check('the saved file keeps the one answer given and no other', saved.nodes.filter(n => n.proficiency80 != null).length === 1 && saved.nodes.find(n => n.id === 'rob3:I01').proficiency80 === true);
   check('the saved file keeps the positions, levels and pins', saved.nodes.every((n, i) => JSON.stringify(n.position) === JSON.stringify(data.nodes[i].position) && n.skillLevel === data.nodes[i].skillLevel && n.pinned === data.nodes[i].pinned));
   check('the saved file keeps the atlas family, so answers stay separate', saved.metadata.atlasFamily === data.metadata.atlasFamily);
 
   await open(path.join(app.dir, 'saved.json'));
-  check('reopening the saved map restores the lessons', await fromDraft('g.nodes.filter(n=>n.lesson).length') === 193);
+  check('reopening the saved map restores the lessons', await fromDraft('g.nodes.filter(n=>n.lesson).length') === EXPECT.authored);
   check('reopening the saved map restores the answer', await answerOf('rob3:I01') === true);
   await openCard('rob3:C03');
   await openSection('Practice question');

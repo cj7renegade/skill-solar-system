@@ -16,7 +16,9 @@ const blocks = (...items) => items.filter(Boolean);
 // and the card says which one it is offering.
 export function exerciseKind(node) {
   const mode = text(node?.lessonCard?.practiceMode);
-  if (/physical or target-device/i.test(mode)) return 'Introductory exercise: paper or code preparation. The full demonstration also needs physical or target-device evidence.';
+  // Editions word this differently; what matters is whether the entry's own demonstration still
+  // needs evidence from real hardware or a deployed system, which the card must not blur.
+  if (/physical or (target-device|deployed-system)/i.test(mode)) return 'Introductory exercise: paper, code or design preparation. The full demonstration also needs physical or deployed-system evidence.';
   if (/paper\/code\/design/i.test(mode)) return 'Introductory exercise on paper, in code or as a design. The full demonstration is done separately.';
   return 'Introductory exercise. The full demonstration is done separately.';
 }
@@ -39,14 +41,29 @@ export function demonstrationKind(node) {
 
 export const SIMULATION_NOTE = 'A simulated or calculated result is supporting evidence, not a record of physical work.';
 
-// One line naming what content this entry has, for the top of the card.
+export const EDITION_NAMES = {
+  'shared-foundations-01': 'shared foundations, edition 01',
+  'controlled-joint-02': 'controlled joint, edition 02',
+  'complete-arm-03': 'complete arm, edition 03'
+};
+// What the card says about its own content, for the top of the card. This describes the content
+// only: it is never a statement about the reader's proficiency, and "available" means an
+// introductory card exists, not that the subject has been covered exhaustively.
 export function contentStatusLine(node) {
   const status = text(node?.contentStatus);
   if (!status) return null;
   const card = node.lessonCard;
-  if (!card) return status.charAt(0).toUpperCase() + status.slice(1);
-  const edition = text(card.edition).replace('shared-foundations-01', 'shared foundations, edition 01').replace('controlled-joint-02', 'controlled joint, edition 02');
-  return `Introductory lesson authored · ${edition}${text(card.authored) ? ` · ${card.authored}` : ''}`;
+  if (!card) return /roadmap/i.test(status) ? 'Roadmap note — not an assessed entry, and no lesson is planned for it' : 'No introductory lesson for this entry yet';
+  const edition = EDITION_NAMES[text(card.edition)] || text(card.edition);
+  return `Introductory lesson available · ${edition}${text(card.authored) ? ` · ${card.authored}` : ''}`;
+}
+// The second line: what is still missing even where a card exists. `lessonStatus` is the map's own
+// planning label; an entry written before that label was restated falls back to a plain sentence.
+export function contentPendingLine(node) {
+  if (!node) return null;
+  // The roadmap note says all it needs to in one line; a second would only repeat it.
+  if (/roadmap/i.test(text(node.contentStatus)) || !hasLesson(node)) return null;
+  return /extended/i.test(text(node.lessonStatus)) ? 'Extended lessons and further practice for this entry are still to be authored.' : null;
 }
 
 // The expandable sections, in reading order. A section whose blocks are all empty is left out, so

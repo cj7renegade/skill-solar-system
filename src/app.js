@@ -7,7 +7,7 @@ import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
-import { hasLesson, lessonSections, contentStatusLine } from './lesson.js';
+import { hasLesson, lessonSections, contentStatusLine, contentPendingLine } from './lesson.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
 import { createRecordStore } from './proficiency-store.js';
@@ -376,8 +376,11 @@ function fillDetails(){
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
   body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:node.domain+(node.skillLevel!=null?` · Reference level ${node.skillLevel}/100`:' · Reference level unassigned')})));
-  const status=contentStatusLine(node);
+  // What content this entry has, then what is still missing even where a card exists. Both describe
+  // the content only; neither says anything about the reader's proficiency.
+  const status=contentStatusLine(node),pending=contentPendingLine(node);
   if(status)body.append(el('p',{class:'lesson-status',text:status}));
+  if(pending)body.append(el('p',{class:'edge-note',text:pending}));
   const taught=hasLesson(node);
   // The short description repeats the title in the robotics curriculum maps; show it only when it adds something.
   if(taught){
