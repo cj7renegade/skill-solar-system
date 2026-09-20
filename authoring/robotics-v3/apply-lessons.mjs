@@ -30,12 +30,18 @@ const CANDIDATES = {
   spec: ['packages/controlled-joint-learning-edition-02/baseline/Robotics-Reviewed-Specification.json', 'Maps/Robotics-v3/baseline/Robotics-Reviewed-Specification.json', 'packages/robotics-curriculum-v3/Robotics-Reviewed-Specification.json'],
   edition01: ['packages/shared-foundations-learning-edition-01/Shared-Foundations-Lessons-01.json', 'packages/controlled-joint-learning-edition-02/baseline/Shared-Foundations-Lessons-01.json', 'Maps/Robotics-v3/baseline/Shared-Foundations-Lessons-01.json'],
   edition02: ['packages/controlled-joint-learning-edition-02/Controlled-Joint-Lessons-02.json', 'Maps/Robotics-v3/Controlled-Joint-Lessons-02.json'],
-  edition03: ['packages/complete-arm-learning-edition-03/Complete-Arm-Lessons-03.json', 'Maps/Robotics-v3/robotics-lessons-03/Complete-Arm-Lessons-03.json']
+  edition03: ['packages/complete-arm-learning-edition-03/Complete-Arm-Lessons-03.json', 'Maps/Robotics-v3/robotics-lessons-03/Complete-Arm-Lessons-03.json'],
+  edition04: ['packages/wheeled-robot-learning-edition-04/Wheeled-Robot-Lessons-04.json', 'Maps/Robotics-v3/robotics-lessons-04/Wheeled-Robot-Lessons-04.json']
 };
 // The export the latest edition was reconciled against, shipped inside its package. Optional: it
 // only exists once an edition has been supplied with one. It is never written, only compared, so
 // the summary can still show what the newest edition added after the import has been re-run.
-const BASELINE = ['packages/complete-arm-learning-edition-03/baseline/Robotics-v3-Lessons.json'];
+// Newest first: the comparison is against the export the latest edition was built from.
+const BASELINE = [
+  'packages/wheeled-robot-learning-edition-04/baseline/Robotics-v3-Lessons.json',
+  'Maps/Robotics-v3/robotics-lessons-04/baseline/Robotics-v3-Lessons.json',
+  'packages/complete-arm-learning-edition-03/baseline/Robotics-v3-Lessons.json'
+];
 
 export function resolveInput(name) {
   for (const relative of CANDIDATES[name]) { const file = path.join(ROOT, relative); if (existsSync(file)) return { name, relative, file }; }
@@ -48,7 +54,7 @@ const rel = file => path.relative(ROOT, file).split(path.sep).join('/');
 export function loadInputs() {
   const found = Object.fromEntries(Object.keys(CANDIDATES).map(name => [name, resolveInput(name)]));
   const read = name => ({ ...found[name], sha256: sha256(found[name].file), data: JSON.parse(readFileSync(found[name].file, 'utf8')) });
-  return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03') };
+  return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04') };
 }
 
 function ledger(graph) {
@@ -75,7 +81,7 @@ if (!existsSync(MAP)) { console.error(`No v3 map at ${MAP}. Run authoring/roboti
 
 const inputs = loadInputs();
 const before = validate(JSON.parse(readFileSync(MAP, 'utf8')));
-const editions = [inputs.edition01, inputs.edition02, inputs.edition03].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
+const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 
 const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions });
 validate(graph);
@@ -146,7 +152,7 @@ const summary = {
   editions: editions.map(e => ({ edition: e.metadata.edition, authored: e.metadata.authored, supplied: e.lessons.length, selection: e.metadata.selection })),
   titleChange: { before: before.title, after: graph.title, reviewSessionsKeptBy: `metadata.datasetKey = ${JSON.stringify(datasetKey(graph))}` },
   counts: report.counts,
-  expected: { uniqueAuthoredCards: 254, pendingAssessable: 126, roadmapEntries: 1, mapEntries: 381 },
+  expected: { uniqueAuthoredCards: 282, pendingAssessable: 98, roadmapEntries: 1, mapEntries: 381 },
   reconciliation: {
     imported: report.counts.imported,
     skipped: report.counts.skipped,
@@ -179,8 +185,8 @@ const summary = {
     `${report.counts.pending} assessable entries still have no authored introductory lesson, and ${report.counts.roadmap} roadmap entry is not assessed.`,
     'Introductory content coverage is not proficiency and not a physical milestone. Nothing here says a skill has been demonstrated.',
     'No proficiency answer is read, written or inferred by this import.',
-    'The teaching labs are supplemental offline material and are not wired into the application. The edition 03 lab needs NumPy, models planar kinematics only, and has no hardware interface.',
-    `The map title restates the counts. Guided-review sessions now key on metadata.datasetKey (${JSON.stringify(datasetKey(graph))}) rather than the title, and a session saved under the earlier title is migrated by its node set, so progress and queue position survive this rename. Review order is unchanged: it comes from saved heights, names and ids, none of which this patch touches.`
+    'The teaching labs are supplemental offline material and are not wired into the application. Both edition 03 and edition 04 need NumPy. The edition 03 lab models planar kinematics only; the edition 04 mobile lab tracks routes against an ideal true pose, and its estimation and fault supervision are separate experiments. Neither is validated physical autonomy and neither has a hardware interface.',
+    `The map title restates the counts. Guided-review sessions key on metadata.datasetKey (${JSON.stringify(datasetKey(graph))}) rather than the title${session.checked && session.keyBefore === session.keyAfter ? ', which is unchanged by this import, so every saved session keeps its key, queue and position outright' : ', and a session saved under an earlier title is migrated by its node set, so progress and queue position survive the rename'}. Review order is unchanged: it comes from saved heights, names and ids, none of which this patch touches.`
   ]
 };
 

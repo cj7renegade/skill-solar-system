@@ -14,12 +14,17 @@ const blocks = (...items) => items.filter(Boolean);
 // How the introductory exercise on this card relates to the demonstration the entry actually
 // requires. Introductory exercises, simulated results and physical evidence are different things,
 // and the card says which one it is offering.
+// Every edition has worded this differently — "physical or target-device evidence required",
+// "Physical or deployed-system evidence remains necessary", "full demonstrations require the
+// stated deployed-system or physical evidence". Matching whole phrases quietly lost the warning
+// the moment an edition rephrased it, so the test is for the idea rather than the sentence: does
+// this entry's demonstration still need evidence from real hardware or a deployed system?
+export const NEEDS_REAL_EVIDENCE = /\b(physical|deployed[-\s]?system|target[-\s]?device|hardware|supervised|on[-\s]robot)\b/i;
+const PREPARATION = /\b(paper|code|design|preparation|written)\b/i;
 export function exerciseKind(node) {
   const mode = text(node?.lessonCard?.practiceMode);
-  // Editions word this differently; what matters is whether the entry's own demonstration still
-  // needs evidence from real hardware or a deployed system, which the card must not blur.
-  if (/physical or (target-device|deployed-system)/i.test(mode)) return 'Introductory exercise: paper, code or design preparation. The full demonstration also needs physical or deployed-system evidence.';
-  if (/paper\/code\/design/i.test(mode)) return 'Introductory exercise on paper, in code or as a design. The full demonstration is done separately.';
+  if (NEEDS_REAL_EVIDENCE.test(mode)) return 'Introductory exercise: paper, code or design preparation. The full demonstration also needs physical or deployed-system evidence.';
+  if (PREPARATION.test(mode)) return 'Introductory exercise on paper, in code or as a design. The full demonstration is done separately.';
   return 'Introductory exercise. The full demonstration is done separately.';
 }
 
@@ -44,7 +49,8 @@ export const SIMULATION_NOTE = 'A simulated or calculated result is supporting e
 export const EDITION_NAMES = {
   'shared-foundations-01': 'shared foundations, edition 01',
   'controlled-joint-02': 'controlled joint, edition 02',
-  'complete-arm-03': 'complete arm, edition 03'
+  'complete-arm-03': 'complete arm, edition 03',
+  'wheeled-robot-04': 'wheeled robot, edition 04'
 };
 // What the card says about its own content, for the top of the card. This describes the content
 // only: it is never a statement about the reader's proficiency, and "available" means an

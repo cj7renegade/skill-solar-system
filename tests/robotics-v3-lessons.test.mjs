@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { applyLessons, preservationDiff, reconcileLesson, contractHash, pythonJson, STATUS, LESSON_STATUS, DATASET_KEY } from '../authoring/robotics-v3/lessons.mjs';
-import { lessonSections, hasLesson, contentStatusLine, contentPendingLine, exerciseKind, demonstrationKind } from '../src/lesson.js';
+import { lessonSections, hasLesson, contentStatusLine, contentPendingLine, exerciseKind, demonstrationKind, NEEDS_REAL_EVIDENCE, EDITION_NAMES } from '../src/lesson.js';
+import { prerequisiteChain } from '../src/prerequisites.js';
 import { validate } from '../src/model.js';
 import { atlasFamily, emptyRecord, recordAnswers, reconcile } from '../src/proficiency.js';
 import { startSession, resumeCheck, currentId, answer, skip, mapKey, datasetKey, findSession, storeSession } from '../src/review.js';
@@ -199,6 +200,10 @@ test('introductory exercises, simulations and physical demonstrations are named 
   assert.match(exerciseKind(node('paper/code preparation; physical or target-device evidence required for full demonstration')), /physical or deployed-system evidence/);
   // Edition 03 words the same idea differently; the card must still say evidence is needed.
   assert.match(exerciseKind(node('Paper/code/design preparation. Physical or deployed-system evidence remains necessary where the full demonstration requires it.')), /physical or deployed-system evidence/);
+  // Edition 04 rephrases it again, putting the evidence clause the other way round.
+  assert.match(exerciseKind(node('Paper/code preparation; full demonstrations require the stated deployed-system or physical evidence.')), /physical or deployed-system evidence/);
+  // Preparation with no evidence clause must not gain one.
+  assert.match(exerciseKind(node('introductory paper/code/design exercise; complete the stated demonstration separately')), /done separately/);
   assert.match(exerciseKind(node(null)), /^Introductory exercise\./);
   assert.match(demonstrationKind(node(null)), /^Physical work/);
   assert.match(demonstrationKind({ lessonCard: { assessmentContract: { mode: 'runnable code or trace' } } }), /^Software/);
@@ -208,21 +213,24 @@ test('introductory exercises, simulations and physical demonstrations are named 
 
 // The real package, when it has been extracted locally.
 const REAL_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
-test('the integrated robotics v3 map carries all 254 lessons and 126 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+test('the integrated robotics v3 map carries all 282 lessons and 98 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
   const graph = validate(JSON.parse(readFileSync(REAL_MAP, 'utf8')));
   assert.equal(graph.nodes.length, 381);
   assert.equal(graph.edges.length, 894);
   assert.equal(atlasFamily(graph), 'robotics-foundations-integration-v3-review');
   assert.equal(datasetKey(graph), DATASET_KEY, 'a stable review identity, so the title can restate the counts');
   const authored = graph.nodes.filter(n => n.contentStatus === STATUS.authored);
-  assert.equal(authored.length, 254);
-  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 126);
+  assert.equal(authored.length, 282);
+  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 98);
   assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.roadmap).length, 1);
   assert.equal(graph.nodes.filter(n => n.proficiency80 != null).length, 0);
-  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 3);
+  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 4);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'shared-foundations-01').length, 77);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'controlled-joint-02').length, 116);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'complete-arm-03').length, 61);
+  assert.equal(authored.filter(n => n.lessonCard.edition === 'wheeled-robot-04').length, 28);
+  // Every edition present has a reader-facing name; an unmapped one would show its raw slug.
+  for (const edition of new Set(authored.map(n => n.lessonCard.edition))) assert.ok(EDITION_NAMES[edition], `no reader-facing name for edition ${edition}`);
   // Every entry's lesson status agrees with whether it actually has a card, and the roadmap note
   // is never described as something to be assessed.
   for (const node of graph.nodes) assert.equal(node.lessonStatus, LESSON_STATUS[node.contentStatus === STATUS.authored ? 'authored' : node.contentStatus === STATUS.roadmap ? 'roadmap' : 'pending'], node.id);
@@ -230,13 +238,26 @@ test('the integrated robotics v3 map carries all 254 lessons and 126 pending ent
   assert.match(contentStatusLine(roadmap), /not an assessed entry, and no lesson is planned/);
   assert.equal(hasLesson(roadmap), false);
   assert.equal(roadmap.assessable, false);
-  // The six entries the edition 03 handoff asks to see are all present and authored.
-  for (const id of ['rob3:K03', 'rob3:m-jacobian', 'rob3:K10', 'rob3:K11', 'rob3:G04', 'rob3:I02']) {
-    const node = graph.nodes.find(n => n.id === id);
-    assert.ok(node, `${id} is missing`);
-    assert.equal(node.contentStatus, STATUS.authored, id);
-    assert.equal(node.lessonCard.edition, 'complete-arm-03', id);
+  // The entries each handoff asks to see are present, authored, and by the edition that wrote them.
+  const named = { 'complete-arm-03': ['K03', 'm-jacobian', 'K10', 'K11', 'G04', 'I02'], 'wheeled-robot-04': ['B-M04', 'P08', 'P09', 'N01', 'N06', 'N08', 'I03'] };
+  for (const [edition, ids] of Object.entries(named)) for (const planning of ids) {
+    const node = graph.nodes.find(n => n.id === `rob3:${planning}`);
+    assert.ok(node, `rob3:${planning} is missing`);
+    assert.equal(node.contentStatus, STATUS.authored, planning);
+    assert.equal(node.lessonCard.edition, edition, planning);
   }
+  // Every milestone chain an edition closed still has introductory content all the way down.
+  for (const [milestone, size] of [['rob3:I01', 185], ['rob3:I02', 249], ['rob3:I03', 241]]) {
+    const closure = [...prerequisiteChain(graph, milestone).map(s => s.id), milestone];
+    assert.equal(closure.length, size, `${milestone} closure`);
+    const byId = new Map(graph.nodes.map(n => [n.id, n]));
+    assert.deepEqual(closure.filter(id => !byId.get(id).lesson), [], `${milestone}: entries with no introductory lesson`);
+  }
+  // Whatever wording an edition uses, a card whose demonstration still needs real evidence must
+  // say so. A new edition that rephrases it is caught here rather than quietly losing the warning.
+  const needsEvidence = authored.filter(n => NEEDS_REAL_EVIDENCE.test(n.lessonCard.practiceMode || ''));
+  assert.ok(needsEvidence.length > 100, `${needsEvidence.length} entries state that real evidence is required`);
+  for (const node of needsEvidence) assert.match(exerciseKind(node), /also needs physical or deployed-system evidence/, node.id);
   for (const node of authored) {
     const sections = lessonSections(node);
     assert.ok(sections.length >= 5, `${node.id} has only ${sections.length} sections`);

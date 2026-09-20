@@ -25,9 +25,12 @@ const REPRESENTATIVE = [
   ['mathematics', 'rob3:m-trig'], ['electronics', 'rob3:E02'], ['mechanics', 'rob3:B-D05'],
   ['programming', 'rob3:c-bitwise'], ['PID control', 'rob3:C03'], ['I01 milestone', 'rob3:I01'],
   ['frame transforms', 'rob3:K03'], ['the Jacobian', 'rob3:m-jacobian'], ['arm workspace', 'rob3:K10'],
-  ['arm singularities', 'rob3:K11'], ['grasping', 'rob3:G04'], ['I02 milestone', 'rob3:I02']
+  ['arm singularities', 'rob3:K11'], ['grasping', 'rob3:G04'], ['I02 milestone', 'rob3:I02'],
+  ['statistics', 'rob3:B-M04'], ['state estimation', 'rob3:P08'], ['sensor fusion', 'rob3:P09'],
+  ['differential drive', 'rob3:N01'], ['route planning', 'rob3:N06'], ['obstacle response', 'rob3:N08'],
+  ['I03 milestone', 'rob3:I03']
 ];
-const EXPECT = { authored: 254, pending: 126, roadmap: 1, nodes: 381 };
+const EXPECT = { authored: 282, pending: 98, roadmap: 1, nodes: 381 };
 const PENDING = data.nodes.find(n => n.contentStatus === 'introductory lesson pending');
 const ROADMAP = data.nodes.find(n => n.contentStatus === 'roadmap note, not assessed');
 // A card whose authored text uses symbols that must survive the whole path into the DOM.
@@ -154,6 +157,17 @@ try {
   const symbolText = await cardText();
   const present = SYMBOLS.filter(s => JSON.stringify(symbolNode.lesson).includes(s));
   check('symbols survive into the card', present.every(s => symbolText.includes(s)), `${present.join(' ')} in ${symbolNode.id}`);
+  await click('#details-close', 200);
+  // Units are part of the answer in the wheeled-robot cards; they must read exactly as authored.
+  const united = byId.get('rob3:N01');
+  await openCard('rob3:N01');
+  await evaluate(`[...document.querySelectorAll('#details-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(150);
+  await evaluate(`document.querySelectorAll('#details-body button.reveal').forEach(b=>b.click())`); await sleep(200);
+  const unitText = await cardText();
+  const units = [...new Set((JSON.stringify(united.lesson).match(/\d+(?:\.\d+)?\s?(?:m\/s|rad\/s|mm|m\b)/g) || []))];
+  check('units read exactly as authored, in the explanation and in the answers', units.length >= 4 && units.every(u => unitText.includes(u)), units.join(', '));
+  check('the revealed answer keeps its units', unitText.includes(united.lesson.practice.answer));
+  await keep('06-units-card');
   check('the explanation and the worked example stay separate paragraphs', await evaluate(`document.querySelectorAll('#details-body details.lesson-section h4').length`) >= 2);
   await click('#details-close', 200);
 
