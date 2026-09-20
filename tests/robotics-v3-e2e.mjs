@@ -162,7 +162,7 @@ try {
   check('an entry with no authored lesson says so, and does not claim one is merely unfinished', pending.includes('No introductory lesson for this entry yet') && !pending.includes('Introductory lesson available'));
   check('it offers no empty lesson sections', (await sectionTitles()).length === 0);
   check('it still shows the planning text it always had', pending.includes(PENDING.details.split('\n')[0].slice(0, 50)));
-  check('it still offers the manual proficiency controls', await evaluate(`[...document.querySelectorAll('#details-body .proficiency-controls button')].map(b=>b.textContent).join('|')`) === 'Yes|No|Clear');
+  check('it still offers the manual proficiency controls', await evaluate(`[...document.querySelectorAll('#details-body .proficiency-controls .button-row button')].map(b=>b.textContent).join('|')`) === 'Yes|No|Clear');
   await keep('03-pending-card');
   await click('#details-close', 200);
 
@@ -228,7 +228,7 @@ try {
     await openCardNamed(plain.name);
     const plainCard = await cardText();
     check('a map with no authored lessons keeps the card it always had', (await sectionTitles()).length === 0 && plainCard.includes(plain.details.trim().split(/\n\s*\n/)[0].slice(0, 60)));
-    check('that card still shows where it sits and its proficiency controls', /Where it sits/.test(plainCard) && await evaluate(`document.querySelectorAll('#details-body .proficiency-controls button').length`) === 3);
+    check('that card still shows where it sits and its proficiency controls', /Where it sits/.test(plainCard) && await evaluate(`document.querySelectorAll('#details-body .proficiency-controls .button-row button').length`) === 3);
     await click('#details-close', 200);
     check('the copied original was not changed', readFileSync(atlas, 'utf8') === readFileSync(process.env.SSS_ATLAS, 'utf8'));
     await keep('05-original-atlas');

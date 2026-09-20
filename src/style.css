@@ -30,6 +30,25 @@
 .lesson-links{display:flex;flex-wrap:wrap;gap:6px}
 #details-body button.lesson-link{font-size:12px;padding:4px 10px;text-align:left}
 .lesson-url{word-break:break-all;font-family:ui-monospace,Consolas,monospace;font-size:12px}
+/* Marking a whole prerequisite chain: the list is read before anything is recorded. */
+#chain-dialog{color:var(--ink);background:#101b2b;border:1px solid #40516b;border-radius:12px;width:min(720px,92vw);max-height:88vh;padding:0;box-shadow:0 24px 90px #0009;overflow:auto;overscroll-behavior:contain}
+#chain-dialog::backdrop{background:#030912c4}
+#chain-body{padding:20px 26px;font-size:13px;line-height:1.65}
+#chain-body h3{font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+#chain-body p{margin:0 0 8px}
+.chain-answer button.chosen{border-color:var(--accent);background:#344254}
+.chain-bulk{margin:10px 0 4px}
+.chain-bulk button{font-size:12px;padding:4px 10px}
+.chain-list{border:1px solid var(--line);border-radius:8px;margin:12px 0;padding:4px 0;background:#0d1724}
+.chain-step{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin:12px 14px 4px;font-weight:600}
+.chain-item{display:flex;align-items:baseline;gap:10px;padding:5px 14px;cursor:pointer}
+.chain-item:hover{background:#15202f}
+.chain-item input{margin:0;flex:none;align-self:center}
+.chain-name{flex:1}
+.chain-meta{font-size:11px;color:var(--muted);white-space:nowrap}
+.chain-item-settled .chain-name{color:var(--muted)}
+.chain-actions{position:sticky;bottom:0;background:#101b2b;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+#chain-body button.chain-open,#details-body button.chain-open,#inspector button.chain-open{margin-top:10px;text-align:left}
 /* Guided proficiency review */
 #review-dialog{color:var(--ink);background:#101b2b;border:1px solid #40516b;border-radius:12px;width:min(720px,92vw);max-height:90vh;padding:22px 26px;box-shadow:0 24px 90px #0009;overscroll-behavior:contain}
 #review-dialog::backdrop{background:#030912c4}

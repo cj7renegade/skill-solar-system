@@ -8,6 +8,7 @@ import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
 import { hasLesson, lessonSections, contentStatusLine, contentPendingLine } from './lesson.js';
+import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, stepLabel } from './prerequisites.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
 import { createRecordStore } from './proficiency-store.js';
@@ -96,7 +97,7 @@ function render(){
   $('map-name').textContent=graph.title||'Untitled map';
   $('layout-summary').textContent=graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
   viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
-  renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
+  renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
 }
 function renderList(){
@@ -119,7 +120,7 @@ function inspect(){
     // A map that records one says whether this subject has an authored lesson, so the reader knows
     // what opening the card will show. It describes the content, never the reader's proficiency.
     const status=contentStatusLine(n);
-    body.append(el('p',{text:n.description}),status?el('p',{class:'lesson-status',text:status}):null,el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n));
+    body.append(...[el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n)].filter(Boolean));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -233,7 +234,7 @@ $('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(windo
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 // Held navigation keys pan continuously, scaled by frame time; releasing, blurring, typing, or opening a dialog stops them.
 const heldKeys=new Map();let panFrame=null,panClock=0;
-function typingOrReading(){const target=document.activeElement;return $('details-dialog').open||$('review-dialog').open||['INPUT','TEXTAREA','SELECT','BUTTON'].includes(target.tagName)||target.isContentEditable;}
+function typingOrReading(){const target=document.activeElement;return $('details-dialog').open||$('review-dialog').open||$('chain-dialog').open||['INPUT','TEXTAREA','SELECT','BUTTON'].includes(target.tagName)||target.isContentEditable;}
 function stopPanning(){heldKeys.clear();if(panFrame!==null)cancelAnimationFrame(panFrame);panFrame=null;}
 function panStep(time){
   if(!heldKeys.size||typingOrReading()){stopPanning();return;}
@@ -329,9 +330,116 @@ function proficiencyControls(node){
     const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated. Save map to keep it in the file.','console')});
     b.setAttribute('aria-pressed',String(node.proficiency80===value));row.append(b);
   }
-  group.append(row);return group; // the chosen button and the sphere colour show the current answer
+  group.append(row);
+  // The whole chain this skill rests on, answered in one deliberate pass. The button only opens the
+  // list; nothing is recorded until the reader confirms it there. A skill with no recorded
+  // prerequisites has no chain to offer, so the button is left off its card entirely.
+  const chain=prerequisiteChain(graph,node.id);
+  if(chain.length){
+    const summary=chainSummary(chain);
+    group.append(el('button',{class:'chain-open',text:`Mark proficient on all prerequisite skills (${summary.total})…`,onclick:()=>openChain(node.id)}));
+    group.append(el('p',{class:'edge-note',text:`${node.name} rests on ${summary.total} ${summary.total===1?'skill':'skills'}, ${summary.yes} already marked Yes. Nothing is marked until you confirm the list.`}));
+  }
+  return group; // the chosen button and the sphere colour show the current answer
 }
+// --- Marking a whole prerequisite chain ---------------------------------------------------------
+// One reader decision applied to many skills. Every skill the chain reaches is listed with the
+// answer it currently holds, ticked only where the chosen answer would change it, and nothing is
+// written until Mark is pressed. The app still never infers an answer: this is the reader saying
+// the same thing about a list of skills at once, through the ordinary commit path, so it lands in
+// the history, the draft cache and the shared record exactly like a single answer, and Undo
+// reverses the whole pass.
+let chain={id:null,value:true,selected:new Set()};
+function openChain(id){
+  // One modal at a time: the card steps aside while the list is up, and comes back when it closes,
+  // so a reader who came from the card is returned to it rather than to the bare map.
+  const fromCard=$('details-dialog').open;
+  stopPanning();closeDetailsKeepSelection();
+  chain={id,value:true,selected:null,fromCard};
+  fillChain();
+  if(!$('chain-dialog').open)$('chain-dialog').showModal();
+}
+function closeChain(){if($('chain-dialog').open)$('chain-dialog').close();}
+function fillChain(){
+  const node=graph.nodes.find(n=>n.id===chain.id);
+  const body=$('chain-body');
+  if(!node){closeChain();return;}
+  const list=prerequisiteChain(graph,node.id),summary=chainSummary(list);
+  if(chain.selected===null)chain.selected=defaultSelection(list,chain.value);
+  // A skill that has since left the map must not linger in the selection.
+  const present=new Set(list.map(s=>s.id));
+  chain.selected=new Set([...chain.selected].filter(id=>present.has(id)));
+  const changes=pendingChanges(list,chain.selected,chain.value);
+  body.replaceChildren();
+  $('chain-title').textContent=`Prerequisites of ${node.name}`;
+  body.append(el('p',{text:`${node.name} rests on ${summary.total} ${summary.total===1?'skill':'skills'}, ${summary.depth} ${summary.depth===1?'step':'steps'} down at the deepest. Choose the answer to record, check the skills it should apply to, then mark them.`}));
+  body.append(el('p',{class:'edge-note',text:'Your own judgment, as everywhere else: there is no test and no scoring. Marking a skill here says nothing about any other skill, and the skill this chain belongs to is not changed.'}));
+  body.append(el('p',{class:'edge-note',text:`Now: ${summary.yes} Yes · ${summary.no} No · ${summary.unmarked} not marked. Only prerequisite links are followed; supporting and related links are not learning order and are left out.`}));
+
+  const answers=el('div',{class:'button-row chain-answer'});
+  for(const [label,value]of [['Yes',true],['No',false],['Clear',null]]){
+    const b=el('button',{text:label,class:chain.value===value?'chosen':'',onclick:()=>{chain.value=value;chain.selected=null;fillChain();}});
+    b.setAttribute('aria-pressed',String(chain.value===value));answers.append(b);
+  }
+  body.append(el('h3',{text:'Answer to record'}),answers);
+
+  const changeable=list.filter(s=>s.proficiency80!==chain.value).map(s=>s.id);
+  body.append(el('div',{class:'button-row chain-bulk'},
+    el('button',{text:`Check the ${changeable.length} this would change`,disabled:!changeable.length,onclick:()=>{chain.selected=new Set(changeable);fillChain();}}),
+    el('button',{text:'Check all',onclick:()=>{chain.selected=new Set(list.map(s=>s.id));fillChain();}}),
+    el('button',{text:'Uncheck all',onclick:()=>{chain.selected=new Set();fillChain();}})));
+
+  let step=0;
+  const items=el('div',{class:'chain-list'});
+  for(const skill of list){
+    if(skill.steps!==step){step=skill.steps;items.append(el('h4',{class:'chain-step',text:`${stepLabel(step)} (${list.filter(s=>s.steps===step).length})`}));}
+    const box=el('input',{type:'checkbox',checked:chain.selected.has(skill.id),onchange:event=>{
+      if(event.target.checked)chain.selected.add(skill.id);else chain.selected.delete(skill.id);
+      updateChainAction(list);
+    }});
+    const state=proficiencyLabel(skill.proficiency80);
+    items.append(el('label',{class:'chain-item'+(skill.proficiency80===chain.value?' chain-item-settled':'')},box,
+      el('span',{class:'chain-name',text:skill.name}),
+      el('span',{class:'chain-meta',text:`${skill.domain} · ${state}`})));
+  }
+  body.append(items);
+
+  const action=el('button',{class:'primary',id:'chain-apply',text:'',onclick:()=>applyChain(list)});
+  const note=el('p',{class:'edge-note',id:'chain-note',text:''});
+  body.append(el('div',{class:'chain-actions'},el('div',{class:'button-row'},action,el('button',{text:'Cancel',onclick:closeChain})),note));
+  updateChainAction(list);
+}
+function updateChainAction(list){
+  const changes=pendingChanges(list,chain.selected,chain.value);
+  const action=$('chain-apply'),note=$('chain-note');
+  if(!action)return;
+  action.disabled=!changes.length;
+  const count=`${changes.length} ${changes.length===1?'skill':'skills'}`;
+  action.textContent=!changes.length?'Nothing to change':chain.value===null?`Clear ${count}`:`Mark ${count} ${proficiencyLabel(chain.value)}`;
+  const checked=[...chain.selected].length;
+  note.textContent=changes.length
+    ?`${checked} checked; ${changes.length} would change. Undo reverses the whole pass. Save map writes it to the JSON file.`
+    :`${checked} checked, none of which would change. Pick another answer or check more skills.`;
+}
+function applyChain(list){
+  const node=graph.nodes.find(n=>n.id===chain.id);
+  const changes=pendingChanges(list,chain.selected,chain.value);
+  if(!changes.length)return;
+  const ids=new Set(changes);
+  const result=commit(next=>{for(const n of next.nodes)if(ids.has(n.id))n.proficiency80=chain.value;},
+    `${chain.value===null?'Cleared':'Marked'} ${changes.length} ${changes.length===1?'prerequisite':'prerequisites'} of ${node.name}${chain.value===null?'':`: ${proficiencyLabel(chain.value)}`}. Undo reverses the whole pass.`,'prerequisite chain');
+  if(result.ok){viewer?.focus(chain.id);closeChain();}
+  else fillChain();
+}
+$('chain-close').onclick=closeChain;
+$('chain-dialog').addEventListener('close',()=>{
+  if(chain.fromCard&&graph.nodes.some(n=>n.id===selected))openDetails();
+  else $('canvas').focus();
+});
+
 function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
+// Closing the card to show the chain list must not clear the selection the list belongs to.
+function closeDetailsKeepSelection(){if($('details-dialog').open)$('details-dialog').close();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}
 // One question or check, with its answer behind a control the reader has to press. Revealing an
 // answer changes nothing but this button: no proficiency is read, written or implied by it.
