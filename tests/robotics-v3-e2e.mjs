@@ -28,9 +28,11 @@ const REPRESENTATIVE = [
   ['arm singularities', 'rob3:K11'], ['grasping', 'rob3:G04'], ['I02 milestone', 'rob3:I02'],
   ['statistics', 'rob3:B-M04'], ['state estimation', 'rob3:P08'], ['sensor fusion', 'rob3:P09'],
   ['differential drive', 'rob3:N01'], ['route planning', 'rob3:N06'], ['obstacle response', 'rob3:N08'],
-  ['I03 milestone', 'rob3:I03']
+  ['I03 milestone', 'rob3:I03'],
+  ['the pinhole camera', 'rob3:R-P02'], ['camera calibration', 'rob3:P04'], ['object pose', 'rob3:P05'],
+  ['grasp targeting', 'rob3:G05'], ['navigation and manipulation', 'rob3:G08'], ['I04 milestone', 'rob3:I04']
 ];
-const EXPECT = { authored: 282, pending: 98, roadmap: 1, nodes: 381 };
+const EXPECT = { authored: 292, pending: 88, roadmap: 1, nodes: 381 };
 const PENDING = data.nodes.find(n => n.contentStatus === 'introductory lesson pending');
 const ROADMAP = data.nodes.find(n => n.contentStatus === 'roadmap note, not assessed');
 // A card whose authored text uses symbols that must survive the whole path into the DOM.

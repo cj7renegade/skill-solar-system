@@ -1,191 +1,197 @@
-# Robotics learning editions 01–04 — integration summary
+# Robotics learning editions 01–05 — integration summary
 
-Return note for the next authoring edition, answering the handoffs in
-`packages/shared-foundations-learning-edition-01/INTEGRATION.md`,
-`packages/controlled-joint-learning-edition-02/INTEGRATION.md`,
-`packages/complete-arm-learning-edition-03/INTEGRATION.md` and
-`packages/wheeled-robot-learning-edition-04/INTEGRATION.md`.
+Return note for the next authoring edition, answering the handoffs in each package's
+`INTEGRATION.md` under `packages/shared-foundations-learning-edition-01`,
+`…-controlled-joint-learning-edition-02`, `…-complete-arm-learning-edition-03`,
+`…-wheeled-robot-learning-edition-04` and `…-mobile-manipulation-learning-edition-05`.
 
 ## Source revision
 
-**Actual HEAD at import: `ca43f91043087ff255f9793ee27f13a2468c5e1b`.**
+**Actual HEAD at import: `fd4337181b9bd186431870f583d67857e48e4efd`** (the edition 04 integration).
 
-The edition 04 package reports `e8cd8dd0c31fd2cf9521221c420de9289c79741c` as the revision it was
-built against, taken from the integration summary it was given. HEAD had moved on by one commit
-since — `ca43f91`, which added the prerequisite-chain control to the skill card. That commit changed
-no map data, and the export the package reconciled against is byte-identical to the one this
-repository holds (`f91c910a…`), so nothing was stale and no later work was reverted.
+Edition 05's package was authored when the last independently reviewed export was edition 03's
+(254 cards), with edition 04 "awaiting returned integration evidence". Edition 04 had in fact been
+integrated here at `fd43371`; the reconciliation below establishes that at payload level rather than
+by count, as the handoff requires.
 
-## Dataset identity and ID mapping
+## Edition 04 reconciliation — required before applying edition 05
 
-Applied to the **dedicated robotics v3 map only**. The original Skill Solar System atlas was not
-opened for writing, not patched, and not read for answers.
+Edition 05 ships three pieces of comparison evidence. All three are byte-identical to what this
+repository used, so the comparison is against the package's own bytes:
+
+| Package file | sha256 | Matches |
+| --- | --- | --- |
+| `baseline/Confirmed-Edition03-Export.json` | `f91c910a…` | the export this repo produced for edition 03 |
+| `baseline/Wheeled-Robot-Lessons-04.json` | `12bbfccd…` | the edition 04 patch this repo imported |
+| `baseline/Robotics-Reviewed-Specification.json` | `2cb33332…` | the reviewed specification every edition uses |
+
+Payload-level result, comparing the working export against both:
+
+| Check | Result |
+| --- | --- |
+| Edition 03's 254 lesson payloads present in the current map | **254 / 254**, byte-identical |
+| …missing | **0** |
+| …differing | **0** |
+| Edition 04's 28 lesson payloads present | **28 / 28**, byte-identical to the supplied patch |
+| …missing / differing / contract drift | **0 / 0 / 0** |
+| Entries labelled `wheeled-robot-04` | 28 |
+| Node order, edges, layout, proficiency signatures vs. the confirmed edition 03 export | **identical** (only the payload signature differs, as 28 lessons were added) |
+| Starting state | **381 nodes · 282 authored · 98 pending · 1 roadmap**, `datasetKey` `robotics-curriculum-v3`, 0 proficiency answers |
+
+**Edition 04 was complete and correct. No remedial work was needed, and nothing was overwritten.**
+All ten edition 05 targets were found in both the specification and the map, all still `introductory
+lesson pending`, with matching names, prerequisites, runtime IDs, contract fingerprints and
+demonstrations, and none already authored. No conflicts to report.
+
+## Edition 05 import
 
 | | |
 | --- | --- |
-| Target map | `Maps/Robotics-v3/Robotics-v3-Lessons.json` (381 entries, 894 connections: 888 required, 6 supporting) |
-| Base for this run | the current export, patched in place, so any later change to it is carried forward |
-| Atlas family | `robotics-foundations-integration-v3-review`, unchanged |
-| Review identity | `metadata.datasetKey = robotics-curriculum-v3`, **unchanged** |
-| Runtime identity | `rob3:<planning-id>`, exactly each lesson's `proposed_runtime_id`, confirmed against the map |
-
-Identity is checked per lesson: planning id, runtime id, name, required prerequisites and the
-`node_contract_sha256` fingerprint must all agree with the reviewed specification before a lesson is
-applied. The fingerprint is reproduced byte for byte from Python's `json.dumps(..., sort_keys=True)`.
-
-## Counts
-
-| | |
-| --- | --- |
-| Supplied by edition 04 | 28 |
-| **New this import** | **28** |
-| Unchanged existing lesson records | **254** (0 changed) |
+| Supplied | 10 |
+| **New this import** | **10** — `R-P02`, `R-M05`, `P04`, `P10`, `P05`, `G05`, `G06`, `G07`, `G08`, `I04` |
+| Existing payloads unchanged | **282** (0 changed) |
 | Skipped | 0 |
 | Conflicting | 0 |
-| Existing lessons kept over an edition | 0 |
-| Total after import | **282 authored · 98 assessable pending · 1 roadmap · 381 nodes** |
+| Entries relabelled | 10 (those same entries, pending → available) |
+| Nodes untouched by the run | 371 |
+| Final state | **381 nodes · 292 authored · 88 pending · 1 roadmap** |
 
-Measured against the package's own `baseline/Robotics-v3-Lessons.json`, which is byte-identical to
-the export this repository produced: 254 → 282 lessons, 28 entries gained one, **0 existing lesson
-objects changed**, **0 preserved fields changed**.
+Per-edition attribution, read off the map: 77 + 116 + 61 + 28 + 10 = 292.
 
-All **241 entries in the I03 required chain** now have introductory content — verified by walking
-the map's own prerequisite edges from `rob3:I03` and finding no entry without a `lesson`. Forty-one
-authored entries lie outside that chain. The I01 (185) and I02 (249) closures are still complete.
-These are content counts: not proficiency, and not a demonstrated physical milestone.
+The **I04 closure contains 291 entries and none lacks an introductory card**, verified by walking the
+map's own prerequisite edges from `rob3:I04`. Exactly one authored card lies outside that chain,
+matching the package. The I01 (185), I02 (249) and I03 (241) closures remain complete.
+
+All ten new payloads are byte-identical to `Mobile-Manipulation-Lessons-05.json`. All 282 prior
+payloads are byte-identical to their originating packages.
 
 ## Preservation results
 
-Verified by the importer, which refuses to write unless all of it holds:
+Signatures taken before and after the applying run:
+
+| Signature | Before | After | |
+| --- | --- | --- | --- |
+| Node order | `ecce612d64610b6f` | `ecce612d64610b6f` | unchanged |
+| Edges (all 894) | `b8b7adc67be1a47a` | `b8b7adc67be1a47a` | unchanged |
+| Layout (positions, levels, pins, layout mode) | `5ee2c72fe83b52b7` | `5ee2c72fe83b52b7` | unchanged |
+| Proficiency | `32acee5a0d94029a` | `32acee5a0d94029a` | unchanged |
+| Lesson payloads | `abb13735e63a4990` | `7af5a92bc3087e56` | changed — the ten additions, as intended |
 
 | What | Result | How |
 | --- | --- | --- |
-| Proficiency answers | **preserved** — 0 before, 0 after | counted before and after; the patch never assigns `proficiency80` |
-| Shared record | **not touched** | the importer never opens it; `atlasFamily` identical, so the app could not cross to another family |
-| Layout: positions, levels, pins, node order | **preserved** | compared field by field on all 381 nodes |
-| Connections | **preserved** | all 894 edges byte-identical |
-| IDs, names, domains, subdomains, descriptions, planning ids, node kinds, milestone links | **preserved** | same field-by-field comparison |
-| `metadata.datasetKey` | **preserved** as `robotics-curriculum-v3` | compared; the importer treats a change to it as a failure |
-| Guided-review session identity | **preserved outright** | session key `dataset:robotics-curriculum-v3\|381\|cbb516b3` is **identical before and after**. The title changed; the key did not, because it keys on the dataset and the node set, neither of which moved |
-| Guided-review queue position | **preserved** | a session built on the pre-import map, partly worked through, resumes on the post-import map at the same skill, position, visited list and skipped list, with no missing entries |
-| Guided-review order | **preserved** | `buildQueue` identical before and after |
+| Node identities, names, domains, planning IDs, node kinds | **preserved** | field-by-field over all 381 nodes |
+| Prerequisite and support edges | **preserved** | all 894 byte-identical |
+| Positions, levels, pins, layout mode, node order | **preserved** | signature above, plus field-by-field |
+| Manual proficiency values | **preserved** — 0 before, 0 after | the patch never assigns `proficiency80`; signature identical |
+| Manual proficiency behaviour | **preserved** | Yes/No/Clear still mark one skill and reach the shared record (Electron) |
+| Shared record | **not touched** | never opened by the importer; `atlasFamily` unchanged |
+| `metadata.datasetKey` | **preserved** as `robotics-curriculum-v3` | compared; the importer fails on a change |
+| Review-session identity | **preserved outright** | key `dataset:robotics-curriculum-v3\|381\|cbb516b3` **identical before and after**; the title restates the counts and the key does not follow it |
+| Review queue position | **preserved** | a session built pre-import resumes post-import on the same skill, position, visited and skipped lists, no missing entries — checked by the importer and again in Electron against a planted session |
+| Review order | **preserved** | `buildQueue` identical before and after |
 | Original Skill Solar System map | **preserved** | never opened for writing; its copy verified unchanged after the app opened it |
-
-Not tested: whether any guided-review session actually exists in this user's own profile. The
-migration was exercised against a planted session in an isolated profile and against the real map in
-the importer, not against the user's live review store.
-
-## Field mapping
-
-Unchanged from editions 01–03: the verbatim lesson record is stored as `node.lesson`, a reader-facing
-summary as `node.lessonCard`, and `details` / `placementNote` are filled from the lesson.
-Explanations, worked examples, practice questions, boundary checks, hidden answers, full
-demonstrations, evidence guidance and references all travel, including fields the interface does not
-render.
-
-One renderer change was needed. Every edition words `practice_mode` differently, and edition 04
-words it a fourth way — "full demonstrations require the stated deployed-system or physical
-evidence", with the evidence clause the other way round. The card matched whole phrases, so edition
-04's wording would have silently dropped the warning that real evidence is still required, and shown
-these 28 cards as though paper work finished them. The test is now for the idea rather than the
-sentence (`NEEDS_REAL_EVIDENCE` in `src/lesson.js`), and a unit check asserts that every authored
-entry whose practice mode mentions real evidence still produces that line — so a fifth wording is
-caught rather than quietly lost. `EDITION_NAMES` gained edition 04, with a check that every edition
-present has a reader-facing name.
+| Supplied packages vs. generated exports | **kept separate** | packages under `packages/`, generated artefacts under `Maps/Robotics-v3/` |
 
 ## Verification performed
 
-`node authoring/robotics-v3/apply-lessons.mjs` — dry run first, then `--write`. Result: **passed**.
-Idempotent: a second pass over the result changes nothing, and repeated `--write` runs produce
-byte-identical files (`672c9508…`).
+**Package checks.** `python manipulation_lab.py --output lab-results` then `python check_package.py`
+in a dedicated environment: **51 checks passed** (NumPy 2.3.5, SciPy 1.17.0, in a throwaway virtual
+environment under the session scratchpad; the machine's Python was not modified). Editions 02, 03
+and 04 still pass their own checks from their new locations: 103, 96 and 78.
 
-`npm test` — 205 tests, 199 passing, 6 pre-existing skips, 0 failures.
+**Import.** Dry run reviewed first, then `--write`; the applier refuses to write unless every check
+passes. Result **passed**. Running it again is a **no-op**: byte-identical output
+(`ad9ba478…`), `thisRun` reporting 0 entries gained and 0 nodes touched.
 
-`node tests/robotics-v3-e2e.mjs` — **390 checks** in the real Electron app, isolated profile and
+**Repository gates.** `npm test` — 205 tests, 199 passing, 6 pre-existing skips, 0 failures.
+`npm run test:e2e` — 182 checks across the map-independent suites.
+`node tests/prerequisites-e2e.mjs` — 52 checks. `node tests/robotics-atlas-e2e.mjs` — 19 checks
+against the real atlas and its Robotics sub-map.
+
+**Electron.** `node tests/robotics-v3-e2e.mjs` — **498 checks** in the real app, isolated profile and
 isolated proficiency store:
 
-- 381 entries, 282 / 98 / 1 statuses intact, no answers, title stating the counts it holds.
-- **Nineteen** representative cards, each with every section closed on opening, correct section
-  titles, explanation and worked example shown once, prerequisites matching the map's edges, both
+- 381 entries, 292 / 88 / 1 statuses intact, no answers, title stating the counts it holds.
+- **Twenty-five** representative cards, each opening with every section closed, correct section
+  titles, full two-paragraph details shown once, prerequisites matching the map's edges, both
   questions, both answers hidden until their own control is pressed, hide again, the demonstration
-  and assessment contract as readable text with no JSON, the exercise/simulation/physical
-  distinction, and the available-versus-pending labels:
-  - edition 04: `rob3:B-M04`, `rob3:P08`, `rob3:P09`, `rob3:N01`, `rob3:N06`, `rob3:N08`, `rob3:I03`
-  - rechecked from edition 03: `rob3:K03`, `rob3:m-jacobian`, `rob3:K10`, `rob3:K11`, `rob3:G04`, `rob3:I02`
-  - rechecked from edition 01: `rob3:m-trig`, `rob3:c-bitwise`, `rob3:E02`, `rob3:B-D05`
-  - rechecked from edition 02: `rob3:C03`, `rob3:I01`
-- **Units**: `rob3:N01`'s `0.05 m`, `0.3 m`, `2 rad/s`, `0.1 m/s` and the rest read exactly as
-  authored, in the explanation and in the revealed answer.
-- **Symbols** (`×`, `²`, `→`) surviving into the DOM.
-- Proficiency unchanged after opening cards, following prerequisite links, revealing answers and
-  resuming a review — in the map, the draft and the shared record.
-- A fully expanded card scrolling inside the dialog; keyboard operation of a section and an answer
-  reveal; a prerequisite link moving the card and keeping focus; Escape closing the card.
-- An entry with no authored lesson and the roadmap note: no empty sections, planning text intact,
-  manual proficiency controls intact, no claim of assessment.
-- A review session resuming at the same skill and position after the import.
-- A manual answer marking one skill only, reaching the shared record, surviving Save and reopen with
-  all 282 lessons and the unmapped fields intact.
-- The original atlas (1769 skills) still opening, cards unchanged, copy unmodified.
+  and assessment contract as readable text with no JSON, the exercise/physical distinction, and the
+  available-versus-pending labels:
+  - **edition 05**: `rob3:R-P02`, `rob3:P04`, `rob3:P05`, `rob3:G05`, `rob3:G08`, `rob3:I04`
+  - rechecked: `rob3:B-M04`, `rob3:P08`, `rob3:P09`, `rob3:N01`, `rob3:N06`, `rob3:N08`, `rob3:I03`
+    (edition 04); `rob3:K03`, `rob3:m-jacobian`, `rob3:K10`, `rob3:K11`, `rob3:G04`, `rob3:I02`
+    (edition 03); `rob3:m-trig`, `rob3:c-bitwise`, `rob3:E02`, `rob3:B-D05` (edition 01);
+    `rob3:C03`, `rob3:I01` (edition 02)
+- **A pending card**: says "No introductory lesson for this entry yet", offers no empty sections,
+  keeps its planning text and its manual proficiency controls.
+- **The roadmap card** (`rob3:X10`): no lesson sections, "not an assessed entry, and no lesson is
+  planned for it", never presented as assessable.
+- **Mathematical symbols and units**: `×`, `²`, `→` surviving into the DOM; `rob3:N01`'s `0.05 m`,
+  `0.3 m`, `2 rad/s`, `0.1 m/s` reading exactly as authored in both explanation and revealed answer.
+- **Retained unrendered fields**: `node_contract_sha256` and `dependency_depth` confirmed present in
+  saved node data after Save and reopen.
+- **Review-session continuity**: a session planted in the app's own review store resumes at the same
+  skill and position, re-keyed on the dataset with the old entry replaced, not duplicated.
+- **Manual proficiency**: marking one skill Yes reaches the shared record and leaves its
+  prerequisites alone; opening cards, following prerequisite links, revealing answers and resuming a
+  review change nothing, in the map, the draft and the shared record.
+- Save and reopen retaining all 292 lessons and the one answer given; the original atlas (1769
+  skills) still opening with its cards unchanged and its copy unmodified.
 
-`node tests/prerequisites-e2e.mjs` — 52 checks, including the chain control against this map.
-`node tests/robotics-atlas-e2e.mjs` against the real atlas and its Robotics sub-map — 19 checks.
-`npm run test:e2e` — 135 checks in the map-independent suites.
+## Checks not available
 
-`check_package.py` from each package's new location: edition 02 103 checks, edition 03 96 checks,
-edition 04 **78 checks**, all passing. NumPy 2.3.5 lives in a throwaway virtual environment under
-the session scratchpad; the machine's Python was not modified.
-
-**Checks not available.** No hardware, wiring, firmware, floor, traction, braking or physical stop
-was tested. No robot was operated. The user's live review store and real proficiency record were
-never opened — every app check ran in an isolated profile. Whether a session exists in the user's
-own profile is unknown.
+- **No hardware of any kind.** No camera, no arm, no base, no gripper, no floor. No real feature
+  detection, correspondences or extrinsics; no physical stop, hold, grasp, release or recovery.
+- **The synthetic lab is not a robot.** Its perception, base-placement and pick-and-place exercises
+  are numerical fixtures. It demonstrates no physical mobile manipulator and is wired to nothing.
+- **The user's own storage was never opened.** Every app check ran in an isolated profile with its
+  own proficiency store and review store. Whether a review session exists in the user's real profile
+  is unknown; the continuity check used a planted session.
+- **No learner assessment.** Nothing here establishes proficiency, mastery, or that extended
+  instruction is complete for any entry.
 
 ## Changed files
 
-Tracked, in this integration:
+Tracked:
 
-- `src/lesson.js` — wording-independent detection of demonstrations that still need real evidence;
-  edition 04's reader-facing name.
-- `authoring/robotics-v3/apply-lessons.mjs` — edition 04 as an input, its baseline as the comparison
-  point, expected counts, and a limitation note that reflects whether the session key actually moved.
-- `tests/robotics-v3-lessons.test.mjs` — edition 04 counts, the named cards, milestone-closure
-  checks for I01/I02/I03, the practice-mode coverage guard, the edition-name guard.
-- `tests/robotics-v3-e2e.mjs` — the seven edition 04 cards and the units check.
+- `src/lesson.js` — edition 05's reader-facing name.
+- `authoring/robotics-v3/apply-lessons.mjs` — edition 05 as an input, its baseline in the comparison
+  list, expected counts, and three new summary sections: `thisRun` (what the run changed in the
+  export it started from), `signatures` (graph, layout, proficiency and payload digests before and
+  after, now part of the pass/fail gate) and `byEdition` (per-edition attribution read off the map,
+  which stays meaningful after a no-op re-run).
+- `tests/robotics-v3-lessons.test.mjs` — edition 05 counts, its named cards, the I04 closure.
+- `tests/robotics-v3-e2e.mjs` — the six edition 05 cards.
 - `authoring/robotics-v3/Integration-Summary.md` — this file.
 
-Local only (under the ignored `Maps/` and `packages/`):
+Generated, under the ignored `Maps/Robotics-v3/`:
 
-- `Maps/Robotics-v3/Robotics-v3-Lessons.json` — the export, 2.7 MB, sha256
-  `672c950865c51eedde6de513d8c1ec84728965b3473fb1ccfcddd1d56bc0d749`.
-- `Maps/Robotics-v3/Content-Import-Ledger.csv` — one row per entry.
-- `Maps/Robotics-v3/Integration-Summary.json` — the machine-readable form of this summary.
-- `packages/wheeled-robot-learning-edition-04/` — the supplied package, moved out of `Maps/` after
-  the import was verified, with its baseline, lab results and checks unchanged. The importer finds
-  its inputs in either place.
+- `Robotics-v3-Lessons.json` — the export, 2.7 MB, sha256
+  `ad9ba478b15bc2841c63c47b9e1d3c366f09910c00c119572ca01c5b2cdd3e53`.
+- `Content-Import-Ledger.csv` — one row per entry, sha256 `6707469a…`.
+- `Integration-Summary.json` — the machine-readable summary.
+
+Supplied, under the ignored `packages/`:
+
+- `packages/mobile-manipulation-learning-edition-05/` — the package, moved out of `Maps/` after the
+  import was verified, with its baseline, lab and checks unchanged. Source packages and generated
+  exports stay in separate trees; the applier finds inputs in either place.
 
 ## Limitations
 
-- These are introductory cards. Extended lesson and practice authoring is still pending for **every**
-  entry, including all 282 that have a card.
-- 98 assessable entries still have no introductory lesson. One roadmap entry is not assessed and no
+- These are **introductory cards and synthetic exercises**. Extended lesson and practice authoring is
+  still pending for **every** entry, including all 292 that have a card. No skill is mastered.
+- 88 assessable entries still have no introductory lesson. One roadmap entry is not assessed and no
   lesson is planned for it.
-- Full introductory coverage of the I03 chain is a content fact. It says nothing about what the
-  learner can do, and the wheeled-robot milestone is not demonstrated.
-- Nothing in the application writes a proficiency answer by itself. Opening a card, following a
-  prerequisite link, revealing an answer or resuming a review changes nothing. The only writers are
-  the Yes / No / Clear controls, the guided review, and the prerequisite-chain control added in
-  `ca43f91` — which lists every skill, marks nothing until confirmed, and is reversed by one Undo.
-- The labs stay optional offline material, not wired to the app. Both edition 03 and edition 04 need
-  NumPy. The edition 04 mobile lab tracks routes against an **ideal true pose**; its state estimation
-  and fault supervision are **separate experiments**, not part of the tracking loop. It is not
-  validated physical autonomy, has no hardware interface, and must not be connected to one.
+- Introductory coverage of the I04 chain is a content fact about the map. It is not proficiency, and
+  the mobile-manipulation milestone has not been demonstrated on any robot.
+- Nothing in the application writes a proficiency answer by itself. The only writers are the
+  Yes / No / Clear controls, the guided review, and the prerequisite-chain control, which lists every
+  skill, writes nothing until confirmed, and is reversed by one Undo.
 - The export is 2.7 MB, within the app's 10 MB limit; Save, reopen and the draft cache were exercised
   at that size.
-- One flake seen once: a chained `npm run test:e2e` run failed inside `pulse-e2e` with a page-side
-  `Cannot read properties of null (reading 'textContent')`. It did not reproduce on a repeat chained
-  run, and that suite passes on its own. The file is untouched by this work.
 - Pre-existing and unrelated: `node tests/review-e2e.mjs` with `SSS_ATLAS` set times out opening the
-  5.4 MB atlas at the end of its long session; the same file opens correctly in a fresh session.
-- A `Robotics-Mobile-Manipulation-Learning-Edition-05.zip` has appeared under `Maps/Robotics-v3/`.
-  It is untouched by this task.
+  5.4 MB atlas at the end of its long session; the same file opens correctly in a fresh session. A
+  `pulse-e2e` flake was seen once in a chained run and has not recurred.
+- An untracked `Tasks/` directory is present in the working tree. It is not part of this integration
+  and was left alone.

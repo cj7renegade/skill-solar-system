@@ -31,7 +31,8 @@ const CANDIDATES = {
   edition01: ['packages/shared-foundations-learning-edition-01/Shared-Foundations-Lessons-01.json', 'packages/controlled-joint-learning-edition-02/baseline/Shared-Foundations-Lessons-01.json', 'Maps/Robotics-v3/baseline/Shared-Foundations-Lessons-01.json'],
   edition02: ['packages/controlled-joint-learning-edition-02/Controlled-Joint-Lessons-02.json', 'Maps/Robotics-v3/Controlled-Joint-Lessons-02.json'],
   edition03: ['packages/complete-arm-learning-edition-03/Complete-Arm-Lessons-03.json', 'Maps/Robotics-v3/robotics-lessons-03/Complete-Arm-Lessons-03.json'],
-  edition04: ['packages/wheeled-robot-learning-edition-04/Wheeled-Robot-Lessons-04.json', 'Maps/Robotics-v3/robotics-lessons-04/Wheeled-Robot-Lessons-04.json']
+  edition04: ['packages/wheeled-robot-learning-edition-04/Wheeled-Robot-Lessons-04.json', 'Maps/Robotics-v3/robotics-lessons-04/Wheeled-Robot-Lessons-04.json'],
+  edition05: ['packages/mobile-manipulation-learning-edition-05/Mobile-Manipulation-Lessons-05.json', 'Maps/Robotics-v3/robotics-lessons-05/Mobile-Manipulation-Lessons-05.json']
 };
 // The export the latest edition was reconciled against, shipped inside its package. Optional: it
 // only exists once an edition has been supplied with one. It is never written, only compared, so
@@ -39,7 +40,8 @@ const CANDIDATES = {
 // Newest first: the comparison is against the export the latest edition was built from.
 const BASELINE = [
   'packages/wheeled-robot-learning-edition-04/baseline/Robotics-v3-Lessons.json',
-  'Maps/Robotics-v3/robotics-lessons-04/baseline/Robotics-v3-Lessons.json',
+  'packages/mobile-manipulation-learning-edition-05/baseline/Confirmed-Edition03-Export.json',
+  'Maps/Robotics-v3/robotics-lessons-05/baseline/Confirmed-Edition03-Export.json',
   'packages/complete-arm-learning-edition-03/baseline/Robotics-v3-Lessons.json'
 ];
 
@@ -54,7 +56,7 @@ const rel = file => path.relative(ROOT, file).split(path.sep).join('/');
 export function loadInputs() {
   const found = Object.fromEntries(Object.keys(CANDIDATES).map(name => [name, resolveInput(name)]));
   const read = name => ({ ...found[name], sha256: sha256(found[name].file), data: JSON.parse(readFileSync(found[name].file, 'utf8')) });
-  return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04') };
+  return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04'), edition05: read('edition05') };
 }
 
 function ledger(graph) {
@@ -81,7 +83,7 @@ if (!existsSync(MAP)) { console.error(`No v3 map at ${MAP}. Run authoring/roboti
 
 const inputs = loadInputs();
 const before = validate(JSON.parse(readFileSync(MAP, 'utf8')));
-const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
+const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 
 const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions });
 validate(graph);
@@ -114,6 +116,42 @@ function sessionSurvives() {
   };
 }
 const session = sessionSurvives();
+
+// Signatures of the four things a content patch must not disturb, plus the payloads themselves.
+// Comparing these before and after says in one line whether anything outside the lessons moved.
+function signatures(g) {
+  const digest = text => createHash('sha256').update(text).digest('hex').slice(0, 16);
+  return {
+    nodeOrder: digest(g.nodes.map(n => n.id).join('\n')),
+    edges: digest(JSON.stringify(g.edges)),
+    layout: digest(g.nodes.map(n => `${n.id}|${JSON.stringify(n.position)}|${n.skillLevel}|${n.pinned}|${n.layoutMode}`).join('\n')),
+    proficiency: digest(g.nodes.map(n => `${n.id}|${n.proficiency80}`).join('\n')),
+    lessonPayloads: digest(g.nodes.filter(n => n.lesson).map(n => `${n.id}|${JSON.stringify(n.lesson)}`).join('\n'))
+  };
+}
+
+// What this particular run did to the export it started from: which entries gained a lesson, which
+// existing payload changed (none is the only acceptable answer), and which entries were relabelled.
+function runDelta() {
+  const was = new Map(before.nodes.map(n => [n.id, n]));
+  const gained = [], payloadChanged = [], relabelled = [];
+  for (const node of graph.nodes) {
+    const old = was.get(node.id);
+    if (!old) continue;
+    if (!old.lesson && node.lesson) gained.push(node.id);
+    else if (old.lesson && JSON.stringify(old.lesson) !== JSON.stringify(node.lesson)) payloadChanged.push(node.id);
+    if (old.contentStatus !== node.contentStatus || old.lessonStatus !== node.lessonStatus) relabelled.push(node.id);
+  }
+  return {
+    lessonsBefore: before.nodes.filter(n => n.lesson).length,
+    lessonsAfter: graph.nodes.filter(n => n.lesson).length,
+    entriesGainedALesson: gained,
+    existingPayloadsChanged: payloadChanged,
+    entriesRelabelled: relabelled.length,
+    nodesTouched: report.changed.length,
+    nodesUntouched: report.unchanged.length
+  };
+}
 
 // The newest edition's package ships the export it was reconciled against. Comparing the result to
 // that copy shows what this integration added, and proves the lessons that were already there came
@@ -152,7 +190,7 @@ const summary = {
   editions: editions.map(e => ({ edition: e.metadata.edition, authored: e.metadata.authored, supplied: e.lessons.length, selection: e.metadata.selection })),
   titleChange: { before: before.title, after: graph.title, reviewSessionsKeptBy: `metadata.datasetKey = ${JSON.stringify(datasetKey(graph))}` },
   counts: report.counts,
-  expected: { uniqueAuthoredCards: 282, pendingAssessable: 98, roadmapEntries: 1, mapEntries: 381 },
+  expected: { uniqueAuthoredCards: 292, pendingAssessable: 88, roadmapEntries: 1, mapEntries: 381 },
   reconciliation: {
     imported: report.counts.imported,
     skipped: report.counts.skipped,
@@ -163,8 +201,13 @@ const summary = {
     entriesRelabelled: report.relabelled.length,
     nodesUnchanged: report.unchanged.length
   },
-  // What the newest edition added, measured against the export its package was built from. This
-  // stays true after the import has been re-run, when the run itself changes nothing.
+  // What this run changed in the export it started from, and what the newest editions added
+  // measured against the supplied baseline (which stays true after the import has been re-run).
+  // Which edition each authored card came from, read off the map itself. Unlike a per-run delta
+  // this stays meaningful after the import has been re-run and the run changed nothing.
+  byEdition: graph.nodes.reduce((t, n) => (n.lessonCard ? (t[n.lessonCard.edition] = (t[n.lessonCard.edition] || 0) + 1) : 0, t), {}),
+  thisRun: runDelta(),
+  signatures: { before: signatures(before), after: signatures(graph) },
   sinceSuppliedBaseline: baselineDiff(),
   preservation: {
     problems: preservation,
@@ -185,14 +228,17 @@ const summary = {
     `${report.counts.pending} assessable entries still have no authored introductory lesson, and ${report.counts.roadmap} roadmap entry is not assessed.`,
     'Introductory content coverage is not proficiency and not a physical milestone. Nothing here says a skill has been demonstrated.',
     'No proficiency answer is read, written or inferred by this import.',
-    'The teaching labs are supplemental offline material and are not wired into the application. Both edition 03 and edition 04 need NumPy. The edition 03 lab models planar kinematics only; the edition 04 mobile lab tracks routes against an ideal true pose, and its estimation and fault supervision are separate experiments. Neither is validated physical autonomy and neither has a hardware interface.',
+    'The teaching labs are supplemental offline synthetic exercises, not wired into the application and not evidence of a working robot. Edition 03 needs NumPy and models planar kinematics only. Edition 04 needs NumPy; its route tracking uses an ideal true pose, and its estimation and fault supervision are separate experiments. Edition 05 needs NumPy and SciPy; its perception, base placement and pick-and-place exercises are synthetic. None demonstrates a physical mobile manipulator, none has a hardware interface, and none may be connected to one.',
     `The map title restates the counts. Guided-review sessions key on metadata.datasetKey (${JSON.stringify(datasetKey(graph))}) rather than the title${session.checked && session.keyBefore === session.keyAfter ? ', which is unchanged by this import, so every saved session keeps its key, queue and position outright' : ', and a session saved under an earlier title is migrated by its node set, so progress and queue position survive the rename'}. Review order is unchanged: it comes from saved heights, names and ids, none of which this patch touches.`
   ]
 };
 
 const expected = summary.expected;
-const baseline = summary.sinceSuppliedBaseline;
+const baseline = summary.sinceSuppliedBaseline, run = summary.thisRun, sig = summary.signatures;
 const ok = summary.preservation.reviewOrderUnchanged && summary.preservation.reviewSessionsPreserved && !preservation.length && stable
+  && !run.existingPayloadsChanged.length
+  && sig.before.nodeOrder === sig.after.nodeOrder && sig.before.edges === sig.after.edges
+  && sig.before.layout === sig.after.layout && sig.before.proficiency === sig.after.proficiency
   && (!baseline.compared || (!baseline.existingLessonsChanged.length && !baseline.preservedFieldsChanged.length))
   && report.counts.imported === expected.uniqueAuthoredCards && report.counts.authored === expected.uniqueAuthoredCards
   && report.counts.pending === expected.pendingAssessable && report.counts.roadmap === expected.roadmapEntries

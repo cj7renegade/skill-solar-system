@@ -213,22 +213,23 @@ test('introductory exercises, simulations and physical demonstrations are named 
 
 // The real package, when it has been extracted locally.
 const REAL_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
-test('the integrated robotics v3 map carries all 282 lessons and 98 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+test('the integrated robotics v3 map carries all 292 lessons and 88 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
   const graph = validate(JSON.parse(readFileSync(REAL_MAP, 'utf8')));
   assert.equal(graph.nodes.length, 381);
   assert.equal(graph.edges.length, 894);
   assert.equal(atlasFamily(graph), 'robotics-foundations-integration-v3-review');
   assert.equal(datasetKey(graph), DATASET_KEY, 'a stable review identity, so the title can restate the counts');
   const authored = graph.nodes.filter(n => n.contentStatus === STATUS.authored);
-  assert.equal(authored.length, 282);
-  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 98);
+  assert.equal(authored.length, 292);
+  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 88);
   assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.roadmap).length, 1);
   assert.equal(graph.nodes.filter(n => n.proficiency80 != null).length, 0);
-  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 4);
+  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 5);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'shared-foundations-01').length, 77);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'controlled-joint-02').length, 116);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'complete-arm-03').length, 61);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'wheeled-robot-04').length, 28);
+  assert.equal(authored.filter(n => n.lessonCard.edition === 'mobile-manipulation-05').length, 10);
   // Every edition present has a reader-facing name; an unmapped one would show its raw slug.
   for (const edition of new Set(authored.map(n => n.lessonCard.edition))) assert.ok(EDITION_NAMES[edition], `no reader-facing name for edition ${edition}`);
   // Every entry's lesson status agrees with whether it actually has a card, and the roadmap note
@@ -239,7 +240,11 @@ test('the integrated robotics v3 map carries all 282 lessons and 98 pending entr
   assert.equal(hasLesson(roadmap), false);
   assert.equal(roadmap.assessable, false);
   // The entries each handoff asks to see are present, authored, and by the edition that wrote them.
-  const named = { 'complete-arm-03': ['K03', 'm-jacobian', 'K10', 'K11', 'G04', 'I02'], 'wheeled-robot-04': ['B-M04', 'P08', 'P09', 'N01', 'N06', 'N08', 'I03'] };
+  const named = {
+    'complete-arm-03': ['K03', 'm-jacobian', 'K10', 'K11', 'G04', 'I02'],
+    'wheeled-robot-04': ['B-M04', 'P08', 'P09', 'N01', 'N06', 'N08', 'I03'],
+    'mobile-manipulation-05': ['R-P02', 'P04', 'P05', 'G05', 'G08', 'I04']
+  };
   for (const [edition, ids] of Object.entries(named)) for (const planning of ids) {
     const node = graph.nodes.find(n => n.id === `rob3:${planning}`);
     assert.ok(node, `rob3:${planning} is missing`);
@@ -247,7 +252,7 @@ test('the integrated robotics v3 map carries all 282 lessons and 98 pending entr
     assert.equal(node.lessonCard.edition, edition, planning);
   }
   // Every milestone chain an edition closed still has introductory content all the way down.
-  for (const [milestone, size] of [['rob3:I01', 185], ['rob3:I02', 249], ['rob3:I03', 241]]) {
+  for (const [milestone, size] of [['rob3:I01', 185], ['rob3:I02', 249], ['rob3:I03', 241], ['rob3:I04', 291]]) {
     const closure = [...prerequisiteChain(graph, milestone).map(s => s.id), milestone];
     assert.equal(closure.length, size, `${milestone} closure`);
     const byId = new Map(graph.nodes.map(n => [n.id, n]));

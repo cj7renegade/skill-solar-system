@@ -50,7 +50,8 @@ export const EDITION_NAMES = {
   'shared-foundations-01': 'shared foundations, edition 01',
   'controlled-joint-02': 'controlled joint, edition 02',
   'complete-arm-03': 'complete arm, edition 03',
-  'wheeled-robot-04': 'wheeled robot, edition 04'
+  'wheeled-robot-04': 'wheeled robot, edition 04',
+  'mobile-manipulation-05': 'mobile manipulation, edition 05'
 };
 // What the card says about its own content, for the top of the card. This describes the content
 // only: it is never a statement about the reader's proficiency, and "available" means an
