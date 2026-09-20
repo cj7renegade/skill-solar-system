@@ -69,7 +69,7 @@ export async function launchApp(prefix, options = {}) {
     await mouse('mouseReleased', to, { button, buttons: 0, clickCount: 1 }); await sleep(150);
   };
   const wheel = async (deltaY, count, p) => { for (let i = 0; i < count; i++) { await mouse('mouseWheel', p, { deltaX: 0, deltaY }); await sleep(12); } await sleep(150); };
-  const keys = { ArrowRight: ['ArrowRight', 39], ArrowDown: ['ArrowDown', 40], w: ['KeyW', 87], Enter: ['Enter', 13, '\r'], Escape: ['Escape', 27], ' ': ['Space', 32, ' '] };
+  const keys = { ArrowRight: ['ArrowRight', 39], ArrowDown: ['ArrowDown', 40], w: ['KeyW', 87], Enter: ['Enter', 13, '\r'], Escape: ['Escape', 27], ' ': ['Space', 32, ' '], Tab: ['Tab', 9] };
   const key = async (k, repeats = 0) => {
     const [code, vk, text] = keys[k], base = { key: k, code, windowsVirtualKeyCode: vk, nativeVirtualKeyCode: vk };
     await send('Input.dispatchKeyEvent', { type: 'keyDown', ...base, ...(text ? { text } : {}) });

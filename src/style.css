@@ -12,6 +12,24 @@
 #details-body details summary{cursor:pointer}
 #details-body details.detail-link p{margin:4px 0 8px 18px;color:var(--muted)}
 #details-body details.connections>summary{font-size:15px;font-weight:600;margin:24px 0 10px}
+/* Authored lesson content: one collapsed section per part, all closed until the reader opens one. */
+#details-dialog{overflow:auto;overscroll-behavior:contain}
+.lesson-status{margin:0 0 4px;font-size:12px;color:var(--accent)}
+#details-body details.lesson-section{border:1px solid var(--line);border-radius:8px;margin:10px 0;background:#0d1724}
+#details-body details.lesson-section>summary{font-size:14px;font-weight:600;padding:10px 14px;list-style-position:inside}
+#details-body details.lesson-section[open]>summary{border-bottom:1px solid var(--line)}
+#details-body details.lesson-section>*:not(summary){margin:12px 14px}
+.lesson-block h4{font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin:0 0 4px;font-weight:600}
+.lesson-block p{margin:0}
+.lesson-block ul{margin:0;padding-left:20px}
+.lesson-block li{margin:2px 0}
+.lesson-note{font-size:12px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+.lesson-prompt{margin:0 0 8px}
+.lesson-answer{margin:8px 0 0;padding:10px 12px;border-left:2px solid var(--accent);background:#141f2e;border-radius:0 6px 6px 0}
+#details-body button.reveal{font-size:12px;padding:5px 11px}
+.lesson-links{display:flex;flex-wrap:wrap;gap:6px}
+#details-body button.lesson-link{font-size:12px;padding:4px 10px;text-align:left}
+.lesson-url{word-break:break-all;font-family:ui-monospace,Consolas,monospace;font-size:12px}
 /* Guided proficiency review */
 #review-dialog{color:var(--ink);background:#101b2b;border:1px solid #40516b;border-radius:12px;width:min(720px,92vw);max-height:90vh;padding:22px 26px;box-shadow:0 24px 90px #0009;overscroll-behavior:contain}
 #review-dialog::backdrop{background:#030912c4}

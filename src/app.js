@@ -7,6 +7,7 @@ import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
+import { hasLesson, lessonSections, contentStatusLine } from './lesson.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
 import { createRecordStore } from './proficiency-store.js';
@@ -115,7 +116,10 @@ function inspect(){
   panel.classList.toggle('collapsed',!panels.card);
   panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))),cardToggle),body);
   if(!editing){
-    body.append(el('p',{text:n.description}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n));
+    // A map that records one says whether this subject has an authored lesson, so the reader knows
+    // what opening the card will show. It describes the content, never the reader's proficiency.
+    const status=contentStatusLine(n);
+    body.append(el('p',{text:n.description}),status?el('p',{class:'lesson-status',text:status}):null,el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -329,16 +333,62 @@ function proficiencyControls(node){
 }
 function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dialog').open)$('details-dialog').showModal();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}
+// One question or check, with its answer behind a control the reader has to press. Revealing an
+// answer changes nothing but this button: no proficiency is read, written or implied by it.
+function revealBlock(block){
+  const answer=el('p',{class:'lesson-answer',text:block.answer,hidden:true});
+  const button=el('button',{class:'reveal',text:block.reveal,onclick:()=>{answer.hidden=!answer.hidden;button.textContent=answer.hidden?block.reveal:block.hide;button.setAttribute('aria-expanded',String(!answer.hidden));}});
+  button.setAttribute('aria-expanded','false');
+  return el('div',{class:'lesson-question'},el('p',{class:'lesson-prompt',text:block.question}),block.answer?button:null,block.answer?answer:el('p',{class:'edge-note',text:'No answer key was supplied for this question.'}));
+}
+function lessonBlock(block){
+  if(block.type==='note')return el('p',{class:'lesson-note',text:block.text});
+  if(block.type==='reveal')return revealBlock(block);
+  if(block.type==='list')return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('ul',{},...block.items.map(item=>el('li',{text:item}))));
+  if(block.type==='links')return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('ul',{},...block.items.map(item=>el('li',{},el('span',{class:'lesson-url',text:item.url}),item.use?el('p',{class:'edge-note',text:item.use}):null))));
+  return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('p',{text:block.text}));
+}
+// The named prerequisites, taken from the map's own edges so the card can never contradict the
+// graph. Each one selects that subject and reopens the card on it.
+function prerequisiteLinks(node){
+  const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
+  const ids=graph.edges.filter(e=>e.type==='prerequisite'&&e.target===node.id).map(e=>e.source);
+  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this subject in this map.'});
+  // render() refills an open card, which removes the button that was clicked, so keyboard focus is
+  // placed deliberately on the new card rather than being dropped on the page body.
+  const go=id=>{selected=id;render();viewer?.focus(id);($('details-body').querySelector('details.lesson-section>summary')||$('details-close')).focus();};
+  return el('div',{class:'lesson-block'},el('h4',{text:`Prerequisites (${ids.length})`}),el('div',{class:'lesson-links'},...ids.map(id=>el('button',{class:'lesson-link',text:names.get(id),onclick:()=>go(id)}))));
+}
+// The authored learning sections, all closed to begin with so the opened card stays short. Opening
+// one is a reading action only; it never touches an answer.
+function lessonCard(node){
+  const sections=lessonSections(node);
+  if(!sections.length)return [];
+  return sections.map(section=>el('details',{class:'lesson-section'},el('summary',{text:section.title}),
+    ...section.blocks.map(lessonBlock),section.prerequisites?prerequisiteLinks(node):null));
+}
 // The card shows the 1–2 detail paragraphs, one short placement summary, and the connection list.
+// Where a subject carries an authored lesson, those paragraphs are its explanation and worked
+// example, so they move into the first expandable section instead of being repeated above it.
 // Coordinates, layout provenance, and placement notes stay in the file and the edit console.
 function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
   body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:node.domain+(node.skillLevel!=null?` · Reference level ${node.skillLevel}/100`:' · Reference level unassigned')})));
-  const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
-  for(const paragraph of paragraphs)body.append(el('p',{text:paragraph}));
-  if(!paragraphs.length)body.append(el('p',{class:'subject-summary',text:node.description||'No description yet. In Edit mode, add one or two paragraphs in Detailed description.'}));
+  const status=contentStatusLine(node);
+  if(status)body.append(el('p',{class:'lesson-status',text:status}));
+  const taught=hasLesson(node);
+  // The short description repeats the title in the robotics curriculum maps; show it only when it adds something.
+  if(taught){
+    if(node.description.trim()&&node.description.trim()!==node.name.trim())body.append(el('p',{class:'subject-summary',text:node.description}));
+    if(node.lesson.instructional_scope)body.append(el('p',{class:'edge-note',text:node.lesson.instructional_scope}));
+    body.append(...lessonCard(node));
+  }else{
+    const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
+    for(const paragraph of paragraphs)body.append(el('p',{text:paragraph}));
+    if(!paragraphs.length)body.append(el('p',{class:'subject-summary',text:node.description||'No description yet. In Edit mode, add one or two paragraphs in Detailed description.'}));
+  }
   body.append(el('h3',{text:'Where it sits'}),el('p',{text:placementSummary(graph,node)}));
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const links=graph.edges.filter(e=>e.source===node.id||e.target===node.id);
