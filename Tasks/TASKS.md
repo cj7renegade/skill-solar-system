@@ -88,6 +88,12 @@ the build passed, and `npm test` gave 199 pass / 6 skip / 0 fail. `tests/robotic
 **failed 4 of 4 runs**: it hard-codes 292/88/1 at line 35 and was not updated for Edition 06. The
 Edition 06 e2e test and the Electron card check were not run. Needs JC's decision on updating that
 test. See `reports/02-edition06-verification.md`.
+**Rerun (JC approved the line 35 update):** the stale-value search found only line 35, which was
+changed to 298/82. Build passed, `npm test` 199/6/0, `robotics-v3-e2e` 494 checks passed,
+`robotics-v3-edition06-e2e` 27 checks passed. BLOCKED again at the Electron card check: **Q06 and
+V07 do not show the hardware-evidence line**. Their practice mode says "actual …", which
+`NEEDS_REAL_EVIDENCE` in `src/lesson.js` does not match. Everything else on all 9 cards was
+correct, and no proficiency was written. Needs JC's decision on `src/lesson.js`.
 
 ## [ ] Task 3 — Bring the tracked records up to date
 **Do:**
