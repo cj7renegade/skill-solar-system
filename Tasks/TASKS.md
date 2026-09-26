@@ -148,7 +148,7 @@ Q06 and V07 now included. Export still `687f0916…fc11`.
 - Pushed with `git push -u origin edition-06-integration` (a new remote branch). No pull request was
   opened, and main was not touched.
 
-## [ ] Task 5 — Housekeeping report (read-only, no deletions)
+## [x] Task 5 — Housekeeping report (read-only, no deletions)
 **Do:** For each item, record its size, whether anything in `package.json`, `tests/`, `src/`,
 `authoring/` or `scripts/` references it, and a recommendation (keep / archive / delete):
 - `.e2e-baseline/` and `.e2e-c1/`
@@ -161,7 +161,18 @@ Q06 and V07 now included. Export still `687f0916…fc11`.
   contained in the current master; confirm that locally.
 - Report whether the repository is inside a OneDrive folder and how large the synced tree is.
 Write `reports/05-housekeeping.md`. Commit the report only.
-**Result:**
+**Result:** Done, read-only; nothing was moved or deleted.
+- `.e2e-*` (1.5 MB each): unreferenced, and every source file is in Git history → delete.
+- `console-smoke.mjs`: unreferenced and needs the missing `playwright` → archive.
+- `knowledge.js`: imported by `model.js`; matches the 18 starter nodes and 0 in real maps → keep.
+- Old TASKS.md: no other version exists locally.
+- `Preview-Notes.md` and `Content-Completion-Ledger.csv`: superseded → archive.
+- Extracts: every node is in the master, but `04`/`05`/`06` have 2/5/6 `prerequisite` links that
+  the master holds as `supports`, and 12 of 14 files have answers that differ from the master →
+  keep until the answers are settled.
+- The repo is inside OneDrive: 707 MB, 9,687 files (`node_modules` 482 MB).
+- The report was committed on its own; this result follows in a separate commit.
+See `reports/05-housekeeping.md`.
 
 ---
 
