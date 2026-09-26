@@ -1,185 +1,137 @@
-# TASKS — Skill Solar System / Robotics V3 — Cleanup and Edition 06 commit
+# TASKS — Skill Solar System — Post-merge housekeeping and user-data backup
+
+The previous queue (Edition 06 verify and commit) is finished. Its completed version, with every
+Result line, is preserved in Git history at commit `26e9c86`.
 
 ## Rules for Claude Code (read first, every session)
-- Read `docs/PLATFORM.md` first. It is the reference for how this repo works.
+- Read `docs/PLATFORM.md` and `reports/05-housekeeping.md` first.
 - Work top to bottom, one task at a time. Start at the first unchecked box.
-- Work on branch `edition-06-integration`. Never commit to `main`. Never merge. Never force-push.
+- Work on branch `housekeeping-2026-09`, created from an up-to-date `main`. Never commit to `main`.
+  Never merge. Never force-push. Never open or approve a pull request.
 - When a task is done: check its box, fill in its **Result** line, commit, and move on.
 - If a STOP condition triggers, do NOT continue. Write what you found under **Result**,
   mark the task `[BLOCKED]`, commit, and end the session.
-- Never mark any skill proficient. Lesson availability is not mastery.
-- Never modify node identities, edges, positions, levels, pins, or user proficiency data.
-- Never edit anything under `packages/`. Never hand-edit `Maps/Robotics-v3/Robotics-v3-Lessons.json`.
-- Never delete files. Housekeeping tasks report and recommend only.
-- Dataset key must remain `robotics-curriculum-v3`.
+- Never mark any skill proficient. Never modify node identities, edges, positions, levels, pins,
+  or user proficiency data. Never open an old map copy in the app.
+- Delete or move ONLY the items this file names. Anything else you think should go: report it.
 - Personal maps, answer records and review sessions must never be committed.
-
-## Expected state (gates)
-| State | Authored | Pending | Roadmap | Total | Export SHA-256 starts |
-|---|---:|---:|---:|---:|---|
-| Last commit `7c95db6` | 292 | 88 | 1 | 381 | `ad9ba478` |
-| Export on disk now (Edition 06 applied, uncommitted) | 298 | 82 | 1 | 381 | `687f0916` |
+- Environment: Windows, project at `C:\Users\hilli\OneDrive\Desktop\Skill Solar System`.
+  Commands in PLATFORM.md are bash syntax; translate them for your shell without changing what they do.
+- JC is still learning to read code. Explain anything technical in one plain sentence.
 
 ---
 
-## [x] Task 0 — Confirm the working tree matches PLATFORM.md §9.4 (read-only)
+## [x] Task 0 — Confirm the merge landed (read-only, except updating local main)
 **Do:**
-- Record `git status`, the current branch, and `HEAD`. Confirm `HEAD` is `7c95db6`.
-- List every modified and untracked file. Compare against PLATFORM.md §9.4:
-  modified `authoring/robotics-v3/apply-lessons.mjs`, `src/lesson.js`,
-  `tests/robotics-v3-lessons.test.mjs`; untracked `authoring/robotics-v3/build-edition06-package.mjs`,
-  `tests/robotics-v3-edition06-e2e.mjs`; plus `docs/PLATFORM.md` if uncommitted.
-- Count the live export: authored / pending / roadmap / total. Record its SHA-256 and dataset key.
-- Confirm `packages/repeatable-work-system-learning-edition-06/` exists and list its files.
-- If not already on it, create the branch with `git switch -c edition-06-integration`
-  (this carries the uncommitted work over without changing it).
-- Write findings to `reports/00-current-state.md`.
-**STOP if:** `HEAD` is not `7c95db6`; there are uncommitted changes not listed above (list them);
-counts are not 298 / 82 / 1 / 381; or the Edition 06 package is missing.
-**Result:** Done. First pass stopped on two deviations: HEAD was `1dab1dd` (adds only
-`docs/PLATFORM.md` over `7c95db6`), and there was an unlisted `Edition06-Integration-Summary.md`.
-JC accepted `1dab1dd` as the baseline and included the summary in the Edition 06 work. The export
-measures 298 / 82 / 1 / 381, SHA-256 `687f0916ad0b…fc11`, and the dataset key is
-`robotics-curriculum-v3`. The package is present (16 files). `tooling/robotics-v3-preview` is not
-merged into main: 34 commits ahead, 0 behind. Branch `edition-06-integration` was created. See
-`reports/00-current-state.md`.
+- `git fetch origin`. Confirm `origin/main` contains commit `26e9c86`
+  (`git merge-base --is-ancestor 26e9c86 origin/main`).
+- Record `git status`. The only allowed uncommitted change is `Tasks/TASKS.md` (this file).
+- Switch to `main` and update it with `git pull --ff-only` (this only moves local `main` forward
+  to match GitHub; it cannot rewrite anything).
+- Confirm the live export `Maps/Robotics-v3/Robotics-v3-Lessons.json` still has SHA-256
+  `687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11` and counts 298 / 82 / 1 / 381.
+- List remaining local and remote branches. Report them; do not delete any.
+- Create branch `housekeeping-2026-09` from `main`.
+- Write `reports/06-post-merge-state.md`.
+**STOP if:** `origin/main` does not contain `26e9c86`; `git pull --ff-only` refuses; there are
+uncommitted changes other than this file; or the export hash or counts differ.
+**Result:** Done after one stop.
+- `origin/main` = `1c96ba5` (PR #15) and contains `26e9c86`.
+- First pass stopped on an unstaged deletion of `tests/console-smoke.mjs`. JC did it by hand; it is
+  treated as Task 2's removal done early and will be committed with `git rm` in Task 2.
+- `git switch main` refused because of the TASKS.md edit, so local `main` was fast-forwarded with
+  `git fetch origin main:main` (`e2632c0` → `1c96ba5`), and `housekeeping-2026-09` was pointed at it
+  with `git reset --soft main`. No files changed.
+- Export `687f0916…fc11`, 298/82/1/381.
+- 18 local branches, 17 on GitHub; none deleted.
+See `reports/06-post-merge-state.md`.
 
-## [x] Task 1 — Back up everything before verifying
+## [ ] Task 1 — Fresh backup before removing anything
 **Do:**
-- Add `/backups/` to `.gitignore` and commit that change alone.
-- Copy to `backups/pre-edition06-commit-<timestamp>/`:
-  - all of `Maps/` (includes the live export and personal maps)
-  - `%APPDATA%/skill-solar-system/proficiency/`
-  - `%APPDATA%/skill-solar-system/Local Storage/`
-- Record file counts, sizes and SHA-256 of the export and each proficiency file
-  in `reports/01-backup.md`. Do not copy answer contents into the report.
-**STOP if:** any copy fails or checksums of the copies do not match the originals.
-**Result:** Done. `/backups/` was ignored in `e3fbffb`. The backup is at
-`backups/pre-edition06-commit-20260926-163529/`: 169 files, 90.9 MB (Maps 158, proficiency 1,
-Local Storage 10). Every file was hash-verified with 0 mismatches. Export `687f0916…fc11`, proficiency
-`4cda601b…e6d0`. See `reports/01-backup.md`.
+- Confirm no Electron / Skill Solar System process is running. If one is, STOP and ask JC to close it.
+- Copy `Maps/`, `%APPDATA%\skill-solar-system\proficiency\` and
+  `%APPDATA%\skill-solar-system\Local Storage\` to `backups/pre-housekeeping-<timestamp>/`,
+  the same way as the previous queue's Task 1, and verify every SHA-256.
+- Record counts, sizes and the two key checksums in `reports/07-backup.md`.
+**STOP if:** any copy or checksum fails.
+**Result:**
 
-## [x] Task 2 — Verify the Edition 06 import
+## [ ] Task 2 — Remove the dead items JC approved
 **Do:**
-- Run the package's own checks in a throwaway Python environment (PLATFORM.md §11.3 step 2).
-- Dry-run `node authoring/robotics-v3/apply-lessons.mjs` and record: `result`,
-  `thisRun.existingPayloadsChanged`, the four non-payload signatures, and counts.
-- Run `node authoring/robotics-v3/apply-lessons.mjs --write` once and confirm it changes nothing
-  (export SHA-256 identical to Task 0). This is the idempotency check.
-- Confirm all 292 prior lesson payloads are unchanged versus the backup export.
-- Confirm the six new entries are exactly `Q06`, `B-D08`, `E11`, `V06`, `V07`, `I05`, and that the
-  I05 prerequisite closure (298 entries) has no entry missing an introductory lesson.
-- Confirm edges, positions, levels, pins and `proficiency80` are identical to the backup export.
-- `npm run build`, then `npm test`, then
-  `SSS_V3_MAP=Maps/Robotics-v3/Robotics-v3-Lessons.json node tests/robotics-v3-e2e.mjs`, then
-  `SSS_V3_MAP=Maps/Robotics-v3/Robotics-v3-Lessons.json node tests/robotics-v3-edition06-e2e.mjs`.
-- If Electron can run: open cards Q06, B-D08, E11, V06, V07, I05, one prior card, one pending card and
-  the roadmap card (X10), and confirm text, status lines and the hardware-evidence line display.
-  If it cannot run, say so plainly.
-- Write `reports/02-edition06-verification.md` with evidence for every check.
-**STOP if:** any check fails, any prior payload changed, preservation signatures differ,
-the rerun changes the export, or a test fails. If a test fails once, rerun it up to three
-times and report every run (the repo has a known intermittent failure possibly caused by OneDrive).
-**Result:** BLOCKED at the end-to-end step. These passed: package checks 33/33, dry run `passed`
-(0 prior payloads changed, 4 signatures identical, 298/82/1/381), `--write` rerun left the export
-at `687f0916…fc11`, 0 of 292 prior payloads changed versus `ad9ba478…`, the six new entries are
-exactly the six expected, the I05 closure is 298 with none missing, preserved fields are identical,
-the build passed, and `npm test` gave 199 pass / 6 skip / 0 fail. `tests/robotics-v3-e2e.mjs`
-**failed 4 of 4 runs**: it hard-codes 292/88/1 at line 35 and was not updated for Edition 06. The
-Edition 06 e2e test and the Electron card check were not run. Needs JC's decision on updating that
-test. See `reports/02-edition06-verification.md`.
-**Rerun (JC approved the line 35 update):** the stale-value search found only line 35, which was
-changed to 298/82. Build passed, `npm test` 199/6/0, `robotics-v3-e2e` 494 checks passed,
-`robotics-v3-edition06-e2e` 27 checks passed. BLOCKED again at the Electron card check: **Q06 and
-V07 do not show the hardware-evidence line**. Their practice mode says "actual …", which
-`NEEDS_REAL_EVIDENCE` in `src/lesson.js` does not match. Everything else on all 9 cards was
-correct, and no proficiency was written. Needs JC's decision on `src/lesson.js`.
-**Third run — Done (JC approved adding `actual`):** `actual` was added to `NEEDS_REAL_EVIDENCE`.
-Cards showing the line went 122 → 124, and only Q06 and V07 changed. Two new unit tests name Q06
-and V07 explicitly, and both failed against the old pattern. Build passed, `npm test` 207 tests /
-201 pass / 6 skip / 0 fail, e2e 494 and 27 checks passed, and all 9 cards were correct in the app,
-Q06 and V07 now included. Export still `687f0916…fc11`.
+- Delete `.e2e-baseline/` and `.e2e-c1/`. First re-confirm nothing in `package.json`, `tests/`,
+  `src/`, `authoring/` or `scripts/` references them. If they are tracked by Git, use `git rm`.
+- Remove `tests/console-smoke.mjs` with `git rm` (Git history keeps it).
+- Run `npm run build` and `npm test`. Results must match the last known state:
+  207 tests, 201 pass, 6 skip, 0 fail.
+**STOP if:** any reference is found, or any test result differs.
+**Result:**
 
-## [x] Task 3 — Bring the tracked records up to date
+## [ ] Task 3 — Archive the superseded maps (move, never open)
 **Do:**
-- Update `authoring/robotics-v3/Integration-Summary.md` to cover Editions 01–06, with the new
-  counts, export SHA-256, and a link to `reports/02-edition06-verification.md`.
-- Add a short note at the top of `authoring/robotics-v3/I05-Audit.md`: it describes the state at
-  export `ad9ba478…`, before Edition 06; its findings about what was missing are now resolved.
-  Do not change the audit's body. Do not edit `Edition06-Targets.json`.
-- Update `docs/PLATFORM.md` §9 so "current state" describes the committed Edition 06 state,
-  and remove the "uncommitted work" warning in §9.4 and item 7 of "Things I could not determine".
-**Result:** Done.
-- `Integration-Summary.md` now covers editions 01–06. A new top section has the current counts,
-  the export SHA-256, the measured signatures, the two approved fixes and the changed files. It
-  links `Edition06-Integration-Summary.md` as the importer's own record and
-  `reports/02-edition06-verification.md` as the independent evidence. The edition 05 text is kept
-  below, marked as that import's record.
-- `I05-Audit.md` has a note at the top; its body is unchanged. `Edition06-Targets.json` was not
-  touched.
-- `PLATFORM.md`: §9 rewritten for the committed state, §9.4 and item 7 removed (items 8–9
-  renumbered), the three links to §9.4 updated, 498 → 494, and the §3.5 sentence added.
-- Stale but not in scope, left for JC: §8.1 and §11.2 say 205 tests / 199 pass (now 207 / 201);
-  §8.1 lists 16 tests in `robotics-v3-lessons.test.mjs` (now 18); "could not determine" item 6
-  asks what `Tasks/TASKS.md` is for, and it is now tracked.
-- Task 3 is committed together with Task 4's records commit, so the code commit comes first as
-  Task 4 requires.
+- Create `Archive/2026-09-26-superseded-maps/` (it is already ignored by Git through `/Archive/`).
+- Move, without opening them in the app, exactly these files into it:
+  - `Maps/Robotics-v3/Preview-Notes.md`
+  - `Maps/Robotics-v3/Content-Completion-Ledger.csv`
+  - the 13 `Maps/*-with-prerequisites.json` files listed in `reports/05-housekeeping.md` §6
+  - `Maps/Skill-Solar-System-Math-Academy-Marked.json`
+- Add a `README.md` inside that folder, in plain language: why these were archived, that 12 of them
+  hold stale proficiency answers, and that **opening any of them in the app can copy stale answers
+  into the shared record, so they must not be opened.**
+- Verify each moved file's SHA-256 is unchanged, and that `Maps/Skill-Solar-System.json` and the
+  whole `Maps/Robotics-v3/` export set (other than the two moved files) are untouched.
+- Do not touch the `Maps/` subfolders (`Archived maps`, `Backups`, `Checkpoint-2026-09-13`,
+  `description-rewrite`, `Notes`, `Old-root-copies`).
+- Run `npm test` again, then
+  `SSS_ATLAS=Maps/Skill-Solar-System.json npm test` to confirm the six real-atlas tests still pass
+  without the batch sub-maps present. If any test needs a moved file, STOP and report which.
+- Write `reports/08-archive.md` listing every moved file with size and checksum.
+**Result:**
 
-## [x] Task 4 — Commit Edition 06
+## [ ] Task 4 — One-click user-data backup
+**Goal:** JC's answers in `%APPDATA%\skill-solar-system\` are backed up nowhere except the copies in
+`backups/`. Make backing them up (and `Maps/`) a double-click.
 **Do:**
-- Commit in focused commits, each with a message saying what and why:
-  1. Importer, card logic and tests: `apply-lessons.mjs`, `build-edition06-package.mjs`,
-     `src/lesson.js`, both test files.
-  2. Records and docs: Integration-Summary, I05-Audit note, PLATFORM.md, `reports/`.
-- Confirm nothing under `Maps/`, `packages/`, `backups/`, or any answer/session data is staged.
-- Run `npm test` once more after committing.
-- If a Git remote exists, push the branch only (`git push -u origin edition-06-integration`).
-  Do not open, merge or approve a pull request. JC reviews and merges.
-**STOP if:** any personal data would be committed, or tests fail after commit.
-**Result:** Done.
-- `cc7d2ff` holds the importer, card logic and tests: `apply-lessons.mjs`,
-  `build-edition06-package.mjs`, `src/lesson.js`, `robotics-v3-lessons.test.mjs`,
-  `robotics-v3-e2e.mjs` and `robotics-v3-edition06-e2e.mjs`.
-- `6f22ecc` holds the records: Integration-Summary, I05-Audit note, `Edition06-Integration-Summary.md`,
-  PLATFORM.md and TASKS.md (the reports were committed earlier with their tasks).
-- No path under `Maps/`, `packages/` or `backups/`, and no proficiency or session data, is in any
-  commit since `1dab1dd` (checked with `git diff --name-only`). The working tree is clean.
-- `npm test` after committing: 207 tests / 201 pass / 6 skip / 0 fail.
-- Pushed with `git push -u origin edition-06-integration` (a new remote branch). No pull request was
-  opened, and main was not touched.
+- Add `scripts/backup-user-data.ps1` and a double-click helper `Backup-User-Data.cmd` in the
+  project root, matching the style of the existing `.cmd` helpers (CRLF line endings, per
+  `.gitattributes`). The script must:
+  - refuse to run, with a clear message, if the Skill Solar System app is open;
+  - copy `Maps\` and `%APPDATA%\skill-solar-system\` into
+    `%OneDrive%\Skill Solar System Backups\<yyyy-MM-dd_HHmmss>\` (outside the project folder);
+  - verify every copied file by SHA-256 and print a plain summary (files, size, pass/fail);
+  - keep the 10 most recent backup folders and delete older ones, only inside that backups folder;
+  - never read, print or change answer contents; never write anywhere else.
+- Run it once and report the result, the destination path and its size.
+- Add a short "Back up your data" recipe to PLATFORM.md §11.5 pointing at the new helper.
+- Commit the script and helper. They contain no personal data.
+**STOP if:** `%OneDrive%` is not set, or verification fails.
+**Result:**
 
-## [x] Task 5 — Housekeeping report (read-only, no deletions)
-**Do:** For each item, record its size, whether anything in `package.json`, `tests/`, `src/`,
-`authoring/` or `scripts/` references it, and a recommendation (keep / archive / delete):
-- `.e2e-baseline/` and `.e2e-c1/`
-- `tests/console-smoke.mjs` (needs `playwright`, not a dependency)
-- `src/knowledge.js` (only matches the 18 starter subjects)
-- the old `Tasks/TASKS.md` contents, if different from this file
-- older generated files in `Maps/Robotics-v3/` (`Preview-Notes.md`, `Content-Completion-Ledger.csv`)
-- the older map copies in `Maps/` (e.g. `Skill-Solar-System-Math-Academy-Marked.json`,
-  the `*-with-prerequisites.json` extracts). A comparison in chat found every extract fully
-  contained in the current master; confirm that locally.
-- Report whether the repository is inside a OneDrive folder and how large the synced tree is.
-Write `reports/05-housekeeping.md`. Commit the report only.
-**Result:** Done, read-only; nothing was moved or deleted.
-- `.e2e-*` (1.5 MB each): unreferenced, and every source file is in Git history → delete.
-- `console-smoke.mjs`: unreferenced and needs the missing `playwright` → archive.
-- `knowledge.js`: imported by `model.js`; matches the 18 starter nodes and 0 in real maps → keep.
-- Old TASKS.md: no other version exists locally.
-- `Preview-Notes.md` and `Content-Completion-Ledger.csv`: superseded → archive.
-- Extracts: every node is in the master, but `04`/`05`/`06` have 2/5/6 `prerequisite` links that
-  the master holds as `supports`, and 12 of 14 files have answers that differ from the master →
-  keep until the answers are settled.
-- The repo is inside OneDrive: 707 MB, 9,687 files (`node_modules` 482 MB).
-- The report was committed on its own; this result follows in a separate commit.
-See `reports/05-housekeeping.md`.
+## [ ] Task 5 — Bring PLATFORM.md up to date
+**Do:** Fix every statement this session or the previous one made false, including at least:
+- §8.1 and §11.2 test totals (now 207 tests, 201 pass, 6 skip) and the
+  `robotics-v3-lessons.test.mjs` count (now 18);
+- "Things I could not determine" item 6 (`Tasks/TASKS.md` is now tracked and is the work queue),
+  plus items 1 and 4 (the `.e2e-*` folders and `console-smoke.mjs` are removed);
+- §2.6 and §10.2 mentions of the removed items;
+- §2.5, noting the superseded maps now live in `Archive/2026-09-26-superseded-maps/`.
+Change nothing else in PLATFORM.md.
+**Result:**
+
+## [ ] Task 6 — Push and summarize
+**Do:**
+- Confirm nothing under `Maps/`, `packages/`, `backups/`, `Archive/` or any answer/session data is
+  staged in any commit on this branch.
+- Push the branch: `git push -u origin housekeeping-2026-09`. Do not open a pull request.
+- End with the plain-language summary: tasks finished or stopped and why, branch and commit IDs,
+  the backup destination, and every report file written.
+**Result:**
 
 ---
 
 ## NOT QUEUED — needs JC's decision first
-- Acting on the housekeeping recommendations (moving, archiving or deleting anything).
-- Moving the repository out of OneDrive.
+- Moving the repository out of OneDrive (planned before the 8,000-skill work begins).
 - The five structural questions in PLATFORM.md §10.3 (X06, `s-*` track, thermal, K05–K07, calculus).
-- Merging Robotics V3 into the master atlas, and the `m-logic` answer conflict.
+- Adding a `requires_physical_evidence` field to future edition packages.
 - The 8,000-skill scale stress test and platform re-architecture.
+- Merging Robotics V3 into the master atlas, and the `m-logic` answer conflict.
 - The coverage-inventory pass in `CLAUDE-HANDOFF.md`.
