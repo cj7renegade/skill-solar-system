@@ -59,7 +59,7 @@ merged into main: 34 commits ahead, 0 behind. Branch `edition-06-integration` wa
 Local Storage 10). Every file was hash-verified with 0 mismatches. Export `687f0916…fc11`, proficiency
 `4cda601b…e6d0`. See `reports/01-backup.md`.
 
-## [ ] Task 2 — Verify the Edition 06 import
+## [BLOCKED] Task 2 — Verify the Edition 06 import
 **Do:**
 - Run the package's own checks in a throwaway Python environment (PLATFORM.md §11.3 step 2).
 - Dry-run `node authoring/robotics-v3/apply-lessons.mjs` and record: `result`,
@@ -80,7 +80,14 @@ Local Storage 10). Every file was hash-verified with 0 mismatches. Export `687f0
 **STOP if:** any check fails, any prior payload changed, preservation signatures differ,
 the rerun changes the export, or a test fails. If a test fails once, rerun it up to three
 times and report every run (the repo has a known intermittent failure possibly caused by OneDrive).
-**Result:**
+**Result:** BLOCKED at the end-to-end step. These passed: package checks 33/33, dry run `passed`
+(0 prior payloads changed, 4 signatures identical, 298/82/1/381), `--write` rerun left the export
+at `687f0916…fc11`, 0 of 292 prior payloads changed versus `ad9ba478…`, the six new entries are
+exactly the six expected, the I05 closure is 298 with none missing, preserved fields are identical,
+the build passed, and `npm test` gave 199 pass / 6 skip / 0 fail. `tests/robotics-v3-e2e.mjs`
+**failed 4 of 4 runs**: it hard-codes 292/88/1 at line 35 and was not updated for Edition 06. The
+Edition 06 e2e test and the Electron card check were not run. Needs JC's decision on updating that
+test. See `reports/02-edition06-verification.md`.
 
 ## [ ] Task 3 — Bring the tracked records up to date
 **Do:**
