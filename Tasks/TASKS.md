@@ -44,7 +44,7 @@ measures 298 / 82 / 1 / 381, SHA-256 `687f0916ad0b…fc11`, and the dataset key 
 merged into main: 34 commits ahead, 0 behind. Branch `edition-06-integration` was created. See
 `reports/00-current-state.md`.
 
-## [ ] Task 1 — Back up everything before verifying
+## [x] Task 1 — Back up everything before verifying
 **Do:**
 - Add `/backups/` to `.gitignore` and commit that change alone.
 - Copy to `backups/pre-edition06-commit-<timestamp>/`:
@@ -54,7 +54,10 @@ merged into main: 34 commits ahead, 0 behind. Branch `edition-06-integration` wa
 - Record file counts, sizes and SHA-256 of the export and each proficiency file
   in `reports/01-backup.md`. Do not copy answer contents into the report.
 **STOP if:** any copy fails or checksums of the copies do not match the originals.
-**Result:**
+**Result:** Done. `/backups/` was ignored in `e3fbffb`. The backup is at
+`backups/pre-edition06-commit-20260926-163529/`: 169 files, 90.9 MB (Maps 158, proficiency 1,
+Local Storage 10). Every file was hash-verified with 0 mismatches. Export `687f0916…fc11`, proficiency
+`4cda601b…e6d0`. See `reports/01-backup.md`.
 
 ## [ ] Task 2 — Verify the Edition 06 import
 **Do:**
