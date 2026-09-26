@@ -1,9 +1,125 @@
-# Robotics learning editions 01–05 — integration summary
+# Robotics learning editions 01–06 — integration summary
 
 Return note for the next authoring edition, answering the handoffs in each package's
 `INTEGRATION.md` under `packages/shared-foundations-learning-edition-01`,
 `…-controlled-joint-learning-edition-02`, `…-complete-arm-learning-edition-03`,
-`…-wheeled-robot-learning-edition-04` and `…-mobile-manipulation-learning-edition-05`.
+`…-wheeled-robot-learning-edition-04`, `…-mobile-manipulation-learning-edition-05` and
+`…-repeatable-work-system-learning-edition-06`.
+
+## Current state — after edition 06
+
+| | |
+| --- | --- |
+| Map | **381 nodes · 298 authored · 82 pending · 1 roadmap** (`X10`), 894 edges, 0 proficiency answers |
+| Export | `Maps/Robotics-v3/Robotics-v3-Lessons.json`, 2,762,626 bytes, sha256 `687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11` |
+| Title | *Robotics curriculum v3 — 298 introductory lessons, 82 pending* |
+| `datasetKey` / `atlasFamily` | `robotics-curriculum-v3` / `robotics-foundations-integration-v3-review`, both unchanged |
+| Review key | `dataset:robotics-curriculum-v3\|381\|cbb516b3`, unchanged |
+| Per edition | 77 + 116 + 61 + 28 + 10 + 6 = 298 |
+| Milestone chains | I01 185, I02 249, I03 241, I04 291, **I05 298**: every one complete, none missing a card |
+
+Every authored card now lies on the I05 chain, and every I05 entry has a card. The 82 pending
+entries all lie outside it.
+
+## Edition 06 import
+
+There are two records of this import:
+
+- **The importer's own record:** [`Edition06-Integration-Summary.md`](Edition06-Integration-Summary.md),
+  written by the session that authored and applied the edition, at source revision `7c95db6`. It
+  is kept unchanged. Its claims are that session's own.
+- **The independent evidence:** [`reports/02-edition06-verification.md`](../../reports/02-edition06-verification.md).
+  A later session re-verified every claim itself, from a backup it took first
+  ([`reports/01-backup.md`](../../reports/01-backup.md)). The figures below come from that report.
+
+**Inputs.** `packages/repeatable-work-system-learning-edition-06/`:
+
+| File | sha256 |
+| --- | --- |
+| `Repeatable-Work-System-Lessons-06.json` | `23e86c39…` |
+| `baseline/Confirmed-Edition05-Export.json` | `ad9ba478…`, the committed edition 05 export |
+| `baseline/Robotics-Reviewed-Specification.json` | `2cb33332…`, the same specification as every edition |
+| `baseline/Edition06-Targets.json` | `7a98ab89…`, identical to the tracked `Edition06-Targets.json` |
+| `baseline/Mobile-Manipulation-Lessons-05.json` | `f04e67f4…` |
+
+**Package checks.** `check_package.py`: **33 / 33 passed** (Python 3.13.13, standard library only).
+It was run on a scratch copy in a throwaway environment, because the script writes into its own
+folder. The package itself was verified unchanged by hash.
+
+| Reconciliation | |
+| --- | --- |
+| Supplied | 6 |
+| **New this import** | **6**: `Q06`, `B-D08`, `E11`, `V06`, `V07`, `I05`, exactly the six the [I05 audit](I05-Audit.md) found missing |
+| Existing payloads unchanged | **292** (0 changed) |
+| Skipped / conflicting | 0 / 0 |
+| Final state | 381 · 298 · 82 · 1 |
+
+All six new payloads are byte-identical to `Repeatable-Work-System-Lessons-06.json`. Only these
+fields changed on those six nodes: `details`, `placementNote`, `lessonStatus`, `contentStatus`,
+`lessonCard` and `lesson`. The only metadata that changed is `scope` and `contentEditions`.
+
+| Signature | Edition 05 export `ad9ba478…` | Now `687f0916…` | |
+| --- | --- | --- | --- |
+| Node order | `ecce612d64610b6f` | `ecce612d64610b6f` | unchanged |
+| Edges (all 894) | `b8b7adc67be1a47a` | `b8b7adc67be1a47a` | unchanged |
+| Layout (positions, levels, pins, layout mode) | `5ee2c72fe83b52b7` | `5ee2c72fe83b52b7` | unchanged |
+| Proficiency | `32acee5a0d94029a` | `32acee5a0d94029a` | unchanged |
+| Lesson payloads | `7af5a92bc3087e56` | `e4cad6a3825ff756` | changed: the six additions, as intended |
+
+**Idempotency.** A dry run reported `result: passed`, with `thisRun.existingPayloadsChanged` empty
+and 0 nodes touched. A `--write` rerun left the export byte-identical (`687f0916…`).
+
+**Tests** (at `078e37f` plus the Edition 06 working-tree changes):
+
+| Test | Result |
+| --- | --- |
+| `npm test` | 207 tests, 201 pass, 6 known `SSS_ATLAS` skips, 0 fail |
+| `node tests/robotics-v3-e2e.mjs` | 494 checks |
+| `node tests/robotics-v3-edition06-e2e.mjs` | 27 checks |
+
+In the real app, all six new cards were checked, plus `C03`, a pending card and `X10`. Each showed
+the correct status line, the pending line, the hardware-evidence line where applicable, and the
+simulation note. No proficiency was written.
+
+**Two fixes made during verification**, each approved by JC:
+
+- `tests/robotics-v3-e2e.mjs` still expected the edition 05 counts (292 / 88). It now expects
+  298 / 82. No other test logic changed.
+- `Q06` and `V07` word their evidence requirement with *actual* ("an actual controlled system",
+  "actual second-person operation"). `NEEDS_REAL_EVIDENCE` did not recognise that word, so these
+  two cards lost the hardware-evidence line. `actual` was added to the pattern: 122 → 124 cards,
+  and only those two changed. Two unit tests now name `Q06` and `V07` directly, so the check no
+  longer depends on the word list it is testing.
+
+**Changed files, tracked:**
+
+| File | Change |
+| --- | --- |
+| `authoring/robotics-v3/apply-lessons.mjs` | edition 06 input and baseline; expected counts 298/82; `expectedEdition06Delta` and an `i05Closure` gate |
+| `authoring/robotics-v3/build-edition06-package.mjs` | the tool that assembled the package |
+| `src/lesson.js` | edition 06's reader-facing name; `actual` in `NEEDS_REAL_EVIDENCE` |
+| `tests/robotics-v3-lessons.test.mjs` | 298/82 counts, six editions, the two Q06/V07 tests |
+| `tests/robotics-v3-e2e.mjs` | 298/82 expectation |
+| `tests/robotics-v3-edition06-e2e.mjs` | new: the six edition 06 cards in Electron |
+| `authoring/robotics-v3/Edition06-Integration-Summary.md` | the importer's own record |
+
+Generated files, under the ignored `Maps/Robotics-v3/`: the export (above), and
+`Content-Import-Ledger.csv` (sha256 `fb0e3e6c…`) and `Integration-Summary.json`, which the
+verification rerun rewrote with only its date and source revision changed.
+
+**Limitations.** These are introductory cards. Every lab exercise is synthetic, and the edition 06
+lab uses generated thermal traces, trial logs, manifests and handover checks. No physical component
+temperature, reliability trial, service procedure, second-person handover or integrated work system
+has been demonstrated. Having a card for every I05 entry is a fact about content. It is not
+proficiency, and it does not mean the milestone has been demonstrated. Extended lessons remain
+pending for all 298 cards, and 82 assessable entries still have none.
+
+---
+
+# Edition 05 record, as written at that import
+
+Everything below describes the edition 05 import and the state at export `ad9ba478…`. It is kept as
+the record of that import.
 
 ## Source revision
 

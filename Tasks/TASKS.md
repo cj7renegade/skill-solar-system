@@ -100,7 +100,7 @@ and V07 explicitly, and both failed against the old pattern. Build passed, `npm 
 201 pass / 6 skip / 0 fail, e2e 494 and 27 checks passed, and all 9 cards were correct in the app,
 Q06 and V07 now included. Export still `687f0916…fc11`.
 
-## [ ] Task 3 — Bring the tracked records up to date
+## [x] Task 3 — Bring the tracked records up to date
 **Do:**
 - Update `authoring/robotics-v3/Integration-Summary.md` to cover Editions 01–06, with the new
   counts, export SHA-256, and a link to `reports/02-edition06-verification.md`.
@@ -109,7 +109,21 @@ Q06 and V07 now included. Export still `687f0916…fc11`.
   Do not change the audit's body. Do not edit `Edition06-Targets.json`.
 - Update `docs/PLATFORM.md` §9 so "current state" describes the committed Edition 06 state,
   and remove the "uncommitted work" warning in §9.4 and item 7 of "Things I could not determine".
-**Result:**
+**Result:** Done.
+- `Integration-Summary.md` now covers editions 01–06. A new top section has the current counts,
+  the export SHA-256, the measured signatures, the two approved fixes and the changed files. It
+  links `Edition06-Integration-Summary.md` as the importer's own record and
+  `reports/02-edition06-verification.md` as the independent evidence. The edition 05 text is kept
+  below, marked as that import's record.
+- `I05-Audit.md` has a note at the top; its body is unchanged. `Edition06-Targets.json` was not
+  touched.
+- `PLATFORM.md`: §9 rewritten for the committed state, §9.4 and item 7 removed (items 8–9
+  renumbered), the three links to §9.4 updated, 498 → 494, and the §3.5 sentence added.
+- Stale but not in scope, left for JC: §8.1 and §11.2 say 205 tests / 199 pass (now 207 / 201);
+  §8.1 lists 16 tests in `robotics-v3-lessons.test.mjs` (now 18); "could not determine" item 6
+  asks what `Tasks/TASKS.md` is for, and it is now tracked.
+- Task 3 is committed together with Task 4's records commit, so the code commit comes first as
+  Task 4 requires.
 
 ## [ ] Task 4 — Commit Edition 06
 **Do:**

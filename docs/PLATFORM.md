@@ -5,10 +5,9 @@ who is still learning to read code. Every programming term is defined the first 
 Every claim about how the system is built cites the file it came from, and where a file could not
 settle a question, this document says so instead of guessing.
 
-**Written against commit `7c95db636812ed0109cc25e275ac15f458341f70`**, with one important caveat:
-the working tree also contains **uncommitted Edition 06 work** that was in progress while this was
-written. See [§9.4](#94-uncommitted-work-in-the-tree-at-the-time-of-writing) — it is described, not
-touched.
+**Written against commit `7c95db636812ed0109cc25e275ac15f458341f70`.** §9 was later updated to
+describe the verified and committed Edition 06 state on branch `edition-06-integration` (see
+[§9](#9-current-state)).
 
 Contents:
 [1 Purpose](#1-purpose) ·
@@ -183,7 +182,8 @@ The robotics v3 work lives in `authoring/robotics-v3/`:
 | `build-preview.mjs` | tool | Turns the reviewed specification into a runtime map with no lessons. Run once. |
 | `lessons.mjs` | tool | The import logic: reconciliation, conflict detection, status labelling. No file access. |
 | `apply-lessons.mjs` | tool | The command you actually run. Finds inputs, reports, gates, writes. |
-| `Integration-Summary.md` | record | The tracked written handoff note for editions 01–05. |
+| `Integration-Summary.md` | record | The tracked written handoff note for editions 01–06. |
+| `Edition06-Integration-Summary.md` | record | The Edition 06 importer's own note, kept unchanged. |
 | `I05-Audit.md` | record | The read-only structural audit of the I05 chain. |
 | `Edition06-Targets.json` | record | The six then-unwritten I05 entries, extracted verbatim. |
 
@@ -200,7 +200,7 @@ packages/
 ├── complete-arm-learning-edition-03/           61 lessons
 ├── wheeled-robot-learning-edition-04/          28 lessons
 ├── mobile-manipulation-learning-edition-05/    10 lessons
-├── repeatable-work-system-learning-edition-06/  6 lessons  ← newest, see §9.4
+├── repeatable-work-system-learning-edition-06/  6 lessons  ← newest, see §9
 ├── robotics-curriculum-v3/          the reviewed specification
 ├── robotics-coverage-blueprint/     earlier planning
 └── …-batch-01/ folders              the pre-v3 content batches
@@ -345,6 +345,9 @@ Three details worth knowing:
   `NEEDS_REAL_EVIDENCE`, a pattern matching words like *physical*, *deployed-system*, *hardware*,
   *supervised*. An earlier version matched whole sentences and silently lost the warning when an
   edition rephrased it; a test now asserts every affected entry still produces the line.
+  For Edition 06, `actual` was added to `NEEDS_REAL_EVIDENCE`, because `Q06` and `V07` say
+  "actual" where earlier editions said "physical" and had lost the line. Two unit tests now name
+  those entries directly, so the check does not rely on the word list it is testing.
 
 **Which authored fields have a renderer, and which do not.**
 
@@ -859,7 +862,7 @@ replaced by a fixed path. Your real answers are never touched.
 | `pan-e2e.mjs` | 6 | Held-key panning rate |
 | `grid-e2e.mjs` | 5 | The floor grid at distance |
 | `prerequisites-e2e.mjs` | 47 (52 with a map) | The prerequisite-chain control |
-| `robotics-v3-e2e.mjs` | 498 with a map | Lesson cards, answers, symbols, units, sessions, save/reload |
+| `robotics-v3-e2e.mjs` | 494 with a map | Lesson cards, answers, symbols, units, sessions, save/reload |
 | `atlas-e2e.mjs`, `dc-`, `physics-`, `material-`, `statics-`, `robotics-atlas-e2e.mjs` | — | Each integrated batch against a real atlas |
 
 Scripts needing a local map print `Skipped: …` and exit cleanly without one.
@@ -880,14 +883,18 @@ throwaway Python environment rather than installing into the system Python.
 
 ## 9. Current state
 
-### 9.1 As committed at `7c95db6`
+### 9.1 As committed on branch `edition-06-integration`
+
+Edition 06 was verified and committed on the `edition-06-integration` branch. The evidence is in
+`reports/02-edition06-verification.md`. The branch has not been merged into `main`.
 
 | | |
 | --- | --- |
 | Map | 381 nodes, 894 edges, `datasetKey` `robotics-curriculum-v3` |
-| Authored introductory cards | **292** |
-| Pending assessable | **88** |
+| Authored introductory cards | **298** |
+| Pending assessable | **82** |
 | Roadmap | **1** (`X10`) |
+| Export SHA-256 | `687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11` (previously `ad9ba478…` at `7c95db6`) |
 
 | Edition | Cards | Milestone |
 | --- | ---: | --- |
@@ -896,6 +903,7 @@ throwaway Python environment rather than installing into the system Python.
 | `complete-arm-03` | 61 | I02 |
 | `wheeled-robot-04` | 28 | I03 |
 | `mobile-manipulation-05` | 10 | I04 |
+| `repeatable-work-system-06` | 6 | I05 |
 
 ### 9.2 Chain closure
 
@@ -905,47 +913,19 @@ throwaway Python environment rather than installing into the system Python.
 | I02 | 249 | yes |
 | I03 | 241 | yes |
 | I04 | 291 | yes |
-| I05 | 298 | **no at `7c95db6`** — 6 entries short |
+| I05 | 298 | yes, since Edition 06 (it was 6 entries short at `7c95db6`) |
 
 ### 9.3 The audit
 
-The full structural analysis is **`authoring/robotics-v3/I05-Audit.md`** — the six missing entries
-in dependency order, the 82 pending entries outside the chain split by whether any milestone can
-reach them, and nine structural observations. It is not duplicated here.
+The full structural analysis is **`authoring/robotics-v3/I05-Audit.md`**. It covers the six entries
+that were missing in dependency order, the 82 pending entries outside the chain (split by whether
+any milestone can reach them), and nine structural observations. It is not duplicated here. It
+describes the state before Edition 06: the six missing entries are now authored, and a note at its
+top says so. Its structural observations still stand (§10).
 
-### 9.4 Uncommitted work in the tree at the time of writing
-
-**The working tree is ahead of the last commit.** An **Edition 06** has been created and applied
-since the audit. I observed this and did not touch it.
-
-Present but **not committed**:
-
-- `packages/repeatable-work-system-learning-edition-06/` — 6 lessons: exactly `Q06`, `B-D08`, `E11`,
-  `V06`, `V07`, `I05`, the six the audit identified.
-- Modified: `authoring/robotics-v3/apply-lessons.mjs` (adds `edition06`, a `milestoneClosure`
-  helper), `src/lesson.js`, `tests/robotics-v3-lessons.test.mjs`.
-- New, untracked: `authoring/robotics-v3/build-edition06-package.mjs`,
-  `tests/robotics-v3-edition06-e2e.mjs`.
-
-The **generated export has already been rewritten** by that work:
-
-| | Committed state | Export on disk now |
-| --- | --- | --- |
-| Title | …292 introductory lessons, 88 pending | …**298** introductory lessons, **82** pending |
-| Authored / pending / roadmap | 292 / 88 / 1 | **298 / 82 / 1** |
-| Editions | five | **six** |
-| I05 chain | 6 short | **closed** |
-| SHA-256 | `ad9ba478…` | `687f0916…` |
-
-Two consequences:
-
-- `authoring/robotics-v3/I05-Audit.md` and `Edition06-Targets.json` both cite `ad9ba478…`. Their
-  *content* is still correct about what was missing; they now describe a **previous** state.
-- `authoring/robotics-v3/Integration-Summary.md` still describes editions 01–05.
-
-I did not verify the Edition 06 import, run its checks, or commit any of it. Its own
-`Integration-Summary.json` on disk reports `"result": "passed"` at revision `7c95db6`, but **that is
-its claim, not my verification.**
+The written import record is `authoring/robotics-v3/Integration-Summary.md`, covering editions
+01–06. The importer's own Edition 06 note, `Edition06-Integration-Summary.md`, is kept alongside it
+unchanged.
 
 ---
 
@@ -1125,12 +1105,10 @@ applier never writes them.
 5. **Whether `src/knowledge.js` is intentionally retained.** It only ever matches the 18 starter
    subjects and returns nothing for any real map.
 6. **What `Tasks/TASKS.md` is for.** Untracked and referenced by nothing; I did not open it.
-7. **Whether the Edition 06 work in the tree is finished or mid-flight**, and whether its claimed
-   `"result": "passed"` holds. I did not run its checks.
-8. **Whether the packaged app uses a different user-data folder.** In development it is
+7. **Whether the packaged app uses a different user-data folder.** In development it is
    `%APPDATA%\skill-solar-system`, confirmed on disk. `electron-builder` sets `productName` to
    "Skill Solar System", which would normally give `%APPDATA%\Skill Solar System` — I could not
    verify this without building and running the packaged executable.
-9. **Whether the review-session migration has ever run against a real saved session.** Every check
+8. **Whether the review-session migration has ever run against a real saved session.** Every check
    used a planted session in an isolated profile, and no session store for the robotics family
    exists in your real profile.

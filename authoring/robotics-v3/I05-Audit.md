@@ -1,5 +1,13 @@
 # I05 audit — what the repeatable-work-system milestone still needs
 
+> **Note, added after Edition 06.** This audit describes the state at export `ad9ba478…`, before
+> Edition 06. Its findings about what was missing are now resolved. Edition 06 authored exactly the
+> six entries listed here (`Q06`, `B-D08`, `E11`, `V06`, `V07`, `I05`). At export `687f0916…` the I05
+> chain has 298 entries, and every one has an introductory card. See
+> [`Integration-Summary.md`](Integration-Summary.md) and
+> [`reports/02-edition06-verification.md`](../../reports/02-edition06-verification.md).
+> The structural observations below are not affected by this note.
+
 Read-only audit. No lesson or map data was changed by producing it.
 
 **Subject:** `rob3:I05` — *Verify a repeatable robotic work system*, an `Integration milestones`
