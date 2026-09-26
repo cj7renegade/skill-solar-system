@@ -46,7 +46,7 @@ uncommitted changes other than this file; or the export hash or counts differ.
 - 18 local branches, 17 on GitHub; none deleted.
 See `reports/06-post-merge-state.md`.
 
-## [ ] Task 1 — Fresh backup before removing anything
+## [x] Task 1 — Fresh backup before removing anything
 **Do:**
 - Confirm no Electron / Skill Solar System process is running. If one is, STOP and ask JC to close it.
 - Copy `Maps/`, `%APPDATA%\skill-solar-system\proficiency\` and
@@ -54,7 +54,11 @@ See `reports/06-post-merge-state.md`.
   the same way as the previous queue's Task 1, and verify every SHA-256.
 - Record counts, sizes and the two key checksums in `reports/07-backup.md`.
 **STOP if:** any copy or checksum fails.
-**Result:**
+**Result:** Done. No app process was running. The backup is at
+`backups/pre-housekeeping-20260926-174130/`: 171 files, 96.3 MB (Maps 160, proficiency 1, Local
+Storage 10), every file hash-verified with 0 mismatches. Export `687f0916…fc11`, proficiency
+`4cda601b…e6d0`, both unchanged. `Maps/` grew from 158 to 160 files since the last backup
+(examined in Task 3). See `reports/07-backup.md`.
 
 ## [ ] Task 2 — Remove the dead items JC approved
 **Do:**
