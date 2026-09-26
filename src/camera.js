@@ -1,15 +1,22 @@
 // Camera navigation math. Panning moves the camera and orbit target together, so the
 // view angle never changes.
 //
-// Speed policy: keyboard panning, right-drag panning, and wheel travel scale with a
-// navigation distance. It is the distance from the camera to the nearest sphere in
-// front of it, not the orbit-target distance, which can be stale (for example, the
-// empty centre of a fitted spiral a few units ahead of the camera). The navigation
-// distance is clamped between the map's typical sphere spacing, so close inspection
-// stays precise without getting stuck, and twice the map's extent, so overview motion
-// stays bounded.
-export const KEY_PAN_RATE = 0.7;        // navigation distances per second while a key is held
-export const MAX_FRAME_SECONDS = 0.05;  // longer frame gaps are ignored to avoid jumps
+// Speed policy: right-drag panning and wheel travel scale with a navigation distance.
+// It is the distance from the camera to the nearest sphere in front of it, not the
+// orbit-target distance, which can be stale (for example, the empty centre of a fitted
+// spiral a few units ahead of the camera). The navigation distance is clamped between
+// the map's typical sphere spacing, so close inspection stays precise without getting
+// stuck, and twice the map's extent, so overview motion stays bounded.
+//
+// Held-key panning does not follow that distance. Scaling it that way keeps a steady
+// on-screen rate but makes the map distance covered collapse as you move in, so crossing
+// the atlas close up took over a hundred times longer than at overview. Instead it covers
+// the same map distance every second at any zoom, measured in sphere spacings so it suits
+// the map in view and follows the sphere-spacing slider.
+export const PAN_SPHERES_PER_SECOND = 20; // sphere spacings crossed per second while a key is held
+export const PAN_CLOSE_CAP = 2.8;         // navigation distances per second: a ceiling close up, where
+                                          // that steady rate would sweep several screen widths a second
+export const MAX_FRAME_SECONDS = 0.05;    // longer frame gaps are ignored to avoid jumps
 export const WHEEL_RATE = 0.0008;       // per normalized wheel pixel: a 100 px notch moves ~7.7%
 export const MAX_WHEEL_PIXELS = 240;    // one wheel event never moves more than ~17.5%
 
@@ -55,8 +62,19 @@ export function navigationDistance({ nearest, orbit, spacing, extent, minimum = 
   return clamp(Number.isFinite(nearest) ? nearest : orbit, floor, ceiling);
 }
 
-export function keyPanAmount(distance, seconds) {
-  return distance * KEY_PAN_RATE * clamp(seconds, 0, MAX_FRAME_SECONDS);
+// The steady rate is the same however far in the camera is. The cap is proportional to how far away
+// what you are looking at is, because the on-screen rate is too, so it limits how fast the view can
+// sweep without reintroducing the collapse.
+//
+// It takes whichever of the view depth and the nearest sphere ahead is larger. Either one alone
+// gives up the rate for the wrong reason: flying through a dense strand, the nearest sphere ahead
+// dips for a frame or two whenever one passes the camera, and a stale orbit target can sit a few
+// units ahead while the spheres in view are far away. Maps with no measurable spacing fall back to
+// the cap alone.
+export function keyPanAmount({ navigation, orbit = 0, spacing = null }, seconds) {
+  const steady = PAN_SPHERES_PER_SECOND * (spacing || navigation);
+  const basis = Math.max(navigation, orbit);
+  return Math.min(steady, PAN_CLOSE_CAP * basis) * clamp(seconds, 0, MAX_FRAME_SECONDS);
 }
 
 // Mouse wheels report lines or pages on some systems; trackpad pinches arrive as small ctrl+wheel deltas.

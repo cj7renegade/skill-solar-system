@@ -1,0 +1,522 @@
+{
+  "format": "sss-content-authoring-batch",
+  "formatVersion": 1,
+  "batchId": "sss-material-behavior-batch-01",
+  "date": "2026-09-14",
+  "status": "First material-response expansion; not a complete materials curriculum",
+  "nodes": [
+    {
+      "id": "sss-mat-engineering-stress",
+      "name": "Calculate engineering tensile stress using the original specimen area",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Convert a tensile force measurement into engineering stress by dividing it by the original cross-sectional area.",
+      "details": "Convert a tensile force measurement into engineering stress by dividing it by the original cross-sectional area. Keep force and area units consistent; one newton per square millimeter equals one megapascal.\n\nUse the initial area throughout an engineering stress curve, even after the specimen narrows. This is a nominal measure and does not establish the maximum local stress near a notch or neck.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-STRESS"
+      ],
+      "proficiencyReference": "I can calculate engineering stress and explain why the original area remains its denominator.",
+      "placementNote": "This separates the tensile engineering measure from the broader normal-and-shear stress topic.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-engineering-strain",
+      "name": "Calculate engineering strain from a stated gauge length",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Calculate engineering strain as the change in gauge length divided by its original length.",
+      "details": "Calculate engineering strain as the change in gauge length divided by its original length. Retain a consistent extension or shortening sign and distinguish strain from a displacement expressed in millimeters.\n\nExpress the same result as a decimal, percentage, or microstrain without changing its meaning. Use the stated specimen gauge length; overall machine travel can include deformation outside that measured region.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-STRESS"
+      ],
+      "proficiencyReference": "I can convert gauge-length change into decimal strain, percent strain, and microstrain.",
+      "placementNote": "This isolates longitudinal strain measurement from the existing overview that also includes angular shear strain.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-modulus-slope",
+      "name": "Extract Young’s modulus from a specified linear stress-strain interval",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Find Young’s modulus from the stress change divided by the strain change over a stated linear elastic interval.",
+      "details": "Find Young’s modulus from the stress change divided by the strain change over a stated linear elastic interval. Convert a percentage strain axis to dimensionless strain before calculating the slope.\n\nUse the supplied interval rather than a slope spanning yielding or necking. Two readings support a slope calculation only when their interval is known to represent linear elastic response; they do not establish that behavior by themselves.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "MIT-CURVES"
+      ],
+      "proficiencyReference": "I can calculate modulus from two readings in a stated linear elastic region, including percent-labeled axes.",
+      "placementNote": "This follows engineering stress and strain so the two graph axes are understood before their slope is interpreted.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-axial-stiffness",
+      "name": "Compare axial part stiffness after changing length, area, or modulus",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "For a uniform straight bar under small, linear elastic axial deformation, use k=EA/L to compare force-per-extension stiffness.",
+      "details": "For a uniform straight bar under small, linear elastic axial deformation, use k=EA/L to compare force-per-extension stiffness. Doubling length halves stiffness; doubling area or modulus doubles it under the same assumptions.\n\nKeep structural stiffness k separate from material modulus E. A larger part made from a lower-modulus material can be stiffer than a smaller part made from a higher-modulus material, depending on its geometry.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-ELASTIC"
+      ],
+      "proficiencyReference": "I can predict stiffness ratios for uniform axial bars and distinguish k from E.",
+      "placementNote": "This narrows the axial-deformation overview to the separate effect of material and geometry on stiffness.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-elastic-versus-linear",
+      "name": "Distinguish recoverable deformation from linear stress-strain response",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Elastic response concerns recovery after unloading, while linear response concerns the shape of a stress-strain relationship.",
+      "details": "Elastic response concerns recovery after unloading, while linear response concerns the shape of a stress-strain relationship. A curved loading trace alone does not prove that permanent deformation has occurred.\n\nUse the stated unloading behavior to distinguish recovery from residual set. Treat an observed straight segment as evidence about proportionality over that interval, not a universal guarantee about every subsequent load or material.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-ELASTIC"
+      ],
+      "proficiencyReference": "I can explain why nonlinear response and permanent deformation are different observations.",
+      "placementNote": "This separates two assumptions often bundled into the phrase linear elasticity.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-proof-stress",
+      "name": "Determine 0.2 percent offset proof stress from a tensile curve",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Draw a line with the measured elastic slope starting at strain 0.002, and read the stress where it intersects the tensile curve.",
+      "details": "Draw a line with the measured elastic slope starting at strain 0.002, and read the stress where it intersects the tensile curve. This defines the stated 0.2 percent offset proof stress.\n\nDistinguish that construction from reading the curve at total strain 0.002. Report the offset convention with the result; it is an operational measure, not a claim that every material begins yielding at precisely that stress.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "MIT-YIELD"
+      ],
+      "proficiencyReference": "I can locate the offset-line intersection without confusing offset strain with total strain.",
+      "placementNote": "This follows elastic-slope extraction and makes a particular proof-stress convention independently assessable.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-permanent-set",
+      "name": "Estimate residual strain using a stated linear elastic unloading model",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "For a specified uniaxial state with total strain epsilon and tensile stress sigma, subtract the recoverable strain sigma/E to estimate residual strain.",
+      "details": "For a specified uniaxial state with total strain epsilon and tensile stress sigma, subtract the recoverable strain sigma/E to estimate residual strain. This assumes small strain and linear elastic unloading with the supplied modulus.\n\nKeep the unloading assumption explicit and check that the result fits the stated loading history. The calculation is not a general rule for viscoelastic recovery, changing unloading stiffness, or large-strain material behavior.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "MIT-YIELD"
+      ],
+      "proficiencyReference": "I can separate recoverable and residual strain under a supplied small-strain unloading model.",
+      "placementNote": "This turns the plastic-deformation overview into a specific unloading calculation.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-engineering-uts",
+      "name": "Find ultimate tensile strength from peak load and original area",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Locate the maximum recorded tensile load and divide it by the original specimen area to obtain ultimate tensile strength.",
+      "details": "Locate the maximum recorded tensile load and divide it by the original specimen area to obtain ultimate tensile strength. The corresponding engineering-curve peak is not necessarily the fracture point.\n\nDistinguish peak-load strength from offset proof stress and from the load at final separation. A falling engineering curve can accompany localized narrowing, so it should not automatically be interpreted as uniform material softening.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "MIT-CURVES"
+      ],
+      "proficiencyReference": "I can obtain UTS from peak load and keep it distinct from proof stress and fracture stress.",
+      "placementNote": "This applies the engineering stress definition to one specific tensile-test landmark.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-current-area-stress",
+      "name": "Compare nominal and current-area average stress using measured areas",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "At a given tensile load, calculate nominal stress with the original area and current-area average stress with the measured current section.",
+      "details": "At a given tensile load, calculate nominal stress with the original area and current-area average stress with the measured current section. A smaller current area produces the larger value at the same load.\n\nIdentify which section was measured and avoid treating an average as a complete local stress field. This direct area comparison does not require assuming uniform deformation or using a pre-necking strain-conversion formula.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "MIT-CURVES"
+      ],
+      "proficiencyReference": "I can compare the two area conventions at the same load without assuming the neck has a uniform uniaxial stress field.",
+      "placementNote": "This develops area-selection reasoning after the engineering stress measure is established.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-mat-property-selection",
+      "name": "Distinguish modulus, yield strength, and tensile strength in property data",
+      "domain": "Mechanics",
+      "subdomain": "Material behavior and tensile testing",
+      "icon": "layers",
+      "description": "Choose the property column that answers the question being asked: modulus describes elastic stress-to-strain response, yield strength describes a stated yielding criterion, and tensile strength identifies a peak engineering tensile stress..",
+      "details": "Choose the property column that answers the question being asked: modulus describes elastic stress-to-strain response, yield strength describes a stated yielding criterion, and tensile strength identifies a peak engineering tensile stress.\n\nCompare values only with their units, material condition, and stated test context. A high strength value does not establish a high modulus, and a material-property table alone does not determine a finished component’s stiffness or capacity.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "MIT-PROPERTIES"
+      ],
+      "proficiencyReference": "I can select the relevant property without interpreting strongest and stiffest as interchangeable.",
+      "placementNote": "This connects individually interpreted properties to the existing material-selection overview.",
+      "authoringOrigin": "sss-material-behavior-batch-01",
+      "scopeNote": "Introductory uniaxial material response with stated geometry and model assumptions.",
+      "contentAuthorship": "Original editorial descriptions and dependency choices; source references support concepts.",
+      "layoutRequest": {
+        "position": "assign-after-merge",
+        "referenceLevel": "derive-after-merge",
+        "preserveExistingPositions": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "m-ratio",
+      "target": "sss-mat-engineering-stress",
+      "type": "prerequisite",
+      "rationale": "Stress requires a force-to-area ratio.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-convert",
+      "target": "sss-mat-engineering-stress",
+      "type": "prerequisite",
+      "rationale": "Force and area measurements must use compatible units.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-stress",
+      "target": "sss-mat-engineering-stress",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "m-ratio",
+      "target": "sss-mat-engineering-strain",
+      "type": "prerequisite",
+      "rationale": "Relative length change is a ratio to the original gauge length.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-convert",
+      "target": "sss-mat-engineering-strain",
+      "type": "prerequisite",
+      "rationale": "Equivalent unit representations must not change the dimensionless strain value.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-strain",
+      "target": "sss-mat-engineering-strain",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-engineering-stress",
+      "target": "sss-mat-modulus-slope",
+      "type": "prerequisite",
+      "rationale": "The vertical axis represents stress rather than raw force.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-engineering-strain",
+      "target": "sss-mat-modulus-slope",
+      "type": "prerequisite",
+      "rationale": "The horizontal axis must use dimensionless strain.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "m-slope",
+      "target": "sss-mat-modulus-slope",
+      "type": "prerequisite",
+      "rationale": "Modulus is calculated as a change in stress divided by a change in strain.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-elastic",
+      "target": "sss-mat-modulus-slope",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-elastic",
+      "target": "sss-mat-axial-stiffness",
+      "type": "prerequisite",
+      "rationale": "The comparison assumes linear elastic material response.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "m-ratio",
+      "target": "sss-mat-axial-stiffness",
+      "type": "prerequisite",
+      "rationale": "Geometry and modulus changes are compared through multiplicative ratios.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-axial",
+      "target": "sss-mat-axial-stiffness",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-strain",
+      "target": "sss-mat-elastic-versus-linear",
+      "type": "prerequisite",
+      "rationale": "Recovery and permanent set are interpreted as changes in strain.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-graphs",
+      "target": "sss-mat-elastic-versus-linear",
+      "type": "prerequisite",
+      "rationale": "The response curve must be interpreted over the stated loading interval.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-elastic",
+      "target": "sss-mat-elastic-versus-linear",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-modulus-slope",
+      "target": "sss-mat-proof-stress",
+      "type": "prerequisite",
+      "rationale": "The offset construction uses the elastic slope.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-plastic",
+      "target": "sss-mat-proof-stress",
+      "type": "prerequisite",
+      "rationale": "Proof stress is interpreted in relation to permanent deformation rather than fracture.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-tensile",
+      "target": "sss-mat-proof-stress",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-modulus-slope",
+      "target": "sss-mat-permanent-set",
+      "type": "prerequisite",
+      "rationale": "The unloading model requires an elastic modulus in compatible units.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-plastic",
+      "target": "sss-mat-permanent-set",
+      "type": "prerequisite",
+      "rationale": "Residual strain represents permanent deformation under the stated model.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-engineering-stress",
+      "target": "sss-mat-engineering-uts",
+      "type": "prerequisite",
+      "rationale": "UTS uses the original-area stress measure.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "p-graphs",
+      "target": "sss-mat-engineering-uts",
+      "type": "prerequisite",
+      "rationale": "The maximum recorded load or curve ordinate must be distinguished from its final point.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-tensile",
+      "target": "sss-mat-engineering-uts",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-engineering-stress",
+      "target": "sss-mat-current-area-stress",
+      "type": "prerequisite",
+      "rationale": "The nominal reference measure provides the original-area comparison.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-tensile",
+      "target": "sss-mat-current-area-stress",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-elastic",
+      "target": "sss-mat-property-selection",
+      "type": "prerequisite",
+      "rationale": "Modulus must be recognized as an elastic-response property.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-plastic",
+      "target": "sss-mat-property-selection",
+      "type": "prerequisite",
+      "rationale": "Yield strength concerns the stated criterion for plastic response.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-engineering-uts",
+      "target": "sss-mat-property-selection",
+      "type": "prerequisite",
+      "rationale": "Peak engineering tensile strength must be distinguished from other strength measures.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "s-select",
+      "target": "sss-mat-property-selection",
+      "type": "related",
+      "rationale": "This narrower ability makes part of the existing overview independently markable without replacing that overview or copying its answer.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-axial-stiffness",
+      "target": "s-fastener",
+      "type": "supports",
+      "rationale": "Axial stiffness comparisons help interpret load sharing between a bolt and clamped members.",
+      "authorship": "editorial"
+    },
+    {
+      "source": "sss-mat-permanent-set",
+      "target": "s-forming",
+      "type": "supports",
+      "rationale": "Separating elastic recovery from residual deformation supports reasoning about springback after forming.",
+      "authorship": "editorial"
+    }
+  ],
+  "sources": {
+    "OS-STRESS": {
+      "title": "Stress, Strain, and Elastic Modulus",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/12-3-stress-strain-and-elastic-modulus",
+      "accessed": "2026-09-14"
+    },
+    "OS-ELASTIC": {
+      "title": "Elasticity and Plasticity",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/12-4-elasticity-and-plasticity",
+      "accessed": "2026-09-14"
+    },
+    "MIT-CURVES": {
+      "title": "David Roylance — Stress-Strain Curves",
+      "url": "https://web.mit.edu/course/3/3.11/www/modules/ss.pdf",
+      "accessed": "2026-09-14"
+    },
+    "MIT-YIELD": {
+      "title": "David Roylance — Yield and Plastic Flow",
+      "url": "https://web.mit.edu/course/3/3.11/www/modules/yield.pdf",
+      "accessed": "2026-09-14"
+    },
+    "MIT-PROPERTIES": {
+      "title": "MIT mechanics of materials — property comparison table",
+      "url": "https://web.mit.edu/course/3/3.11/www/modules/props.pdf",
+      "accessed": "2026-09-14"
+    }
+  },
+  "integration": {
+    "notAnOpenMapFile": true,
+    "requiredContentBatches": [],
+    "compatibleWith": [
+      "sss-dc-batch-01",
+      "sss-physics-foundations-batch-01",
+      "sss-mechanics-statics-batch-01"
+    ],
+    "preserveExistingNodes": true,
+    "newProficiency": null
+  },
+  "deferred": [
+    "Shear stress and shear strain decomposition",
+    "Poisson response and lateral constraints",
+    "Stress concentrations and multiaxial states",
+    "Fracture, fatigue, creep, and environmental degradation",
+    "Material processing and microstructure",
+    "Standard-specific tensile-test operation and uncertainty",
+    "Large-strain conversions and constitutive modeling"
+  ]
+}

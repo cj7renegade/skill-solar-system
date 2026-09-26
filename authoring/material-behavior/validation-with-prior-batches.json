@@ -1,0 +1,96 @@
+{
+  "status": "passed",
+  "baselineSha256": "4470c66d84afc3aa0457e8fab8d83932785619d7e7919ce8c52c1d5ad259a1eb",
+  "baselineNodeCount": 1742,
+  "baselineEdgeCount": 5063,
+  "newNodeCount": 10,
+  "newEdgeCount": 32,
+  "edgeTypes": {
+    "prerequisite": 21,
+    "related": 9,
+    "supports": 2
+  },
+  "prospectiveNodes": 1752,
+  "prospectiveEdges": 5095,
+  "newPrerequisiteDepthRange": [
+    7,
+    14
+  ],
+  "newLevelRangeIfLegacyDepthFormulaUsed": [
+    22,
+    43
+  ],
+  "prerequisiteClosureNodeCount": 41,
+  "externalReferences": [
+    {
+      "id": "m-ratio",
+      "name": "Ratios and unit rates"
+    },
+    {
+      "id": "m-slope",
+      "name": "Slope and intercept"
+    },
+    {
+      "id": "p-convert",
+      "name": "Unit conversions"
+    },
+    {
+      "id": "p-graphs",
+      "name": "Interpreting physical graphs"
+    },
+    {
+      "id": "s-axial",
+      "name": "Axial deformation of bars"
+    },
+    {
+      "id": "s-elastic",
+      "name": "Elastic modulus and linear elasticity"
+    },
+    {
+      "id": "s-fastener",
+      "name": "Bolted joints and preload"
+    },
+    {
+      "id": "s-forming",
+      "name": "Metal forming"
+    },
+    {
+      "id": "s-plastic",
+      "name": "Yielding and plastic deformation"
+    },
+    {
+      "id": "s-select",
+      "name": "Material selection under constraints"
+    },
+    {
+      "id": "s-strain",
+      "name": "Normal and shear strain"
+    },
+    {
+      "id": "s-stress",
+      "name": "Normal and shear stress"
+    },
+    {
+      "id": "s-tensile",
+      "name": "Interpreting tensile-test curves"
+    }
+  ],
+  "checks": [
+    "unique new IDs and normalized names",
+    "all edge endpoints resolve",
+    "new edges unique including reverse related edges",
+    "merged prerequisite graph acyclic",
+    "two paragraphs per new skill",
+    "source IDs resolve",
+    "new skills unmarked",
+    "no fabricated positions/levels",
+    "read-only baseline"
+  ],
+  "notVerified": [
+    "current local app schema/build/Electron rendering",
+    "local shared proficiency store",
+    "independent expert curriculum review"
+  ],
+  "integrationWarning": "Existing overview nodes and their original prerequisites remain unchanged; overview/narrow-skill overlap is intentionally retained. These totals are node counts, not distinct competency totals.",
+  "baselineContext": "Virtual master plus DC, Physics Foundations, and Mechanics Statics first batches; not live app state."
+}

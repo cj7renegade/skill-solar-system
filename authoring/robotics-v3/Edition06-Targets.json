@@ -1,0 +1,363 @@
+{
+  "extracted": "2026-09-20",
+  "purpose": "The six entries in the I05 prerequisite chain that have no introductory lesson, extracted verbatim for authoring. Read-only: nothing in the map was changed.",
+  "source": {
+    "file": "Maps/Robotics-v3/Robotics-v3-Lessons.json",
+    "sha256": "ad9ba478b15bc2841c63c47b9e1d3c366f09910c00c119572ca01c5b2cdd3e53",
+    "title": "Robotics curriculum v3 — 292 introductory lessons, 88 pending",
+    "nodes": 381,
+    "edges": 894,
+    "datasetKey": "robotics-curriculum-v3",
+    "atlasFamily": "robotics-foundations-integration-v3-review"
+  },
+  "note": "Each `node` is the complete record as it appears in the export, verbatim and unedited. `directPrerequisites` lists only immediate prerequisite edges, not the transitive chain. Every prerequisite outside this set already has an introductory lesson; the only pending prerequisites are other entries in this set, marked `inThisSet`.",
+  "targetCount": 6,
+  "targets": [
+    {
+      "planningId": "Q06",
+      "runtimeId": "rob3:Q06",
+      "node": {
+        "id": "rob3:Q06",
+        "name": "Maintain configuration and interface changes",
+        "domain": "Robotics",
+        "subdomain": "Requirements and systems practice",
+        "nodeKind": "outcome",
+        "description": "Maintain configuration and interface changes",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Maintain configuration and interface changes\nCompletion evidence: Record software, firmware, hardware, parameter and calibration versions so another person can reproduce a test.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: documented scenario\nTask: Record software, firmware, hardware, parameter and calibration versions so another person can reproduce a test.\nCases required: One specified task plus a changed requirement or failure scenario.\nAcceptance: Make assumptions and ownership explicit; link each decision to observable evidence and known limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): c-documentation",
+        "position": [
+          -127.495,
+          1536,
+          545.916
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Requirements and systems practice branch, core tier, core endpoint path. Feeds I05.",
+        "planningId": "Q06",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I05"
+        ],
+        "assessmentMode": "documented scenario",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 25,
+        "contentStatus": "introductory lesson pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:Q02",
+          "planningId": "Q02",
+          "name": "Define subsystem interfaces",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:c-git-commits",
+          "planningId": "c-git-commits",
+          "name": "Version control with Git commits",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "B-D08",
+      "runtimeId": "rob3:B-D08",
+      "node": {
+        "id": "rob3:B-D08",
+        "name": "Estimate temperature rise with a lumped model",
+        "domain": "Mechanics",
+        "subdomain": "Mechanics",
+        "nodeKind": "foundation",
+        "description": "Estimate temperature rise with a lumped model",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Estimate temperature rise with a lumped model\nCompletion evidence: Calculate a temperature rise from supplied thermal resistance and loss; compare predictions with a measured trend and state model limits.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: drawing, calculation or supervised fabrication\nTask: Calculate a temperature rise from supplied thermal resistance and loss; compare predictions with a measured trend and state model limits.\nCases required: A specified geometry/load, a tolerance or load variation and an inspection/model-limit case.\nAcceptance: Record geometry, material condition and assumptions; check dimensions/units and compare against declared acceptance criteria.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: New definition; no inherited answer.",
+        "position": [
+          517.271,
+          1728,
+          -258.312
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "gear",
+        "layoutMode": "vortex",
+        "placementNote": "foundation entry in the Mechanics branch, core endpoint path. Feeds I05.",
+        "planningId": "B-D08",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": null,
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I05"
+        ],
+        "assessmentMode": "drawing, calculation or supervised fabrication",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "new foundational definition",
+        "skillLevel": 28,
+        "contentStatus": "introductory lesson pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:B-E05",
+          "planningId": "B-E05",
+          "name": "Calculate DC power and energy",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:m-formula",
+          "planningId": "m-formula",
+          "name": "Rearranging formulas",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:p-temperature",
+          "planningId": "p-temperature",
+          "name": "Temperature and thermal equilibrium",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "E11",
+      "runtimeId": "rob3:E11",
+      "node": {
+        "id": "rob3:E11",
+        "name": "Evaluate thermal operation",
+        "domain": "Electronics",
+        "subdomain": "Electrical power, interfaces and measurement",
+        "nodeKind": "outcome",
+        "description": "Evaluate thermal operation",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Evaluate thermal operation\nCompletion evidence: Estimate heat flow and compare measured steady and transient temperatures with supplied component limits.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: circuit analysis or supervised measurement\nTask: Estimate heat flow and compare measured steady and transient temperatures with supplied component limits.\nCases required: A supplied circuit/specification, a rating/connection edge case and a measured or reference result.\nAcceptance: Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-thermal",
+        "position": [
+          218.599,
+          2112,
+          573.055
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "circuit",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Electrical power, interfaces and measurement branch, core tier, core endpoint path. Feeds I05.",
+        "planningId": "E11",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I05"
+        ],
+        "assessmentMode": "circuit analysis or supervised measurement",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 34,
+        "contentStatus": "introductory lesson pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:E04",
+          "planningId": "E04",
+          "name": "Design a low-voltage power budget",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:B-D08",
+          "planningId": "B-D08",
+          "name": "Estimate temperature rise with a lumped model",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "V06",
+      "runtimeId": "rob3:V06",
+      "node": {
+        "id": "rob3:V06",
+        "name": "Run reliability and duty-cycle trials",
+        "domain": "Robotics",
+        "subdomain": "Verification, diagnosis and reliability",
+        "nodeKind": "outcome",
+        "description": "Run reliability and duty-cycle trials",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Run reliability and duty-cycle trials\nCompletion evidence: Repeat a declared workload, record failures, temperatures and performance drift, and report the tested operating envelope.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: documented scenario\nTask: Repeat a declared workload, record failures, temperatures and performance drift, and report the tested operating envelope.\nCases required: One specified task plus a changed requirement or failure scenario.\nAcceptance: Make assumptions and ownership explicit; link each decision to observable evidence and known limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-system",
+        "position": [
+          594.773,
+          3456,
+          -544.488
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Verification, diagnosis and reliability branch, core tier, core endpoint path. Feeds I05.",
+        "planningId": "V06",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I05"
+        ],
+        "assessmentMode": "documented scenario",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 55,
+        "contentStatus": "introductory lesson pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:V04",
+          "planningId": "V04",
+          "name": "Demonstrate stop and restart behavior",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:V03",
+          "planningId": "V03",
+          "name": "Evaluate accuracy and repeatability",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:E11",
+          "planningId": "E11",
+          "name": "Evaluate thermal operation",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "V07",
+      "runtimeId": "rob3:V07",
+      "node": {
+        "id": "rob3:V07",
+        "name": "Document service and handover",
+        "domain": "Robotics",
+        "subdomain": "Verification, diagnosis and reliability",
+        "nodeKind": "outcome",
+        "description": "Document service and handover",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Document service and handover\nCompletion evidence: Produce a reproducible configuration, inspection schedule, fault guide and limitations statement for the tested robot.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: documented scenario\nTask: Produce a reproducible configuration, inspection schedule, fault guide and limitations statement for the tested robot.\nCases required: One specified task plus a changed requirement or failure scenario.\nAcceptance: Make assumptions and ownership explicit; link each decision to observable evidence and known limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): c-documentation",
+        "position": [
+          745.073,
+          3648,
+          115.283
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Verification, diagnosis and reliability branch, core tier, core endpoint path. Feeds I05.",
+        "planningId": "V07",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I05"
+        ],
+        "assessmentMode": "documented scenario",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 58,
+        "contentStatus": "introductory lesson pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:V05",
+          "planningId": "V05",
+          "name": "Diagnose integrated failures",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:Q06",
+          "planningId": "Q06",
+          "name": "Maintain configuration and interface changes",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        },
+        {
+          "id": "rob3:V06",
+          "planningId": "V06",
+          "name": "Run reliability and duty-cycle trials",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "I05",
+      "runtimeId": "rob3:I05",
+      "node": {
+        "id": "rob3:I05",
+        "name": "Verify a repeatable robotic work system",
+        "domain": "Robotics",
+        "subdomain": "Integration milestones",
+        "nodeKind": "milestone",
+        "description": "Verify a repeatable robotic work system",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Verify a repeatable robotic work system\nCompletion evidence: Deliver a versioned system with requirement-linked evidence, repeated task trials, known limits and maintenance instructions.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: documented scenario\nTask: Deliver a versioned system with requirement-linked evidence, repeated task trials, known limits and maintenance instructions.\nCases required: One specified task plus a changed requirement or failure scenario.\nAcceptance: Make assumptions and ownership explicit; link each decision to observable evidence and known limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-system",
+        "position": [
+          257.294,
+          4224,
+          764.533
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "milestone entry in the Integration milestones branch, core tier, core endpoint path. Feeds I05.",
+        "planningId": "I05",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I05"
+        ],
+        "assessmentMode": "documented scenario",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 67,
+        "contentStatus": "introductory lesson pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:V07",
+          "planningId": "V07",
+          "name": "Document service and handover",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        },
+        {
+          "id": "rob3:I04",
+          "planningId": "I04",
+          "name": "Integrate a perception-guided mobile manipulator",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:V06",
+          "planningId": "V06",
+          "name": "Run reliability and duty-cycle trials",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        }
+      ]
+    }
+  ]
+}

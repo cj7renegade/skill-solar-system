@@ -114,7 +114,7 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
         node.description ? el('p', { class: 'subject-summary', text: node.description }) : null,
         ...paragraphs.map(text => el('p', { text })),
         !node.description && !paragraphs.length ? el('p', { class: 'edge-note', text: 'No description yet.' }) : null),
-      el('div', { class: 'review-answers' }, answerButton(false, 'No — below 80%', 'no'), answerButton(true, 'Yes — at least 80%', 'yes')),
+      el('div', { class: 'review-answers' }, answerButton(false, 'No', 'no'), answerButton(true, 'Yes', 'yes')),
       el('div', { class: 'review-controls' },
         el('button', { id: 'review-back', text: '← Back', disabled: !session.visited.length, onclick: nav(back) }),
         el('button', { id: 'review-skip', text: 'Skip', onclick: nav(s => skip(s, id)) }),

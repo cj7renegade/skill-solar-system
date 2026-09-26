@@ -12,6 +12,43 @@
 #details-body details summary{cursor:pointer}
 #details-body details.detail-link p{margin:4px 0 8px 18px;color:var(--muted)}
 #details-body details.connections>summary{font-size:15px;font-weight:600;margin:24px 0 10px}
+/* Authored lesson content: one collapsed section per part, all closed until the reader opens one. */
+#details-dialog{overflow:auto;overscroll-behavior:contain}
+.lesson-status{margin:0 0 4px;font-size:12px;color:var(--accent)}
+#details-body details.lesson-section{border:1px solid var(--line);border-radius:8px;margin:10px 0;background:#0d1724}
+#details-body details.lesson-section>summary{font-size:14px;font-weight:600;padding:10px 14px;list-style-position:inside}
+#details-body details.lesson-section[open]>summary{border-bottom:1px solid var(--line)}
+#details-body details.lesson-section>*:not(summary){margin:12px 14px}
+.lesson-block h4{font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin:0 0 4px;font-weight:600}
+.lesson-block p{margin:0}
+.lesson-block ul{margin:0;padding-left:20px}
+.lesson-block li{margin:2px 0}
+.lesson-note{font-size:12px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+.lesson-prompt{margin:0 0 8px}
+.lesson-answer{margin:8px 0 0;padding:10px 12px;border-left:2px solid var(--accent);background:#141f2e;border-radius:0 6px 6px 0}
+#details-body button.reveal{font-size:12px;padding:5px 11px}
+.lesson-links{display:flex;flex-wrap:wrap;gap:6px}
+#details-body button.lesson-link{font-size:12px;padding:4px 10px;text-align:left}
+.lesson-url{word-break:break-all;font-family:ui-monospace,Consolas,monospace;font-size:12px}
+/* Marking a whole prerequisite chain: the list is read before anything is recorded. */
+#chain-dialog{color:var(--ink);background:#101b2b;border:1px solid #40516b;border-radius:12px;width:min(720px,92vw);max-height:88vh;padding:0;box-shadow:0 24px 90px #0009;overflow:auto;overscroll-behavior:contain}
+#chain-dialog::backdrop{background:#030912c4}
+#chain-body{padding:20px 26px;font-size:13px;line-height:1.65}
+#chain-body h3{font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+#chain-body p{margin:0 0 8px}
+.chain-answer button.chosen{border-color:var(--accent);background:#344254}
+.chain-bulk{margin:10px 0 4px}
+.chain-bulk button{font-size:12px;padding:4px 10px}
+.chain-list{border:1px solid var(--line);border-radius:8px;margin:12px 0;padding:4px 0;background:#0d1724}
+.chain-step{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin:12px 14px 4px;font-weight:600}
+.chain-item{display:flex;align-items:baseline;gap:10px;padding:5px 14px;cursor:pointer}
+.chain-item:hover{background:#15202f}
+.chain-item input{margin:0;flex:none;align-self:center}
+.chain-name{flex:1}
+.chain-meta{font-size:11px;color:var(--muted);white-space:nowrap}
+.chain-item-settled .chain-name{color:var(--muted)}
+.chain-actions{position:sticky;bottom:0;background:#101b2b;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+#chain-body button.chain-open,#details-body button.chain-open,#inspector button.chain-open{margin-top:10px;text-align:left}
 /* Guided proficiency review */
 #review-dialog{color:var(--ink);background:#101b2b;border:1px solid #40516b;border-radius:12px;width:min(720px,92vw);max-height:90vh;padding:22px 26px;box-shadow:0 24px 90px #0009;overscroll-behavior:contain}
 #review-dialog::backdrop{background:#030912c4}
@@ -38,3 +75,20 @@
 .shared-tools{border-top:1px solid var(--line);margin-top:18px;padding-top:8px}.shared-tools>button{font-size:11px}
 .sync-state{border:0;background:transparent;padding:0;font-size:10px;color:var(--muted);white-space:nowrap}.sync-state:disabled{opacity:1;cursor:default}.sync-state.saved,.sync-state.ready{color:#8dc9ac}.sync-state.failed,.sync-state.unreadable{color:#ef9290;text-decoration:underline;cursor:pointer}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Find skill: a combobox in the map tools, so search still works when the console is hidden. */
+.find-control{position:relative}
+.find-control input{width:150px;max-width:34vw;padding:4px 8px;font-size:11px;border:1px solid var(--line);border-radius:5px;background:#0b1424;color:var(--ink)}
+.find-results{position:absolute;bottom:calc(100% + 6px);left:0;min-width:230px;max-width:60vw;max-height:212px;overflow:auto;display:grid;gap:2px;padding:4px;background:#0d1726f5;border:1px solid var(--line);border-radius:6px;z-index:5}
+.find-results button{display:flex;align-items:center;gap:7px;width:100%;padding:4px 7px;font-size:11px;text-align:left;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--muted)}
+.find-results button:hover,.find-results button.active{background:#1b2a3d;color:var(--ink);border-color:var(--accent)}
+.find-results .find-domain{margin-left:auto;padding-left:10px;font-size:9px;letter-spacing:.6px;text-transform:uppercase;color:#7f91a8}
+.find-results .caption{margin:4px 6px}
+/* Collapsing the map tools and the subject card leaves a handle to reopen them. */
+/* The items share the handle's line and wrap within it, so the handle never gets its own row. */
+.view-tool-items{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1 1 0;min-width:0}
+.view-tools.collapsed .view-tool-items{display:none}
+#view-tools-toggle{padding:4px 8px;font-size:11px;white-space:nowrap}
+.inspector-heading{display:flex;align-items:flex-start;gap:8px}
+.inspector-heading .subject-heading{flex:1;min-width:0}
+#inspector-toggle{padding:2px 8px;font-size:11px;line-height:1.7}
+#inspector.collapsed .inspector-body{display:none}

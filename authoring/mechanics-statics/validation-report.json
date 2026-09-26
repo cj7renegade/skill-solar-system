@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "baselineSha256": "8397d3f950c661778116a10c396a0ecd41acbced6af15364969c9c0e6e5ac2a4",
+  "baselineNodeCount": 1686,
+  "baselineEdgeCount": 4882,
+  "newNodeCount": 11,
+  "newEdgeCount": 36,
+  "edgeTypes": {
+    "prerequisite": 22,
+    "related": 11,
+    "supports": 3
+  },
+  "prospectiveNodes": 1697,
+  "prospectiveEdges": 4918,
+  "newPrerequisiteDepthRange": [
+    10,
+    13
+  ],
+  "newLevelRangeIfLegacyDepthFormulaUsed": [
+    31,
+    40
+  ],
+  "prerequisiteClosureNodeCount": 47,
+  "externalReferences": [
+    {
+      "id": "m-add",
+      "name": "Addition and subtraction"
+    },
+    {
+      "id": "m-equation",
+      "name": "Linear equations in one unknown"
+    },
+    {
+      "id": "p-equilibrium",
+      "name": "Force and torque equilibrium"
+    },
+    {
+      "id": "p-torque",
+      "name": "Torque and lever arms"
+    },
+    {
+      "id": "px-fbd-isolate",
+      "name": "Choose a system boundary for a free-body diagram"
+    },
+    {
+      "id": "px-thirdlaw-pairs",
+      "name": "Identify the two bodies in a Newton third-law pair"
+    },
+    {
+      "id": "px-torque-sign",
+      "name": "Calculate a planar torque with a signed lever arm"
+    },
+    {
+      "id": "s-beamforces",
+      "name": "Beam shear and bending moments"
+    },
+    {
+      "id": "s-load",
+      "name": "Load paths and structural idealization"
+    },
+    {
+      "id": "s-mesh",
+      "name": "Mesh convergence and model verification"
+    }
+  ],
+  "checks": [
+    "unique new IDs and normalized names",
+    "all edge endpoints resolve",
+    "new edges unique including reverse related edges",
+    "merged prerequisite graph acyclic",
+    "two paragraphs per new skill",
+    "source IDs resolve",
+    "new skills unmarked",
+    "no fabricated positions/levels",
+    "read-only baseline"
+  ],
+  "notVerified": [
+    "current local app schema/build/Electron rendering",
+    "local shared proficiency store",
+    "independent expert curriculum review"
+  ],
+  "integrationWarning": "Existing overview nodes and their original prerequisites remain unchanged; overview/narrow-skill overlap is intentionally retained. These totals are node counts, not distinct competency totals."
+}

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, MAX_FRAME_SECONDS, MAX_WHEEL_PIXELS } from '../src/camera.js';
+import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, MAX_FRAME_SECONDS, MAX_WHEEL_PIXELS, PAN_SPHERES_PER_SECOND, PAN_CLOSE_CAP } from '../src/camera.js';
 
 test('panning moves camera and target by the same offset and keeps diagonal speed equal', () => {
   const right = [0, 0, -1], up = [0, 1, 0], camera = [20, 10, 0], target = [0, 0, 0];
@@ -35,10 +35,45 @@ test('typical spacing is the median nearest-neighbour distance', () => {
 });
 
 test('held-key panning is time based and ignores long frame gaps', () => {
-  assert.ok(Math.abs(keyPanAmount(100, 0.02) - 2 * keyPanAmount(100, 0.01)) < 1e-12);
-  assert.equal(keyPanAmount(100, 3), keyPanAmount(100, MAX_FRAME_SECONDS));
-  assert.equal(keyPanAmount(100, -1), 0);
-  assert.ok(keyPanAmount(62, 1 / 60) > 0.5, 'one frame at close range still moves');
+  const view = { navigation: 100, orbit: 100, spacing: 70 };
+  assert.ok(Math.abs(keyPanAmount(view, 0.02) - 2 * keyPanAmount(view, 0.01)) < 1e-12);
+  assert.equal(keyPanAmount(view, 3), keyPanAmount(view, MAX_FRAME_SECONDS));
+  assert.equal(keyPanAmount(view, -1), 0);
+  assert.ok(keyPanAmount({ navigation: 62, orbit: 62, spacing: 62 }, 1 / 60) > 0.5, 'one frame at close range still moves');
+});
+
+// Units per second, undoing the per-frame clamp.
+const panRate = view => keyPanAmount(view, MAX_FRAME_SECONDS) / MAX_FRAME_SECONDS;
+
+test('held-key panning covers the same map distance per second at every zoom', () => {
+  const spacing = 70, steady = PAN_SPHERES_PER_SECOND * spacing;
+  // Overview, far and mid range all cross the map at one rate, so travel time does not depend on zoom.
+  for (const depth of [11636, 6972, 3000, 1400, 700]) assert.equal(panRate({ navigation: depth, orbit: depth, spacing }), steady, `at ${depth}`);
+  assert.equal(steady / spacing, PAN_SPHERES_PER_SECOND, 'the rate is stated in sphere spacings');
+});
+
+test('neither a sphere passing the camera nor a stale orbit target slows a distant view', () => {
+  const spacing = 70, steady = PAN_SPHERES_PER_SECOND * spacing;
+  assert.equal(panRate({ navigation: spacing, orbit: 1600, spacing }), steady, 'a sphere passing close by must not collapse the rate');
+  assert.equal(panRate({ navigation: 1600, orbit: 5, spacing }), steady, 'nor may an orbit target left a few units ahead');
+});
+
+test('close up the rate is capped in proportion to the view depth, not collapsed', () => {
+  const spacing = 70, closeAt = depth => panRate({ navigation: Math.max(depth, spacing), orbit: depth, spacing });
+  // Below the point where the steady rate would sweep the screen, the cap takes over smoothly.
+  assert.equal(closeAt(spacing), PAN_CLOSE_CAP * spacing);
+  assert.equal(closeAt(2 * spacing), 2 * closeAt(spacing), 'the cap is proportional, so it never collapses');
+  assert.ok(closeAt(spacing) < closeAt(1400), 'the cap only ever slows things down');
+  // The old policy moved 0.7 navigation distances per second; close range is now several times quicker.
+  assert.ok(closeAt(spacing) > 3 * (0.7 * spacing), `close-range rate ${closeAt(spacing)}`);
+  // The steady rate and the cap meet where the two are equal; there is no step at the crossover.
+  const crossover = PAN_SPHERES_PER_SECOND * spacing / PAN_CLOSE_CAP;
+  assert.ok(Math.abs(closeAt(crossover) - PAN_SPHERES_PER_SECOND * spacing) < 1e-9);
+});
+
+test('a map with no measurable spacing still pans, using the cap alone', () => {
+  assert.equal(panRate({ navigation: 500, orbit: 500, spacing: null }), PAN_CLOSE_CAP * 500);
+  assert.equal(panRate({ navigation: 500, orbit: 500, spacing: 0 }), PAN_CLOSE_CAP * 500);
 });
 
 test('wheel input is normalized for line, page, pinch and oversized deltas', () => {

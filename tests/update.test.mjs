@@ -29,7 +29,8 @@ test('rejects malformed proficiency and details rather than treating false as em
 });
 test('map toggle uses three statuses and restores domain colors without data changes',()=>{
  const g=normalize(starter),n=g.nodes[0],before=clone(g);
- const colors=[true,false,null].map(value=>nodeColor({...n,proficiency80:value},true));assert.equal(new Set(colors).size,3);
+ const colors=[true,false,null].map(value=>nodeColor({...n,proficiency80:value},true));
+ assert.equal(new Set(colors).size,2);assert.equal(colors[1],colors[2],'unanswered skills share the red of No');assert.notEqual(colors[0],colors[1],'marked Yes stands out');
  assert.equal(nodeColor(n,false),DOMAINS[n.domain]);assert.deepEqual(g,before);
 });
 test('position explanation follows real changes and distinguishes layout provenance',()=>{

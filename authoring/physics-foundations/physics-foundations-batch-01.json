@@ -1,0 +1,1098 @@
+{
+  "format": "sss-content-authoring-batch",
+  "formatVersion": 1,
+  "batchId": "sss-physics-foundations-batch-01",
+  "date": "2026-09-14",
+  "status": "Editorial first batch; not a complete physics expansion",
+  "nodes": [
+    {
+      "id": "sss-phys-coordinate-convention",
+      "name": "Choose and consistently apply a one-dimensional coordinate convention",
+      "domain": "Physics",
+      "subdomain": "Motion interpretation",
+      "icon": "motion",
+      "description": "Define an origin, positive direction, and reference frame before assigning signed positions and displacements.",
+      "details": "Define an origin, positive direction, and reference frame before assigning signed positions and displacements. Reversing the positive axis changes coordinate signs while leaving the physical journey unchanged.\n\nFor a diagram of motion along a line, label the convention explicitly and use it throughout the calculation. Changing the origin alone does not reverse the axis. Transformations between moving observers are a separate reference-frame topic.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-POSITION"
+      ],
+      "proficiencyReference": "I can describe the same journey using either axis direction without changing its physical meaning.",
+      "placementNote": "This makes the coordinate convention explicit before reasoning about signed acceleration and force components.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-average-acceleration",
+      "name": "Calculate average acceleration from two signed velocity readings",
+      "domain": "Physics",
+      "subdomain": "Motion interpretation",
+      "icon": "motion",
+      "description": "Calculate average acceleration as the final velocity minus the initial velocity, divided by elapsed time.",
+      "details": "Calculate average acceleration as the final velocity minus the initial velocity, divided by elapsed time. Use signed velocities measured along the same axis and express the result in units such as metres per second squared.\n\nA change from −6 to −2 metres per second over 2 seconds gives +2 metres per second squared. The object has slowed despite positive acceleration. Two readings determine an average; they do not establish a constant acceleration between them.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-ACCEL"
+      ],
+      "proficiencyReference": "I can calculate a signed average acceleration and distinguish it from a claim about every instant.",
+      "placementNote": "This connects signed motion conventions and unit rates to acceleration graphs and speed-change reasoning.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-speed-change-signs",
+      "name": "Determine speeding up or slowing down from velocity and acceleration signs",
+      "domain": "Physics",
+      "subdomain": "Motion interpretation",
+      "icon": "motion",
+      "description": "In one dimension, a nonzero velocity and acceleration with the same sign increase speed; opposite signs decrease speed.",
+      "details": "In one dimension, a nonzero velocity and acceleration with the same sign increase speed; opposite signs decrease speed. Negative acceleration is therefore not a synonym for slowing down.\n\nAt an instant where velocity is zero, inspect the neighboring motion rather than applying a same-sign shortcut blindly. This ability interprets a state of motion without needing to calculate a complete trajectory or differentiate a function.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-ACCEL"
+      ],
+      "proficiencyReference": "I can classify motion in all four nonzero sign combinations and handle the zero-velocity boundary carefully.",
+      "placementNote": "This follows signed acceleration and prepares interpretation of a free-fall turning point.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-acceleration-graph-slope",
+      "name": "Read acceleration from a straight segment of a velocity-time graph",
+      "domain": "Physics",
+      "subdomain": "Motion graphs",
+      "icon": "motion",
+      "description": "For a straight segment on a velocity-time graph, use change in velocity divided by change in time to obtain its constant slope and acceleration.",
+      "details": "For a straight segment on a velocity-time graph, use change in velocity divided by change in time to obtain its constant slope and acceleration. Read the axis units and scales before using the drawing.\n\nA horizontal segment means zero acceleration even when its velocity is nonzero. A segment below the time axis can have a positive slope. This graphical skill is separate from differentiating a symbolic velocity function.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-ACCEL"
+      ],
+      "proficiencyReference": "I can calculate a segment’s acceleration without confusing graph height with slope.",
+      "placementNote": "This combines slope reading with signed acceleration and supports checking a constant-acceleration interval.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-velocity-from-acceleration-area",
+      "name": "Recover velocity change from piecewise-constant acceleration areas",
+      "domain": "Physics",
+      "subdomain": "Motion graphs",
+      "icon": "motion",
+      "description": "For a piecewise-constant acceleration-time graph, multiply each acceleration by its interval duration and add the signed areas.",
+      "details": "For a piecewise-constant acceleration-time graph, multiply each acceleration by its interval duration and add the signed areas. Their sum gives the signed change in velocity over the complete interval, not the displacement.\n\nAn initial velocity is needed to obtain the final velocity itself. Equal positive and negative areas can restore the initial velocity even when the object has moved a substantial distance. This scope uses rectangles; general integration is a separate skill.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-AREA"
+      ],
+      "proficiencyReference": "I can calculate velocity change from signed rectangular areas and include the initial velocity correctly.",
+      "placementNote": "This uses signed acceleration and arithmetic to reconstruct velocity without requiring calculus.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-constant-model-check",
+      "name": "Check whether a constant-acceleration model is justified over an interval",
+      "domain": "Physics",
+      "subdomain": "Motion models",
+      "icon": "motion",
+      "description": "Before applying constant-acceleration equations, identify the interval over which the assumption is stated or supported.",
+      "details": "Before applying constant-acceleration equations, identify the interval over which the assumption is stated or supported. A straight velocity-time segment is consistent with constant acceleration, whereas a changing slope indicates a different model.\n\nSparse or noisy samples do not prove exact constancy. State that the model is an approximation when appropriate and split the motion when its behavior changes. Model selection is distinct from substituting numbers into an accepted equation.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-CONSTANT"
+      ],
+      "proficiencyReference": "I can identify the valid interval and explain what evidence supports the approximation.",
+      "placementNote": "This follows velocity-graph interpretation and precedes propagation of a constant-acceleration state.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-constant-state-step",
+      "name": "Calculate final position and velocity over a known constant-acceleration interval",
+      "domain": "Physics",
+      "subdomain": "Motion models",
+      "icon": "motion",
+      "description": "Given initial position, initial velocity, constant acceleration, and elapsed time, calculate the final velocity and position using v = v0 + aΔt and x = x0 + v0Δt + aΔt²/2.",
+      "details": "Given initial position, initial velocity, constant acceleration, and elapsed time, calculate the final velocity and position using v = v0 + aΔt and x = x0 + v0Δt + aΔt²/2. Keep the chosen signs throughout.\n\nThe task advances a known initial state through a specified duration. It does not include solving a quadratic for an unknown arrival time or choosing between multiple roots. Those inverse problems should retain their own scope.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-CONSTANT"
+      ],
+      "proficiencyReference": "I can advance both position and velocity over a stated valid interval.",
+      "placementNote": "This follows checking the acceleration model and prepares connecting successive motion intervals.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-piecewise-handoff",
+      "name": "Carry position and velocity between successive motion intervals",
+      "domain": "Physics",
+      "subdomain": "Motion models",
+      "icon": "motion",
+      "description": "Use the final position and velocity of one motion interval as the initial conditions of the next.",
+      "details": "Use the final position and velocity of one motion interval as the initial conditions of the next. Reset the local elapsed time for each interval while keeping one consistent coordinate convention.\n\nFor a model with finite forces and no impulsive event, position and velocity remain continuous at the boundary even if acceleration changes abruptly. A cruising interval does not reset velocity to zero; it sets acceleration to zero.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-CONSTANT",
+        "OS-AREA"
+      ],
+      "proficiencyReference": "I can connect acceleration, cruising, and braking intervals without losing their initial conditions.",
+      "placementNote": "This extends a single constant-acceleration state update to a sequence of intervals.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-freefall-apex",
+      "name": "Explain velocity and acceleration at the top of an ideal vertical throw",
+      "domain": "Physics",
+      "subdomain": "Free-fall interpretation",
+      "icon": "motion",
+      "description": "For a vertical throw under gravity alone near Earth, vertical velocity is momentarily zero at the highest point while acceleration remains downward.",
+      "details": "For a vertical throw under gravity alone near Earth, vertical velocity is momentarily zero at the highest point while acceleration remains downward. The object has not entered force equilibrium merely because it stops rising.\n\nChoose an upward-positive or downward-positive convention and describe the motion on both sides of the turning point. The conclusion assumes negligible drag and no support or propulsion; it does not describe every object that pauses.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-FREEFALL"
+      ],
+      "proficiencyReference": "I can distinguish zero instantaneous velocity from zero acceleration at the turning point.",
+      "placementNote": "This combines acceleration-sign reasoning with the gravity-only free-fall model.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-mass-weight",
+      "name": "Distinguish mass from gravitational weight and calculate weight using a stated g",
+      "domain": "Physics",
+      "subdomain": "Force interpretation",
+      "icon": "motion",
+      "description": "Mass is measured in kilograms; gravitational weight is a force measured in newtons with magnitude mg in the stated local gravitational field.",
+      "details": "Mass is measured in kilograms; gravitational weight is a force measured in newtons with magnitude mg in the stated local gravitational field. Changing g changes weight without changing the object’s mass in this model.\n\nA scale’s support-force reading is not automatically identical to gravitational weight. This skill separates the quantities and calculates mg from a supplied value of g; analyzing an accelerating scale remains a distinct task.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-WEIGHT"
+      ],
+      "proficiencyReference": "I can keep mass, gravitational weight, and a scale’s support reading conceptually separate.",
+      "placementNote": "This supplies the weight term used in normal-force balances and contact checks.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-normal-direction",
+      "name": "Identify the direction of a normal contact force",
+      "domain": "Physics",
+      "subdomain": "Force interpretation",
+      "icon": "motion",
+      "description": "For an ordinary nonadhesive contact, the normal force acts perpendicular to the local surface and pushes the chosen body away from it.",
+      "details": "For an ordinary nonadhesive contact, the normal force acts perpendicular to the local surface and pushes the chosen body away from it. Its direction follows the contact geometry rather than a universal upward arrow.\n\nOn a tilted support, normal and gravitational forces point in different directions. This skill identifies the force direction only; its magnitude must come from the motion and other forces, and contact may fail if a pulling reaction would be required.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-FORCES"
+      ],
+      "proficiencyReference": "I can draw the normal direction for differently oriented surfaces without assuming its magnitude is mg.",
+      "placementNote": "This follows choosing the body boundary and prepares normal-force calculations.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-tension-direction",
+      "name": "Identify the force direction exerted by a taut flexible cable",
+      "domain": "Physics",
+      "subdomain": "Force interpretation",
+      "icon": "motion",
+      "description": "A taut flexible cable pulls an attached body along the cable away from the attachment point.",
+      "details": "A taut flexible cable pulls an attached body along the cable away from the attachment point. It does not push the body along the same line when slack or when a calculated force changes sign.\n\nIdentify the direction at the specific attachment, including when a pulley redirects the cable. This skill does not claim equal tension everywhere; that conclusion requires additional assumptions about cable mass, pulley behavior, and other interactions.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-FORCES"
+      ],
+      "proficiencyReference": "I can draw the local pulling direction and distinguish a taut cable from a slack one.",
+      "placementNote": "This follows body isolation and prepares checking ideal-cable tension assumptions.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-uniform-tension-model",
+      "name": "Check when equal tension may be assumed in an ideal cable model",
+      "domain": "Physics",
+      "subdomain": "Force models",
+      "icon": "motion",
+      "description": "Equal tension along a cable segment requires an appropriate idealization, such as negligible cable mass and no distributed tangential loading.",
+      "details": "Equal tension along a cable segment requires an appropriate idealization, such as negligible cable mass and no distributed tangential loading. Extending equality across a pulley also requires neglecting effects such as pulley rotational inertia and axle friction.\n\nDo not equate forces merely because two segments look like the same rope in a picture. Record which assumptions justify the simplification. Calculating differing tensions in a massive accelerating pulley system is outside this model-selection skill.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-FORCES",
+        "OS-SOLVING"
+      ],
+      "proficiencyReference": "I can state the assumptions behind equal tension and recognize when they are absent.",
+      "placementNote": "This follows identifying cable force directions and refines the assumptions used in coupled-body models.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-zero-net-motion",
+      "name": "Infer constant velocity from zero net force in an inertial frame",
+      "domain": "Physics",
+      "subdomain": "Force interpretation",
+      "icon": "motion",
+      "description": "For a constant-mass body in an inertial frame, zero net external force implies zero acceleration and therefore constant velocity.",
+      "details": "For a constant-mass body in an inertial frame, zero net external force implies zero acceleration and therefore constant velocity. The velocity can be nonzero; continued straight-line motion does not require a nonzero resultant force.\n\nThe inference concerns net force, not absence of all forces. It also cannot be reversed from a single observation of zero speed: an object can be instantaneously at rest while accelerating. State the interval and reference-frame assumptions.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-FIRST"
+      ],
+      "proficiencyReference": "I can distinguish balanced forces, no forces, constant velocity, and a momentary stop.",
+      "placementNote": "This links signed acceleration to the motion consequence of a balanced force system.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-force-diagram-audit",
+      "name": "Audit a free-body diagram for missing and double-counted interactions",
+      "domain": "Physics",
+      "subdomain": "Force equations",
+      "icon": "motion",
+      "description": "Check a proposed diagram against the isolated body and its actual interactions.",
+      "details": "Check a proposed diagram against the isolated body and its actual interactions. Every included force needs an identifiable agent; forces exerted by the body on other objects belong on other diagrams.\n\nDo not add ma as a separate force or retain both a force vector and its resolved components as independent contributions. This audit evaluates a supplied diagram; drawing one from scratch remains covered by the existing free-body-diagram skill.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-FBD"
+      ],
+      "proficiencyReference": "I can explain why an extra arrow is invalid and identify an omitted external interaction.",
+      "placementNote": "This reuses free-body-diagram construction to check the force inventory before forming equations.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-one-axis-force-equation",
+      "name": "Translate a supplied collinear force diagram into a signed Newton equation",
+      "domain": "Physics",
+      "subdomain": "Force equations",
+      "icon": "motion",
+      "description": "Choose a positive axis and translate a correct diagram of collinear forces into ΣF = ma for a constant-mass body in an inertial frame.",
+      "details": "Choose a positive axis and translate a correct diagram of collinear forces into ΣF = ma for a constant-mass body in an inertial frame. Include the sign of each force and solve for one requested unknown.\n\nThe task is equation construction and interpretation, not two-dimensional vector projection. A negative acceleration indicates direction along the chosen axis. A negative proposed contact or cable magnitude additionally requires checking whether that interaction can act in the assumed way.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-SECOND"
+      ],
+      "proficiencyReference": "I can form and solve the signed equation without inserting an extra ma force.",
+      "placementNote": "This combines a checked force diagram with signed coordinates and one-variable algebra.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-normal-balance",
+      "name": "Determine a normal force from a supplied perpendicular force balance",
+      "domain": "Physics",
+      "subdomain": "Force equations",
+      "icon": "motion",
+      "description": "Given a correct force diagram with components already resolved perpendicular to a support, use Newton’s second law in that direction to determine the normal reaction.",
+      "details": "Given a correct force diagram with components already resolved perpendicular to a support, use Newton’s second law in that direction to determine the normal reaction. Include any supplied perpendicular acceleration and additional applied forces.\n\nThe result need not equal mg. This skill concerns a supplied component balance, so resolving an inclined force is supporting preparation rather than mandatory for every example. Check the assumed contact separately if the computed reaction would require adhesion.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-SOLVING"
+      ],
+      "proficiencyReference": "I can find the reaction from the full perpendicular equation rather than automatically setting it equal to weight.",
+      "placementNote": "This combines normal direction, weight, and a signed Newton equation; force projection can support more complex examples.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-contact-consistency",
+      "name": "Check whether a predicted normal reaction is compatible with nonadhesive contact",
+      "domain": "Physics",
+      "subdomain": "Force models",
+      "icon": "motion",
+      "description": "An ordinary nonadhesive support can push on a body but cannot pull it toward the surface.",
+      "details": "An ordinary nonadhesive support can push on a body but cannot pull it toward the surface. If maintaining the assumed contact requires a negative normal magnitude, that contact assumption is inconsistent.\n\nAt zero reaction, inspect the subsequent relative motion or limiting condition; zero alone does not specify the entire later trajectory. This skill checks the validity of a solved contact model, rather than merely treating an unphysical signed reaction as another numerical answer.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-SOLVING"
+      ],
+      "proficiencyReference": "I can identify an invalid pulling reaction and explain why the contact model needs revision.",
+      "placementNote": "This follows calculating a normal reaction and checks the physical admissibility of that result.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    },
+    {
+      "id": "sss-phys-internal-force-cancellation",
+      "name": "Identify which interaction forces cancel when two bodies form one system",
+      "domain": "Physics",
+      "subdomain": "Force equations",
+      "icon": "motion",
+      "description": "When two interacting bodies are included in one system, their mutual Newton third-law forces are internal and cancel in the vector sum for that combined system.",
+      "details": "When two interacting bodies are included in one system, their mutual Newton third-law forces are internal and cancel in the vector sum for that combined system. External forces from objects outside the boundary remain.\n\nThe same internal forces still matter when either body is analyzed separately. Changing the system boundary changes the force inventory, not the physical interactions. This skill identifies cancellation; solving all coupled accelerations and contact forces is a further task.",
+      "proficiency80": null,
+      "pinned": false,
+      "sourceRefs": [
+        "OS-THIRD"
+      ],
+      "proficiencyReference": "I can move between separate-body and combined-system force inventories without discarding external forces.",
+      "placementNote": "This combines system-boundary selection with identifying third-law interaction partners.",
+      "contentAuthorship": "Original editorial material; sources support scope and facts, not official prerequisite links.",
+      "authoringOrigin": "sss-physics-foundations-batch-01",
+      "scopeNote": "Introductory Newtonian mechanics; stated inertial-frame and idealization assumptions apply.",
+      "layoutRequest": {
+        "mode": "existing-vortex-convention",
+        "referenceLevel": "derive-after-merge",
+        "position": "assign-after-merge",
+        "preserveExistingPositions": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "px-distance",
+      "target": "sss-phys-coordinate-convention",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The convention is applied to an understood distinction between path distance and displacement."
+    },
+    {
+      "source": "m-sign",
+      "target": "sss-phys-coordinate-convention",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Position and displacement use positive and negative numbers."
+    },
+    {
+      "source": "sss-phys-coordinate-convention",
+      "target": "sss-phys-average-acceleration",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Both velocity readings must use the same positive direction."
+    },
+    {
+      "source": "px-velocity-secant",
+      "target": "sss-phys-average-acceleration",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The learner already interprets a signed velocity as displacement per time."
+    },
+    {
+      "source": "m-ratio",
+      "target": "sss-phys-average-acceleration",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Acceleration is a change per unit elapsed time."
+    },
+    {
+      "source": "sss-phys-average-acceleration",
+      "target": "sss-phys-speed-change-signs",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Acceleration describes a signed velocity change; the reasoning applies instant by instant as well."
+    },
+    {
+      "source": "sss-phys-average-acceleration",
+      "target": "sss-phys-acceleration-graph-slope",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Graph slope uses the same change-in-velocity ratio."
+    },
+    {
+      "source": "m-slope",
+      "target": "sss-phys-acceleration-graph-slope",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A straight-line slope must be read using the plotted scales."
+    },
+    {
+      "source": "sss-phys-average-acceleration",
+      "target": "sss-phys-velocity-from-acceleration-area",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A constant interval gives velocity change equal to acceleration times duration."
+    },
+    {
+      "source": "m-multiply",
+      "target": "sss-phys-velocity-from-acceleration-area",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Each rectangle is calculated as height times width."
+    },
+    {
+      "source": "m-add",
+      "target": "sss-phys-velocity-from-acceleration-area",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Signed interval changes must be accumulated."
+    },
+    {
+      "source": "sss-phys-acceleration-graph-slope",
+      "target": "sss-phys-constant-model-check",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "A velocity-time slope describes acceleration on the interval."
+    },
+    {
+      "source": "sss-phys-constant-model-check",
+      "target": "sss-phys-constant-state-step",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The equations require an accepted constant-acceleration interval."
+    },
+    {
+      "source": "m-multiply",
+      "target": "sss-phys-constant-state-step",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The update uses products of acceleration, velocity, and time."
+    },
+    {
+      "source": "m-power",
+      "target": "sss-phys-constant-state-step",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The position update includes a squared duration."
+    },
+    {
+      "source": "m-add",
+      "target": "sss-phys-constant-state-step",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The signed contributions are added to the initial state."
+    },
+    {
+      "source": "sss-phys-constant-state-step",
+      "target": "sss-phys-piecewise-handoff",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Each interval is solved from its own initial state."
+    },
+    {
+      "source": "sss-phys-speed-change-signs",
+      "target": "sss-phys-freefall-apex",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The ascent and descent have different velocity signs relative to acceleration."
+    },
+    {
+      "source": "p-freefall",
+      "target": "sss-phys-freefall-apex",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The gravity-only model fixes the downward acceleration."
+    },
+    {
+      "source": "p-units",
+      "target": "sss-phys-mass-weight",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Mass and force must be identified with different physical units."
+    },
+    {
+      "source": "m-multiply",
+      "target": "sss-phys-mass-weight",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Weight magnitude is the product of mass and the stated gravitational acceleration."
+    },
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-phys-normal-direction",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The direction must be described for the chosen body and its contact."
+    },
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-phys-tension-direction",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The force must be drawn on the correct attached body."
+    },
+    {
+      "source": "sss-phys-tension-direction",
+      "target": "sss-phys-uniform-tension-model",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The candidate tensions belong to specific cable segments and attachments."
+    },
+    {
+      "source": "sss-phys-average-acceleration",
+      "target": "sss-phys-zero-net-motion",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Zero acceleration means no velocity change, not necessarily zero velocity."
+    },
+    {
+      "source": "p-inertia",
+      "target": "sss-phys-zero-net-motion",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Newton’s first-law model supplies the inertial-frame and net-force interpretation."
+    },
+    {
+      "source": "p-fbd",
+      "target": "sss-phys-force-diagram-audit",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Auditing a diagram requires understanding the underlying construction rules."
+    },
+    {
+      "source": "px-thirdlaw-pairs",
+      "target": "sss-phys-force-diagram-audit",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The audit distinguishes forces on different members of an interaction pair."
+    },
+    {
+      "source": "sss-phys-force-diagram-audit",
+      "target": "sss-phys-one-axis-force-equation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Only actual external forces should enter the sum."
+    },
+    {
+      "source": "sss-phys-coordinate-convention",
+      "target": "sss-phys-one-axis-force-equation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Force and acceleration signs must share one axis."
+    },
+    {
+      "source": "m-equation",
+      "target": "sss-phys-one-axis-force-equation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The resulting one-unknown linear equation must be solved."
+    },
+    {
+      "source": "sss-phys-normal-direction",
+      "target": "sss-phys-normal-balance",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The reaction acts perpendicular to the contact surface."
+    },
+    {
+      "source": "sss-phys-mass-weight",
+      "target": "sss-phys-normal-balance",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The weight contribution must not be confused with the reaction."
+    },
+    {
+      "source": "sss-phys-one-axis-force-equation",
+      "target": "sss-phys-normal-balance",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The perpendicular equation is a signed Newton balance."
+    },
+    {
+      "source": "sss-phys-normal-balance",
+      "target": "sss-phys-contact-consistency",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The consistency test examines the solved normal reaction."
+    },
+    {
+      "source": "m-inequality",
+      "target": "sss-phys-contact-consistency",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The unilateral contact condition is a nonnegative reaction magnitude."
+    },
+    {
+      "source": "px-fbd-isolate",
+      "target": "sss-phys-internal-force-cancellation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "The boundary determines which interactions are internal."
+    },
+    {
+      "source": "px-thirdlaw-pairs",
+      "target": "sss-phys-internal-force-cancellation",
+      "type": "prerequisite",
+      "authorship": "editorial",
+      "rationale": "Only the mutual pair internal to the chosen system cancels in the sum."
+    },
+    {
+      "source": "px-force-components",
+      "target": "sss-phys-normal-balance",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "Force projection prepares the perpendicular components when they are not supplied."
+    },
+    {
+      "source": "px-randomerror",
+      "target": "sss-phys-constant-model-check",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "Measurement scatter helps interpret departures from an ideal straight velocity-time line."
+    },
+    {
+      "source": "sss-phys-contact-consistency",
+      "target": "px-static-friction",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "A friction calculation relying on contact also needs a physically admissible normal reaction."
+    },
+    {
+      "source": "sss-phys-piecewise-handoff",
+      "target": "p-projectile",
+      "type": "supports",
+      "authorship": "editorial",
+      "rationale": "Carrying initial conditions is useful when projectile motion is described across distinct intervals."
+    },
+    {
+      "source": "p-position",
+      "target": "sss-phys-coordinate-convention",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-accel",
+      "target": "sss-phys-average-acceleration",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-accel",
+      "target": "sss-phys-speed-change-signs",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-motiongraph",
+      "target": "sss-phys-acceleration-graph-slope",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-motiongraph",
+      "target": "sss-phys-velocity-from-acceleration-area",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-motiongraph",
+      "target": "sss-phys-piecewise-handoff",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-constantacc",
+      "target": "sss-phys-constant-model-check",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-constantacc",
+      "target": "sss-phys-constant-state-step",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-freefall",
+      "target": "sss-phys-freefall-apex",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-weight",
+      "target": "sss-phys-mass-weight",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-weight",
+      "target": "sss-phys-normal-direction",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-weight",
+      "target": "sss-phys-tension-direction",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-weight",
+      "target": "sss-phys-normal-balance",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-weight",
+      "target": "sss-phys-contact-consistency",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-coupled",
+      "target": "sss-phys-uniform-tension-model",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-inertia",
+      "target": "sss-phys-zero-net-motion",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-fbd",
+      "target": "sss-phys-force-diagram-audit",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-newton",
+      "target": "sss-phys-one-axis-force-equation",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    },
+    {
+      "source": "p-thirdlaw",
+      "target": "sss-phys-internal-force-cancellation",
+      "type": "related",
+      "authorship": "editorial",
+      "rationale": "The existing overview discusses this narrower ability; this scope-overlap link neither imposes a prerequisite nor transfers proficiency."
+    }
+  ],
+  "overviewMappings": [
+    {
+      "id": "p-position",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-coordinate-convention"
+      ]
+    },
+    {
+      "id": "p-accel",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-average-acceleration",
+        "sss-phys-speed-change-signs"
+      ]
+    },
+    {
+      "id": "p-motiongraph",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-acceleration-graph-slope",
+        "sss-phys-velocity-from-acceleration-area",
+        "sss-phys-piecewise-handoff"
+      ]
+    },
+    {
+      "id": "p-constantacc",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-constant-model-check",
+        "sss-phys-constant-state-step"
+      ]
+    },
+    {
+      "id": "p-freefall",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-freefall-apex"
+      ]
+    },
+    {
+      "id": "p-weight",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-mass-weight",
+        "sss-phys-normal-direction",
+        "sss-phys-tension-direction",
+        "sss-phys-normal-balance",
+        "sss-phys-contact-consistency"
+      ]
+    },
+    {
+      "id": "p-coupled",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-uniform-tension-model"
+      ]
+    },
+    {
+      "id": "p-inertia",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-zero-net-motion"
+      ]
+    },
+    {
+      "id": "p-fbd",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-force-diagram-audit"
+      ]
+    },
+    {
+      "id": "p-newton",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-one-axis-force-equation"
+      ]
+    },
+    {
+      "id": "p-thirdlaw",
+      "action": "retain-unchanged",
+      "narrowerSkillIds": [
+        "sss-phys-internal-force-cancellation"
+      ]
+    }
+  ],
+  "sources": {
+    "OS-POSITION": {
+      "title": "Position and displacement",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/3-1-position-displacement-and-average-velocity",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-ACCEL": {
+      "title": "Acceleration",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/3-3-average-and-instantaneous-acceleration",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-CONSTANT": {
+      "title": "Constant acceleration",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/3-4-motion-with-constant-acceleration",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-FREEFALL": {
+      "title": "Free fall",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/3-5-free-fall",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-AREA": {
+      "title": "Recovering velocity from acceleration",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/3-6-finding-velocity-and-displacement-from-acceleration",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-FIRST": {
+      "title": "Newton first law",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/5-2-newtons-first-law",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-SECOND": {
+      "title": "Newton second law",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/5-3-newtons-second-law",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-WEIGHT": {
+      "title": "Mass and weight",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/5-4-mass-and-weight",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-THIRD": {
+      "title": "Newton third law",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/5-5-newtons-third-law",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-FORCES": {
+      "title": "Common forces",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/5-6-common-forces",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-FBD": {
+      "title": "Free-body diagrams",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/5-7-drawing-free-body-diagrams",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    },
+    "OS-SOLVING": {
+      "title": "Solving Newton-law problems",
+      "url": "https://openstax.org/books/university-physics-volume-1/pages/6-1-solving-problems-with-newtons-laws",
+      "checked": "2026-09-14",
+      "use": "Coverage and fact reference; authored boundaries and relationships are not official curriculum edges."
+    }
+  },
+  "integration": {
+    "notAnOpenMapFile": true,
+    "requiredContentBatches": [],
+    "compatibleWith": [
+      "sss-dc-batch-01"
+    ],
+    "doNotModifyExistingNodes": true,
+    "doNotCopyOverviewProficiency": true,
+    "defaultNewProficiency": null,
+    "layout": "Assign only new positions and levels after reconciliation with the current local master.",
+    "icon": "Validate motion against current icon allowlist and use the supported Physics icon if needed."
+  },
+  "deferred": [
+    "Measurement resolution and uncertainty refinements",
+    "General relative-frame transformations",
+    "Solving for unknown motion times and quadratic root selection",
+    "Projectile-motion refinements",
+    "Work, energy, and momentum decomposition",
+    "Rotational mechanics",
+    "Fluids, thermal physics, waves, electromagnetism, optics, and modern physics refinements",
+    "Overview-versus-skill UI and old dependency repairs"
+  ]
+}

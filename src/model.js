@@ -6,10 +6,14 @@ export const DOMAINS = {
 };
 export const TYPES = ['prerequisite', 'supports', 'related'];
 export const clone = value => JSON.parse(JSON.stringify(value));
-export const PROFICIENCY_COLORS = { yes:'#59d49c', no:'#ef9290', unset:'#99a9bc' };
-export function proficiencyLabel(value) { return value === true ? 'Yes · at least 80%' : value === false ? 'No · below 80%' : 'Not marked'; }
+// Proficiency colouring shows two states only: green for skills marked Yes, red for everything else,
+// including skills that have not been answered yet. The answer itself is still Yes, No, or unmarked;
+// only the colour groups them.
+export const PROFICIENCY_COLORS = { yes:'#32CD32', no:'#ef9290' };
+// Short words only: the sphere colour and its pulse already say which state a skill is in.
+export function proficiencyLabel(value) { return value === true ? 'Yes' : value === false ? 'No' : 'Not marked'; }
 export function nodeColor(node, proficiency) {
-  return proficiency ? PROFICIENCY_COLORS[node.proficiency80 === true ? 'yes' : node.proficiency80 === false ? 'no' : 'unset'] : DOMAINS[node.domain];
+  return proficiency ? PROFICIENCY_COLORS[node.proficiency80 === true ? 'yes' : 'no'] : DOMAINS[node.domain];
 }
 export function normalize(graph) {
   validate(graph);
