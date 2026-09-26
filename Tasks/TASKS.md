@@ -60,7 +60,7 @@ Storage 10), every file hash-verified with 0 mismatches. Export `687f0916…fc11
 `4cda601b…e6d0`, both unchanged. `Maps/` grew from 158 to 160 files since the last backup
 (examined in Task 3). See `reports/07-backup.md`.
 
-## [ ] Task 2 — Remove the dead items JC approved
+## [x] Task 2 — Remove the dead items JC approved
 **Do:**
 - Delete `.e2e-baseline/` and `.e2e-c1/`. First re-confirm nothing in `package.json`, `tests/`,
   `src/`, `authoring/` or `scripts/` references them. If they are tracked by Git, use `git rm`.
@@ -68,7 +68,16 @@ Storage 10), every file hash-verified with 0 mismatches. Export `687f0916…fc11
 - Run `npm run build` and `npm test`. Results must match the last known state:
   207 tests, 201 pass, 6 skip, 0 fail.
 **STOP if:** any reference is found, or any test result differs.
-**Result:**
+**Result:** Done. All three items had already been handled by JC by hand, so nothing was deleted
+this session.
+- `.e2e-baseline/` and `.e2e-c1/`: already gone, and no copy exists anywhere in the project or the
+  top levels of OneDrive, so they were deleted, not moved. Git never tracked them, but every source
+  file in them is in Git history (`reports/05-housekeeping.md` §1). `.git/info/exclude` still
+  lists both (local-only, harmless, left alone).
+- `tests/console-smoke.mjs`: already deleted on disk; the deletion was committed here with `git rm`.
+- References: none in `package.json`, `tests/`, `src/`, `authoring/` or `scripts/`.
+- `npm run build` passed; `npm test` gave 207 tests / 201 pass / 6 skip / 0 fail, matching the last
+  known state.
 
 ## [ ] Task 3 — Archive the superseded maps (move, never open)
 **Do:**
