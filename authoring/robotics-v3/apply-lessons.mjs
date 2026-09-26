@@ -1,4 +1,4 @@
-// Applies robotics learning editions 01 and 02 to the dedicated v3 map and reports what changed.
+// Applies the authored robotics learning editions to the dedicated v3 map and reports what changed.
 //
 //   node authoring/robotics-v3/apply-lessons.mjs            dry run: reconcile and report only
 //   node authoring/robotics-v3/apply-lessons.mjs --write    write the map, the ledger and the summary
@@ -32,13 +32,15 @@ const CANDIDATES = {
   edition02: ['packages/controlled-joint-learning-edition-02/Controlled-Joint-Lessons-02.json', 'Maps/Robotics-v3/Controlled-Joint-Lessons-02.json'],
   edition03: ['packages/complete-arm-learning-edition-03/Complete-Arm-Lessons-03.json', 'Maps/Robotics-v3/robotics-lessons-03/Complete-Arm-Lessons-03.json'],
   edition04: ['packages/wheeled-robot-learning-edition-04/Wheeled-Robot-Lessons-04.json', 'Maps/Robotics-v3/robotics-lessons-04/Wheeled-Robot-Lessons-04.json'],
-  edition05: ['packages/mobile-manipulation-learning-edition-05/Mobile-Manipulation-Lessons-05.json', 'Maps/Robotics-v3/robotics-lessons-05/Mobile-Manipulation-Lessons-05.json']
+  edition05: ['packages/mobile-manipulation-learning-edition-05/Mobile-Manipulation-Lessons-05.json', 'Maps/Robotics-v3/robotics-lessons-05/Mobile-Manipulation-Lessons-05.json'],
+  edition06: ['packages/repeatable-work-system-learning-edition-06/Repeatable-Work-System-Lessons-06.json', 'Maps/Robotics-v3/robotics-lessons-06/Repeatable-Work-System-Lessons-06.json']
 };
 // The export the latest edition was reconciled against, shipped inside its package. Optional: it
 // only exists once an edition has been supplied with one. It is never written, only compared, so
 // the summary can still show what the newest edition added after the import has been re-run.
 // Newest first: the comparison is against the export the latest edition was built from.
 const BASELINE = [
+  'packages/repeatable-work-system-learning-edition-06/baseline/Confirmed-Edition05-Export.json',
   'packages/wheeled-robot-learning-edition-04/baseline/Robotics-v3-Lessons.json',
   'packages/mobile-manipulation-learning-edition-05/baseline/Confirmed-Edition03-Export.json',
   'Maps/Robotics-v3/robotics-lessons-05/baseline/Confirmed-Edition03-Export.json',
@@ -56,7 +58,7 @@ const rel = file => path.relative(ROOT, file).split(path.sep).join('/');
 export function loadInputs() {
   const found = Object.fromEntries(Object.keys(CANDIDATES).map(name => [name, resolveInput(name)]));
   const read = name => ({ ...found[name], sha256: sha256(found[name].file), data: JSON.parse(readFileSync(found[name].file, 'utf8')) });
-  return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04'), edition05: read('edition05') };
+  return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04'), edition05: read('edition05'), edition06: read('edition06') };
 }
 
 function ledger(graph) {
@@ -83,7 +85,7 @@ if (!existsSync(MAP)) { console.error(`No v3 map at ${MAP}. Run authoring/roboti
 
 const inputs = loadInputs();
 const before = validate(JSON.parse(readFileSync(MAP, 'utf8')));
-const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
+const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 
 const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions });
 validate(graph);
@@ -182,6 +184,15 @@ function baselineDiff() {
   };
 }
 
+function milestoneClosure(milestone) {
+  const nodes = new Map(inputs.spec.data.nodes.map(node => [node.id, node]));
+  const closure = new Set();
+  function visit(id) { if (closure.has(id)) return; closure.add(id); for (const prerequisite of nodes.get(id)?.requires ?? []) visit(prerequisite); }
+  visit(milestone);
+  const missing = [...closure].filter(id => !graph.nodes.find(node => node.planningId === id)?.lesson).sort();
+  return { milestone, entries: closure.size, missingCards: missing, closed: missing.length === 0 };
+}
+
 const summary = {
   generated: new Date().toISOString().slice(0, 10),
   sourceRevision: gitRevision(),
@@ -190,7 +201,8 @@ const summary = {
   editions: editions.map(e => ({ edition: e.metadata.edition, authored: e.metadata.authored, supplied: e.lessons.length, selection: e.metadata.selection })),
   titleChange: { before: before.title, after: graph.title, reviewSessionsKeptBy: `metadata.datasetKey = ${JSON.stringify(datasetKey(graph))}` },
   counts: report.counts,
-  expected: { uniqueAuthoredCards: 292, pendingAssessable: 88, roadmapEntries: 1, mapEntries: 381 },
+  expected: { uniqueAuthoredCards: 298, pendingAssessable: 82, roadmapEntries: 1, mapEntries: 381 },
+  expectedEdition06Delta: { newLessons: 6, unchangedPriorLessons: 292, skipped: 0, conflicting: 0 },
   reconciliation: {
     imported: report.counts.imported,
     skipped: report.counts.skipped,
@@ -207,6 +219,7 @@ const summary = {
   // this stays meaningful after the import has been re-run and the run changed nothing.
   byEdition: graph.nodes.reduce((t, n) => (n.lessonCard ? (t[n.lessonCard.edition] = (t[n.lessonCard.edition] || 0) + 1) : 0, t), {}),
   thisRun: runDelta(),
+  i05Closure: milestoneClosure('I05'),
   signatures: { before: signatures(before), after: signatures(graph) },
   sinceSuppliedBaseline: baselineDiff(),
   preservation: {
@@ -228,7 +241,7 @@ const summary = {
     `${report.counts.pending} assessable entries still have no authored introductory lesson, and ${report.counts.roadmap} roadmap entry is not assessed.`,
     'Introductory content coverage is not proficiency and not a physical milestone. Nothing here says a skill has been demonstrated.',
     'No proficiency answer is read, written or inferred by this import.',
-    'The teaching labs are supplemental offline synthetic exercises, not wired into the application and not evidence of a working robot. Edition 03 needs NumPy and models planar kinematics only. Edition 04 needs NumPy; its route tracking uses an ideal true pose, and its estimation and fault supervision are separate experiments. Edition 05 needs NumPy and SciPy; its perception, base placement and pick-and-place exercises are synthetic. None demonstrates a physical mobile manipulator, none has a hardware interface, and none may be connected to one.',
+    'The teaching labs are supplemental offline synthetic exercises, not wired into the application and not evidence of a working robot. Edition 03 needs NumPy and models planar kinematics only. Edition 04 needs NumPy; its route tracking uses an ideal true pose, and its estimation and fault supervision are separate experiments. Edition 05 needs NumPy and SciPy; its perception, base placement and pick-and-place exercises are synthetic. Edition 06 uses only Python standard-library calculations; its thermal traces, trial logs, manifests and handover checks are generated. None demonstrates a physical robot, none has a hardware interface, and none may be connected to one.',
     `The map title restates the counts. Guided-review sessions key on metadata.datasetKey (${JSON.stringify(datasetKey(graph))}) rather than the title${session.checked && session.keyBefore === session.keyAfter ? ', which is unchanged by this import, so every saved session keeps its key, queue and position outright' : ', and a session saved under an earlier title is migrated by its node set, so progress and queue position survive the rename'}. Review order is unchanged: it comes from saved heights, names and ids, none of which this patch touches.`
   ]
 };
@@ -237,6 +250,10 @@ const expected = summary.expected;
 const baseline = summary.sinceSuppliedBaseline, run = summary.thisRun, sig = summary.signatures;
 const ok = summary.preservation.reviewOrderUnchanged && summary.preservation.reviewSessionsPreserved && !preservation.length && stable
   && !run.existingPayloadsChanged.length
+  && summary.i05Closure.entries === 298 && summary.i05Closure.closed
+  && baseline.compared && baseline.entriesGainedALesson === summary.expectedEdition06Delta.newLessons
+  && baseline.lessonsBefore === summary.expectedEdition06Delta.unchangedPriorLessons
+  && report.counts.skipped === summary.expectedEdition06Delta.skipped && report.conflicted.length === summary.expectedEdition06Delta.conflicting
   && sig.before.nodeOrder === sig.after.nodeOrder && sig.before.edges === sig.after.edges
   && sig.before.layout === sig.after.layout && sig.before.proficiency === sig.after.proficiency
   && (!baseline.compared || (!baseline.existingLessonsChanged.length && !baseline.preservedFieldsChanged.length))

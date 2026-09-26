@@ -19,7 +19,7 @@ const blocks = (...items) => items.filter(Boolean);
 // stated deployed-system or physical evidence". Matching whole phrases quietly lost the warning
 // the moment an edition rephrased it, so the test is for the idea rather than the sentence: does
 // this entry's demonstration still need evidence from real hardware or a deployed system?
-export const NEEDS_REAL_EVIDENCE = /\b(physical|deployed[-\s]?system|target[-\s]?device|hardware|supervised|on[-\s]robot)\b/i;
+export const NEEDS_REAL_EVIDENCE = /\b(physical|actual|deployed[-\s]?system|target[-\s]?device|hardware|supervised|on[-\s]robot)\b/i;
 const PREPARATION = /\b(paper|code|design|preparation|written)\b/i;
 export function exerciseKind(node) {
   const mode = text(node?.lessonCard?.practiceMode);
@@ -51,7 +51,8 @@ export const EDITION_NAMES = {
   'controlled-joint-02': 'controlled joint, edition 02',
   'complete-arm-03': 'complete arm, edition 03',
   'wheeled-robot-04': 'wheeled robot, edition 04',
-  'mobile-manipulation-05': 'mobile manipulation, edition 05'
+  'mobile-manipulation-05': 'mobile manipulation, edition 05',
+  'repeatable-work-system-06': 'repeatable work system, edition 06'
 };
 // What the card says about its own content, for the top of the card. This describes the content
 // only: it is never a statement about the reader's proficiency, and "available" means an

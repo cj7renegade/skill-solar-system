@@ -213,23 +213,24 @@ test('introductory exercises, simulations and physical demonstrations are named 
 
 // The real package, when it has been extracted locally.
 const REAL_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
-test('the integrated robotics v3 map carries all 292 lessons and 88 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+test('the integrated robotics v3 map carries all 298 lessons and 82 pending entries', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
   const graph = validate(JSON.parse(readFileSync(REAL_MAP, 'utf8')));
   assert.equal(graph.nodes.length, 381);
   assert.equal(graph.edges.length, 894);
   assert.equal(atlasFamily(graph), 'robotics-foundations-integration-v3-review');
   assert.equal(datasetKey(graph), DATASET_KEY, 'a stable review identity, so the title can restate the counts');
   const authored = graph.nodes.filter(n => n.contentStatus === STATUS.authored);
-  assert.equal(authored.length, 292);
-  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 88);
+  assert.equal(authored.length, 298);
+  assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.pending).length, 82);
   assert.equal(graph.nodes.filter(n => n.contentStatus === STATUS.roadmap).length, 1);
   assert.equal(graph.nodes.filter(n => n.proficiency80 != null).length, 0);
-  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 5);
+  assert.equal(new Set(authored.map(n => n.lessonCard.edition)).size, 6);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'shared-foundations-01').length, 77);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'controlled-joint-02').length, 116);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'complete-arm-03').length, 61);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'wheeled-robot-04').length, 28);
   assert.equal(authored.filter(n => n.lessonCard.edition === 'mobile-manipulation-05').length, 10);
+  assert.equal(authored.filter(n => n.lessonCard.edition === 'repeatable-work-system-06').length, 6);
   // Every edition present has a reader-facing name; an unmapped one would show its raw slug.
   for (const edition of new Set(authored.map(n => n.lessonCard.edition))) assert.ok(EDITION_NAMES[edition], `no reader-facing name for edition ${edition}`);
   // Every entry's lesson status agrees with whether it actually has a card, and the roadmap note
@@ -274,6 +275,25 @@ test('the integrated robotics v3 map carries all 292 lessons and 88 pending entr
   // Every entry says what content it has, and no lesson claims a proficiency write.
   assert.ok(graph.nodes.every(n => typeof n.contentStatus === 'string' && n.contentStatus));
   assert.ok(authored.every(n => n.lesson.proficiency_write === false));
+});
+
+// Edition 06 says "actual" where earlier editions said "physical". These entries are named here
+// rather than found through NEEDS_REAL_EVIDENCE, so a rephrasing the pattern misses still fails.
+const ACTUAL_EVIDENCE = {
+  'rob3:Q06': 'Synthetic documentation exercise; reproduce and verify an actual controlled system separately.',
+  'rob3:V07': 'Synthetic handover-document review; actual second-person operation and maintenance handover remain required.'
+};
+test('Edition 06 wording that asks for actual evidence still produces the hardware-evidence line', () => {
+  for (const [id, practiceMode] of Object.entries(ACTUAL_EVIDENCE))
+    assert.match(exerciseKind({ lesson: {}, lessonCard: { practiceMode } }), /also needs physical or deployed-system evidence/, id);
+});
+test('the real Q06 and V07 cards say their demonstration needs real evidence', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+  const graph = JSON.parse(readFileSync(REAL_MAP, 'utf8'));
+  for (const id of Object.keys(ACTUAL_EVIDENCE)) {
+    const node = graph.nodes.find(n => n.id === id);
+    assert.ok(node?.lessonCard, `${id} has no authored card`);
+    assert.match(exerciseKind(node), /also needs physical or deployed-system evidence/, id);
+  }
 });
 
 // --- Guided review across a retitled map -------------------------------------------------------
