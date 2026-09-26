@@ -125,7 +125,7 @@ Q06 and V07 now included. Export still `687f0916…fc11`.
 - Task 3 is committed together with Task 4's records commit, so the code commit comes first as
   Task 4 requires.
 
-## [ ] Task 4 — Commit Edition 06
+## [x] Task 4 — Commit Edition 06
 **Do:**
 - Commit in focused commits, each with a message saying what and why:
   1. Importer, card logic and tests: `apply-lessons.mjs`, `build-edition06-package.mjs`,
@@ -136,7 +136,17 @@ Q06 and V07 now included. Export still `687f0916…fc11`.
 - If a Git remote exists, push the branch only (`git push -u origin edition-06-integration`).
   Do not open, merge or approve a pull request. JC reviews and merges.
 **STOP if:** any personal data would be committed, or tests fail after commit.
-**Result:**
+**Result:** Done.
+- `cc7d2ff` holds the importer, card logic and tests: `apply-lessons.mjs`,
+  `build-edition06-package.mjs`, `src/lesson.js`, `robotics-v3-lessons.test.mjs`,
+  `robotics-v3-e2e.mjs` and `robotics-v3-edition06-e2e.mjs`.
+- `6f22ecc` holds the records: Integration-Summary, I05-Audit note, `Edition06-Integration-Summary.md`,
+  PLATFORM.md and TASKS.md (the reports were committed earlier with their tasks).
+- No path under `Maps/`, `packages/` or `backups/`, and no proficiency or session data, is in any
+  commit since `1dab1dd` (checked with `git diff --name-only`). The working tree is clean.
+- `npm test` after committing: 207 tests / 201 pass / 6 skip / 0 fail.
+- Pushed with `git push -u origin edition-06-integration` (a new remote branch). No pull request was
+  opened, and main was not touched.
 
 ## [ ] Task 5 — Housekeeping report (read-only, no deletions)
 **Do:** For each item, record its size, whether anything in `package.json`, `tests/`, `src/`,
