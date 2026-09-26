@@ -1,14 +1,17 @@
-# 02 — Edition 06 verification (Task 2) — BLOCKED (second run)
+# 02 — Edition 06 verification (Task 2) — PASSED (third run)
 
 Every result below was measured in this session. Nothing is copied from
 `authoring/robotics-v3/Edition06-Integration-Summary.md`, which is the importer's own record of
 the import. This report is the independent evidence.
 
 - **Run 1** (at `c942b93`): stopped because `tests/robotics-v3-e2e.mjs` hard-coded the Edition 05
-  counts. Kept below as history.
+  counts.
 - **Run 2** (at `91b0d41`, with JC's approved one-line test update): every automated check passed.
-  The **manual card check found that Q06 and V07 do not show the hardware-evidence line**. Stopped
-  again.
+  The manual card check found that Q06 and V07 did not show the hardware-evidence line. Stopped.
+- **Run 3** (at `6403adc`, with JC's approved change to `NEEDS_REAL_EVIDENCE` and two new unit
+  tests): **every check passed**. See [Run 3](#run-3--after-widening-needs_real_evidence) at the end.
+
+Sections 1–8 below record runs 1 and 2 as they happened.
 
 Node v24.15.0, Python 3.13.13, Windows 11, project at
 `C:\Users\hilli\OneDrive\Desktop\Skill Solar System`.
@@ -209,8 +212,88 @@ is not an edit TASKS.md lists.
 The export is still `687f0916…fc11`, and the proficiency record is still `4cda601b…e6d0`. All app
 runs used isolated profiles. The only working-tree change from Task 2 is the approved line 35 edit.
 
-## Decision needed from JC
+## Run 3 — after widening `NEEDS_REAL_EVIDENCE`
 
-Should `NEEDS_REAL_EVIDENCE` in `src/lesson.js` be widened so Q06 and V07 show the line? One option
-is adding `actual`, with a unit test asserting that both entries produce the line. Or are these two
-entries acceptable without it? Task 2 would then be rerun from the build step.
+JC approved adding the whole word `actual` to the pattern and nothing else.
+
+### The change (`src/lesson.js:22`)
+
+```diff
+- export const NEEDS_REAL_EVIDENCE = /\b(physical|deployed[-\s]?system|target[-\s]?device|hardware|supervised|on[-\s]robot)\b/i;
++ export const NEEDS_REAL_EVIDENCE = /\b(physical|actual|deployed[-\s]?system|target[-\s]?device|hardware|supervised|on[-\s]robot)\b/i;
+```
+
+`actual` sits inside the existing `\b(…)\b` group, so it matches the whole word only.
+
+### Which cards show the line, before and after
+
+The count was measured over all 298 authored cards in the live export, using the app's own
+`exerciseKind()`, by checking whether each card's output contains *"The full demonstration also
+needs physical or deployed-system evidence."*
+
+| | Cards showing the line |
+| --- | ---: |
+| Before | **122** |
+| After | **124** |
+| Cards that changed | **exactly `Q06` and `V07`**, both gaining the line. None lost it, and no other card changed. |
+
+### The new unit tests (`tests/robotics-v3-lessons.test.mjs`, after the real-map test)
+
+No existing test was changed. The two new tests name the entries explicitly and do **not** use
+`NEEDS_REAL_EVIDENCE` to choose them:
+
+```js
+// Edition 06 says "actual" where earlier editions said "physical". These entries are named here
+// rather than found through NEEDS_REAL_EVIDENCE, so a rephrasing the pattern misses still fails.
+const ACTUAL_EVIDENCE = {
+  'rob3:Q06': 'Synthetic documentation exercise; reproduce and verify an actual controlled system separately.',
+  'rob3:V07': 'Synthetic handover-document review; actual second-person operation and maintenance handover remain required.'
+};
+test('Edition 06 wording that asks for actual evidence still produces the hardware-evidence line', …);
+test('the real Q06 and V07 cards say their demonstration needs real evidence', { skip: …no map… }, …);
+```
+
+- The first test runs without any local map. It feeds the two entries' exact Edition 06 wording to
+  `exerciseKind`.
+- The second test reads `rob3:Q06` and `rob3:V07` from the live export by id, and asserts that each
+  has a card and produces the line.
+- **Proof that they catch the bug:** with `src/lesson.js` temporarily restored to its committed
+  version, both new tests **failed**. The existing 298-lesson test also failed then, because that
+  version lacks the Edition 06 display name. With the change back in place, all pass.
+
+### Results
+
+| Check | Result |
+| --- | --- |
+| `npm run build` | **pass**: exit 0 |
+| `npm test` | **pass**: 207 tests, **201 pass, 0 fail**, 6 skipped (the same six `SSS_ATLAS` skips). Both new tests pass |
+| `SSS_V3_MAP=… node tests/robotics-v3-e2e.mjs` | **pass**: 494 checks, 0 failures |
+| `SSS_V3_MAP=… node tests/robotics-v3-edition06-e2e.mjs` | **pass**: 27 checks, 0 failures |
+| Electron card check, 9 cards | **pass** (see below) |
+
+| Card | Status line shown | Pending line | Hardware-evidence line | Simulation note | Text | Sections | Closed / hidden at open | `proficiency80` |
+| --- | --- | --- | --- | --- | --- | ---: | --- | --- |
+| Q06 | Introductory lesson available · repeatable work system, edition 06 · 2026-09-20 | yes | **yes** (was no) | yes | yes | 6 | yes / yes | null |
+| B-D08 | same | yes | yes | yes | yes | 6 | yes / yes | null |
+| E11 | same | yes | yes | yes | yes | 6 | yes / yes | null |
+| V06 | same | yes | yes | yes | yes | 6 | yes / yes | null |
+| V07 | same | yes | **yes** (was no) | yes | yes | 6 | yes / yes | null |
+| I05 | same | yes | yes | yes | yes | 6 | yes / yes | null |
+| C03 (prior, ed. 02) | Introductory lesson available · controlled joint, edition 02 · 2026-09-20 | yes | no (correct: paper/code practice) | yes | yes | 6 | yes / yes | null |
+| m-boolean (pending) | No introductory lesson for this entry yet | no | no | no | — | 0 | — | null |
+| X10 (roadmap) | Roadmap note — not an assessed entry, and no lesson is planned for it | no | no | no | — | 0 | — | null |
+
+After all nine cards: 0 proficiency answers in the draft, 0 page errors. The export is still
+`687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11`.
+
+### Files for Task 4's first commit
+
+`authoring/robotics-v3/apply-lessons.mjs`, `authoring/robotics-v3/build-edition06-package.mjs`,
+`src/lesson.js`, `tests/robotics-v3-lessons.test.mjs`, `tests/robotics-v3-e2e.mjs`,
+`tests/robotics-v3-edition06-e2e.mjs`.
+
+## Outcome
+
+Task 2 passes. Steps 1–6 passed in every run. The e2e count expectation was updated (line 35), and
+the missing hardware-evidence line on Q06 and V07 was fixed, both with JC's approval. All tests and
+the in-app check now pass.

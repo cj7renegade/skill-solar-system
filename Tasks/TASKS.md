@@ -59,7 +59,7 @@ merged into main: 34 commits ahead, 0 behind. Branch `edition-06-integration` wa
 Local Storage 10). Every file was hash-verified with 0 mismatches. Export `687f0916…fc11`, proficiency
 `4cda601b…e6d0`. See `reports/01-backup.md`.
 
-## [BLOCKED] Task 2 — Verify the Edition 06 import
+## [x] Task 2 — Verify the Edition 06 import
 **Do:**
 - Run the package's own checks in a throwaway Python environment (PLATFORM.md §11.3 step 2).
 - Dry-run `node authoring/robotics-v3/apply-lessons.mjs` and record: `result`,
@@ -94,6 +94,11 @@ changed to 298/82. Build passed, `npm test` 199/6/0, `robotics-v3-e2e` 494 check
 V07 do not show the hardware-evidence line**. Their practice mode says "actual …", which
 `NEEDS_REAL_EVIDENCE` in `src/lesson.js` does not match. Everything else on all 9 cards was
 correct, and no proficiency was written. Needs JC's decision on `src/lesson.js`.
+**Third run — Done (JC approved adding `actual`):** `actual` was added to `NEEDS_REAL_EVIDENCE`.
+Cards showing the line went 122 → 124, and only Q06 and V07 changed. Two new unit tests name Q06
+and V07 explicitly, and both failed against the old pattern. Build passed, `npm test` 207 tests /
+201 pass / 6 skip / 0 fail, e2e 494 and 27 checks passed, and all 9 cards were correct in the app,
+Q06 and V07 now included. Export still `687f0916…fc11`.
 
 ## [ ] Task 3 — Bring the tracked records up to date
 **Do:**
