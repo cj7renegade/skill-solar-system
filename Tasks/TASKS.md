@@ -141,7 +141,7 @@ See `reports/08-archive.md`.
 - Independent recheck: Maps 158/158 and app data 51/51 files byte-identical.
 - PLATFORM.md §11.5 now has the "Back up your data" recipe.
 
-## [ ] Task 5 — Bring PLATFORM.md up to date
+## [x] Task 5 — Bring PLATFORM.md up to date
 **Do:** Fix every statement this session or the previous one made false, including at least:
 - §8.1 and §11.2 test totals (now 207 tests, 201 pass, 6 skip) and the
   `robotics-v3-lessons.test.mjs` count (now 18);
@@ -150,7 +150,20 @@ See `reports/08-archive.md`.
 - §2.6 and §10.2 mentions of the removed items;
 - §2.5, noting the superseded maps now live in `Archive/2026-09-26-superseded-maps/`.
 Change nothing else in PLATFORM.md.
-**Result:**
+**Result:** Done.
+- §8.1: 207 tests / 201 pass / 6 skip across 27 files, with `robotics-v3-lessons.test.mjs` at 18.
+  §11.2: 207.
+- "Could not determine" items 1, 4 and 6 removed as answered; the rest renumbered 1–5, wording
+  unchanged.
+- §2.6: the `.e2e-*` entry removed; `Tasks/TASKS.md` described as the tracked work queue.
+- §10.2: the two dead-item bullets replaced by one "Removed as dead" line.
+- §2.5: says the preview files are in `Archive/2026-09-26-superseded-maps/`, and the old copies
+  are in `Maps/Archived maps/` (JC's decision in Task 3), with the stale-answer warning.
+- Two further statements these sessions made false were also fixed:
+  - the header and §9.1 said Edition 06 "has not been merged into `main`"; it now cites PR #15 /
+    `1c96ba5`;
+  - the §2.6 `*.cmd` list now includes `Backup-User-Data.cmd`.
+- Checked and still correct: `lesson.js` is 141 lines, and there are 27 test files.
 
 ## [ ] Task 6 — Push and summarize
 **Do:**

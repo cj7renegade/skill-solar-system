@@ -6,8 +6,7 @@ Every claim about how the system is built cites the file it came from, and where
 settle a question, this document says so instead of guessing.
 
 **Written against commit `7c95db636812ed0109cc25e275ac15f458341f70`.** §9 was later updated to
-describe the verified and committed Edition 06 state on branch `edition-06-integration` (see
-[§9](#9-current-state)).
+describe the verified Edition 06 state, now merged into `main` (see [§9](#9-current-state)).
 
 Contents:
 [1 Purpose](#1-purpose) ·
@@ -214,9 +213,15 @@ packages/
 | `Robotics-v3/Robotics-v3-Lessons.json` | **generated — the live export** | `apply-lessons.mjs --write` | the app, the tests, `apply-lessons.mjs` itself |
 | `Robotics-v3/Content-Import-Ledger.csv` | generated | `apply-lessons.mjs --write` | a person, in a spreadsheet |
 | `Robotics-v3/Integration-Summary.json` | generated | `apply-lessons.mjs --write` | a person, or the next edition's author |
-| `Robotics-v3/Preview-Notes.md`, `Content-Completion-Ledger.csv` | generated, older | earlier runs | reference only |
 | `Skill-Solar-System.json` | **yours** | you, via Save map | the app |
-| `*-with-prerequisites.json` | yours | earlier merges | the app, optional tests |
+| `Archived maps/*-with-prerequisites.json`, `Archived maps/Skill-Solar-System-Math-Academy-Marked.json` | yours, **superseded — never open** | earlier merges | nothing |
+
+The older preview files `Preview-Notes.md` and `Content-Completion-Ledger.csv` now live in
+`Archive/2026-09-26-superseded-maps/`, whose `README.md` explains the move. The old map copies were
+moved into `Maps/Archived maps/`. 12 of those 14 copies hold stale proficiency answers, and opening
+one in the app could copy those answers into the shared record. The `authoring/apply-*.mjs` scripts
+still write a fresh sub-map at the top of `Maps/` when run. No test reads the old copies: the
+real-atlas tests pass without them.
 
 > The live export is rewritten in place by every `--write`. It is *not* a backup — see §11.5.
 
@@ -226,12 +231,11 @@ packages/
 - **`tests/`** — tracked. §8.
 - **`coverage-inventory/`** — tracked planning documents, described by its own `README.md`.
 - **`Archive/`** — older project versions and maps. Ignored. Nothing reads it.
-- **`.e2e-baseline/`, `.e2e-c1/`** — snapshot copies of the project (`desktop`, `dist`, `src`,
-  `tests`, `package.json`). *I could not determine what created these or whether anything still
-  uses them* — nothing in `package.json` or `tests/` refers to them.
-- **`Tasks/`** — a single untracked `TASKS.md`. Not referenced by any code. Left alone.
+- **`Tasks/TASKS.md`** — tracked. The work queue for Claude Code sessions: numbered tasks with
+  rules, STOP conditions and a filled-in **Result** line per task. Not referenced by any code.
 - **`*.cmd`** — Windows double-click helpers: `Setup-Windows.cmd` (install + build),
-  `Launch-Windows.cmd` (start), `Build-Portable-Windows.cmd` (package an `.exe`), `Rebuild-Windows.cmd`.
+  `Launch-Windows.cmd` (start), `Build-Portable-Windows.cmd` (package an `.exe`), `Rebuild-Windows.cmd`,
+  `Backup-User-Data.cmd` (back up your data, §11.5).
 - **`.gitattributes`** — forces Unix line endings everywhere except `.cmd`/`.bat`, which need Windows
   ones or `cmd.exe` misreads them.
 
@@ -802,11 +806,11 @@ Yes/No, the confirmed prerequisite-chain pass, edit mode, Undo/Redo, and importi
 > **Term: unit test.** A small check of one piece of logic in isolation, with no window and no
 > graphics. Fast — the whole suite runs in under a second.
 
-**205 tests across 27 files: 199 pass, 6 skipped, 0 fail.**
+**207 tests across 27 files: 201 pass, 6 skipped, 0 fail.**
 
 | File | Tests | Covers |
 | --- | ---: | --- |
-| `robotics-v3-lessons.test.mjs` | 16 | The edition importer, card sections, review migration, the real map |
+| `robotics-v3-lessons.test.mjs` | 18 | The edition importer, card sections, review migration, the real map |
 | `robotics-foundations.test.mjs` | 14 | The Robotics Foundations batch and its merge |
 | `material-behavior.test.mjs` | 13 | Material Behavior batch |
 | `mechanics-statics.test.mjs` | 13 | Mechanics Statics batch |
@@ -883,10 +887,11 @@ throwaway Python environment rather than installing into the system Python.
 
 ## 9. Current state
 
-### 9.1 As committed on branch `edition-06-integration`
+### 9.1 As merged into `main`
 
-Edition 06 was verified and committed on the `edition-06-integration` branch. The evidence is in
-`reports/02-edition06-verification.md`. The branch has not been merged into `main`.
+Edition 06 was verified and committed on the `edition-06-integration` branch, then merged into
+`main` by pull request #15 (merge commit `1c96ba5`). The evidence is in
+`reports/02-edition06-verification.md`.
 
 | | |
 | --- | --- |
@@ -954,9 +959,10 @@ Summarised; details in `authoring/robotics-v3/I05-Audit.md`.
 - **`src/knowledge.js` is nearly dead code.** It holds descriptions for the 18 starter subjects, and
   `profileFor` returns them only when a node's id *and* name both match a hard-coded entry. Against
   any real map, including the robotics one, it always returns nothing.
-- **`tests/console-smoke.mjs` cannot run.** It imports `playwright`, which is not in
-  `package.json`'s dependencies. Not referenced by any npm script — apparently legacy.
-- **`.e2e-baseline/` and `.e2e-c1/`** are whole copies of the project. Nothing refers to them.
+- **Removed as dead:** `tests/console-smoke.mjs`, which could not run because it imports
+  `playwright` (not a dependency), and the `.e2e-baseline/` and `.e2e-c1/` project snapshots, which
+  nothing referred to. Git history keeps all of them (`reports/05-housekeeping.md`,
+  `reports/08-archive.md`).
 - **The project lives inside a OneDrive folder.** The export is 2.7 MB and rewritten on every
   import. During this work a `npm test` run failed once with one test failing; **it did not
   reproduce in 26 further consecutive runs**, and I could not identify which test it was. A cloud
@@ -1001,7 +1007,7 @@ Or double-click `Setup-Windows.cmd` once, then `Launch-Windows.cmd`.
 
 ```sh
 npm run build          # e2e tests drive dist/, so build first
-npm test               # 205 unit tests, about one second
+npm test               # 207 unit tests, about one second
 npm run test:e2e       # end-to-end, several minutes
 
 # with local maps as well:
@@ -1107,23 +1113,17 @@ applier never writes them.
 
 ## Things I could not determine
 
-1. **What created `.e2e-baseline/` and `.e2e-c1/`, and whether anything still uses them.** They are
-   copies of `desktop`, `dist`, `src`, `tests` and `package.json`. Nothing in `package.json` or
-   `tests/` refers to them.
-2. **Which test failed in the single failing `npm test` run**, or why. It did not reproduce in 26
+1. **Which test failed in the single failing `npm test` run**, or why. It did not reproduce in 26
    consecutive runs. OneDrive syncing the 2.7 MB export mid-read is plausible but unconfirmed.
-3. **Whether the ID-prefix letters are documented anywhere.** §4.6 is inferred from the `subdomain`
+2. **Whether the ID-prefix letters are documented anywhere.** §4.6 is inferred from the `subdomain`
    value of every entry carrying each prefix — consistent across all 381, but I found no file
    stating the scheme.
-4. **Whether `tests/console-smoke.mjs` is meant to be revived or deleted.** It needs `playwright`,
-   which is not a dependency, and no script runs it.
-5. **Whether `src/knowledge.js` is intentionally retained.** It only ever matches the 18 starter
+3. **Whether `src/knowledge.js` is intentionally retained.** It only ever matches the 18 starter
    subjects and returns nothing for any real map.
-6. **What `Tasks/TASKS.md` is for.** Untracked and referenced by nothing; I did not open it.
-7. **Whether the packaged app uses a different user-data folder.** In development it is
+4. **Whether the packaged app uses a different user-data folder.** In development it is
    `%APPDATA%\skill-solar-system`, confirmed on disk. `electron-builder` sets `productName` to
    "Skill Solar System", which would normally give `%APPDATA%\Skill Solar System` — I could not
    verify this without building and running the packaged executable.
-8. **Whether the review-session migration has ever run against a real saved session.** Every check
+5. **Whether the review-session migration has ever run against a real saved session.** Every check
    used a planted session in an isolated profile, and no session store for the robotics family
    exists in your real profile.
