@@ -23,7 +23,7 @@ app.whenReady().then(() => {
   });
   const fromWindow = event => event.sender === win.webContents;
   ipcMain.handle('save-map', async (event, content, options = {}) => {
-    if (!fromWindow(event) || typeof content !== 'string' || Buffer.byteLength(content) > 10_000_000) throw Error('Invalid save request.');
+    if (!fromWindow(event) || typeof content !== 'string' || Buffer.byteLength(content) > 150_000_000) throw Error('Invalid save request.');
     const record = options?.kind === 'record';
     const defaultPath = typeof options?.defaultName === 'string' && /^[\w.-]{1,120}$/.test(options.defaultName) ? options.defaultName : 'Skill-Solar-System.json';
     const result = await dialog.showSaveDialog(win, { defaultPath, filters: [{ name: record ? 'Proficiency record' : 'Skill map', extensions: ['json'] }] });
