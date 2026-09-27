@@ -54,7 +54,7 @@ design from the proposal, and the build-out becomes a later queue.
 - `C:\sss-scratch\stress\` was created and is not in OneDrive.
 See `reports/capacity/00-baseline.md`.
 
-## [ ] Task 1 — Inventory every limit and scale-sensitive spot (read-only)
+## [x] Task 1 — Inventory every limit and scale-sensitive spot (read-only)
 **Do:** Read the code and list, with file and line, every place that caps size or will slow down
 as skills grow. At minimum check:
 - node, connection and text-length limits in `src/model.js`;
@@ -70,7 +70,17 @@ as skills grow. At minimum check:
 - e2e test timeouts that assume today's sizes.
 For each, note what it is, the current value, and the expected effect at 10,000 skills.
 Write `reports/capacity/01-limits-inventory.md`.
-**Result:**
+**Result:** Done. The report has seven groups (A–G) with file:line, current value and predicted
+effect.
+- Hard caps: 5,000 nodes / 20,000 edges (`model.js:60`); 10 MB open (`app.js:232`) and save
+  (`main.cjs:26`), about 3,300 skills at the master's density; 5 MB record, which fits 10,000
+  answers (measured 1.83 MB); levels 1–100 (throws past 99 chain steps, which depends on depth,
+  not count).
+- Scale costs: one mesh and material per sphere; one DOM nameplate per skill repositioned every
+  camera frame; a full scene and list rebuild on every click; 3+ whole-map copies per answer; a
+  50-deep full-copy Undo history; review progress O(N) per answer.
+- No test guards the caps. The e2e harness gives up at 20 s.
+See `reports/capacity/01-limits-inventory.md`.
 
 ## [ ] Task 2 — Build a synthetic map generator
 **Do:**
