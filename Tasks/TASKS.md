@@ -137,7 +137,7 @@ STOP conditions.
 - Private memory grows from about 0.5 GB to 0.9 GB over one run.
 See `reports/capacity/03-current-app.md`.
 
-## [ ] Task 4 — Measure past today's limits (throwaway experiment)
+## [x] Task 4 — Measure past today's limits (throwaway experiment)
 **Do:**
 - Create branch `experiment/raised-limits` from `capacity-stress-test`. On it, change **only the
   numeric caps** found in Task 1 (for example 50,000 skills, 150,000 connections, 150 MB file size),
@@ -147,7 +147,21 @@ See `reports/capacity/03-current-app.md`.
 - This branch is **never merged**. Push it so the measurements are reproducible, and label it in
   the report as an experiment. Switch back to `capacity-stress-test` and rebuild afterwards.
 - Write `reports/capacity/04-raised-limits.md` on `capacity-stress-test`.
-**Result:**
+**Result:** Done.
+- EXPERIMENT branch `experiment/raised-limits` (`e331f78`, pushed, never to merge) changed only the
+  caps: 50,000 skills, 150,000 connections, 150 MB open and save.
+- All 9 rejected maps then opened (27/27 runs), with no page errors, and every save worked up to
+  98.8 MB.
+- What breaks next, in order:
+  1. Frame rate while orbiting: 30 fps at 5k, 15 at 8k, 10 at 10k, 8.6 at 12k (worst 5% down to
+     5.4). Labels off doubles it.
+  2. The Undo history: each review answer copies the map. 10k skeleton is 1.05 s and +27.6 MB per
+     answer, plateauing at 1.55 GB after 50. **10k full crashed the page on answer 48** (3.94 GB).
+  3. The draft cache ceiling is 52.3 M characters, so full maps ≥ 8k are not cached, and the
+     warning is hidden on open.
+  4. Click-to-card 0.7–1.0 s and list filter 150–180 ms per keystroke at 10–12k.
+- Switched back to `capacity-stress-test` and rebuilt with the original caps.
+See `reports/capacity/04-raised-limits.md`.
 
 ## [ ] Task 5 — Write the re-architecture proposal (no implementation)
 **Do:** Write `reports/capacity/05-proposal.md` in plain language. For each bottleneck found in
