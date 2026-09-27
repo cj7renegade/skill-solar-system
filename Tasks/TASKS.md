@@ -112,7 +112,7 @@ this session.
   from the previous queue.
 See `reports/08-archive.md`.
 
-## [ ] Task 4 — One-click user-data backup
+## [x] Task 4 — One-click user-data backup
 **Goal:** JC's answers in `%APPDATA%\skill-solar-system\` are backed up nowhere except the copies in
 `backups/`. Make backing them up (and `Maps/`) a double-click.
 **Do:**
@@ -129,7 +129,17 @@ See `reports/08-archive.md`.
 - Add a short "Back up your data" recipe to PLATFORM.md §11.5 pointing at the new helper.
 - Commit the script and helper. They contain no personal data.
 **STOP if:** `%OneDrive%` is not set, or verification fails.
-**Result:**
+**Result:** Done.
+- Added `scripts/backup-user-data.ps1` (plain ASCII, runs on Windows PowerShell 5.1) and
+  `Backup-User-Data.cmd` (CRLF, same style as the other helpers).
+- Refusal tested: with the app open in an isolated test profile, the script printed "BACKUP NOT
+  MADE: the Skill Solar System app is open…", exited 1, and made no folder.
+- The real app was then found open (started 6:58 PM via `npm start`, not by this session). JC
+  closed it; the proficiency record was unchanged (`4cda601b…`).
+- Real run through the helper: 209 files, 90.9 MB, "Verification: PASSED", 1 backup kept, at
+  `C:\Users\hilli\OneDrive\Skill Solar System Backups\2026-09-27_142456` (95,365,083 bytes).
+- Independent recheck: Maps 158/158 and app data 51/51 files byte-identical.
+- PLATFORM.md §11.5 now has the "Back up your data" recipe.
 
 ## [ ] Task 5 — Bring PLATFORM.md up to date
 **Do:** Fix every statement this session or the previous one made false, including at least:

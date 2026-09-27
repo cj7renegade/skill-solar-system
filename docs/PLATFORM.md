@@ -1050,6 +1050,21 @@ Note `Maps/` is excluded from Git, so exports are never committed or pushed.
 
 ### 11.5 Back up and restore user data
 
+**Back up your data — the easy way.** Close the app, then double-click **`Backup-User-Data.cmd`**
+in the project folder. It runs `scripts/backup-user-data.ps1`, which:
+
+- refuses to run while the app is open;
+- copies `Maps\` and the whole `%APPDATA%\skill-solar-system\` folder into
+  `%OneDrive%\Skill Solar System Backups\<yyyy-MM-dd_HHmmss>\`, outside the project;
+- checks every copied file against its original by SHA-256 and prints the file count, the size, and
+  PASSED or FAILED;
+- keeps the 10 newest backups and removes older ones, only inside that backups folder.
+
+It never reads or changes your answers; it only copies the files. To restore, close the app and
+copy the folders back from the backup you want (see the table below).
+
+The manual equivalent:
+
 ```sh
 # Back up — the whole picture is three places
 cp -r "$APPDATA/skill-solar-system/proficiency"    ~/backup/proficiency
