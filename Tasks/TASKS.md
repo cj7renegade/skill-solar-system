@@ -111,7 +111,7 @@ See `reports/capacity/01-limits-inventory.md`.
   / 0 fail.
 See `reports/capacity/02-generator.md`.
 
-## [ ] Task 3 — Measure the app as it is today
+## [x] Task 3 — Measure the app as it is today
 **Do:** Using the e2e harness in an isolated profile, try to open each generated map. For each:
 - If it is rejected, record which limit rejected it and the exact message.
 - If it opens, measure (3 runs each, report the median): time to open and first frame; memory used
@@ -124,7 +124,18 @@ See `reports/capacity/02-generator.md`.
 Write `reports/capacity/03-current-app.md` with one table per size.
 **STOP if:** any run touches a real profile or real map. Performance failures are results, not
 STOP conditions.
-**Result:**
+**Result:** Done; no real profile or real map was touched.
+- Tool: `authoring/stress/measure-app.mjs`, which uses the isolated launcher and a fresh temporary
+  profile per run, and refuses repo, OneDrive or APPDATA paths.
+- Opens today: only the reference master copy (1,769) and the 2,000-skill skeleton. Everything
+  else is rejected instantly by "Could not open map: Map files must be smaller than 10 MB." That
+  check runs first, so the 5,000-skill and 20,000-connection caps are never reached. 10 MB holds
+  about 3,300 skeleton skills or about 1,200 with lessons.
+- What opens is fast. Medians of 3: open 0.30–0.36 s, orbit 60 fps (the display ceiling) with
+  labels on and off, click-to-card 148–172 ms, arrange 258–308 ms, save 150–161 ms, review start
+  191–201 ms, and the draft saves (5.5 M characters).
+- Private memory grows from about 0.5 GB to 0.9 GB over one run.
+See `reports/capacity/03-current-app.md`.
 
 ## [ ] Task 4 — Measure past today's limits (throwaway experiment)
 **Do:**
