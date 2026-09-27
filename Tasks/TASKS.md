@@ -165,14 +165,20 @@ Change nothing else in PLATFORM.md.
   - the §2.6 `*.cmd` list now includes `Backup-User-Data.cmd`.
 - Checked and still correct: `lesson.js` is 141 lines, and there are 27 test files.
 
-## [ ] Task 6 — Push and summarize
+## [x] Task 6 — Push and summarize
 **Do:**
 - Confirm nothing under `Maps/`, `packages/`, `backups/`, `Archive/` or any answer/session data is
   staged in any commit on this branch.
 - Push the branch: `git push -u origin housekeeping-2026-09`. Do not open a pull request.
 - End with the plain-language summary: tasks finished or stopped and why, branch and commit IDs,
   the backup destination, and every report file written.
-**Result:**
+**Result:** Done.
+- The branch's commits (`63d7e3e` … `2bf88e5`, plus this one) touch only `Backup-User-Data.cmd`,
+  `scripts/backup-user-data.ps1`, `docs/PLATFORM.md`, `Tasks/TASKS.md`, `reports/06`–`08`, and the
+  deletion of `tests/console-smoke.mjs`.
+- Nothing under `Maps/`, `packages/`, `backups/` or `Archive/`, and no answer or session data (0
+  matches).
+- Pushed with `git push -u origin housekeeping-2026-09`. No pull request was opened.
 
 ---
 
