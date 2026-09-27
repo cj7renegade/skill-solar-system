@@ -82,7 +82,7 @@ effect.
 - No test guards the caps. The e2e harness gives up at 20 s.
 See `reports/capacity/01-limits-inventory.md`.
 
-## [ ] Task 2 — Build a synthetic map generator
+## [x] Task 2 — Build a synthetic map generator
 **Do:**
 - Measure the real atlas's shape from `Maps/Skill-Solar-System.json` (read-only), without copying
   any of its content: connections per skill, the mix of prerequisite / supports / related links,
@@ -97,7 +97,19 @@ See `reports/capacity/01-limits-inventory.md`.
 - Add a small unit test for the generator (determinism, no loops, requested counts, family, null
   answers). Record each generated file's size and connection count.
 - Write `reports/capacity/02-generator.md`.
-**Result:**
+**Result:** Done.
+- The master's shape was measured read-only (hashes unchanged): 2.91 links per skill (74/4/22%
+  prerequisite/supports/related), depth max 23, 3,051 bytes per skill. V3 lessons average 5,640
+  bytes.
+- `authoring/stress/generate-stress-map.mjs` is deterministic (the regenerated 10k-full has the same
+  SHA-256), loop-free by construction and checked with `levels()`, uses the family
+  `stress-test-synthetic`, and leaves every answer null. At 1,769 skills it reproduces the master
+  closely (5,129 vs 5,142 links, same depth, levels, radius and bytes per skill).
+- Ten maps were written to `C:\sss-scratch\stress\`, from 6.1 MB (2k skeleton) to 98.8 MB (12k
+  full); 10k = 29,044 links. Only the 2k skeleton is under the 10 MB open cap.
+- New test `tests/stress-generator.test.mjs` (4 tests) passes; `npm test` is 211 / 205 pass / 6 skip
+  / 0 fail.
+See `reports/capacity/02-generator.md`.
 
 ## [ ] Task 3 — Measure the app as it is today
 **Do:** Using the e2e harness in an isolated profile, try to open each generated map. For each:
