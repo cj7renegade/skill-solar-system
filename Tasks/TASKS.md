@@ -194,7 +194,7 @@ End with a recommended build order, with the point at which JC's real maps would
   profile; step 7 (optional conversion) first rewrites real map files.
 See `reports/capacity/05-proposal.md`.
 
-## [ ] Task 6 — Push and summarize
+## [x] Task 6 — Push and summarize
 **Do:**
 - Confirm no generated map, nothing from `Maps/`, `packages/`, `backups/`, `Archive/` or any
   answer or session data is in any commit.
@@ -202,7 +202,13 @@ See `reports/capacity/05-proposal.md`.
 - End with the plain-language summary: tasks finished or stopped and why, the three biggest
   bottlenecks in order, your recommended design in two or three sentences, branch and commit IDs,
   and every report file written.
-**Result:**
+**Result:** Done.
+- `main..capacity-stress-test` touches only `authoring/stress/*.mjs` (3 new),
+  `tests/stress-generator.test.mjs` (new), `reports/capacity/00–05` (new) and `Tasks/TASKS.md`. The
+  experiment branch touches only the three cap lines.
+- 0 matches for `Maps/`, `packages/`, `backups/`, `Archive/`, generated maps, JSON data, or
+  answer/session data. The largest committed file is 30 KB.
+- Pushed `capacity-stress-test`. `experiment/raised-limits` was pushed in Task 4. No pull request.
 
 ---
 
