@@ -79,7 +79,7 @@ this session.
 - `npm run build` passed; `npm test` gave 207 tests / 201 pass / 6 skip / 0 fail, matching the last
   known state.
 
-## [ ] Task 3 — Archive the superseded maps (move, never open)
+## [x] Task 3 — Archive the superseded maps (move, never open)
 **Do:**
 - Create `Archive/2026-09-26-superseded-maps/` (it is already ignored by Git through `/Archive/`).
 - Move, without opening them in the app, exactly these files into it:
@@ -98,7 +98,19 @@ this session.
   `SSS_ATLAS=Maps/Skill-Solar-System.json npm test` to confirm the six real-atlas tests still pass
   without the batch sub-maps present. If any test needs a moved file, STOP and report which.
 - Write `reports/08-archive.md` listing every moved file with size and checksum.
-**Result:**
+**Result:** Done, with JC's decision.
+- JC had already moved the 13 extracts and Math-Academy-Marked by hand into `Maps/Archived maps/`.
+  All 14 hashes match the backup, and there are also two byte-identical `- Copy` duplicates.
+- That subfolder is one the queue says not to touch, so JC chose to leave all 16 there, and nothing
+  in it was changed.
+- `Archive/2026-09-26-superseded-maps/` was created. `Preview-Notes.md` and
+  `Content-Completion-Ledger.csv` were moved into it with their hashes unchanged, and a README
+  warns never to open the old copies and says where they are.
+- The other 158 `Maps/` files are byte-identical, including the master and the Robotics-v3 set.
+- `npm test` 207/201/6/0; with `SSS_ATLAS`, 207/207/0/0, so no test needs a moved file.
+- Nothing else changed in `Archive/`. The only other `Maps/` change is `Integration-Summary.json`,
+  from the previous queue.
+See `reports/08-archive.md`.
 
 ## [ ] Task 4 — One-click user-data backup
 **Goal:** JC's answers in `%APPDATA%\skill-solar-system\` are backed up nowhere except the copies in
