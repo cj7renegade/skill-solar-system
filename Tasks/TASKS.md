@@ -163,7 +163,7 @@ See `reports/capacity/03-current-app.md`.
 - Switched back to `capacity-stress-test` and rebuilt with the original caps.
 See `reports/capacity/04-raised-limits.md`.
 
-## [ ] Task 5 — Write the re-architecture proposal (no implementation)
+## [x] Task 5 — Write the re-architecture proposal (no implementation)
 **Do:** Write `reports/capacity/05-proposal.md` in plain language. For each bottleneck found in
 Tasks 1–4:
 - the measured evidence;
@@ -180,7 +180,19 @@ It must directly address:
    existing saved levels.
 5. **Tests:** which existing tests need new size assumptions.
 End with a recommended build order, with the point at which JC's real maps would first be touched.
-**Result:**
+**Result:** Done; nothing built.
+- One file vs many: **A** (one file, raised caps with guard tests), because one 98.8 MB file opened
+  and saved fine. **C** (lessons in a companion file) as the next step. **B** (a file per subject)
+  is not recommended now, because it fixes none of the measured problems.
+- Rendering: R1 (readable nameplates only) and R3 (no per-frame whole-map loops), then R2
+  (instanced spheres).
+- Storage: S1 (visible draft warning), then S2 (draft on disk).
+- Levels: keep 1–100 (depth is 23 in both real maps); saved levels are safe either way.
+- The crash: U1 (Undo within a memory budget), then U2 (answer fast path).
+- Tests: a list of the size assumptions to change.
+- Build order: steps 1–5 never touch real data; step 6 (draft to disk) first touches the real app
+  profile; step 7 (optional conversion) first rewrites real map files.
+See `reports/capacity/05-proposal.md`.
 
 ## [ ] Task 6 — Push and summarize
 **Do:**
