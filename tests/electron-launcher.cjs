@@ -6,6 +6,8 @@ const { app, dialog } = require('electron');
 const path = require('node:path');
 const dir = process.env.SSS_E2E_DIR;
 app.setPath('userData', path.join(dir, 'userdata'));
+// The "Your maps" dropdown lists this folder instead of the real Maps folder, unless a test sets it.
+process.env.SSS_MAPS_DIR ||= path.join(dir, 'maps');
 dialog.showSaveDialog = async () => ({ canceled: false, filePath: path.join(dir, 'saved.json') });
 dialog.showMessageBoxSync = () => 1;
 if (process.env.SSS_FAIL_PROFICIENCY_WRITES === '1') {

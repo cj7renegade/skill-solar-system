@@ -12,6 +12,7 @@ import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, step
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
 import { createRecordStore } from './proficiency-store.js';
+import { createTour } from './tour.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -228,9 +229,19 @@ $('arrange').onclick=()=>{if(confirm('Arrange unpinned nodes using strict prereq
 $('blank').onclick=()=>{if(editing&&confirm('Start an empty map? Save your current map first if you need a separate copy. Undo is available.')){replace({schemaVersion:1,title:'Skill Solar System',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
 $('reset').onclick=()=>{if(editing&&confirm('Restore the starter map? Undo is available.')){replace(starter,'Starter restored.');loadRecord(graph);}};
 $('load').onclick=()=>{if(!dirty||confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))$('file').click();};
-// Opening a map: validate it, then apply shared answers before anything (counts, review) reads it.
-$('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>10_000_000)throw Error('Map files must be smaller than 10 MB.');const parsed=validate(JSON.parse(await file.text()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${file.name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}e.target.value='';};
-$('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(window.desktop){if(!await window.desktop.saveMap(text)){message('Save canceled.');return;}}else{const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const a=el('a',{href:url,download:'Skill-Solar-System.json'});a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}dirty=false;render();message(window.desktop?'Map saved to file.':'Map download requested. Keep the downloaded JSON as your saved copy.');}catch(error){message(`Save failed: ${error.message}`);}};
+// Opening a map, from a file or from Your maps: validate it, then apply shared answers before anything (counts, review) reads it.
+async function openMap(name,size,readText){try{if(size>10_000_000)throw Error('Map files must be smaller than 10 MB.');const parsed=validate(JSON.parse(await readText()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}}
+$('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;await openMap(file.name,file.size,()=>file.text());e.target.value='';};
+// Your maps: the maps in the project's Maps folder (desktop only; archive and backup folders are never listed).
+const mapLabel=m=>{const title=m.title&&m.title.length>60?`${m.title.slice(0,59)}…`:m.title;return title?`${title} — ${m.path}`:m.path;};
+async function refreshMapPicker(){if(!window.desktop?.maps)return;try{const maps=await window.desktop.maps.list(),picker=$('map-picker');picker.replaceChildren(el('option',{value:'',text:maps.length?'Your maps…':'No maps in the Maps folder'}),...maps.map(m=>el('option',{value:m.path,text:mapLabel(m),title:m.path})));picker.hidden=false;}catch{}}
+$('map-picker').onchange=async e=>{const choice=e.target.value;e.target.value='';if(!choice)return;if(dirty&&!confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))return;try{const map=await window.desktop.maps.read(choice);await openMap(map.name,map.bytes,async()=>map.text);}catch(error){message(`Could not open map: ${error.message}`);}};
+refreshMapPicker();
+// The guided tour. Its button stays in the header; until the tour has been opened once, the button glows.
+const TOUR_SEEN='skill-solar-system-tour-seen-v1';
+createTour({button:$('tour-button'),onOpen:()=>{$('tour-button').classList.remove('unseen');try{localStorage.setItem(TOUR_SEEN,'1');}catch{}}});
+try{if(!localStorage.getItem(TOUR_SEEN))$('tour-button').classList.add('unseen');}catch{}
+$('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(window.desktop){if(!await window.desktop.saveMap(text)){message('Save canceled.');return;}}else{const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const a=el('a',{href:url,download:'Skill-Solar-System.json'});a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}dirty=false;render();message(window.desktop?'Map saved to file.':'Map download requested. Keep the downloaded JSON as your saved copy.');refreshMapPicker();}catch(error){message(`Save failed: ${error.message}`);}};
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 // Held navigation keys pan continuously, scaled by frame time; releasing, blurring, typing, or opening a dialog stops them.
 const heldKeys=new Map();let panFrame=null,panClock=0;
