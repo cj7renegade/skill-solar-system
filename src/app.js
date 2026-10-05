@@ -13,6 +13,7 @@ import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
 import { createRecordStore } from './proficiency-store.js';
 import { createTour } from './tour.js';
+import { undoLimit, trimHistory } from './history.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -33,7 +34,9 @@ catch(error){$('render-error').hidden=false;$('render-error').textContent='3D vi
 function el(tag,props={},...children){const node=document.createElement(tag);for(const [key,value]of Object.entries(props)){if(key==='text')node.textContent=value;else if(key.startsWith('on'))node.addEventListener(key.slice(2),value);else if(key==='class')node.className=value;else node[key]=value;}for(const child of children)if(child)node.append(child);return node;}
 function options(values,current){return values.map(value=>el('option',{value,text:value,selected:value===current}));}
 function field(title,input){return el('label',{class:'field'},document.createTextNode(title),input);}
-function cache(){try{localStorage.setItem(CACHE,JSON.stringify(graph));return true;}catch{message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
+// mapChars: the size of the map as saved text, which also sets how many Undo steps fit in memory (history.js).
+let mapChars=0;
+function cache(){try{const text=JSON.stringify(graph);mapChars=text.length;localStorage.setItem(CACHE,text);return true;}catch{message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
 const safeStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{return null;}},setItem:(key,value)=>localStorage.setItem(key,value)};
 
 // Shared offline proficiency: one record per atlas family, stored outside map files. An opened map
@@ -84,12 +87,12 @@ function setProficiency(next,values){for(const n of next.nodes)if(values.has(n.i
 
 function change(mutator,status){if(editing)commit(mutator,status);}
 function commit(mutator,status,source='edit',{share=true}={}){
-  try{const previous=graph,next=clone(graph);mutator(next);const normalized=normalize(next);history.push(clone(graph));if(history.length>50)history.shift();redo=[];graph=normalized;dirty=true;const cached=cache();const note=share?shareChanges(previous,normalized,source):'';render();message(`${status}${note}${cached?'':' Draft cache unavailable: save the map to a JSON file now.'}`);return {ok:true,cached};}
+  try{const previous=graph,next=clone(graph);mutator(next);const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;dirty=true;const cached=cache();const note=share?shareChanges(previous,normalized,source):'';render();message(`${status}${note}${cached?'':' Draft cache unavailable: save the map to a JSON file now.'}`);return {ok:true,cached};}
   catch(error){message(error.message);return {ok:false,cached:false};}
 }
 function replace(next,status){
   listActivation.reset();closeDetails();
-  const normalized=normalize(next);history.push(clone(graph));if(history.length>50)history.shift();redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);cache();render();viewer?.highlight(subjects);viewer?.fit();message(status);
+  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);cache();render();viewer?.highlight(subjects);viewer?.fit();message(status);
 }
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
@@ -214,7 +217,7 @@ async function travel(from,to,source){
   if(traveling||!editing||!from.length)return;
   traveling=true;
   try{
-    const previous=graph;to.push(clone(graph));let next=from.pop(),note='';
+    const previous=graph;to.push(clone(graph));trimHistory(to,undoLimit(mapChars));let next=from.pop(),note='';
     if(atlasFamily(previous)===atlasFamily(next)&&(previous.title||'')===(next.title||''))note=shareChanges(previous,next,source);
     else{const shared=await applyShared(next);next=normalize(shared.graph);note=shared.note;}
     graph=next;dirty=true;subjects=pruneSubjects(subjects,graph);cache();render();viewer?.highlight(subjects);
