@@ -81,7 +81,7 @@ Follow `coverage-inventory/CLAUDE-HANDOFF.md` steps 1–3.
   no exact counterpart**; 35 word-overlap suggestions are listed for review.
 See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
 
-## [ ] Task 2 — Write the scope statement
+## [x] Task 2 — Write the scope statement
 **Do:** Draft `docs/SCOPE.md` in plain language:
 - The goal in one paragraph: what a person who completes the atlas can do (design, build, program
   and verify working robots).
@@ -95,7 +95,15 @@ See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
   (for example: whether general mathematics not on any robotics path stays in the atlas, and to
   what depth).
 - How the scope will be kept: who changes it, and how a change is recorded.
-**Result:**
+**Result:** Done. `docs/SCOPE.md` (draft):
+- The goal: design, build, program, integrate and verify arms, wheeled robots and mobile
+  manipulators, from numeracy up.
+- A 4-tier inclusion test (core / extension / foundation by prerequisite links / context, open),
+  plus the roadmap's granularity rule.
+- The backbone: I01–I05 core and X01–X09 extensions, with three roadmap capabilities to check in
+  Task 4.
+- Proposed exclusions, and six open questions Q1–Q6 with recommendations.
+- How it is kept: JC-only changes through PRs, with a change log.
 
 ## [ ] Task 3 — Measure the master against the scope (read-only)
 **Do:**
