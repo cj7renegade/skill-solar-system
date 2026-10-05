@@ -223,6 +223,11 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   renderer.domElement.addEventListener('pointermove',e=>{if(!dragging)return;const point=new THREE.Vector3();if(getRay(e).ray.intersectPlane(dragging.plane,point)){point.add(dragging.offset);dragging.position=storedPosition(point.toArray(),spacing);graph.nodes.find(n=>n.id===dragging.id).position=dragging.position;rebuild();}});
   const end=e=>{if(dragging){const d=dragging;dragging=null;controls.enabled=true;onMove(d.id,d.position);down=null;activation.reset();return;}if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<5){const hit=getRay(e).intersectObjects(objects)[0];const id=hit?.object.userData.id||null;const action=activation.click(id,e.clientX,e.clientY,performance.now());onSelect(id);if(id)centerOnNode(id);else anchor=null;if(action==='open'&&!editable)onOpen(id);}else activation.reset();down=null;};
   renderer.domElement.addEventListener('pointerup',end);
+  // A right-click (press and release without dragging) clears the selection and keeps the view where
+  // it is. A right-drag still pans, and never deselects.
+  let rightDown=null;
+  renderer.domElement.addEventListener('pointerdown',e=>{rightDown=e.button===2?{x:e.clientX,y:e.clientY}:null;});
+  renderer.domElement.addEventListener('pointerup',e=>{if(e.button!==2||!rightDown)return;const still=Math.hypot(e.clientX-rightDown.x,e.clientY-rightDown.y)<5;rightDown=null;if(still&&selected&&!dragging){stopFlight(true);anchor=null;activation.reset();onSelect(null);}});
   renderer.domElement.addEventListener('pointercancel',()=>{activation.reset();if(dragging){const d=dragging;dragging=null;controls.enabled=true;onMove(d.id,d.position);}down=null;});
   function fit(front=false) {
     stopFlight(false);anchor=null;

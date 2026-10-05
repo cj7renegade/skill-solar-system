@@ -877,6 +877,7 @@ replaced by a fixed path. Your real answers are never touched.
 | `grid-e2e.mjs` | 5 | The floor grid at distance |
 | `prerequisites-e2e.mjs` | 47 (52 with a map) | The prerequisite-chain control |
 | `map-picker-e2e.mjs` | 8 | The Your maps dropdown, against a temporary Maps folder |
+| `deselect-e2e.mjs` | 7 | Right-click clears the selection without moving the view; right-drag still pans |
 | `tour-e2e.mjs` | 34 | The guided tour: every step, the highlight, Back, Escape, Close, and the map still turning while it is open |
 | `robotics-v3-e2e.mjs` | 494 with a map | Lesson cards, answers, symbols, units, sessions, save/reload |
 | `atlas-e2e.mjs`, `dc-`, `physics-`, `material-`, `statics-`, `robotics-atlas-e2e.mjs` | — | Each integrated batch against a real atlas |
@@ -1023,7 +1024,7 @@ window share one taskbar button. Windows does not let a program pin itself: righ
 choose **Show more options** if needed, then **Pin to taskbar**. If the project folder moves, run the
 helper again.
 
-**Inside the app**, the header's **Tour** button walks through camera movement, where things are,
+**Inside the app**, a right-click on the map clears the selected skill and keeps the view (a right-drag still pans; Escape deselects and fits the whole map). The header's **Tour** button walks through camera movement, where things are,
 and good use. **Your maps** opens any working map in `Maps\` in one click; archived and backup
 copies are never listed.
 

@@ -23,6 +23,6 @@ test('every place the tour points at exists on the page', () => {
 
 test('the tour covers camera movement, where things are, and good use', () => {
   const all = TOUR_STEPS.map(s => `${s.title} ${s.text.join(' ')}`).join(' ').toLowerCase();
-  for (const topic of ['drag', 'scroll', 'right mouse', 'arrow key', 'double-click', 'escape', 'find skill', 'fit map', 'console', 'mark proficiency', 'save map', 'backup-user-data', 'archived maps'])
+  for (const topic of ['drag', 'right-click', 'scroll', 'right mouse', 'arrow key', 'double-click', 'escape', 'find skill', 'fit map', 'console', 'mark proficiency', 'save map', 'backup-user-data', 'archived maps'])
     assert.ok(all.includes(topic), topic);
 });

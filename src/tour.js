@@ -19,7 +19,8 @@ export const TOUR_STEPS = [
     'Or hold an arrow key, or W, A, S, D. Holding a key keeps moving at a steady pace across the map.'] },
   { target: '#viewport', title: 'Pick a skill', place: 'center', text: [
     'Click a sphere to select it. The camera turns toward it and orbits around it from then on, and its connections light up.',
-    'Double-click a sphere to open its full card. Press Escape to clear the selection and see the whole map again.'] },
+    'Double-click a sphere to open its full card.',
+    'Right-click anywhere on the map to deselect and stay where you are. Press Escape to deselect and see the whole map again.'] },
   { target: '.view-tools', title: 'Map tools', text: [
     'Find skill: type part of a name, then choose a result. The camera travels to it.',
     'Fit map shows everything at once. Front view looks at the map straight on.',
