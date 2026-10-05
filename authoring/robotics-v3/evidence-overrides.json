@@ -1,0 +1,1855 @@
+{
+ "description": "Whether each authored Robotics V3 lesson (editions 01-06) needs physical or deployed-system evidence for its full demonstration. Read by authoring/robotics-v3/apply-lessons.mjs into each card summary; stored lessons are never edited (decision 14, reports/scope/05-decisions.md). Started from the practice_mode word pattern, so the cards show exactly what they showed before; the reviewCandidates list awaits JC card by card.",
+ "reviewStatus": "pattern-derived 2026-10-05; not yet reviewed card by card",
+ "counts": {
+  "entries": 298,
+  "requiresPhysicalEvidence": 124,
+  "reviewCandidates": 44
+ },
+ "entries": {
+  "A01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A06": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A07": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A08": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "A09": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "A10": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-C01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-C02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-C03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-C04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-C05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-D01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-D02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-D03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-D04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-D05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-D06": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-D07": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-D08": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "supervised-measurement",
+   "edition": "repeatable-work-system-06"
+  },
+  "B-E01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-E02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-E03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-E04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E06": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E07": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E08": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E09": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E10": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-E12": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-M02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-M03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-M04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "B-M05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "B-P01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-P02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-P03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-P04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-P05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-P06": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-P07": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "B-S01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "B-S02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-arrays": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-bitwise": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-build": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-byte-order": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-c-language": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-collections": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-conditions": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-dependencies": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-errors": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-event-loops": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-expressions": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-files": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-firmware": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "c-floats": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-framing": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-functions": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-git-commits": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-gpio": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "c-graph-code": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "c-hash-tables": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "c-integers": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-interrupts": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "c-io": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-kernel": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-logging": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-loops": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-memory": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-messaging": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-microcontrollers": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-modules": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-numeric-arrays": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-processes": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-queues": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "c-race-conditions": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-replay-testing": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-sensor-acquisition": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-shell-pipes": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-simulation": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-state-machines": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-strings": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-synchronization": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-terminal": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-testing": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "c-threads": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-time-sync": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "c-timers": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "c-timing-constraints": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "c-type-conversion": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-values-types": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-variables": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "c-watchdog": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "C01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "C02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "C03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "C04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "C05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "C10": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "D01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "D05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "D06": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D07": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D08": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D09": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D10": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "D11": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "e-capacitor": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "e-decoupling": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "e-kcl": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "e-kvl": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "e-logicvoltage": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "e-resistance": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "e-schematic": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "E04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "E08": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E09": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "E10": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "E11": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "supervised-measurement",
+   "edition": "repeatable-work-system-06"
+  },
+  "G01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "G02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "G03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "G04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "G05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "G06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "G07": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "G08": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "I01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "I02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "I03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "I04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "I05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "repeatable-work-system-06"
+  },
+  "K01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K08": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K09": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K10": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K11": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "K12": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-absolute": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-add": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-angle": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-area": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-basis": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-bayes": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "m-binary": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-chain": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-compose": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-conditional": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-coordinate": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-count": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-cross": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-decimal": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-derivative": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-determinant": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-diffrules": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-dot": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-eigen": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-equation": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-exp-laws": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-expfunction": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "m-expr": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-factorpoly": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-factors": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-formula": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-fracadd": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-fracmul": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-fraction": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-function": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-gauss": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-graph": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-inequality": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-jacobian": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-leastsquares": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-like": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-limit": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-linearize": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-logic": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-matrix": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-multifunction": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-multiply": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-newtonroot": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-norm": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-ode": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "m-order": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-orthogonal": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-partial": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-percent": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-polynomial": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-power": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-prob": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-proportion": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-pseudoinverse": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-pythagoras": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-quadratic": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-radian": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-rank": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-ratio": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-rational": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-rational-power": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "m-root": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-search": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "m-sequence": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-set": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-sign": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-similar": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-slope": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "m-span": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-svd": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-system": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-trig": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "m-unitcircle": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "m-vector": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "N01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N07": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N08": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "N10": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "p-accel": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-angular": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-convert": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-fbd": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-graphs": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-hooke": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-inertia": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-inertia-moment": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-model": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-newton": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-position": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-precision": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-rotdynamics": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-speed": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-temperature": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-torque": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "p-uncertainty": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "p-units": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "P01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "P02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "P03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "P04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "P05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "P06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "P08": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "P09": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "P10": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "Q01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "Q02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "Q03": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "Q04": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "Q05": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "Q06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "repeatable-work-system-06"
+  },
+  "R-E01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "R-E02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "R-K01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "R-M01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "R-M02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "shared-foundations-01"
+  },
+  "R-M03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "R-M04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "R-M05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "R-M06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "wheeled-robot-04"
+  },
+  "R-P01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "R-P02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "mobile-manipulation-05"
+  },
+  "S01": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "S02": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "S03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "S04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "S05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "S06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "S07": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "S08": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "S09": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "S10": {
+   "requiresPhysicalEvidence": false,
+   "evidenceKind": "none",
+   "edition": "controlled-joint-02"
+  },
+  "V01": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "V02": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "V03": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "V04": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "controlled-joint-02"
+  },
+  "V05": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "deployed-system",
+   "edition": "complete-arm-03"
+  },
+  "V06": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "repeatable-work-system-06"
+  },
+  "V07": {
+   "requiresPhysicalEvidence": true,
+   "evidenceKind": "physical",
+   "edition": "repeatable-work-system-06"
+  }
+ },
+ "reviewCandidates": [
+  {
+   "planningId": "B-D01",
+   "name": "Recognize links, joints and constrained motion",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": null,
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-D02",
+   "name": "Read a simple mechanical sketch",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": null,
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-D03",
+   "name": "Distinguish material stiffness, strength and component geometry",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-D04",
+   "name": "Estimate stress in a simple axial member",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-D05",
+   "name": "Apply a supplied beam stress and deflection model",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-D06",
+   "name": "Apply a stated design margin",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-D07",
+   "name": "Plan basic tool use and workholding",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E01",
+   "name": "Recognize a complete circuit and its source",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": null,
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E02",
+   "name": "Interpret current as charge flow rate",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": null,
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E03",
+   "name": "Interpret voltage between two points",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": null,
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E04",
+   "name": "Read component values, units and terminal ratings",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E05",
+   "name": "Calculate DC power and energy",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E06",
+   "name": "Model a battery with stated limits",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E07",
+   "name": "Use a diode as a directional circuit element",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E08",
+   "name": "Use a transistor as a controlled switch",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E09",
+   "name": "Interpret PWM duty and period",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E10",
+   "name": "Predict continuity of inductor current",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "B-E12",
+   "name": "Select a measurement setup for a low-voltage circuit",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "c-replay-testing",
+   "name": "Testing with simulation and recorded data",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "runnable code or trace",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "demonstration text mentions physical, hardware or supervised work"
+  },
+  {
+   "planningId": "c-sensor-acquisition",
+   "name": "Sensor data acquisition in software",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "runnable code or trace",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "demonstration text mentions physical, hardware or supervised work"
+  },
+  {
+   "planningId": "D01",
+   "name": "Make a constrained CAD part",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D02",
+   "name": "Create an assembly with defined motion",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D03",
+   "name": "Produce a manufacturing drawing",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D06",
+   "name": "Design an assembly tolerance stack",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D07",
+   "name": "Select and document fasteners",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D08",
+   "name": "Select bearings and shaft supports",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D09",
+   "name": "Evaluate member stress and deflection",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "D10",
+   "name": "Select robot materials and processes",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "drawing, calculation or supervised fabrication",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "e-kcl",
+   "name": "Kirchhoff current law",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "e-kvl",
+   "name": "Kirchhoff voltage law",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "e-logicvoltage",
+   "name": "Logic levels and noise margins",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "e-resistance",
+   "name": "Resistance and Ohm's law",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "e-schematic",
+   "name": "Reading schematics and connectivity",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "E01",
+   "name": "Interpret DC connectivity and references",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "E02",
+   "name": "Solve and measure a resistive interface",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "E04",
+   "name": "Design a low-voltage power budget",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "E05",
+   "name": "Specify wiring and protection",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "E08",
+   "name": "Explain inductive current paths",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "E09",
+   "name": "Interpret motor-driver states",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "p-graphs",
+   "name": "Interpreting physical graphs",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "calculation and explanation",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "demonstration text mentions physical, hardware or supervised work"
+  },
+  {
+   "planningId": "p-model",
+   "name": "Systems, assumptions, and models",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "calculation and explanation",
+   "practiceMode": null,
+   "reason": "demonstration text mentions physical, hardware or supervised work"
+  },
+  {
+   "planningId": "p-units",
+   "name": "Physical quantities and SI units",
+   "edition": "shared-foundations-01",
+   "assessmentMode": "calculation and explanation",
+   "practiceMode": null,
+   "reason": "demonstration text mentions physical, hardware or supervised work"
+  },
+  {
+   "planningId": "R-E01",
+   "name": "Connect a specified digital communication interface",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  },
+  {
+   "planningId": "R-E02",
+   "name": "Interpret encoder channels and count conventions",
+   "edition": "controlled-joint-02",
+   "assessmentMode": "circuit analysis or supervised measurement",
+   "practiceMode": "introductory paper/code/design exercise; complete the stated demonstration separately",
+   "reason": "assessment mode is supervised physical work"
+  }
+ ]
+}

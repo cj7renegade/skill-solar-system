@@ -24,7 +24,7 @@ The previous queue (scope foundation) is preserved in Git: merged in PR #19, its
 
 ---
 
-## [ ] Task 1 — Undo within a memory budget (capacity proposal U1)
+## [x] Task 1 — Undo within a memory budget (capacity proposal U1)
 **Do:** Replace the fixed 50-step Undo history with a budget. The number of kept steps is
 `clamp(floor(budget / map size), 5, 50)`, with a budget of about 500 MB of map text, so small maps
 keep 50 steps and very large maps keep fewer. Trim Redo the same way. Put the rule in a small pure
@@ -33,7 +33,15 @@ module with unit tests.
 review-answer test (`reports/capacity/04-raised-limits.md`) on a build with the caps raised
 (Task 4): 100 answers must survive, and memory must level off.
 **STOP if:** any existing test fails.
-**Result:**
+**Result:** Done.
+- New `src/history.js`: steps kept = clamp(floor(500,000,000 / map characters), 5, 50), used for
+  Undo and Redo in `src/app.js`. A small map keeps 50 steps; the 10,000-skill full map
+  (73,739,503 characters) keeps 6. New `tests/history.test.mjs` (3 tests).
+- Re-run of the capacity review-answer test on `stress-10000-full` (scratch, isolated profile):
+  **100 answers survived, no page errors.** Page memory after garbage collection stayed at
+  **687–689 MB from answer 10 to answer 100** (567 MB after opening). Before this change the same
+  map climbed about 72 MB per answer and the page crashed on answer 48. Time per answer: median
+  1.47 s (1.36–1.68 s), no longer rising.
 
 ## [x] Task 2 — Make the draft warning visible (proposal S1)
 **Do:** When the draft cannot be cached, the warning must stay visible after **Open map**, Undo and
@@ -74,7 +82,7 @@ generated 5k, 10k and 12k maps (with the raised caps) against `04-raised-limits.
   updated.
 - Unit tests 224 / 218 pass / 6 skip / 0 fail.
 
-## [ ] Task 5 — The `requires_physical_evidence` field (decision 14)
+## [x] Task 5 — The `requires_physical_evidence` field (decision 14)
 **Do:**
 - **Card:** when a lesson's card summary says whether real evidence is required, show the hardware
   line from that; otherwise fall back to today's word pattern.
@@ -90,7 +98,22 @@ generated 5k, 10k and 12k maps (with the raised caps) against `04-raised-limits.
   - Q06 and V07 stay `true`;
   - the importer copies the field.
 - Run `apply-lessons.mjs` as a **dry run only** and record that its gates pass.
-**Result:**
+**Result:** Done.
+- `src/lesson.js`: new `needsRealEvidence(node)`. A boolean `lessonCard.requiresPhysicalEvidence`
+  decides; without it, the old word pattern is used, so no card changes today.
+- Importer (`lessons.mjs`, `apply-lessons.mjs`): copies `requires_physical_evidence` and
+  `evidence_kind` from a lesson into its card summary, or takes them from the table for older
+  editions; the report counts each source and lists any lesson with neither. Stored lessons are
+  never edited.
+- New `authoring/robotics-v3/evidence-overrides.json`: 298 entries made from today's pattern result
+  (124 need real evidence, including Q06 and V07). It also lists 44 cards from editions 01–02 whose
+  demonstration looks physical but which show no hardware line, **for JC to review**; none changed.
+- 3 new tests in `tests/robotics-v3-lessons.test.mjs` (field beats pattern; the table covers all
+  298 and matches today's display, Q06 and V07 true; the importer copies the field).
+- Dry run: `result: passed`, idempotent, 0 existing payloads changed, evidence 298 from the table
+  and 0 missing. The three `Maps/Robotics-v3` files were fingerprinted before and after: unchanged.
+  (One fix during the task: the importer's second, idempotency pass was not given the table.)
+- Unit tests 227 / 221 pass / 6 skip / 0 fail.
 
 ## [ ] Task 6 — Measure, document, merge
 **Do:**

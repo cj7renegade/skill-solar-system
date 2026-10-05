@@ -5,8 +5,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { applyLessons, preservationDiff, reconcileLesson, contractHash, pythonJson, STATUS, LESSON_STATUS, DATASET_KEY } from '../authoring/robotics-v3/lessons.mjs';
-import { lessonSections, hasLesson, contentStatusLine, contentPendingLine, exerciseKind, demonstrationKind, NEEDS_REAL_EVIDENCE, EDITION_NAMES } from '../src/lesson.js';
+import { applyLessons, preservationDiff, reconcileLesson, contractHash, pythonJson, STATUS, LESSON_STATUS, DATASET_KEY, evidenceFor } from '../authoring/robotics-v3/lessons.mjs';
+import { lessonSections, hasLesson, contentStatusLine, contentPendingLine, exerciseKind, demonstrationKind, NEEDS_REAL_EVIDENCE, EDITION_NAMES, needsRealEvidence } from '../src/lesson.js';
 import { prerequisiteChain } from '../src/prerequisites.js';
 import { validate } from '../src/model.js';
 import { atlasFamily, emptyRecord, recordAnswers, reconcile } from '../src/proficiency.js';
@@ -362,4 +362,49 @@ test('the real map keeps a review session across this import', { skip: existsSyn
   assert.equal(resumed.session.position, session.position);
   assert.deepEqual(resumed.session.queue, session.queue, 'the queue is unchanged: no node moved, was added or was removed');
   assert.deepEqual(resumed.missing, []);
+});
+
+// --- The requires_physical_evidence field (decision 14) ------------------------------------------
+// An edition that states whether real evidence is needed decides; the wording is only a fallback.
+
+test('a stated evidence requirement decides the hardware line, whatever the practice_mode wording', () => {
+  const card = (practiceMode, extra = {}) => ({ lesson: {}, lessonCard: { practiceMode, ...extra } });
+  const LINE = /also needs physical or deployed-system evidence/;
+  assert.match(exerciseKind(card('a paper exercise', { requiresPhysicalEvidence: true })), LINE, 'stated true wins over paper wording');
+  assert.doesNotMatch(exerciseKind(card('physical hardware required', { requiresPhysicalEvidence: false })), LINE, 'stated false wins over physical wording');
+  assert.equal(needsRealEvidence(card('physical hardware required')), true, 'no statement: the wording decides, as before');
+  assert.equal(needsRealEvidence(card('a paper exercise')), false);
+});
+
+test('the importer copies the field into the card summary, falls back to the overrides table, and reports lessons with neither', () => {
+  const stated = lesson('A1', { requires_physical_evidence: true, evidence_kind: 'supervised-measurement' });
+  assert.deepEqual(evidenceFor(stated), { requiresPhysicalEvidence: true, evidenceKind: 'supervised-measurement', source: 'lesson' });
+  assert.deepEqual(evidenceFor(lesson('A1'), { A1: { requiresPhysicalEvidence: false, evidenceKind: 'none' } }), { requiresPhysicalEvidence: false, evidenceKind: 'none', source: 'overrides' });
+  assert.equal(evidenceFor(lesson('A1')), null);
+  const withField = applyLessons(standIn(), { spec, editions: [{ metadata: editions[0].metadata, lessons: [stated] }] });
+  const a1 = withField.graph.nodes[0];
+  assert.equal(a1.lessonCard.requiresPhysicalEvidence, true);
+  assert.equal(a1.lessonCard.evidenceKind, 'supervised-measurement');
+  assert.deepEqual(a1.lesson, stated, 'the stored lesson is kept verbatim');
+  assert.deepEqual(withField.report.evidence, { lesson: 1, overrides: 0, missing: [] });
+  const fromTable = applyLessons(standIn(), { spec, editions, evidenceOverrides: { A1: { requiresPhysicalEvidence: true, evidenceKind: 'physical' } } });
+  assert.equal(fromTable.graph.nodes[0].lessonCard.requiresPhysicalEvidence, true);
+  assert.deepEqual(fromTable.report.evidence, { lesson: 0, overrides: 1, missing: [] });
+  const neither = applyLessons(standIn(), { spec, editions });
+  assert.equal('requiresPhysicalEvidence' in neither.graph.nodes[0].lessonCard, false, 'no statement: no field, so the wording fallback applies');
+  assert.deepEqual(neither.report.evidence.missing, ['A1']);
+});
+
+const OVERRIDES = path.join(ROOT, 'authoring', 'robotics-v3', 'evidence-overrides.json');
+test('the overrides table covers every authored entry and changes no card', { skip: existsSync(REAL_MAP) ? false : 'Maps/Robotics-v3/Robotics-v3-Lessons.json is not present' }, () => {
+  const table = JSON.parse(readFileSync(OVERRIDES, 'utf8')), graph = JSON.parse(readFileSync(REAL_MAP, 'utf8'));
+  const authored = graph.nodes.filter(n => n.lesson);
+  assert.equal(Object.keys(table.entries).length, authored.length, 'one entry per authored lesson');
+  for (const node of authored) {
+    const entry = table.entries[node.planningId];
+    assert.ok(entry, `${node.planningId} missing from the table`);
+    const withTable = { ...node, lessonCard: { ...node.lessonCard, requiresPhysicalEvidence: entry.requiresPhysicalEvidence } };
+    assert.equal(exerciseKind(withTable), exerciseKind(node), `${node.planningId}: the table must show what the card shows today`);
+  }
+  for (const id of ['Q06', 'V07']) assert.equal(table.entries[id].requiresPhysicalEvidence, true, id);
 });
