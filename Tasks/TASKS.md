@@ -59,7 +59,7 @@ The previous queues are preserved in Git: housekeeping at `f14c8c3` (on `main`),
   on open, and two items about the new features not yet in the guide.
 See `reports/scope/00-starting-state.md`.
 
-## [ ] Task 1 — Reconcile the coverage inventory with today's maps (read-only)
+## [x] Task 1 — Reconcile the coverage inventory with today's maps (read-only)
 Follow `coverage-inventory/CLAUDE-HANDOFF.md` steps 1–3.
 **Do:**
 - Compare `coverage-inventory/baseline-node-index.json` (1,686 skills, Sept 14) with today's master:
@@ -71,7 +71,15 @@ Follow `coverage-inventory/CLAUDE-HANDOFF.md` steps 1–3.
   with no master equivalent. This is preparation for the later merge; merge nothing.
 - Write `reports/scope/01-reconciliation.md` and `scope/reconciliation.json` (ids, names, domains
   only: no answers, positions or lesson text).
-**Result:**
+**Result:** Done; both maps unchanged.
+- The inventory's baseline is the archived Math-Academy-Marked copy (1,686 / 4,882). Today's master
+  is 1,769 / 5,142: **+83 skills, 0 removed, renamed or moved**.
+- The 83 are exactly five batches, all fully present: DC 26, physics 19, statics 11, materials 10,
+  and robotics foundations 17. The last is wave 1, delivered after the inventory.
+- All 124 roadmap anchor ids exist.
+- V3 overlap: 204 of 381 share a master id (all foundations); **all 129 robotics-branch entries have
+  no exact counterpart**; 35 word-overlap suggestions are listed for review.
+See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
 
 ## [ ] Task 2 — Write the scope statement
 **Do:** Draft `docs/SCOPE.md` in plain language:

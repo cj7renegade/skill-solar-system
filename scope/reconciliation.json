@@ -1,0 +1,5638 @@
+{
+ "generated": "2026-10-05",
+ "method": "Read-only. Ids, names, domains, subdomains and edges only; no answers, positions or lesson text.",
+ "maps": {
+  "master": {
+   "file": "Maps/Skill-Solar-System.json",
+   "sha256": "8e170740169f857458109f50a46b1d7feabb98e4add850350261fce8c22dba51",
+   "skills": 1769,
+   "connections": 5142
+  },
+  "roboticsV3": {
+   "file": "Maps/Robotics-v3/Robotics-v3-Lessons.json",
+   "sha256": "687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11",
+   "entries": 381,
+   "connections": 894
+  }
+ },
+ "baseline": {
+  "file": "coverage-inventory/baseline-node-index.json",
+  "inventoryDate": "2026-09-14",
+  "skills": 1686,
+  "connections": 4882,
+  "baselineSha256": "8397d3f950c661778116a10c396a0ecd41acbced6af15364969c9c0e6e5ac2a4",
+  "note": "baselineSha256 equals the SHA-256 of Maps/Archived maps/Skill-Solar-System-Math-Academy-Marked.json (recorded in reports/08-archive.md); that file was not opened."
+ },
+ "changes": {
+  "added": 83,
+  "removed": 0,
+  "renamed": 0,
+  "movedDomainOrSubdomain": 0
+ },
+ "domainCounts": {
+  "baseline": {
+   "Mathematics": 1221,
+   "Physics": 181,
+   "Electronics": 79,
+   "Mechanics": 74,
+   "Robotics": 27,
+   "Computing": 104
+  },
+  "now": {
+   "Mathematics": 1221,
+   "Physics": 200,
+   "Electronics": 105,
+   "Mechanics": 95,
+   "Robotics": 44,
+   "Computing": 104
+  }
+ },
+ "subdomainCounts": {
+  "baseline": {
+   "Number foundations": 22,
+   "Algebra and functions": 29,
+   "Geometry and trigonometry": 16,
+   "Calculus": 26,
+   "Linear algebra": 26,
+   "Multivariable calculus": 16,
+   "Differential equations and transforms": 13,
+   "Probability and statistics": 24,
+   "Logic and discrete structures": 16,
+   "Measurement and modeling": 7,
+   "Translational mechanics": 29,
+   "Rotation and oscillation": 20,
+   "Advanced dynamic models": 5,
+   "Fluids and thermal physics": 12,
+   "Fields, waves, and light": 17,
+   "DC circuit foundations": 19,
+   "AC circuits and signals": 12,
+   "Semiconductors and analog circuits": 16,
+   "Digital logic and conversion": 8,
+   "Robotics electronics practice": 24,
+   "Materials structure and bonding": 12,
+   "Materials thermodynamics": 7,
+   "Materials mechanics": 25,
+   "Material families and processing": 30,
+   "Integrated robotics foundations": 27,
+   "Fractions": 41,
+   "Ratios & Percentages": 47,
+   "The Number System": 31,
+   "Exponents & Radicals": 32,
+   "Equations & Inequalities": 50,
+   "Two-Variable Equations": 29,
+   "Radical & Rational Expressions": 17,
+   "Functions": 37,
+   "Absolute Value": 11,
+   "Exponential Functions": 18,
+   "Polynomials": 48,
+   "Geometry Fundamentals": 27,
+   "Polygons": 21,
+   "Quadratics": 31,
+   "Number Systems": 12,
+   "Exponentials & Logarithms": 30,
+   "Radical & Rational Functions": 29,
+   "Sequences": 18,
+   "Geometry": 35,
+   "Trigonometry": 78,
+   "Vectors": 28,
+   "Limits & Continuity": 32,
+   "Introduction to Calculus": 30,
+   "Statistics": 14,
+   "Probability & Combinatorics": 21,
+   "Sequences and Series": 22,
+   "Inequalities": 20,
+   "Parametric & Polar Coordinates": 15,
+   "Conic Sections": 27,
+   "Complex Numbers": 16,
+   "Differentiation": 31,
+   "Definite Integrals": 20,
+   "Integration Techniques": 28,
+   "Contextual Applications of Calculus": 21,
+   "Differential Equations": 9,
+   "Linear Algebra": 37,
+   "Probability": 20,
+   "Measurement": 8,
+   "Kinematics": 11,
+   "Forces": 8,
+   "Energy and momentum": 10,
+   "Fluids": 6,
+   "Thermal": 10,
+   "Waves": 6,
+   "Electric fields": 6,
+   "Magnetism": 7,
+   "Optics": 8,
+   "Modern physics": 11,
+   "Programming foundations": 13,
+   "Development practice": 14,
+   "Data structures and algorithms": 13,
+   "Computer architecture": 11,
+   "Systems programming": 14,
+   "Networking": 8,
+   "Embedded and real-time": 11,
+   "Robotics software": 10,
+   "Machine learning foundations": 10
+  },
+  "now": {
+   "Number foundations": 22,
+   "Algebra and functions": 29,
+   "Geometry and trigonometry": 16,
+   "Calculus": 26,
+   "Linear algebra": 26,
+   "Multivariable calculus": 16,
+   "Differential equations and transforms": 13,
+   "Probability and statistics": 24,
+   "Logic and discrete structures": 16,
+   "Measurement and modeling": 7,
+   "Translational mechanics": 29,
+   "Rotation and oscillation": 20,
+   "Advanced dynamic models": 5,
+   "Fluids and thermal physics": 12,
+   "Fields, waves, and light": 17,
+   "DC circuit foundations": 19,
+   "AC circuits and signals": 12,
+   "Semiconductors and analog circuits": 16,
+   "Digital logic and conversion": 8,
+   "Robotics electronics practice": 24,
+   "Materials structure and bonding": 12,
+   "Materials thermodynamics": 7,
+   "Materials mechanics": 25,
+   "Material families and processing": 30,
+   "Integrated robotics foundations": 27,
+   "Fractions": 41,
+   "Ratios & Percentages": 47,
+   "The Number System": 31,
+   "Exponents & Radicals": 32,
+   "Equations & Inequalities": 50,
+   "Two-Variable Equations": 29,
+   "Radical & Rational Expressions": 17,
+   "Functions": 37,
+   "Absolute Value": 11,
+   "Exponential Functions": 18,
+   "Polynomials": 48,
+   "Geometry Fundamentals": 27,
+   "Polygons": 21,
+   "Quadratics": 31,
+   "Number Systems": 12,
+   "Exponentials & Logarithms": 30,
+   "Radical & Rational Functions": 29,
+   "Sequences": 18,
+   "Geometry": 35,
+   "Trigonometry": 78,
+   "Vectors": 28,
+   "Limits & Continuity": 32,
+   "Introduction to Calculus": 30,
+   "Statistics": 14,
+   "Probability & Combinatorics": 21,
+   "Sequences and Series": 22,
+   "Inequalities": 20,
+   "Parametric & Polar Coordinates": 15,
+   "Conic Sections": 27,
+   "Complex Numbers": 16,
+   "Differentiation": 31,
+   "Definite Integrals": 20,
+   "Integration Techniques": 28,
+   "Contextual Applications of Calculus": 21,
+   "Differential Equations": 9,
+   "Linear Algebra": 37,
+   "Probability": 20,
+   "Measurement": 8,
+   "Kinematics": 11,
+   "Forces": 8,
+   "Energy and momentum": 10,
+   "Fluids": 6,
+   "Thermal": 10,
+   "Waves": 6,
+   "Electric fields": 6,
+   "Magnetism": 7,
+   "Optics": 8,
+   "Modern physics": 11,
+   "Programming foundations": 13,
+   "Development practice": 14,
+   "Data structures and algorithms": 13,
+   "Computer architecture": 11,
+   "Systems programming": 14,
+   "Networking": 8,
+   "Embedded and real-time": 11,
+   "Robotics software": 10,
+   "Machine learning foundations": 10,
+   "DC interpretation": 4,
+   "DC resistance": 2,
+   "DC networks": 7,
+   "DC dividers": 3,
+   "DC power": 2,
+   "DC measurement": 5,
+   "DC diagnosis": 3,
+   "Motion interpretation": 3,
+   "Motion graphs": 2,
+   "Motion models": 3,
+   "Free-fall interpretation": 1,
+   "Force interpretation": 4,
+   "Force models": 2,
+   "Force equations": 4,
+   "Material behavior and tensile testing": 10,
+   "Planar statics and load transfer": 11,
+   "Frames and kinematics foundations": 17
+  }
+ },
+ "batches": [
+  {
+   "batchId": "sss-dc-batch-01",
+   "file": "authoring/dc-circuits/dc-circuits-batch-01.json",
+   "inInventory": true,
+   "nodes": 26,
+   "nodesPresent": 26,
+   "nodesMissing": [],
+   "edges": 84,
+   "edgesPresent": 84,
+   "inBaseline": 0
+  },
+  {
+   "batchId": "sss-physics-foundations-batch-01",
+   "file": "authoring/physics-foundations/physics-foundations-batch-01.json",
+   "inInventory": true,
+   "nodes": 19,
+   "nodesPresent": 19,
+   "nodesMissing": [],
+   "edges": 61,
+   "edgesPresent": 61,
+   "inBaseline": 0
+  },
+  {
+   "batchId": "sss-mechanics-statics-batch-01",
+   "file": "authoring/mechanics-statics/mechanics-statics-batch-01.json",
+   "inInventory": true,
+   "nodes": 11,
+   "nodesPresent": 11,
+   "nodesMissing": [],
+   "edges": 36,
+   "edgesPresent": 36,
+   "inBaseline": 0
+  },
+  {
+   "batchId": "sss-material-behavior-batch-01",
+   "file": "authoring/material-behavior/material-behavior-batch-01.json",
+   "inInventory": true,
+   "nodes": 10,
+   "nodesPresent": 10,
+   "nodesMissing": [],
+   "edges": 32,
+   "edgesPresent": 32,
+   "inBaseline": 0
+  },
+  {
+   "batchId": "robotics-foundations-batch-01",
+   "file": "authoring/robotics-foundations/robotics-foundations-batch-01.json",
+   "inInventory": false,
+   "nodes": 17,
+   "nodesPresent": 17,
+   "nodesMissing": [],
+   "edges": 47,
+   "edgesPresent": 47,
+   "inBaseline": 0
+  }
+ ],
+ "computingEdition": {
+  "skillsNow": 104,
+  "skillsInBaseline": 104
+ },
+ "anchors": {
+  "total": 124,
+  "missing": []
+ },
+ "v3Overlap": {
+  "entries": 381,
+  "byPlanningId": 204,
+  "byPlanningIdSameName": 203,
+  "byNameOnly": 0,
+  "noEquivalent": 177,
+  "byBranch": {
+   "Computing": {
+    "entries": 68,
+    "idMatch": 63,
+    "nameOnly": 0,
+    "noEquivalent": 5
+   },
+   "Systems practice": {
+    "entries": 2,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 2
+   },
+   "Mathematics": {
+    "entries": 101,
+    "idMatch": 90,
+    "nameOnly": 0,
+    "noEquivalent": 11
+   },
+   "Physics": {
+    "entries": 33,
+    "idMatch": 25,
+    "nameOnly": 0,
+    "noEquivalent": 8
+   },
+   "Electronics": {
+    "entries": 32,
+    "idMatch": 18,
+    "nameOnly": 0,
+    "noEquivalent": 14
+   },
+   "Requirements and systems practice": {
+    "entries": 6,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 6
+   },
+   "Mechanics": {
+    "entries": 16,
+    "idMatch": 8,
+    "nameOnly": 0,
+    "noEquivalent": 8
+   },
+   "Robot geometry and kinematics": {
+    "entries": 13,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 13
+   },
+   "Electrical power, interfaces and measurement": {
+    "entries": 12,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 12
+   },
+   "CAD, fabrication and mechanical design": {
+    "entries": 12,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 12
+   },
+   "Actuation and transmissions": {
+    "entries": 11,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 11
+   },
+   "Control and trajectories": {
+    "entries": 10,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 10
+   },
+   "Software and embedded implementation": {
+    "entries": 12,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 12
+   },
+   "Sensing, calibration and estimation": {
+    "entries": 11,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 11
+   },
+   "Manipulation and combined tasks": {
+    "entries": 8,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 8
+   },
+   "Verification, diagnosis and reliability": {
+    "entries": 7,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 7
+   },
+   "Wheeled mobility and navigation": {
+    "entries": 10,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 10
+   },
+   "Advanced pathways": {
+    "entries": 12,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 12
+   },
+   "Integration milestones": {
+    "entries": 5,
+    "idMatch": 0,
+    "nameOnly": 0,
+    "noEquivalent": 5
+   }
+  },
+  "suggestedCounterparts": {
+   "method": "Word overlap (Jaccard) between names, threshold 0.30. Suggestions for human review only; several are coincidences.",
+   "count": 35,
+   "strongAtLeast050": 7
+  }
+ },
+ "addedSkills": [
+  {
+   "id": "sss-dc-nodes",
+   "name": "Identify electrically common points on a DC schematic",
+   "domain": "Electronics",
+   "subdomain": "DC interpretation"
+  },
+  {
+   "id": "sss-dc-current-rate",
+   "name": "Calculate average current from charge transferred over time",
+   "domain": "Electronics",
+   "subdomain": "DC interpretation"
+  },
+  {
+   "id": "sss-dc-current-reference",
+   "name": "Interpret a signed current relative to a reference arrow",
+   "domain": "Electronics",
+   "subdomain": "DC interpretation"
+  },
+  {
+   "id": "sss-dc-voltage-difference",
+   "name": "Calculate signed voltage between two labeled nodes",
+   "domain": "Electronics",
+   "subdomain": "DC interpretation"
+  },
+  {
+   "id": "sss-dc-ohmic-model",
+   "name": "Decide whether a constant-resistance model fits a stated DC case",
+   "domain": "Electronics",
+   "subdomain": "DC resistance"
+  },
+  {
+   "id": "sss-dc-ohm-calculation",
+   "name": "Solve for voltage, current, or resistance in one ohmic element",
+   "domain": "Electronics",
+   "subdomain": "DC resistance"
+  },
+  {
+   "id": "sss-dc-series-topology",
+   "name": "Recognize resistors that form an unbranched series path",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-series-equivalent",
+   "name": "Calculate the equivalent resistance of a series group",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-parallel-topology",
+   "name": "Recognize resistors connected across the same two nodes",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-parallel-equivalent",
+   "name": "Calculate equivalent resistance using parallel conductances",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-series-operating",
+   "name": "Determine current and individual drops in a one-source series circuit",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-parallel-operating",
+   "name": "Determine branch and supply currents in a one-source parallel circuit",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-mixed-reduction",
+   "name": "Reduce a resistor network by successive series and parallel replacements",
+   "domain": "Electronics",
+   "subdomain": "DC networks"
+  },
+  {
+   "id": "sss-dc-divider-unloaded",
+   "name": "Calculate the output of an unloaded two-resistor divider",
+   "domain": "Electronics",
+   "subdomain": "DC dividers"
+  },
+  {
+   "id": "sss-dc-divider-ratio",
+   "name": "Choose a resistor ratio for a specified unloaded divider output",
+   "domain": "Electronics",
+   "subdomain": "DC dividers"
+  },
+  {
+   "id": "sss-dc-divider-loaded",
+   "name": "Calculate divider output with a specified resistive load",
+   "domain": "Electronics",
+   "subdomain": "DC dividers"
+  },
+  {
+   "id": "sss-dc-resistor-power",
+   "name": "Calculate steady DC power dissipated in a resistor",
+   "domain": "Electronics",
+   "subdomain": "DC power"
+  },
+  {
+   "id": "sss-dc-power-rating",
+   "name": "Compare resistor dissipation with a stated derated power limit",
+   "domain": "Electronics",
+   "subdomain": "DC power"
+  },
+  {
+   "id": "sss-dc-voltage-measurement",
+   "name": "Measure DC voltage between specified points in a low-energy circuit",
+   "domain": "Electronics",
+   "subdomain": "DC measurement"
+  },
+  {
+   "id": "sss-dc-current-measurement",
+   "name": "Measure branch DC current by inserting a meter in series",
+   "domain": "Electronics",
+   "subdomain": "DC measurement"
+  },
+  {
+   "id": "sss-dc-resistance-measurement",
+   "name": "Measure an isolated resistor in a de-energized circuit",
+   "domain": "Electronics",
+   "subdomain": "DC measurement"
+  },
+  {
+   "id": "sss-dc-voltmeter-loading",
+   "name": "Estimate divider measurement error from finite voltmeter input resistance",
+   "domain": "Electronics",
+   "subdomain": "DC measurement"
+  },
+  {
+   "id": "sss-dc-ammeter-burden",
+   "name": "Estimate the current change caused by a meter’s series resistance",
+   "domain": "Electronics",
+   "subdomain": "DC measurement"
+  },
+  {
+   "id": "sss-dc-open-fault",
+   "name": "Predict the effect of one open resistor in a simple DC network",
+   "domain": "Electronics",
+   "subdomain": "DC diagnosis"
+  },
+  {
+   "id": "sss-dc-short-fault",
+   "name": "Predict the effect of a bypass short in a simple DC network",
+   "domain": "Electronics",
+   "subdomain": "DC diagnosis"
+  },
+  {
+   "id": "sss-dc-test-point-choice",
+   "name": "Choose a voltage test point that distinguishes two stated DC fault hypotheses",
+   "domain": "Electronics",
+   "subdomain": "DC diagnosis"
+  },
+  {
+   "id": "sss-phys-coordinate-convention",
+   "name": "Choose and consistently apply a one-dimensional coordinate convention",
+   "domain": "Physics",
+   "subdomain": "Motion interpretation"
+  },
+  {
+   "id": "sss-phys-average-acceleration",
+   "name": "Calculate average acceleration from two signed velocity readings",
+   "domain": "Physics",
+   "subdomain": "Motion interpretation"
+  },
+  {
+   "id": "sss-phys-speed-change-signs",
+   "name": "Determine speeding up or slowing down from velocity and acceleration signs",
+   "domain": "Physics",
+   "subdomain": "Motion interpretation"
+  },
+  {
+   "id": "sss-phys-acceleration-graph-slope",
+   "name": "Read acceleration from a straight segment of a velocity-time graph",
+   "domain": "Physics",
+   "subdomain": "Motion graphs"
+  },
+  {
+   "id": "sss-phys-velocity-from-acceleration-area",
+   "name": "Recover velocity change from piecewise-constant acceleration areas",
+   "domain": "Physics",
+   "subdomain": "Motion graphs"
+  },
+  {
+   "id": "sss-phys-constant-model-check",
+   "name": "Check whether a constant-acceleration model is justified over an interval",
+   "domain": "Physics",
+   "subdomain": "Motion models"
+  },
+  {
+   "id": "sss-phys-constant-state-step",
+   "name": "Calculate final position and velocity over a known constant-acceleration interval",
+   "domain": "Physics",
+   "subdomain": "Motion models"
+  },
+  {
+   "id": "sss-phys-piecewise-handoff",
+   "name": "Carry position and velocity between successive motion intervals",
+   "domain": "Physics",
+   "subdomain": "Motion models"
+  },
+  {
+   "id": "sss-phys-freefall-apex",
+   "name": "Explain velocity and acceleration at the top of an ideal vertical throw",
+   "domain": "Physics",
+   "subdomain": "Free-fall interpretation"
+  },
+  {
+   "id": "sss-phys-mass-weight",
+   "name": "Distinguish mass from gravitational weight and calculate weight using a stated g",
+   "domain": "Physics",
+   "subdomain": "Force interpretation"
+  },
+  {
+   "id": "sss-phys-normal-direction",
+   "name": "Identify the direction of a normal contact force",
+   "domain": "Physics",
+   "subdomain": "Force interpretation"
+  },
+  {
+   "id": "sss-phys-tension-direction",
+   "name": "Identify the force direction exerted by a taut flexible cable",
+   "domain": "Physics",
+   "subdomain": "Force interpretation"
+  },
+  {
+   "id": "sss-phys-uniform-tension-model",
+   "name": "Check when equal tension may be assumed in an ideal cable model",
+   "domain": "Physics",
+   "subdomain": "Force models"
+  },
+  {
+   "id": "sss-phys-zero-net-motion",
+   "name": "Infer constant velocity from zero net force in an inertial frame",
+   "domain": "Physics",
+   "subdomain": "Force interpretation"
+  },
+  {
+   "id": "sss-phys-force-diagram-audit",
+   "name": "Audit a free-body diagram for missing and double-counted interactions",
+   "domain": "Physics",
+   "subdomain": "Force equations"
+  },
+  {
+   "id": "sss-phys-one-axis-force-equation",
+   "name": "Translate a supplied collinear force diagram into a signed Newton equation",
+   "domain": "Physics",
+   "subdomain": "Force equations"
+  },
+  {
+   "id": "sss-phys-normal-balance",
+   "name": "Determine a normal force from a supplied perpendicular force balance",
+   "domain": "Physics",
+   "subdomain": "Force equations"
+  },
+  {
+   "id": "sss-phys-contact-consistency",
+   "name": "Check whether a predicted normal reaction is compatible with nonadhesive contact",
+   "domain": "Physics",
+   "subdomain": "Force models"
+  },
+  {
+   "id": "sss-phys-internal-force-cancellation",
+   "name": "Identify which interaction forces cancel when two bodies form one system",
+   "domain": "Physics",
+   "subdomain": "Force equations"
+  },
+  {
+   "id": "sss-mat-engineering-stress",
+   "name": "Calculate engineering tensile stress using the original specimen area",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-engineering-strain",
+   "name": "Calculate engineering strain from a stated gauge length",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-modulus-slope",
+   "name": "Extract Young’s modulus from a specified linear stress-strain interval",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-axial-stiffness",
+   "name": "Compare axial part stiffness after changing length, area, or modulus",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-elastic-versus-linear",
+   "name": "Distinguish recoverable deformation from linear stress-strain response",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-proof-stress",
+   "name": "Determine 0.2 percent offset proof stress from a tensile curve",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-permanent-set",
+   "name": "Estimate residual strain using a stated linear elastic unloading model",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-engineering-uts",
+   "name": "Find ultimate tensile strength from peak load and original area",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-current-area-stress",
+   "name": "Compare nominal and current-area average stress using measured areas",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mat-property-selection",
+   "name": "Distinguish modulus, yield strength, and tensile strength in property data",
+   "domain": "Mechanics",
+   "subdomain": "Material behavior and tensile testing"
+  },
+  {
+   "id": "sss-mech-support-model",
+   "name": "Replace ideal planar supports with their allowed reaction components",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-couple-resultant",
+   "name": "Replace an equal-and-opposite force couple with its signed moment",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-force-relocation",
+   "name": "Move a force to another point using an equivalent force-and-couple system",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-pin-roller-reactions",
+   "name": "Solve reactions of a stable pin-and-roller beam under point loads",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-fixed-reactions",
+   "name": "Solve the force and moment reactions of a planar cantilever",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-balance-audit",
+   "name": "Audit a proposed planar reaction solution using force and moment residuals",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-support-stability",
+   "name": "Detect unrestrained planar rigid-body motion from support geometry",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-static-indeterminacy",
+   "name": "Recognize when support reactions require deformation compatibility",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-two-force-member",
+   "name": "Recognize the conditions for an ideal two-force member",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-joint-transfer",
+   "name": "Transfer a known joint force between separate member diagrams",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-mech-section-resultants",
+   "name": "Calculate internal normal force, shear, and bending moment at one beam cut",
+   "domain": "Mechanics",
+   "subdomain": "Planar statics and load transfer"
+  },
+  {
+   "id": "sss-rob-frame-labels",
+   "name": "Label the reference frame of a robot position or direction",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-rotation-columns",
+   "name": "Construct a rotation matrix from one frame’s axes expressed in another",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-rotation-check",
+   "name": "Check whether a supplied matrix represents a proper 3D rotation",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-point-direction",
+   "name": "Apply translation to a point but not to a free displacement vector",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-compose",
+   "name": "Compose a chain of labeled rigid transforms in the correct order",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-inverse",
+   "name": "Invert a rigid transform while rotating its translation correctly",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-serial-dof",
+   "name": "Count independent coordinates of an unconstrained serial joint chain",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-joint-conventions",
+   "name": "Specify joint order, zero references, signs, and units for a configuration",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-task-coordinates",
+   "name": "Distinguish joint configuration, task coordinates, and reachable workspace",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-planar-fk",
+   "name": "Calculate position and orientation of an ideal two-revolute-link planar arm",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-tool-offset",
+   "name": "Include a fixed tool offset after the final link transform",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-planar-reach",
+   "name": "Check the geometric position reach of an unrestricted planar two-link arm",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-planar-ik",
+   "name": "Calculate both regular inverse-kinematic branches of a planar two-link arm",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-ik-verification",
+   "name": "Verify an inverse-kinematic candidate by forward substitution and joint limits",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-position-jacobian",
+   "name": "Derive the Cartesian position Jacobian of a planar two-link arm",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-joint-to-tip-rate",
+   "name": "Calculate instantaneous planar tip velocity from joint rates",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  },
+  {
+   "id": "sss-rob-planar-singularity",
+   "name": "Identify lost instantaneous motion directions at a planar arm singularity",
+   "domain": "Robotics",
+   "subdomain": "Frames and kinematics foundations"
+  }
+ ],
+ "removedSkills": [],
+ "renamedSkills": [],
+ "movedSkills": [],
+ "v3Entries": [
+  {
+   "v3": "rob3:B-C01",
+   "planningId": "B-C01",
+   "name": "Navigate files and edit plain text",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-S01",
+   "planningId": "B-S01",
+   "name": "Describe an observable task and its limits",
+   "branch": "Systems practice",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-count",
+   "planningId": "m-count",
+   "name": "Counting and place value",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-count",
+    "name": "Counting and place value",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-C02",
+   "planningId": "B-C02",
+   "name": "Run and inspect a first program",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-C04",
+   "planningId": "B-C04",
+   "name": "Record a reproducible procedure",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-terminal",
+   "planningId": "c-terminal",
+   "name": "Terminal navigation and commands",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-terminal",
+    "name": "Terminal navigation and commands",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-S02",
+   "planningId": "B-S02",
+   "name": "Recognize hazards and seek appropriate controls",
+   "branch": "Systems practice",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-add",
+   "planningId": "m-add",
+   "name": "Addition and subtraction",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-add",
+    "name": "Addition and subtraction",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-set",
+   "planningId": "m-set",
+   "name": "Sets and event operations",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-set",
+    "name": "Sets and event operations",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-units",
+   "planningId": "p-units",
+   "name": "Physical quantities and SI units",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-units",
+    "name": "Physical quantities and SI units",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-C03",
+   "planningId": "B-C03",
+   "name": "Write a step-by-step algorithm",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-values-types",
+   "planningId": "c-values-types",
+   "name": "Values and data types",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-values-types",
+    "name": "Values and data types",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-git-commits",
+   "planningId": "c-git-commits",
+   "name": "Version control with Git commits",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-git-commits",
+    "name": "Version control with Git commits",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-shell-pipes",
+   "planningId": "c-shell-pipes",
+   "name": "Redirection, pipes, and exit codes",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-shell-pipes",
+    "name": "Redirection, pipes, and exit codes",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-angle",
+   "planningId": "m-angle",
+   "name": "Angles and geometric relationships",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-angle",
+    "name": "Angles and geometric relationships",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-multiply",
+   "planningId": "m-multiply",
+   "name": "Multiplication and division",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-multiply",
+    "name": "Multiplication and division",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-sign",
+   "planningId": "m-sign",
+   "name": "Signed numbers",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-sign",
+    "name": "Signed numbers",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-graph",
+   "planningId": "m-graph",
+   "name": "Graphs, paths, and connectivity",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-graph",
+    "name": "Graphs, paths, and connectivity",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-logic",
+   "planningId": "m-logic",
+   "name": "Propositions and truth tables",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-logic",
+    "name": "Propositions and truth tables",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E01",
+   "planningId": "B-E01",
+   "name": "Recognize a complete circuit and its source",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-model",
+   "planningId": "p-model",
+   "name": "Systems, assumptions, and models",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-model",
+    "name": "Systems, assumptions, and models",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-variables",
+   "planningId": "c-variables",
+   "name": "Variables and assignment",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-variables",
+    "name": "Variables and assignment",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-area",
+   "planningId": "m-area",
+   "name": "Perimeter and planar area",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-area",
+    "name": "Perimeter and planar area",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-factors",
+   "planningId": "m-factors",
+   "name": "Factors and multiples",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-factors",
+    "name": "Factors and multiples",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-fraction",
+   "planningId": "m-fraction",
+   "name": "Fractions and equivalence",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-fraction",
+    "name": "Fractions and equivalence",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-absolute",
+   "planningId": "m-absolute",
+   "name": "Absolute value and distance",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-absolute",
+    "name": "Absolute value and distance",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-coordinate",
+   "planningId": "m-coordinate",
+   "name": "Cartesian coordinates",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-coordinate",
+    "name": "Cartesian coordinates",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-order",
+   "planningId": "m-order",
+   "name": "Order of operations for basic arithmetic",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-order",
+    "name": "Order of operations",
+    "sameName": false,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-boolean",
+   "planningId": "m-boolean",
+   "name": "Boolean algebra",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-boolean",
+    "name": "Boolean algebra",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-C05",
+   "planningId": "B-C05",
+   "name": "Distinguish hardware, software and signals",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E03",
+   "planningId": "B-E03",
+   "name": "Interpret voltage between two points",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:Q01",
+   "planningId": "Q01",
+   "name": "Write measurable robot requirements",
+   "branch": "Requirements and systems practice",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-temperature",
+   "planningId": "p-temperature",
+   "name": "Temperature and thermal equilibrium",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-temperature",
+    "name": "Temperature and thermal equilibrium",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-decimal",
+   "planningId": "m-decimal",
+   "name": "Decimals and rounding",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-decimal",
+    "name": "Decimals and rounding",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-fracadd",
+   "planningId": "m-fracadd",
+   "name": "Adding unlike fractions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-fracadd",
+    "name": "Adding unlike fractions",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-fracmul",
+   "planningId": "m-fracmul",
+   "name": "Fraction products and quotients",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-fracmul",
+    "name": "Fraction products and quotients",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-prob",
+   "planningId": "m-prob",
+   "name": "Probability rules",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-prob",
+    "name": "Probability rules",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-position",
+   "planningId": "p-position",
+   "name": "Position and displacement",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-position",
+    "name": "Position and displacement",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-expressions",
+   "planningId": "c-expressions",
+   "name": "Expressions and operators",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-expressions",
+    "name": "Expressions and operators",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-expr",
+   "planningId": "m-expr",
+   "name": "Variables and expressions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-expr",
+    "name": "Variables and expressions",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:Q03",
+   "planningId": "Q03",
+   "name": "Identify hazards and protective functions",
+   "branch": "Requirements and systems practice",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:Q05",
+   "planningId": "Q05",
+   "name": "Plan traceable verification",
+   "branch": "Requirements and systems practice",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-M01",
+   "planningId": "B-M01",
+   "name": "Compare and order measured numbers",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P01",
+   "planningId": "B-P01",
+   "name": "Measure length, time and mass",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-percent",
+   "planningId": "m-percent",
+   "name": "Percentages",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-percent",
+    "name": "Percentages",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-precision",
+   "planningId": "p-precision",
+   "name": "Significant figures and resolution",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-precision",
+    "name": "Significant figures and resolution",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-power",
+   "planningId": "m-power",
+   "name": "Integer powers",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-power",
+    "name": "Integer powers",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-ratio",
+   "planningId": "m-ratio",
+   "name": "Ratios and unit rates",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-ratio",
+    "name": "Ratios and unit rates",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-conditions",
+   "planningId": "c-conditions",
+   "name": "Conditional branching",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-conditions",
+    "name": "Conditional branching",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-functions",
+   "planningId": "c-functions",
+   "name": "Functions, parameters, and return values",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-functions",
+    "name": "Functions, parameters, and return values",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-type-conversion",
+   "planningId": "c-type-conversion",
+   "name": "Type conversion and formatted output",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-type-conversion",
+    "name": "Type conversion and formatted output",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-function",
+   "planningId": "m-function",
+   "name": "Functions, domains, and ranges",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-function",
+    "name": "Functions, domains, and ranges",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-like",
+   "planningId": "m-like",
+   "name": "Collecting terms and distribution",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-like",
+    "name": "Collecting terms and distribution",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D01",
+   "planningId": "B-D01",
+   "name": "Recognize links, joints and constrained motion",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D02",
+   "planningId": "B-D02",
+   "name": "Read a simple mechanical sketch",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P02",
+   "planningId": "B-P02",
+   "name": "Distinguish a force from mass and motion",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-uncertainty",
+   "planningId": "p-uncertainty",
+   "name": "Measurement uncertainty",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-uncertainty",
+    "name": "Measurement uncertainty",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-M02",
+   "planningId": "B-M02",
+   "name": "Use powers of ten and scientific notation",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-binary",
+   "planningId": "m-binary",
+   "name": "Binary and hexadecimal representation",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-binary",
+    "name": "Binary and hexadecimal representation",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-exp-laws",
+   "planningId": "m-exp-laws",
+   "name": "Exponent rules",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-exp-laws",
+    "name": "Exponent rules",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-root",
+   "planningId": "m-root",
+   "name": "Roots and radicals",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-root",
+    "name": "Roots and radicals",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E02",
+   "planningId": "B-E02",
+   "name": "Interpret current as charge flow rate",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-M03",
+   "planningId": "B-M03",
+   "name": "Summarize a measured dataset",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:Q04",
+   "planningId": "Q04",
+   "name": "Allocate system budgets",
+   "branch": "Requirements and systems practice",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-conditional",
+   "planningId": "m-conditional",
+   "name": "Conditional probability and independence",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-conditional",
+    "name": "Conditional probability and independence",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-proportion",
+   "planningId": "m-proportion",
+   "name": "Direct and inverse proportion",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-proportion",
+    "name": "Direct and inverse proportion",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-radian",
+   "planningId": "m-radian",
+   "name": "Radians and arc length",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-radian",
+    "name": "Radians and arc length",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-slope",
+   "planningId": "m-slope",
+   "name": "Slope and intercept",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-slope",
+    "name": "Slope and intercept",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-convert",
+   "planningId": "p-convert",
+   "name": "Unit conversions",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-convert",
+    "name": "Unit conversions",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-speed",
+   "planningId": "p-speed",
+   "name": "Speed and average velocity",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-speed",
+    "name": "Speed and average velocity",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-strain",
+   "planningId": "s-strain",
+   "name": "Normal and shear strain",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-strain",
+    "name": "Normal and shear strain",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-loops",
+   "planningId": "c-loops",
+   "name": "Loops and iteration",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-loops",
+    "name": "Loops and iteration",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-errors",
+   "planningId": "c-errors",
+   "name": "Exceptions and error handling",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-errors",
+    "name": "Exceptions and error handling",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-modules",
+   "planningId": "c-modules",
+   "name": "Modules and imports",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-modules",
+    "name": "Modules and imports",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-strings",
+   "planningId": "c-strings",
+   "name": "Text strings and parsing",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-strings",
+    "name": "Text strings and parsing",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-M02",
+   "planningId": "R-M02",
+   "name": "Compute sampled rates and accumulated changes",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-compose",
+   "planningId": "m-compose",
+   "name": "Function composition",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-compose",
+    "name": "Function composition",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-random",
+   "planningId": "m-random",
+   "name": "Random variables and distributions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-random",
+    "name": "Random variables and distributions",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-sequence",
+   "planningId": "m-sequence",
+   "name": "Sequences and finite sums",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-sequence",
+    "name": "Sequences and finite sums",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-equation",
+   "planningId": "m-equation",
+   "name": "Linear equations in one unknown",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-equation",
+    "name": "Linear equations in one unknown",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-vector",
+   "planningId": "m-vector",
+   "name": "Vector components and arithmetic",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-vector",
+    "name": "Vector components and arithmetic",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D07",
+   "planningId": "B-D07",
+   "name": "Plan basic tool use and workholding",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D03",
+   "planningId": "B-D03",
+   "name": "Distinguish material stiffness, strength and component geometry",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P03",
+   "planningId": "B-P03",
+   "name": "Draw and balance simple planar forces",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P06",
+   "planningId": "B-P06",
+   "name": "Account for mechanical work and power in simple motion",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-bitwise",
+   "planningId": "c-bitwise",
+   "name": "Bitwise operations and masks",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-bitwise",
+    "name": "Bitwise operations and masks",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-floats",
+   "planningId": "c-floats",
+   "name": "Floating-point numbers and rounding error",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-floats",
+    "name": "Floating-point numbers and rounding error",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-integers",
+   "planningId": "c-integers",
+   "name": "Integer representation and overflow",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-integers",
+    "name": "Integer representation and overflow",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-packets",
+   "planningId": "c-packets",
+   "name": "Packets, headers, and protocol layers",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-packets",
+    "name": "Packets, headers, and protocol layers",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-polynomial",
+   "planningId": "m-polynomial",
+   "name": "Polynomial arithmetic",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-polynomial",
+    "name": "Polynomial arithmetic",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-pythagoras",
+   "planningId": "m-pythagoras",
+   "name": "Right-triangle distances",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-pythagoras",
+    "name": "Right-triangle distances",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-rational-power",
+   "planningId": "m-rational-power",
+   "name": "Fractional exponents",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-rational-power",
+    "name": "Fractional exponents",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E04",
+   "planningId": "B-E04",
+   "name": "Read component values, units and terminal ratings",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-schematic",
+   "planningId": "e-schematic",
+   "name": "Reading schematics and connectivity",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-schematic",
+    "name": "Reading schematics and connectivity",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-M04",
+   "planningId": "B-M04",
+   "name": "Calculate empirical variance and standard deviation",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-bayes",
+   "planningId": "m-bayes",
+   "name": "Bayesian updating",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-bayes",
+    "name": "Bayesian updating",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-similar",
+   "planningId": "m-similar",
+   "name": "Similarity and scale drawings",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-similar",
+    "name": "Similarity and scale drawings",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K01",
+   "planningId": "K01",
+   "name": "Label frames and joint conventions",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-graphs",
+   "planningId": "p-graphs",
+   "name": "Interpreting physical graphs",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-graphs",
+    "name": "Interpreting physical graphs",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:Q02",
+   "planningId": "Q02",
+   "name": "Define subsystem interfaces",
+   "branch": "Requirements and systems practice",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-accel",
+   "planningId": "p-accel",
+   "name": "Acceleration",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-accel",
+    "name": "Acceleration",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-wave",
+   "planningId": "p-wave",
+   "name": "Wave speed, frequency, and wavelength",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-wave",
+    "name": "Wave speed, frequency, and wavelength",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-c-language",
+   "planningId": "c-c-language",
+   "name": "C language essentials",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-c-language",
+    "name": "C language essentials",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-collections",
+   "planningId": "c-collections",
+   "name": "Lists, dictionaries, and sets",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-collections",
+    "name": "Lists, dictionaries, and sets",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-simulation",
+   "planningId": "c-simulation",
+   "name": "Robot simulation and simulated time",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-simulation",
+    "name": "Robot simulation and simulated time",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-state-machines",
+   "planningId": "c-state-machines",
+   "name": "Finite-state machines for robot behaviour",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-state-machines",
+    "name": "Finite-state machines for robot behaviour",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-event-loops",
+   "planningId": "c-event-loops",
+   "name": "Event loops and asynchronous I/O",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-event-loops",
+    "name": "Event loops and asynchronous I/O",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-testing",
+   "planningId": "c-testing",
+   "name": "Unit testing",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-testing",
+    "name": "Unit testing",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-dependencies",
+   "planningId": "c-dependencies",
+   "name": "Package dependencies and environments",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-dependencies",
+    "name": "Package dependencies and environments",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-files",
+   "planningId": "c-files",
+   "name": "Reading and writing files",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-files",
+    "name": "Reading and writing files",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-sampling",
+   "planningId": "m-sampling",
+   "name": "Sampling and bias",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-sampling",
+    "name": "Sampling and bias",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-search",
+   "planningId": "m-search",
+   "name": "Graph traversal and shortest paths",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-search",
+    "name": "Graph traversal and shortest paths",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P05",
+   "planningId": "B-P05",
+   "name": "Calculate a one-dimensional center of mass",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-formula",
+   "planningId": "m-formula",
+   "name": "Rearranging formulas",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-formula",
+    "name": "Rearranging formulas",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-inequality",
+   "planningId": "m-inequality",
+   "name": "Linear inequalities and intervals",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-inequality",
+    "name": "Linear inequalities and intervals",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-inverse",
+   "planningId": "m-inverse",
+   "name": "Inverse functions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-inverse",
+    "name": "Inverse functions",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-system",
+   "planningId": "m-system",
+   "name": "Two-variable linear systems",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-system",
+    "name": "Two-variable linear systems",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-matrix",
+   "planningId": "m-matrix",
+   "name": "Matrix arithmetic",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-matrix",
+    "name": "Matrix arithmetic",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-multifunction",
+   "planningId": "m-multifunction",
+   "name": "Functions of several variables",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-multifunction",
+    "name": "Functions of several variables",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-memory",
+   "planningId": "c-memory",
+   "name": "Memory, addresses, and alignment",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-memory",
+    "name": "Memory, addresses, and alignment",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-ip-addressing",
+   "planningId": "c-ip-addressing",
+   "name": "IP addresses, subnets, and ports",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-ip-addressing",
+    "name": "IP addresses, subnets, and ports",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-factorpoly",
+   "planningId": "m-factorpoly",
+   "name": "Factoring polynomials",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-factorpoly",
+    "name": "Factoring polynomials",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-norm",
+   "planningId": "m-norm",
+   "name": "Vector length and normalization",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-norm",
+    "name": "Vector length and normalization",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-trig",
+   "planningId": "m-trig",
+   "name": "Right-triangle trigonometry",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-trig",
+    "name": "Right-triangle trigonometry",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-expfunction",
+   "planningId": "m-expfunction",
+   "name": "Exponential models",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-expfunction",
+    "name": "Exponential models",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E12",
+   "planningId": "B-E12",
+   "name": "Select a measurement setup for a low-voltage circuit",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E01",
+   "planningId": "E01",
+   "name": "Interpret DC connectivity and references",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-kcl",
+   "planningId": "e-kcl",
+   "name": "Kirchhoff current law",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-kcl",
+    "name": "Kirchhoff current law",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-kvl",
+   "planningId": "e-kvl",
+   "name": "Kirchhoff voltage law",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-kvl",
+    "name": "Kirchhoff voltage law",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-M05",
+   "planningId": "B-M05",
+   "name": "Interpret an empirical noise distribution",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D01",
+   "planningId": "D01",
+   "name": "Make a constrained CAD part",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K04",
+   "planningId": "K04",
+   "name": "Distinguish configuration, workspace and constraints",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:Q06",
+   "planningId": "Q06",
+   "name": "Maintain configuration and interface changes",
+   "branch": "Requirements and systems practice",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-angular",
+   "planningId": "p-angular",
+   "name": "Angular position, speed, and acceleration",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-angular",
+    "name": "Angular position, speed, and acceleration",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-inertia",
+   "planningId": "p-inertia",
+   "name": "Mass, inertia, and net force",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-inertia",
+    "name": "Mass, inertia, and net force",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-sampling",
+   "planningId": "e-sampling",
+   "name": "Sampling and aliasing",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-sampling",
+    "name": "Sampling and aliasing",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-build",
+   "planningId": "c-build",
+   "name": "Compilation, linking, and build tools",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-build",
+    "name": "Compilation, linking, and build tools",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-arrays",
+   "planningId": "c-arrays",
+   "name": "Arrays and dynamic arrays",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-arrays",
+    "name": "Arrays and dynamic arrays",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-messaging",
+   "planningId": "c-messaging",
+   "name": "Publish-subscribe messaging and robot middleware",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-messaging",
+    "name": "Publish-subscribe messaging and robot middleware",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-logging",
+   "planningId": "c-logging",
+   "name": "Logging and recorded data",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-logging",
+    "name": "Logging and recorded data",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-datasets",
+   "planningId": "c-datasets",
+   "name": "Datasets, features, and labels",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-datasets",
+    "name": "Datasets, features, and labels",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D04",
+   "planningId": "B-D04",
+   "name": "Estimate stress in a simple axial member",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E05",
+   "planningId": "B-E05",
+   "name": "Calculate DC power and energy",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-M01",
+   "planningId": "R-M01",
+   "name": "Fit and check a scalar calibration line",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-capacitor",
+   "planningId": "e-capacitor",
+   "name": "Capacitance and stored energy",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-capacitor",
+    "name": "Capacitance and stored energy",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-resistance",
+   "planningId": "e-resistance",
+   "name": "Resistance and Ohm's law",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-resistance",
+    "name": "Resistance and Ohm's law",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-P01",
+   "planningId": "R-P01",
+   "name": "Apply a stated dry-friction contact model",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-logicvoltage",
+   "planningId": "e-logicvoltage",
+   "name": "Logic levels and noise margins",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-logicvoltage",
+    "name": "Logic levels and noise margins",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-determinant",
+   "planningId": "m-determinant",
+   "name": "Determinants",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-determinant",
+    "name": "Determinants",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-gauss",
+   "planningId": "m-gauss",
+   "name": "Gaussian elimination",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-gauss",
+    "name": "Gaussian elimination",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-byte-order",
+   "planningId": "c-byte-order",
+   "name": "Byte order and binary data layouts",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-byte-order",
+    "name": "Byte order and binary data layouts",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-io",
+   "planningId": "c-io",
+   "name": "Device input and output: polling, interrupts, and DMA",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-io",
+    "name": "Device input and output: polling, interrupts, and DMA",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-kernel",
+   "planningId": "c-kernel",
+   "name": "Operating system kernel and system calls",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-kernel",
+    "name": "Operating system kernel and system calls",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-quadratic",
+   "planningId": "m-quadratic",
+   "name": "Solving quadratic equations",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-quadratic",
+    "name": "Solving quadratic equations",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-rational",
+   "planningId": "m-rational",
+   "name": "Rational expressions and restrictions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-rational",
+    "name": "Rational expressions and restrictions",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P04",
+   "planningId": "B-P04",
+   "name": "Calculate a planar moment",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-cross",
+   "planningId": "m-cross",
+   "name": "Cross products",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-cross",
+    "name": "Cross products",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-dot",
+   "planningId": "m-dot",
+   "name": "Dot products and projection",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-dot",
+    "name": "Dot products and projection",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-invtrig",
+   "planningId": "m-invtrig",
+   "name": "Inverse trigonometry and quadrants",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-invtrig",
+    "name": "Inverse trigonometry and quadrants",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-unitcircle",
+   "planningId": "m-unitcircle",
+   "name": "Unit-circle trigonometry",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-unitcircle",
+    "name": "Unit-circle trigonometry",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E03",
+   "planningId": "E03",
+   "name": "Take and interpret low-voltage circuit measurements",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D02",
+   "planningId": "D02",
+   "name": "Create an assembly with defined motion",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D03",
+   "planningId": "D03",
+   "name": "Produce a manufacturing drawing",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A01",
+   "planningId": "A01",
+   "name": "Calculate transmission ratio and direction",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C05",
+   "planningId": "C05",
+   "name": "Generate bounded joint trajectories",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-fbd",
+   "planningId": "p-fbd",
+   "name": "Free-body diagrams",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-fbd",
+    "name": "Free-body diagrams",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-inertia-moment",
+   "planningId": "p-inertia-moment",
+   "name": "Mass moment of inertia",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-inertia-moment",
+    "name": "Mass moment of inertia",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S02",
+   "planningId": "S02",
+   "name": "Create a reproducible software build",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-hash-tables",
+   "planningId": "c-hash-tables",
+   "name": "Hash tables",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-hash-tables",
+    "name": "Hash tables",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-numeric-arrays",
+   "planningId": "c-numeric-arrays",
+   "name": "Numerical arrays and vectorized computation",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-numeric-arrays",
+    "name": "Numerical arrays and vectorized computation",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-queues",
+   "planningId": "c-queues",
+   "name": "Queues and ring buffers",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-queues",
+    "name": "Queues and ring buffers",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-replay-testing",
+   "planningId": "c-replay-testing",
+   "name": "Testing with simulation and recorded data",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-replay-testing",
+    "name": "Testing with simulation and recorded data",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-train-inference",
+   "planningId": "c-train-inference",
+   "name": "Training versus inference",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-train-inference",
+    "name": "Training versus inference",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D06",
+   "planningId": "B-D06",
+   "name": "Apply a stated design margin",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D08",
+   "planningId": "B-D08",
+   "name": "Estimate temperature rise with a lumped model",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E09",
+   "planningId": "B-E09",
+   "name": "Interpret PWM duty and period",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E10",
+   "planningId": "B-E10",
+   "name": "Predict continuity of inductor current",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-decoupling",
+   "planningId": "e-decoupling",
+   "name": "Supply decoupling and return paths",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-decoupling",
+    "name": "Supply decoupling and return paths",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E06",
+   "planningId": "B-E06",
+   "name": "Model a battery with stated limits",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E07",
+   "planningId": "B-E07",
+   "name": "Use a diode as a directional circuit element",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E08",
+   "planningId": "B-E08",
+   "name": "Use a transistor as a controlled switch",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E02",
+   "planningId": "E02",
+   "name": "Solve and measure a resistive interface",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-nodal",
+   "planningId": "e-nodal",
+   "name": "Nodal analysis",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-nodal",
+    "name": "Nodal analysis",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-rc",
+   "planningId": "e-rc",
+   "name": "RC transient response",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-rc",
+    "name": "RC transient response",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-adc",
+   "planningId": "e-adc",
+   "name": "Analog-to-digital conversion",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-adc",
+    "name": "Analog-to-digital conversion",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-gates",
+   "planningId": "e-gates",
+   "name": "Logic gates and combinational circuits",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-gates",
+    "name": "Logic gates and combinational circuits",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K02",
+   "planningId": "K02",
+   "name": "Construct and check rotation matrices",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-span",
+   "planningId": "m-span",
+   "name": "Span and linear independence",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-span",
+    "name": "Span and linear independence",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-framing",
+   "planningId": "c-framing",
+   "name": "Message framing and serialization",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-framing",
+    "name": "Message framing and serialization",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-microcontrollers",
+   "planningId": "c-microcontrollers",
+   "name": "Microcontroller architecture",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-microcontrollers",
+    "name": "Microcontroller architecture",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-sensor-acquisition",
+   "planningId": "c-sensor-acquisition",
+   "name": "Sensor data acquisition in software",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-sensor-acquisition",
+    "name": "Sensor data acquisition in software",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-processes",
+   "planningId": "c-processes",
+   "name": "Processes and program execution",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-processes",
+    "name": "Processes and program execution",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-complex",
+   "planningId": "m-complex",
+   "name": "Complex-number arithmetic",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-complex",
+    "name": "Complex-number arithmetic",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-limit",
+   "planningId": "m-limit",
+   "name": "Limits of functions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-limit",
+    "name": "Limits of functions",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A03",
+   "planningId": "A03",
+   "name": "Estimate planar gravity holding torque",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-D05",
+   "planningId": "B-D05",
+   "name": "Apply a supplied beam stress and deflection model",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-P07",
+   "planningId": "B-P07",
+   "name": "Relate shaft torque, speed and mechanical power",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-M04",
+   "planningId": "R-M04",
+   "name": "Interpret Gaussian state uncertainty and covariance",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-leastsquares",
+   "planningId": "m-leastsquares",
+   "name": "Linear least-squares fitting",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-leastsquares",
+    "name": "Linear least-squares fitting",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P01",
+   "planningId": "P01",
+   "name": "Calibrate a scalar sensor",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D08",
+   "planningId": "D08",
+   "name": "Select bearings and shaft supports",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D04",
+   "planningId": "D04",
+   "name": "Measure and inspect a part",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D05",
+   "planningId": "D05",
+   "name": "Plan and execute a fabrication process",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-newton",
+   "planningId": "p-newton",
+   "name": "Newton's second law in components",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-newton",
+    "name": "Newton's second law in components",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-load",
+   "planningId": "s-load",
+   "name": "Load paths and structural idealization",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-load",
+    "name": "Load paths and structural idealization",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A05",
+   "planningId": "A05",
+   "name": "Refer inertia through a gearbox",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S01",
+   "planningId": "S01",
+   "name": "Write a small numerical robotics program",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-graph-code",
+   "planningId": "c-graph-code",
+   "name": "Graphs in code: representation and traversal",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-graph-code",
+    "name": "Graphs in code: representation and traversal",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S10",
+   "planningId": "S10",
+   "name": "Create logs and replayable tests",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-classification",
+   "planningId": "c-classification",
+   "name": "Classification and decision thresholds",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-classification",
+    "name": "Classification and decision thresholds",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D07",
+   "planningId": "D07",
+   "name": "Select and document fasteners",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-E01",
+   "planningId": "R-E01",
+   "name": "Connect a specified digital communication interface",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-E02",
+   "planningId": "R-E02",
+   "name": "Interpret encoder channels and count conventions",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E08",
+   "planningId": "E08",
+   "name": "Explain inductive current paths",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E04",
+   "planningId": "E04",
+   "name": "Design a low-voltage power budget",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-opamp",
+   "planningId": "e-opamp",
+   "name": "Operational-amplifier models",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-opamp",
+    "name": "Operational-amplifier models",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:B-E11",
+   "planningId": "B-E11",
+   "name": "Evaluate a simple RC input filter",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-latch",
+   "planningId": "e-latch",
+   "name": "Latches and flip-flops",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-latch",
+    "name": "Latches and flip-flops",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K03",
+   "planningId": "K03",
+   "name": "Apply, compose and invert rigid transforms",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K12",
+   "planningId": "K12",
+   "name": "Compare orientation representations",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-basis",
+   "planningId": "m-basis",
+   "name": "Bases and dimension",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-basis",
+    "name": "Bases and dimension",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-rank",
+   "planningId": "m-rank",
+   "name": "Rank and null spaces",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-rank",
+    "name": "Rank and null spaces",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-firmware",
+   "planningId": "c-firmware",
+   "name": "Firmware structure, build, and flashing",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-firmware",
+    "name": "Firmware structure, build, and flashing",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-time-sync",
+   "planningId": "c-time-sync",
+   "name": "Timestamps and clock synchronization",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-time-sync",
+    "name": "Timestamps and clock synchronization",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-linux-admin",
+   "planningId": "c-linux-admin",
+   "name": "Remote Linux administration: SSH, permissions, and services",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-linux-admin",
+    "name": "Remote Linux administration: SSH, permissions, and services",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-threads",
+   "planningId": "c-threads",
+   "name": "Threads",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-threads",
+    "name": "Threads",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-defintegral",
+   "planningId": "m-defintegral",
+   "name": "Definite integrals and accumulation",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-defintegral",
+    "name": "Definite integrals and accumulation",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-derivative",
+   "planningId": "m-derivative",
+   "name": "Derivative as local rate",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-derivative",
+    "name": "Derivative as local rate",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G01",
+   "planningId": "G01",
+   "name": "Estimate grasp and contact requirements",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D09",
+   "planningId": "D09",
+   "name": "Evaluate member stress and deflection",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A02",
+   "planningId": "A02",
+   "name": "Calculate transmitted torque and losses",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-regression",
+   "planningId": "m-regression",
+   "name": "Regression and residual analysis",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-regression",
+    "name": "Regression and residual analysis",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P03",
+   "planningId": "P03",
+   "name": "Model noise and covariance",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D06",
+   "planningId": "D06",
+   "name": "Design an assembly tolerance stack",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-hooke",
+   "planningId": "p-hooke",
+   "name": "Ideal springs and restoring forces",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-hooke",
+    "name": "Ideal springs and restoring forces",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-torque",
+   "planningId": "p-torque",
+   "name": "Torque and lever arms",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-torque",
+    "name": "Torque and lever arms",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-work",
+   "planningId": "p-work",
+   "name": "Work by a constant force",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-work",
+    "name": "Work by a constant force",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-stress",
+   "planningId": "s-stress",
+   "name": "Normal and shear stress",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-stress",
+    "name": "Normal and shear stress",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S06",
+   "planningId": "S06",
+   "name": "Define robot messages and coordinate conventions",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S07",
+   "planningId": "S07",
+   "name": "Implement a robot behavior state machine",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S11",
+   "planningId": "S11",
+   "name": "Validate a simulation model",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V03",
+   "planningId": "V03",
+   "name": "Evaluate accuracy and repeatability",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A08",
+   "planningId": "A08",
+   "name": "Convert encoder counts to joint motion",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E09",
+   "planningId": "E09",
+   "name": "Interpret motor-driver states",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E05",
+   "planningId": "E05",
+   "name": "Specify wiring and protection",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E11",
+   "planningId": "E11",
+   "name": "Evaluate thermal operation",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E07",
+   "planningId": "E07",
+   "name": "Condition a sensor signal",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-timing",
+   "planningId": "e-timing",
+   "name": "Digital timing and metastability",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-timing",
+    "name": "Digital timing and metastability",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K05",
+   "planningId": "K05",
+   "name": "Solve planar two-link forward kinematics",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K08",
+   "planningId": "K08",
+   "name": "Implement general serial-arm forward kinematics",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P06",
+   "planningId": "P06",
+   "name": "Process depth and range observations",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-P02",
+   "planningId": "R-P02",
+   "name": "Project a point with a calibrated pinhole model",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-K01",
+   "planningId": "R-K01",
+   "name": "Measure orientation error for numerical pose solving",
+   "branch": "Robot geometry and kinematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-orthogonal",
+   "planningId": "m-orthogonal",
+   "name": "Orthogonality and orthonormal bases",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-orthogonal",
+    "name": "Orthogonality and orthonormal bases",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-eigen",
+   "planningId": "m-eigen",
+   "name": "Eigenvalues and eigenvectors",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-eigen",
+    "name": "Eigenvalues and eigenvectors",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-gpio",
+   "planningId": "c-gpio",
+   "name": "GPIO configuration and digital I/O",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-gpio",
+    "name": "GPIO configuration and digital I/O",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-interrupts",
+   "planningId": "c-interrupts",
+   "name": "Interrupts and interrupt service routines",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-interrupts",
+    "name": "Interrupts and interrupt service routines",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-timers",
+   "planningId": "c-timers",
+   "name": "Hardware timers and PWM generation",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-timers",
+    "name": "Hardware timers and PWM generation",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-watchdog",
+   "planningId": "c-watchdog",
+   "name": "Watchdog timers and fail-safe states",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-watchdog",
+    "name": "Watchdog timers and fail-safe states",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S12",
+   "planningId": "S12",
+   "name": "Restrict and recover remote robot access",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-race-conditions",
+   "planningId": "c-race-conditions",
+   "name": "Race conditions and shared data",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-race-conditions",
+    "name": "Race conditions and shared data",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-numericalint",
+   "planningId": "m-numericalint",
+   "name": "Numerical quadrature",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-numericalint",
+    "name": "Numerical quadrature",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-section",
+   "planningId": "s-section",
+   "name": "Area moments of inertia",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-section",
+    "name": "Area moments of inertia",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-diffrules",
+   "planningId": "m-diffrules",
+   "name": "Power, product, and quotient differentiation",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-diffrules",
+    "name": "Power, product, and quotient differentiation",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-linearize",
+   "planningId": "m-linearize",
+   "name": "Local linear approximation",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-linearize",
+    "name": "Local linear approximation",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-ode",
+   "planningId": "m-ode",
+   "name": "Differential equations and initial values",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-ode",
+    "name": "Differential equations and initial values",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D10",
+   "planningId": "D10",
+   "name": "Select robot materials and processes",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N10",
+   "planningId": "N10",
+   "name": "Check mobile stability and traction",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-ml-regression",
+   "planningId": "c-ml-regression",
+   "name": "Regression models and loss functions",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-ml-regression",
+    "name": "Regression models and loss functions",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-calibration",
+   "planningId": "e-calibration",
+   "name": "Sensor calibration curves",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-calibration",
+    "name": "Sensor calibration curves",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K09",
+   "planningId": "K09",
+   "name": "Represent spatial motion and force",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-equilibrium",
+   "planningId": "p-equilibrium",
+   "name": "Force and torque equilibrium",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-equilibrium",
+    "name": "Force and torque equilibrium",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-rotdynamics",
+   "planningId": "p-rotdynamics",
+   "name": "Rotational dynamics about a fixed axis",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-rotdynamics",
+    "name": "Rotational dynamics about a fixed axis",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-kinetic",
+   "planningId": "p-kinetic",
+   "name": "Kinetic energy and work-energy balance",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-kinetic",
+    "name": "Kinetic energy and work-energy balance",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-potential",
+   "planningId": "p-potential",
+   "name": "Gravitational and spring potential energy",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-potential",
+    "name": "Gravitational and spring potential energy",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-elastic",
+   "planningId": "s-elastic",
+   "name": "Elastic modulus and linear elasticity",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-elastic",
+    "name": "Elastic modulus and linear elasticity",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N01",
+   "planningId": "N01",
+   "name": "Model differential-drive motion",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E06",
+   "planningId": "E06",
+   "name": "Build and inspect a wiring harness",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-bus",
+   "planningId": "e-bus",
+   "name": "Local serial interfaces",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-bus",
+    "name": "Local serial interfaces",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K06",
+   "planningId": "K06",
+   "name": "Solve and verify planar inverse kinematics",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G03",
+   "planningId": "G03",
+   "name": "Represent collision geometry and clearance",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N04",
+   "planningId": "N04",
+   "name": "Represent maps and robot footprint",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-svd",
+   "planningId": "m-svd",
+   "name": "Singular value decomposition",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-svd",
+    "name": "Singular value decomposition",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S03",
+   "planningId": "S03",
+   "name": "Program basic MCU input and output",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-timing-constraints",
+   "planningId": "c-timing-constraints",
+   "name": "Deadlines, jitter, and execution-time budgets",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-timing-constraints",
+    "name": "Deadlines, jitter, and execution-time budgets",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-synchronization",
+   "planningId": "c-synchronization",
+   "name": "Locks, semaphores, and condition variables",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-synchronization",
+    "name": "Locks, semaphores, and condition variables",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-antiderivative",
+   "planningId": "m-antiderivative",
+   "name": "Antiderivatives",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-antiderivative",
+    "name": "Antiderivatives",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-chain",
+   "planningId": "m-chain",
+   "name": "Chain rule",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-chain",
+    "name": "Chain rule",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-partial",
+   "planningId": "m-partial",
+   "name": "Partial derivatives",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-partial",
+    "name": "Partial derivatives",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-newtonroot",
+   "planningId": "m-newtonroot",
+   "name": "Newton's method for roots",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-newtonroot",
+    "name": "Newton's method for roots",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-M06",
+   "planningId": "R-M06",
+   "name": "Represent and discretize a linear dynamical model",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D11",
+   "planningId": "D11",
+   "name": "Assemble and inspect a joint module",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-evaluation",
+   "planningId": "c-evaluation",
+   "name": "Evaluating models with metrics and held-out data",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-evaluation",
+    "name": "Evaluating models with metrics and held-out data",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:e-imu",
+   "planningId": "e-imu",
+   "name": "Inertial measurement units",
+   "branch": "Electronics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "e-imu",
+    "name": "Inertial measurement units",
+    "sameName": true,
+    "domain": "Electronics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-beamforces",
+   "planningId": "s-beamforces",
+   "name": "Beam shear and bending moments",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-beamforces",
+    "name": "Beam shear and bending moments",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A04",
+   "planningId": "A04",
+   "name": "Estimate single-axis acceleration torque",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-energy",
+   "planningId": "p-energy",
+   "name": "Mechanical energy accounting",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-energy",
+    "name": "Mechanical energy accounting",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E10",
+   "planningId": "E10",
+   "name": "Diagnose supply and interference faults",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-serial-drivers",
+   "planningId": "c-serial-drivers",
+   "name": "UART, SPI, and I²C in firmware",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-serial-drivers",
+    "name": "UART, SPI, and I²C in firmware",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N06",
+   "planningId": "N06",
+   "name": "Plan a feasible grid route",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-pseudoinverse",
+   "planningId": "m-pseudoinverse",
+   "name": "Pseudoinverses",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-pseudoinverse",
+    "name": "Pseudoinverses",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S04",
+   "planningId": "S04",
+   "name": "Acquire timed sensor data",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S05",
+   "planningId": "S05",
+   "name": "Implement a device communication interface",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-ftc",
+   "planningId": "m-ftc",
+   "name": "Fundamental theorem of calculus",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-ftc",
+    "name": "Fundamental theorem of calculus",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-M03",
+   "planningId": "R-M03",
+   "name": "Differentiate trigonometric rotation expressions",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-gradient",
+   "planningId": "m-gradient",
+   "name": "Gradients and directional derivatives",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-gradient",
+    "name": "Gradients and directional derivatives",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-jacobian",
+   "planningId": "m-jacobian",
+   "name": "Jacobian matrices",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-jacobian",
+    "name": "Jacobian matrices",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P08",
+   "planningId": "P08",
+   "name": "Implement a state estimator",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A09",
+   "planningId": "A09",
+   "name": "Measure backlash and compliance",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-overfitting",
+   "planningId": "c-overfitting",
+   "name": "Overfitting, underfitting, and regularization",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-overfitting",
+    "name": "Overfitting, underfitting, and regularization",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-bending",
+   "planningId": "s-bending",
+   "name": "Beam bending stress",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-bending",
+    "name": "Beam bending stress",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A06",
+   "planningId": "A06",
+   "name": "Select an actuator for a duty cycle",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:p-lagrangian",
+   "planningId": "p-lagrangian",
+   "name": "Lagrangian mechanics",
+   "branch": "Physics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "p-lagrangian",
+    "name": "Lagrangian mechanics",
+    "sameName": true,
+    "domain": "Physics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:E12",
+   "planningId": "E12",
+   "name": "Design and inspect a simple interface PCB",
+   "branch": "Electrical power, interfaces and measurement",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C01",
+   "planningId": "C01",
+   "name": "Evaluate sampled feedback and error sign",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N02",
+   "planningId": "N02",
+   "name": "Integrate wheel odometry",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P02",
+   "planningId": "P02",
+   "name": "Align and timestamp sensor streams",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S08",
+   "planningId": "S08",
+   "name": "Implement bounded fault response",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:S09",
+   "planningId": "S09",
+   "name": "Measure execution budgets and concurrency",
+   "branch": "Software and embedded implementation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-improper",
+   "planningId": "m-improper",
+   "name": "Improper integrals",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-improper",
+    "name": "Improper integrals",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K07",
+   "planningId": "K07",
+   "name": "Calculate and test a planar Jacobian",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-gradient-descent",
+   "planningId": "c-gradient-descent",
+   "name": "Gradient-descent training",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-gradient-descent",
+    "name": "Gradient-descent training",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-lagrange",
+   "planningId": "m-lagrange",
+   "name": "Constrained extrema",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-lagrange",
+    "name": "Constrained extrema",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K10",
+   "planningId": "K10",
+   "name": "Compute a spatial Jacobian",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-M05",
+   "planningId": "R-M05",
+   "name": "Solve a small nonlinear least-squares problem",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-multichain",
+   "planningId": "m-multichain",
+   "name": "Multivariable chain rule",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-multichain",
+    "name": "Multivariable chain rule",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:s-deflection",
+   "planningId": "s-deflection",
+   "name": "Beam deflection",
+   "branch": "Mechanics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "s-deflection",
+    "name": "Beam deflection",
+    "sameName": true,
+    "domain": "Mechanics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A07",
+   "planningId": "A07",
+   "name": "Match a motor to its driver",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N03",
+   "planningId": "N03",
+   "name": "Calibrate wheel geometry",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P07",
+   "planningId": "P07",
+   "name": "Estimate orientation from inertial data",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P09",
+   "planningId": "P09",
+   "name": "Fuse nonlinear mobile-robot measurements",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V01",
+   "planningId": "V01",
+   "name": "Commission a subsystem in stages",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:m-laplace",
+   "planningId": "m-laplace",
+   "name": "Laplace transforms",
+   "branch": "Mathematics",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "m-laplace",
+    "name": "Laplace transforms",
+    "sameName": true,
+    "domain": "Mathematics"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:c-neural-networks",
+   "planningId": "c-neural-networks",
+   "name": "Neural-network basics",
+   "branch": "Computing",
+   "kind": "foundation",
+   "masterIdMatch": {
+    "id": "c-neural-networks",
+    "name": "Neural-network basics",
+    "sameName": true,
+    "domain": "Computing"
+   },
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:K11",
+   "planningId": "K11",
+   "name": "Solve numerical inverse kinematics",
+   "branch": "Robot geometry and kinematics",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P04",
+   "planningId": "P04",
+   "name": "Calibrate a camera model",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P10",
+   "planningId": "P10",
+   "name": "Identify robot calibration parameters",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X01",
+   "planningId": "X01",
+   "name": "Model coupled multi-joint dynamics",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:D12",
+   "planningId": "D12",
+   "name": "Validate a structural model",
+   "branch": "CAD, fabrication and mechanical design",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A10",
+   "planningId": "A10",
+   "name": "Specify holding and power-loss behavior",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:A11",
+   "planningId": "A11",
+   "name": "Identify a simple actuator model",
+   "branch": "Actuation and transmissions",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C02",
+   "planningId": "C02",
+   "name": "Implement bounded proportional control",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G02",
+   "planningId": "G02",
+   "name": "Design and build a simple gripper",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N05",
+   "planningId": "N05",
+   "name": "Localize against a known map",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V02",
+   "planningId": "V02",
+   "name": "Verify interfaces under fault injection",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C07",
+   "planningId": "C07",
+   "name": "Analyze a linear control model",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-X02",
+   "planningId": "R-X02",
+   "name": "Define and evaluate a reinforcement-learning task",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G04",
+   "planningId": "G04",
+   "name": "Plan and time an arm motion",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:P05",
+   "planningId": "P05",
+   "name": "Estimate a known object's pose",
+   "branch": "Sensing, calibration and estimation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V04",
+   "planningId": "V04",
+   "name": "Demonstrate stop and restart behavior",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C03",
+   "planningId": "C03",
+   "name": "Implement practical PID behavior",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C04",
+   "planningId": "C04",
+   "name": "Measure tracking and transient performance",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G07",
+   "planningId": "G07",
+   "name": "Select a mobile base pose for reaching",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N09",
+   "planningId": "N09",
+   "name": "Evaluate a SLAM pipeline",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V05",
+   "planningId": "V05",
+   "name": "Diagnose integrated failures",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C08",
+   "planningId": "C08",
+   "name": "Evaluate sampling, delay and noise",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C09",
+   "planningId": "C09",
+   "name": "Design state feedback and an observer",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G05",
+   "planningId": "G05",
+   "name": "Transform perception into a grasp target",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X05",
+   "planningId": "X05",
+   "name": "Evaluate learned robot perception",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V06",
+   "planningId": "V06",
+   "name": "Run reliability and duty-cycle trials",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C06",
+   "planningId": "C06",
+   "name": "Add model-based feedforward",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N07",
+   "planningId": "N07",
+   "name": "Track a mobile path",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:C10",
+   "planningId": "C10",
+   "name": "Coordinate multiple joint controllers",
+   "branch": "Control and trajectories",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:I01",
+   "planningId": "I01",
+   "name": "Integrate and verify a controlled joint",
+   "branch": "Integration milestones",
+   "kind": "milestone",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X02",
+   "planningId": "X02",
+   "name": "Implement force or impedance control",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X04",
+   "planningId": "X04",
+   "name": "Apply model-predictive control",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X10",
+   "planningId": "X10",
+   "name": "Future specialization scope: legged, humanoid or aerial systems",
+   "branch": "Advanced pathways",
+   "kind": "roadmap",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:R-X01",
+   "planningId": "R-X01",
+   "name": "Define and evaluate an imitation-learning task",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:V07",
+   "planningId": "V07",
+   "name": "Document service and handover",
+   "branch": "Verification, diagnosis and reliability",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:N08",
+   "planningId": "N08",
+   "name": "Respond to changing obstacles",
+   "branch": "Wheeled mobility and navigation",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G06",
+   "planningId": "G06",
+   "name": "Coordinate a pick-and-place task",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:I02",
+   "planningId": "I02",
+   "name": "Integrate and verify a robot arm",
+   "branch": "Integration milestones",
+   "kind": "milestone",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X09",
+   "planningId": "X09",
+   "name": "Develop compliant or dexterous manipulation",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X06",
+   "planningId": "X06",
+   "name": "Compare learned policies with nonlearned baselines",
+   "branch": "Advanced pathways",
+   "kind": "milestone",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:I03",
+   "planningId": "I03",
+   "name": "Integrate and verify an autonomous wheeled robot",
+   "branch": "Integration milestones",
+   "kind": "milestone",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:G08",
+   "planningId": "G08",
+   "name": "Coordinate navigation and manipulation",
+   "branch": "Manipulation and combined tasks",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X07",
+   "planningId": "X07",
+   "name": "Coordinate multiple mobile robots",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:I04",
+   "planningId": "I04",
+   "name": "Integrate a perception-guided mobile manipulator",
+   "branch": "Integration milestones",
+   "kind": "milestone",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:I05",
+   "planningId": "I05",
+   "name": "Verify a repeatable robotic work system",
+   "branch": "Integration milestones",
+   "kind": "milestone",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X03",
+   "planningId": "X03",
+   "name": "Coordinate base and arm motion simultaneously",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  },
+  {
+   "v3": "rob3:X08",
+   "planningId": "X08",
+   "name": "Design a human-facing robot interaction",
+   "branch": "Advanced pathways",
+   "kind": "outcome",
+   "masterIdMatch": null,
+   "masterNameMatches": []
+  }
+ ],
+ "v3SuggestedCounterparts": [
+  {
+   "v3": "rob3:B-E02",
+   "v3Name": "Interpret current as charge flow rate",
+   "masterId": "e-current",
+   "masterName": "Current and charge flow",
+   "wordOverlap": 0.6
+  },
+  {
+   "v3": "rob3:B-M04",
+   "v3Name": "Calculate empirical variance and standard deviation",
+   "masterId": "mf-skill-c5b308b94788eca5",
+   "masterName": "Variance and Standard Deviation",
+   "wordOverlap": 0.6
+  },
+  {
+   "v3": "rob3:B-M02",
+   "v3Name": "Use powers of ten and scientific notation",
+   "masterId": "m-sci",
+   "masterName": "Scientific notation",
+   "wordOverlap": 0.5
+  },
+  {
+   "v3": "rob3:B-P05",
+   "v3Name": "Calculate a one-dimensional center of mass",
+   "masterId": "p-com",
+   "masterName": "Center of mass",
+   "wordOverlap": 0.5
+  },
+  {
+   "v3": "rob3:B-E08",
+   "v3Name": "Use a transistor as a controlled switch",
+   "masterId": "e-bjt",
+   "masterName": "Bipolar transistors as switches",
+   "wordOverlap": 0.5
+  },
+  {
+   "v3": "rob3:A09",
+   "v3Name": "Measure backlash and compliance",
+   "masterId": "r-compliance",
+   "masterName": "Compliance and backlash in mechanisms",
+   "wordOverlap": 0.5
+  },
+  {
+   "v3": "rob3:K11",
+   "v3Name": "Solve numerical inverse kinematics",
+   "masterId": "r-inverse",
+   "masterName": "Inverse kinematics",
+   "wordOverlap": 0.5
+  },
+  {
+   "v3": "rob3:R-M01",
+   "v3Name": "Fit and check a scalar calibration line",
+   "masterId": "px-calibrate",
+   "masterName": "Fit a straight-line measurement calibration",
+   "wordOverlap": 0.43
+  },
+  {
+   "v3": "rob3:B-E05",
+   "v3Name": "Calculate DC power and energy",
+   "masterId": "p-rotenergy",
+   "masterName": "Rotational kinetic energy and power",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:B-E11",
+   "v3Name": "Evaluate a simple RC input filter",
+   "masterId": "e-antialias",
+   "masterName": "Anti-alias input filtering",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:G01",
+   "v3Name": "Estimate grasp and contact requirements",
+   "masterId": "r-grasp",
+   "masterName": "Grasping and contact mechanics",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:D06",
+   "v3Name": "Design an assembly tolerance stack",
+   "masterId": "s-stack",
+   "masterName": "Tolerance stack analysis",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:K05",
+   "v3Name": "Solve planar two-link forward kinematics",
+   "masterId": "r-forward",
+   "masterName": "Forward kinematics",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:K06",
+   "v3Name": "Solve and verify planar inverse kinematics",
+   "masterId": "r-inverse",
+   "masterName": "Inverse kinematics",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:R-M03",
+   "v3Name": "Differentiate trigonometric rotation expressions",
+   "masterId": "mf-skill-420d3178d95e779e",
+   "masterName": "Evaluating Trigonometric Expressions",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:C07",
+   "v3Name": "Analyze a linear control model",
+   "masterId": "mf-skill-3549d48174f26c3b",
+   "masterName": "Modeling With Linear Equations",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:X07",
+   "v3Name": "Coordinate multiple mobile robots",
+   "masterId": "r-frame",
+   "masterName": "Robot coordinate frames",
+   "wordOverlap": 0.4
+  },
+  {
+   "v3": "rob3:K04",
+   "v3Name": "Distinguish configuration, workspace and constraints",
+   "masterId": "sss-rob-task-coordinates",
+   "masterName": "Distinguish joint configuration, task coordinates, and reachable workspace",
+   "wordOverlap": 0.38
+  },
+  {
+   "v3": "rob3:B-E03",
+   "v3Name": "Interpret voltage between two points",
+   "masterId": "sss-dc-voltage-measurement",
+   "masterName": "Measure DC voltage between specified points in a low-energy circuit",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:B-P02",
+   "v3Name": "Distinguish a force from mass and motion",
+   "masterId": "p-inertia",
+   "masterName": "Mass, inertia, and net force",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:B-P06",
+   "v3Name": "Account for mechanical work and power in simple motion",
+   "masterId": "p-energy",
+   "masterName": "Mechanical energy accounting",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:A01",
+   "v3Name": "Calculate transmission ratio and direction",
+   "masterId": "r-transmission",
+   "masterName": "Gears, belts, and transmission ratios",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:B-D06",
+   "v3Name": "Apply a stated design margin",
+   "masterId": "s-safetyfactor",
+   "masterName": "Design margins and uncertain loads",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:B-D05",
+   "v3Name": "Apply a supplied beam stress and deflection model",
+   "masterId": "s-deflection",
+   "masterName": "Beam deflection",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:E04",
+   "v3Name": "Design a low-voltage power budget",
+   "masterId": "e-powerbudget",
+   "masterName": "Robot power budgets",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:K03",
+   "v3Name": "Apply, compose and invert rigid transforms",
+   "masterId": "sss-rob-compose",
+   "masterName": "Compose a chain of labeled rigid transforms in the correct order",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:P03",
+   "v3Name": "Model noise and covariance",
+   "masterId": "mf-skill-ed905bdd6a434f63",
+   "masterName": "Covariance",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:S06",
+   "v3Name": "Define robot messages and coordinate conventions",
+   "masterId": "r-frame",
+   "masterName": "Robot coordinate frames",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:K08",
+   "v3Name": "Implement general serial-arm forward kinematics",
+   "masterId": "r-forward",
+   "masterName": "Forward kinematics",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:D10",
+   "v3Name": "Select robot materials and processes",
+   "masterId": "s-select",
+   "masterName": "Material selection under constraints",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:N01",
+   "v3Name": "Model differential-drive motion",
+   "masterId": "mf-skill-be2db3cda43e6554",
+   "masterName": "Modeling Downwards Vertical Motion",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:R-M06",
+   "v3Name": "Represent and discretize a linear dynamical model",
+   "masterId": "mf-skill-3549d48174f26c3b",
+   "masterName": "Modeling With Linear Equations",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:S04",
+   "v3Name": "Acquire timed sensor data",
+   "masterId": "c-sensor-acquisition",
+   "masterName": "Sensor data acquisition in software",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:X01",
+   "v3Name": "Model coupled multi-joint dynamics",
+   "masterId": "r-dynamics",
+   "masterName": "Robot dynamic models",
+   "wordOverlap": 0.33
+  },
+  {
+   "v3": "rob3:X08",
+   "v3Name": "Design a human-facing robot interaction",
+   "masterId": "r-structure",
+   "masterName": "Robot structural design",
+   "wordOverlap": 0.33
+  }
+ ],
+ "idMatchNameDifferences": [
+  {
+   "v3": "rob3:m-order",
+   "v3Name": "Order of operations for basic arithmetic",
+   "masterName": "Order of operations"
+  }
+ ]
+}
