@@ -156,6 +156,7 @@ Plain JavaScript files, each a *module* (a file that can export pieces for other
 | `spacing.js` | 12 | Display-only sphere spacing. Never changes stored coordinates. | `app.js`, `viewer.js` |
 | `connections.js` | 6 | Which connection lines are visible. | `viewer.js` |
 | `nameplates.js` | 9 | Where a floating name sits relative to its sphere. | `viewer.js` |
+| `tour.js` | 104 | The guided tour behind the header's **Tour** button: twelve steps on moving the camera, where things are, and good use. Its steps are plain data; the card never blocks the map. | `app.js`, tests |
 | `index.html` | — | The page skeleton: header, console panel, and three dialog windows. | the build step |
 | `style.css` | — | All appearance. | copied by the build |
 
@@ -164,9 +165,11 @@ Plain JavaScript files, each a *module* (a file that can export pieces for other
 | File | What it does |
 | --- | --- |
 | `main.cjs` | Creates the window, blocks all network access, and handles save/load requests from the page. |
-| `preload.cjs` | The only bridge between the page and the operating system. Exposes exactly three functions. |
+| `preload.cjs` | The only bridge between the page and the operating system. Exposes exactly five functions. |
 | `save.cjs` | Writes a file atomically (§3.6). |
 | `proficiency-store.cjs` | Reads and writes shared answer records on disk. |
+| `map-library.cjs` | Lists the maps for the header's **Your maps** dropdown, and reads only a map that list offers. It lists `Maps\` and its working subfolders one level down. Archive, backup and checkpoint folders, `- Copy` files, previews and non-map JSON are never listed. |
+| `icon.ico`, `icon.png` | The app icon (16–256 px), drawn by `scripts/make-icon.ps1`. Used by the window, the taskbar and the desktop shortcut. |
 
 ### 2.3 `authoring/` — content tools (tracked)
 
@@ -235,7 +238,9 @@ real-atlas tests pass without them.
   rules, STOP conditions and a filled-in **Result** line per task. Not referenced by any code.
 - **`*.cmd`** — Windows double-click helpers: `Setup-Windows.cmd` (install + build),
   `Launch-Windows.cmd` (start), `Build-Portable-Windows.cmd` (package an `.exe`), `Rebuild-Windows.cmd`,
-  `Backup-User-Data.cmd` (back up your data, §11.5).
+  `Backup-User-Data.cmd` (back up your data, §11.5), `Create-Desktop-Shortcut.cmd` (desktop icon, §11.1).
+- **`Skill-Solar-System-Instruction-Guide-v0.4.docx`** — JC's operating and reference guide for
+  users, kept in the project root and maintained by JC.
 - **`.gitattributes`** — forces Unix line endings everywhere except `.cmd`/`.bat`, which need Windows
   ones or `cmd.exe` misreads them.
 
@@ -263,13 +268,15 @@ prevented). It can only ask the main process to do things, through one narrow do
 
 ### 3.2 The door between them
 
-`desktop/preload.cjs` is 8 lines and exposes exactly three functions as `window.desktop`:
+`desktop/preload.cjs` is 12 lines and exposes exactly five functions as `window.desktop`:
 
 | Function | What it asks for |
 | --- | --- |
 | `saveMap(content, options)` | Show a Save dialog and write this text |
 | `proficiency.load(family)` | Read the answer record for this atlas family |
 | `proficiency.save(family, text)` | Write that record |
+| `maps.list()` | List the working maps in `Maps/` (read-only; `desktop/map-library.cjs`) |
+| `maps.read(path)` | Read one map **that list offers**, and nothing else |
 
 Every handler in `main.cjs` checks `event.sender === win.webContents` first — a request from
 anywhere but this window is refused. Saves are capped at 10 MB, records at 5 MB
@@ -619,7 +626,7 @@ file exists, `sss-robotics-foundations-2026-09-2eb611994d87.json` — the origin
 no file for the robotics-v3 family**, meaning no answer has been recorded in that map through the
 real app. (I listed the folder; I did not read the record's contents.)
 
-Four keys live in browser storage, all defined in `src/app.js` and `src/review.js`:
+Five keys live in browser storage, all defined in `src/app.js` and `src/review.js`:
 
 | Key | Holds |
 | --- | --- |
@@ -627,6 +634,7 @@ Four keys live in browser storage, all defined in `src/app.js` and `src/review.j
 | `skill-solar-system-review-v1` | up to 8 review sessions, newest kept |
 | `skill-solar-system-spacing` | the sphere-spacing slider |
 | `skill-solar-system-panels-v1` | which panels you collapsed |
+| `skill-solar-system-tour-seen-v1` | whether the tour has been opened once (the Tour button glows until it has) |
 
 The draft is a convenience, not a backup — `main.cjs` says so when you close with unsaved changes.
 At 2.7 MB the robotics map is near enough to browser-storage limits that `cache()` catches failure
@@ -806,7 +814,9 @@ Yes/No, the confirmed prerequisite-chain pass, edit mode, Undo/Redo, and importi
 > **Term: unit test.** A small check of one piece of logic in isolation, with no window and no
 > graphics. Fast — the whole suite runs in under a second.
 
-**207 tests across 27 files: 201 pass, 6 skipped, 0 fail.**
+**213 tests across 29 files: 207 pass, 6 skipped, 0 fail.** Two files are newer than the table
+below: `map-library.test.mjs` (3 tests: what the Your maps list offers and refuses) and
+`tour.test.mjs` (3 tests: every tour step is complete and points at something on the page).
 
 | File | Tests | Covers |
 | --- | ---: | --- |
@@ -866,6 +876,9 @@ replaced by a fixed path. Your real answers are never touched.
 | `pan-e2e.mjs` | 6 | Held-key panning rate |
 | `grid-e2e.mjs` | 5 | The floor grid at distance |
 | `prerequisites-e2e.mjs` | 47 (52 with a map) | The prerequisite-chain control |
+| `map-picker-e2e.mjs` | 8 | The Your maps dropdown, against a temporary Maps folder |
+| `deselect-e2e.mjs` | 7 | Right-click clears the selection without moving the view; right-drag still pans |
+| `tour-e2e.mjs` | 34 | The guided tour: every step, the highlight, Back, Escape, Close, and the map still turning while it is open |
 | `robotics-v3-e2e.mjs` | 494 with a map | Lesson cards, answers, symbols, units, sessions, save/reload |
 | `atlas-e2e.mjs`, `dc-`, `physics-`, `material-`, `statics-`, `robotics-atlas-e2e.mjs` | — | Each integrated batch against a real atlas |
 
@@ -1002,6 +1015,18 @@ npm run build   # after any change under src/
 npm start
 ```
 Or double-click `Setup-Windows.cmd` once, then `Launch-Windows.cmd`.
+
+**Desktop icon and taskbar.** Double-click `Create-Desktop-Shortcut.cmd` once. It puts a
+"Skill Solar System" shortcut with the app's icon on the desktop. The shortcut starts this project's
+Electron on this folder, exactly as `Launch-Windows.cmd` does, and carries the app's id
+(`local.skillsolarsystem.atlas`, set in `desktop/main.cjs`), so the pinned icon and the running
+window share one taskbar button. Windows does not let a program pin itself: right-click the shortcut,
+choose **Show more options** if needed, then **Pin to taskbar**. If the project folder moves, run the
+helper again.
+
+**Inside the app**, a right-click on the map clears the selected skill and keeps the view (a right-drag still pans; Escape deselects and fits the whole map). The header's **Tour** button walks through camera movement, where things are,
+and good use. **Your maps** opens any working map in `Maps\` in one click; archived and backup
+copies are never listed.
 
 ### 11.2 Run all the tests
 

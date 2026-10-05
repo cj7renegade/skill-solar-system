@@ -92,3 +92,7 @@
 .inspector-heading .subject-heading{flex:1;min-width:0}
 #inspector-toggle{padding:2px 8px;font-size:11px;line-height:1.7}
 #inspector.collapsed .inspector-body{display:none}
+#map-picker{width:auto;max-width:260px;padding:7px 8px;cursor:pointer;text-overflow:ellipsis}
+.tour-button{margin-left:6px;padding:5px 11px;font-size:12px;border-radius:14px;border-color:#4b5e78;color:var(--accent);background:#132033}.tour-button[aria-expanded=true]{background:#29394e}.tour-button.unseen{animation:tour-glow 2.4s ease-in-out infinite}@keyframes tour-glow{0%,100%{box-shadow:0 0 0 0 #e9bd7900}50%{box-shadow:0 0 0 5px #e9bd7955}}@media(prefers-reduced-motion:reduce){.tour-button.unseen{animation:none;box-shadow:0 0 0 2px #e9bd7988}}
+.tour-ring{position:fixed;z-index:40;pointer-events:none;border:2px solid var(--accent);border-radius:10px;box-shadow:0 0 0 4px #e9bd7930,0 0 24px #e9bd7955;transition:left .2s,top .2s,width .2s,height .2s}
+.tour-card{position:fixed;z-index:41;width:min(360px,calc(100vw - 16px));background:#101b2b;border:1px solid #4b5e78;border-radius:12px;padding:16px 18px 14px;box-shadow:0 18px 60px #000a;color:var(--ink);font-size:13px;line-height:1.55}.tour-card h2{font-size:17px;margin:2px 0 8px;outline:none}.tour-card p{margin:0 0 8px;color:#c4d1e0}.tour-card .tour-count{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:0}.tour-buttons{display:flex;gap:8px;align-items:center;margin-top:12px}.tour-buttons button{padding:6px 12px;font-size:12px}.tour-spacer{flex:1}
