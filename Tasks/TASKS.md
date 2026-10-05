@@ -1,220 +1,221 @@
-# TASKS — Skill Solar System — Capacity: stress test and re-architecture proposal
+# TASKS — Skill Solar System — Skill scope foundation (robotics build-and-verify)
 
-Goal: find out exactly what stops the app from holding **10,000 skills**, measure it, and propose
-fixes. **This queue measures and proposes. It does not re-architect anything.** JC decides the
-design from the proposal, and the build-out becomes a later queue.
+Goal: define the **complete skill scope** the atlas must cover, so the rest of the app can be built
+around it. Scope decision (JC, 2026-10-04): **everything a person needs to design, build, program and
+verify working robots**, from foundations up. Robotics V3 stays a separate map for now; it is
+**merged later**, so this queue only prepares that merge and never performs it.
+
+**This queue plans and measures. It does not add, remove, rename, reconnect or move any skill in any
+real map, and it writes no lesson content.** Authoring the gaps becomes later branch-package queues.
+
+The previous queues are preserved in Git: housekeeping at `f14c8c3` (on `main`), capacity at
+`c7f5950` (branch `capacity-stress-test`, not merged).
 
 ## Rules for Claude Code (read first, every session)
-- Read `docs/PLATFORM.md` first. It is the reference for how this repo works.
+- Read `docs/PLATFORM.md`, `coverage-inventory/COVERAGE-ROADMAP.md` and
+  `coverage-inventory/CLAUDE-HANDOFF.md` first.
 - Work top to bottom, one task at a time. Start at the first unchecked box.
-- Work on branch `capacity-stress-test`, created from an up-to-date `main`. Never commit to `main`.
+- Work on branch `scope-foundation`, created from an up-to-date `main`. Never commit to `main`.
   Never merge. Never force-push. Never open or approve a pull request.
-- The only exception is Task 4's throwaway branch `experiment/raised-limits`, described there.
 - When a task is done: check its box, fill in its **Result** line, commit, and move on.
-- If a STOP condition triggers, do NOT continue. Write what you found under **Result**, mark the
-  task `[BLOCKED]`, commit, and end the session. If the branch for this queue does not exist yet,
-  do not commit anywhere; just report.
-- **Never touch JC's real data.** Every app launch uses the e2e harness's isolated profile. Never
-  read from or write to `%APPDATA%\skill-solar-system\`, never open or modify anything in `Maps/`
-  except reading `Maps/Skill-Solar-System.json` and the Robotics V3 export for statistics in Task 2.
-- **Large generated files go outside the repo and outside OneDrive**, in `C:\sss-scratch\stress\`.
-  Never commit generated maps.
-- Synthetic maps must use their own atlas family `stress-test-synthetic`, so they can never share
-  an answer record with a real map, and every synthetic node's `proficiency80` must be `null`.
-- Do not change `src/`, `desktop/` or existing tests on this branch. Task 4's experiment branch is
-  the only place limits may be raised.
-- Environment: Windows, project at `C:\Users\hilli\OneDrive\Desktop\Skill Solar System`. Commands in
-  PLATFORM.md are bash syntax; translate them for your shell without changing what they do.
+- If a STOP condition triggers, do NOT continue. Write what you found under **Result**, mark the task
+  `[BLOCKED]`, commit, and end the session. If the branch does not exist yet, do not commit anywhere;
+  just report.
+- **Real maps are read-only.** You may read `Maps/Skill-Solar-System.json` and
+  `Maps/Robotics-v3/Robotics-v3-Lessons.json` for ids, names, domains, subdomains, descriptions,
+  edges, levels and lesson status. Verify their SHA-256 is unchanged after every task that reads them.
+  Never open them in the app. Never read `proficiency80` values, `%APPDATA%\skill-solar-system\`,
+  or anything in `Maps/Archived maps/`.
+- Never mark any skill proficient. Never change node identities, edges, positions, levels or pins.
+- Scope decisions belong to JC. Where the evidence does not settle a boundary, write the options
+  and a recommendation, and leave it **open**. Do not decide it in the data.
+- Every new file is either documentation (`docs/`, `reports/scope/`) or plain planning data
+  (`scope/`). No application code changes in this queue.
 - JC is still learning to read code. Explain anything technical in one plain sentence.
 
 ---
 
-## [x] Task 0 — Starting state (read-only, except updating local main)
+## [x] Task 0 — Starting state and the Instruction Guide
 **Do:**
-- `git fetch origin`. Confirm `origin/main` contains the housekeeping work (branch
-  `housekeeping-2026-09`), i.e. JC has merged that pull request.
-- Confirm the working tree is clean apart from `Tasks/TASKS.md`. Switch to `main`,
-  `git pull --ff-only`, then create `capacity-stress-test`.
-- Run `npm run build` and `npm test` and record the baseline result.
-- Record the machine: CPU, RAM, GPU and driver, display resolution, Windows version, Node and
-  Electron versions. Frame rates depend on hardware, so every later number needs this context.
-- Create `C:\sss-scratch\stress\` and confirm it is not inside OneDrive.
-- Write `reports/capacity/00-baseline.md`.
-**STOP if:** housekeeping is not merged into `origin/main`; there are other uncommitted changes;
-`git pull --ff-only` refuses; or tests fail.
+- `git fetch origin`; confirm local `main` equals `origin/main`; create `scope-foundation` from it.
+- Confirm the working tree holds only this file (modified) and
+  `Skill-Solar-System-Instruction-Guide-v0.4.docx` (untracked). Anything else: STOP and report.
+- Run `npm run build` and `npm test`; record the result.
+- Record the SHA-256, skill count and connection count of both real maps.
+- Commit the Instruction Guide **unchanged, where JC put it** (project root), so other users have it.
+  Record its version and date. List any statement in it that the code or a report shows to be
+  inaccurate (report only; JC maintains the guide).
+- Write `reports/scope/00-starting-state.md`.
+**STOP if:** other uncommitted changes exist; `main` cannot fast-forward; tests fail.
 **Result:** Done.
-- Housekeeping is merged: `origin/main` = `c5c5e4c` (PR #16) and contains `f14c8c3`. The tree was
-  clean apart from this file.
-- Local `main` was fast-forwarded with `git fetch origin main:main`, because `git switch main`
-  refuses with the TASKS.md edit. `capacity-stress-test` was created from `main` at `c5c5e4c`.
-- Build passed; `npm test` 207 / 201 pass / 6 skip / 0 fail.
-- Machine: Ryzen 7 9800X3D, 31.2 GB RAM, RTX 3090 (driver 32.0.15.9186, the GPU the app uses),
-  1920×1080 at 59 Hz (so about 60 fps is the ceiling), Windows 11 26200, Node 24.15.0,
-  Electron 44.2.0.
-- `C:\sss-scratch\stress\` was created and is not in OneDrive.
-See `reports/capacity/00-baseline.md`.
+- `scope-foundation` was created from `main` at `7dd9a01` (PR #17 merged). The tree was clean apart
+  from this file and the guide.
+- Build passed; `npm test` 213 / 207 pass / 6 skip / 0 fail.
+- Master: 1,769 skills, 5,142 connections, SHA-256 `8e170740…`. It changed since 27 Sep
+  (`04821f06…`) at the same size, consistent with JC saving it; not investigated, because it may be
+  answers. V3: 381 / 894, `687f0916…`, unchanged.
+- The Instruction Guide v0.4 was committed unchanged. Four notes for JC: the "close to the
+  browser-storage limit" claim (the measured ceiling is 52.3 M characters), the silent draft warning
+  on open, and two items about the new features not yet in the guide.
+See `reports/scope/00-starting-state.md`.
 
-## [x] Task 1 — Inventory every limit and scale-sensitive spot (read-only)
-**Do:** Read the code and list, with file and line, every place that caps size or will slow down
-as skills grow. At minimum check:
-- node, connection and text-length limits in `src/model.js`;
-- the 10 MB open/save cap and 5 MB answer-record cap in `desktop/`;
-- where the draft map and review sessions are stored (browser storage has its own size ceiling);
-- how spheres, connection lines and arrowheads are created in `src/viewer.js` (one object per
-  sphere or shared/instanced), and how picking (clicking a sphere) works;
-- how nameplates are created and repositioned each frame (`src/nameplates.js`, `src/viewer.js`);
-- the spiral and level code (`src/vortex.js`) and the **`skillLevel` range of 1–100**: estimate
-  whether a 10,000-skill map with deeper prerequisite chains would need more than 100 levels,
-  given how levels are currently derived from prerequisite depth;
-- search, the prerequisite-chain walk, the review queue, highlighting, and the side-panel lists;
-- e2e test timeouts that assume today's sizes.
-For each, note what it is, the current value, and the expected effect at 10,000 skills.
-Write `reports/capacity/01-limits-inventory.md`.
-**Result:** Done. The report has seven groups (A–G) with file:line, current value and predicted
-effect.
-- Hard caps: 5,000 nodes / 20,000 edges (`model.js:60`); 10 MB open (`app.js:232`) and save
-  (`main.cjs:26`), about 3,300 skills at the master's density; 5 MB record, which fits 10,000
-  answers (measured 1.83 MB); levels 1–100 (throws past 99 chain steps, which depends on depth,
-  not count).
-- Scale costs: one mesh and material per sphere; one DOM nameplate per skill repositioned every
-  camera frame; a full scene and list rebuild on every click; 3+ whole-map copies per answer; a
-  50-deep full-copy Undo history; review progress O(N) per answer.
-- No test guards the caps. The e2e harness gives up at 20 s.
-See `reports/capacity/01-limits-inventory.md`.
-
-## [x] Task 2 — Build a synthetic map generator
+## [x] Task 1 — Reconcile the coverage inventory with today's maps (read-only)
+Follow `coverage-inventory/CLAUDE-HANDOFF.md` steps 1–3.
 **Do:**
-- Measure the real atlas's shape from `Maps/Skill-Solar-System.json` (read-only), without copying
-  any of its content: connections per skill, the mix of prerequisite / supports / related links,
-  prerequisite depth distribution, domain mix, and text-field lengths. Also measure lesson payload
-  size from `Maps/Robotics-v3/Robotics-v3-Lessons.json`.
-- Add `authoring/stress/generate-stress-map.mjs`. It must be deterministic (same seed, same file),
-  produce maps with that realistic shape, guarantee no prerequisite loops, give every node a clearly
-  synthetic id and name, use atlas family `stress-test-synthetic`, and leave every answer `null`.
-- Generate into `C:\sss-scratch\stress\`, at **2,000 / 5,000 / 8,000 / 10,000 / 12,000** skills,
-  each in two variants: **skeleton** (like today's master cards) and **full** (with lesson-sized
-  payloads). 12,000 gives headroom above the target.
-- Add a small unit test for the generator (determinism, no loops, requested counts, family, null
-  answers). Record each generated file's size and connection count.
-- Write `reports/capacity/02-generator.md`.
-**Result:** Done.
-- The master's shape was measured read-only (hashes unchanged): 2.91 links per skill (74/4/22%
-  prerequisite/supports/related), depth max 23, 3,051 bytes per skill. V3 lessons average 5,640
-  bytes.
-- `authoring/stress/generate-stress-map.mjs` is deterministic (the regenerated 10k-full has the same
-  SHA-256), loop-free by construction and checked with `levels()`, uses the family
-  `stress-test-synthetic`, and leaves every answer null. At 1,769 skills it reproduces the master
-  closely (5,129 vs 5,142 links, same depth, levels, radius and bytes per skill).
-- Ten maps were written to `C:\sss-scratch\stress\`, from 6.1 MB (2k skeleton) to 98.8 MB (12k
-  full); 10k = 29,044 links. Only the 2k skeleton is under the 10 MB open cap.
-- New test `tests/stress-generator.test.mjs` (4 tests) passes; `npm test` is 211 / 205 pass / 6 skip
-  / 0 fail.
-See `reports/capacity/02-generator.md`.
+- Compare `coverage-inventory/baseline-node-index.json` (1,686 skills, Sept 14) with today's master:
+  added, removed and renamed ids; per-domain and per-subdomain counts then and now; which of the
+  four delivered batches are present.
+- Check every branch anchor id in `COVERAGE-ROADMAP.md` still exists in the master.
+- Measure the overlap between the master and Robotics V3: V3 ids with a `rob3:` prefix whose planning
+  id matches a master id (for example `rob3:m-trig` and `m-trig`), same-name matches, and V3 entries
+  with no master equivalent. This is preparation for the later merge; merge nothing.
+- Write `reports/scope/01-reconciliation.md` and `scope/reconciliation.json` (ids, names, domains
+  only: no answers, positions or lesson text).
+**Result:** Done; both maps unchanged.
+- The inventory's baseline is the archived Math-Academy-Marked copy (1,686 / 4,882). Today's master
+  is 1,769 / 5,142: **+83 skills, 0 removed, renamed or moved**.
+- The 83 are exactly five batches, all fully present: DC 26, physics 19, statics 11, materials 10,
+  and robotics foundations 17. The last is wave 1, delivered after the inventory.
+- All 124 roadmap anchor ids exist.
+- V3 overlap: 204 of 381 share a master id (all foundations); **all 129 robotics-branch entries have
+  no exact counterpart**; 35 word-overlap suggestions are listed for review.
+See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
 
-## [x] Task 3 — Measure the app as it is today
-**Do:** Using the e2e harness in an isolated profile, try to open each generated map. For each:
-- If it is rejected, record which limit rejected it and the exact message.
-- If it opens, measure (3 runs each, report the median): time to open and first frame; memory used
-  by the app; frame rate while orbiting for 10 seconds (median and worst 5%); time from clicking a
-  sphere to its card showing; search time; time for **Arrange level spiral**; save time and file
-  size; whether the draft map saves successfully; time to start a review session.
-- Also measure a copy of the real 1,769-skill master **in scratch** (copy it to scratch first,
-  change its atlas family to `stress-test-synthetic` and clear its answers in the copy only; never
-  open the real file) as today's reference point.
-Write `reports/capacity/03-current-app.md` with one table per size.
-**STOP if:** any run touches a real profile or real map. Performance failures are results, not
-STOP conditions.
-**Result:** Done; no real profile or real map was touched.
-- Tool: `authoring/stress/measure-app.mjs`, which uses the isolated launcher and a fresh temporary
-  profile per run, and refuses repo, OneDrive or APPDATA paths.
-- Opens today: only the reference master copy (1,769) and the 2,000-skill skeleton. Everything
-  else is rejected instantly by "Could not open map: Map files must be smaller than 10 MB." That
-  check runs first, so the 5,000-skill and 20,000-connection caps are never reached. 10 MB holds
-  about 3,300 skeleton skills or about 1,200 with lessons.
-- What opens is fast. Medians of 3: open 0.30–0.36 s, orbit 60 fps (the display ceiling) with
-  labels on and off, click-to-card 148–172 ms, arrange 258–308 ms, save 150–161 ms, review start
-  191–201 ms, and the draft saves (5.5 M characters).
-- Private memory grows from about 0.5 GB to 0.9 GB over one run.
-See `reports/capacity/03-current-app.md`.
+## [x] Task 2 — Write the scope statement
+**Do:** Draft `docs/SCOPE.md` in plain language:
+- The goal in one paragraph: what a person who completes the atlas can do (design, build, program
+  and verify working robots).
+- The **inclusion test**: when a skill belongs in scope, for example "it is required, directly or
+  through prerequisites, to build or verify a robot capability in the atlas", and how supporting
+  skills (maths, physics, electronics, mechanics, computing) qualify.
+- The **backbone**: the build-and-verify milestones that define "done", starting from the Robotics V3
+  milestones I01–I05 and the X advanced pathways, plus any milestone the roadmap's branches imply
+  that V3 lacks (for example fault handling, calibration and identification, machine elements).
+- **Explicit exclusions**, and **open boundary questions** for JC with options and a recommendation
+  (for example: whether general mathematics not on any robotics path stays in the atlas, and to
+  what depth).
+- How the scope will be kept: who changes it, and how a change is recorded.
+**Result:** Done. `docs/SCOPE.md` (draft):
+- The goal: design, build, program, integrate and verify arms, wheeled robots and mobile
+  manipulators, from numeracy up.
+- A 4-tier inclusion test (core / extension / foundation by prerequisite links / context, open),
+  plus the roadmap's granularity rule.
+- The backbone: I01–I05 core and X01–X09 extensions, with three roadmap capabilities to check in
+  Task 4.
+- Proposed exclusions, and six open questions Q1–Q6 with recommendations.
+- How it is kept: JC-only changes through PRs, with a change log.
 
-## [x] Task 4 — Measure past today's limits (throwaway experiment)
+## [x] Task 3 — Measure the master against the scope (read-only)
 **Do:**
-- Create branch `experiment/raised-limits` from `capacity-stress-test`. On it, change **only the
-  numeric caps** found in Task 1 (for example 50,000 skills, 150,000 connections, 150 MB file size),
-  nothing else. Record the exact diff.
-- Rebuild and repeat Task 3's measurements for the sizes that were rejected. Record what breaks
-  next once the caps are gone: slow frames, storage failures, freezes, crashes.
-- This branch is **never merged**. Push it so the measurements are reproducible, and label it in
-  the report as an experiment. Switch back to `capacity-stress-test` and rebuild afterwards.
-- Write `reports/capacity/04-raised-limits.md` on `capacity-stress-test`.
-**Result:** Done.
-- EXPERIMENT branch `experiment/raised-limits` (`e331f78`, pushed, never to merge) changed only the
-  caps: 50,000 skills, 150,000 connections, 150 MB open and save.
-- All 9 rejected maps then opened (27/27 runs), with no page errors, and every save worked up to
-  98.8 MB.
-- What breaks next, in order:
-  1. Frame rate while orbiting: 30 fps at 5k, 15 at 8k, 10 at 10k, 8.6 at 12k (worst 5% down to
-     5.4). Labels off doubles it.
-  2. The Undo history: each review answer copies the map. 10k skeleton is 1.05 s and +27.6 MB per
-     answer, plateauing at 1.55 GB after 50. **10k full crashed the page on answer 48** (3.94 GB).
-  3. The draft cache ceiling is 52.3 M characters, so full maps ≥ 8k are not cached, and the
-     warning is hidden on open.
-  4. Click-to-card 0.7–1.0 s and list filter 150–180 ms per keystroke at 10–12k.
-- Switched back to `capacity-stress-test` and rebuilt with the original caps.
-See `reports/capacity/04-raised-limits.md`.
+- For every master skill, classify it by its prerequisite connections: **on a robotics path** (it
+  is, directly or through a chain, a prerequisite of a robotics skill), **supporting only** (linked
+  by supports or related links only), or **not connected to any robotics skill**. Count by domain and
+  subdomain.
+- List the master's robotics-domain skills and the V3 milestones they would serve.
+- Flag likely duplicates within the master (the roadmap's "duplicate representations across
+  imported math collections"): same or near-same names across subdomains. Report candidates only;
+  merge nothing.
+- Write `reports/scope/03-master-vs-scope.md`.
+**Result:** Done; both maps unchanged.
+- In scope by prerequisite links: 245 skills (14%) seeded by the 44 master robotics skills, or 324
+  (18%) when counting the 204 ids V3 reuses.
+- The 1,033-skill general-maths import (58% of the atlas) is on no path; 998 of them hang off `m-*`
+  overviews by related links. The 66 granular batch skills are also off-path. Computing reaches
+  robotics only through V3.
+- The master's 44 robotics skills map to 10 V3 branches (a judgement, not a crosswalk).
+- No exact duplicate names; 7 near-duplicates, 2 likely the same ability.
+- Evidence for refining Q1: treat a granular decomposition of an in-scope overview as in scope.
+See `reports/scope/03-master-vs-scope.md`, `scope/master-tiers.json`.
 
-## [x] Task 5 — Write the re-architecture proposal (no implementation)
-**Do:** Write `reports/capacity/05-proposal.md` in plain language. For each bottleneck found in
-Tasks 1–4:
-- the measured evidence;
-- two or three ways to fix it, with trade-offs and a rough size of work (small / medium / large);
-- the risk each option carries for existing data: answers, review sessions, dataset keys,
-  positions and levels, and the Robotics V3 import pipeline;
-- a recommendation.
-It must directly address:
-1. **One file vs. many:** keep a single map file with raised limits, or split the atlas into one
-   file per subject plus a small index file that loads them together with cross-file links.
-2. **Rendering:** drawing 10,000+ spheres, connections and nameplates at a usable frame rate.
-3. **Storage:** where the draft map, review sessions and answers should live at this size.
-4. **Levels:** whether the 1–100 `skillLevel` range needs to grow, and what that means for
-   existing saved levels.
-5. **Tests:** which existing tests need new size assumptions.
-End with a recommended build order, with the point at which JC's real maps would first be touched.
-**Result:** Done; nothing built.
-- One file vs many: **A** (one file, raised caps with guard tests), because one 98.8 MB file opened
-  and saved fine. **C** (lessons in a companion file) as the next step. **B** (a file per subject)
-  is not recommended now, because it fixes none of the measured problems.
-- Rendering: R1 (readable nameplates only) and R3 (no per-frame whole-map loops), then R2
-  (instanced spheres).
-- Storage: S1 (visible draft warning), then S2 (draft on disk).
-- Levels: keep 1–100 (depth is 23 in both real maps); saved levels are safe either way.
-- The crash: U1 (Undo within a memory budget), then U2 (answer fast path).
-- Tests: a list of the size assumptions to change.
-- Build order: steps 1–5 never touch real data; step 6 (draft to disk) first touches the real app
-  profile; step 7 (optional conversion) first rewrites real map files.
-See `reports/capacity/05-proposal.md`.
+## [x] Task 4 — The branch map: every branch, its boundary and its status
+**Do:** Combine the roadmap's branch tables, the 19 Robotics V3 branches and the measurements from
+Tasks 1 and 3 into one list of branches across all six domains. For each branch:
+- its scope boundary and exclusions;
+- existing skills that cover it (master ids, V3 ids), and their count;
+- status: **covered**, **partial** or **missing**, with the evidence;
+- each roadmap candidate outcome mapped to: an existing skill, a **proposed new skill** (with a
+  one-line observable ability), a split of a broad existing skill, or an explicit deferral, as in
+  the roadmap's "definition of a completed branch review";
+- a rough size of the remaining work in skills, labelled as an estimate.
+Write `scope/branches.json` and add the branch table to `docs/SCOPE.md`. Report totals: covered /
+partial / missing branches, and the estimated total skills when the scope is complete.
+**Result:** Done; both maps unchanged.
+- 46 branches: the roadmap's 43, plus S8 CAD/fabrication, R13 milestones and R14 advanced pathways.
+  All 1,769 master skills and 177 V3-only entries were placed.
+- Branch status: 7 covered in the master today, 9 covered after the V3 merge, 3 covered by V3 only
+  (not in the roadmap), 24 partial, 3 audit needed (maths), 0 missing.
+- The 132 roadmap candidates, reviewed by hand: 86 existing (27 only in V3), 34 splits, 4 new,
+  7 planning tasks, 1 deferred.
+- Estimate: ≈ 540–615 skills in the finished required scope (strict rule); ≈ 1,984–2,060 for the
+  whole atlas with context. With lessons on every skill, that is over the 10 MB cap.
+See `docs/SCOPE.md` §7, `scope/branches.json`, `reports/scope/04-branch-map.md`.
 
-## [x] Task 6 — Push and summarize
+## [x] Task 5 — Decision brief for JC
+**Do:** One document, `reports/scope/05-decisions.md`, with the evidence, options and a
+recommendation for each:
+- the open boundary questions from Task 2;
+- the five structural questions in PLATFORM.md §10.3 (`X06`, the `s-*` track, thermal, `K05`–`K07`,
+  the stranded calculus entries), restated as scope decisions;
+- `B-D08` filed under Mechanics although it is a thermal calculation;
+- the duplicate candidates from Task 3 that need a ruling;
+- a specification for a `requires_physical_evidence` field in future edition packages, so the
+  hardware warning no longer depends on wording (see PLATFORM.md §3.5). Specification only.
+List what the later V3 merge will need, including the `m-logic` answer conflict, **without reading
+any answer**.
+**Result:** Done. `reports/scope/05-decisions.md` has 14 decisions, each with evidence, options and
+a recommendation:
+- Q1–Q6, with Q1 refined by the measured "decomposes" pattern.
+- The five §10.3 structural questions: X06 → outcome; s-* track optional; thermal → S7; K05–K07 →
+  prerequisites; calculus case by case.
+- B-D08 (resolved by S7), and duplicate rulings (2 same-ability pairs).
+- A `requires_physical_evidence` specification, backfilled through an overrides table so stored
+  lessons never change.
+- A 9-point merge checklist (crosswalk, id policy, families, `m-logic` with no automatic winner,
+  sessions, levels, pipeline, capacity, backups). No answer was read.
+
+## [x] Task 6 — Wave plan and capacity checkpoint
 **Do:**
-- Confirm no generated map, nothing from `Maps/`, `packages/`, `backups/`, `Archive/` or any
-  answer or session data is in any commit.
-- Push `capacity-stress-test`. Do not open a pull request.
-- End with the plain-language summary: tasks finished or stopped and why, the three biggest
-  bottlenecks in order, your recommended design in two or three sentences, branch and commit IDs,
-  and every report file written.
+- Turn the branch map into an ordered list of branch packages (the roadmap's six waves, adjusted by
+  the measurements), each with its estimated skill count and dependencies.
+- Mark the point where the atlas would pass about **3,000 skills**, the practical limit of today's app
+  (`reports/capacity/03-current-app.md`, on branch `capacity-stress-test`). Capacity steps 1–4 of
+  `reports/capacity/05-proposal.md` must land before that package.
+- Write `reports/scope/06-wave-plan.md`.
 **Result:** Done.
-- `main..capacity-stress-test` touches only `authoring/stress/*.mjs` (3 new),
-  `tests/stress-generator.test.mjs` (new), `reports/capacity/00–05` (new) and `Tasks/TASKS.md`. The
-  experiment branch touches only the three cap lines.
-- 0 matches for `Maps/`, `packages/`, `backups/`, `Archive/`, generated maps, JSON data, or
-  answer/session data. The largest committed file is 30 KB.
-- Pushed `capacity-stress-test`. `experiment/raised-limits` was pushed in Task 4. No pull request.
+- 10 ordered packages: decisions → capacity steps 1–4 → **V3 merge (the largest step: +177 skills,
+  298 lessons)** → robotics completions → electronics, mechanics, physics and computing splits
+  (38–114 skills) → maths audit → extension pathways.
+- Roadmap wave 1 is already done; waves 2–5 are covered by V3.
+- **The atlas never passes 3,000 skills** (≈ 2,060 at most). The binding limit is the 10 MB file
+  cap with lessons: ≈ 7.6 MB after the merge, ≈ 9.1–9.75 MB with lessons on all required skills
+  (size model within 3% of the measured V3 file).
+- So the capacity checkpoint is before the merge.
+See `reports/scope/06-wave-plan.md`.
+
+## [x] Task 7 — Push and summarize
+**Do:**
+- Confirm no real map, nothing from `Maps/`, `packages/`, `backups/`, `Archive/`, and no answer or
+  session data is in any commit on this branch. Confirm both real maps' SHA-256 are unchanged since
+  Task 0.
+- Push `scope-foundation`. Do not open a pull request.
+- End with a plain-language summary: tasks finished or stopped and why, the scope in two sentences,
+  covered / partial / missing branch counts, the estimated finished size, the decisions waiting
+  for JC, branch and commit IDs, and every report file written.
+**Result:** Done.
+- The 7 commits since `main` touch only `docs/SCOPE.md`, `reports/scope/*`, `scope/*.json`, the
+  Instruction Guide and this file.
+- 0 paths under `Maps/`, `packages/`, `backups/` or `Archive/`; 0 answer fields.
+- Both real maps still match their Task 0 SHA-256 (`8e170740…`, `687f0916…`).
+- `npm test` 213 / 207 pass / 6 skip / 0 fail.
+- Pushed `scope-foundation`. No pull request.
 
 ---
 
-## NOT QUEUED — needs JC's decision first
-- Implementing any part of the proposal.
-- Moving the repository out of OneDrive (scratch files already live outside it for this queue).
-- The five structural questions in PLATFORM.md §10.3.
-- Merging Robotics V3 into the master atlas; the `m-logic` answer conflict.
-- Cleaning up merged branches.
+## NOT QUEUED — needs JC's decision first (planned order)
+1. **Capacity safety** (steps 1–4 of `reports/capacity/05-proposal.md`). Needed before the atlas
+   passes about 3,000 skills. It needs a decision on merging `capacity-stress-test` first.
+2. **Move the repository out of OneDrive.** Best done before content grows.
+3. **Wave 1 branch package:** robotics frames, transforms, configuration, basic kinematics.
+4. **Merging Robotics V3 into the master atlas**, and the `m-logic` answer conflict.
+5. **Cleaning up merged branches.**
+6. The 8,000-skill re-architecture beyond capacity steps 1–4, if the wave plan needs it.
