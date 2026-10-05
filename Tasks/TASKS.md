@@ -150,7 +150,7 @@ partial / missing branches, and the estimated total skills when the scope is com
   whole atlas with context. With lessons on every skill, that is over the 10 MB cap.
 See `docs/SCOPE.md` §7, `scope/branches.json`, `reports/scope/04-branch-map.md`.
 
-## [ ] Task 5 — Decision brief for JC
+## [x] Task 5 — Decision brief for JC
 **Do:** One document, `reports/scope/05-decisions.md`, with the evidence, options and a
 recommendation for each:
 - the open boundary questions from Task 2;
@@ -162,7 +162,16 @@ recommendation for each:
   hardware warning no longer depends on wording (see PLATFORM.md §3.5). Specification only.
 List what the later V3 merge will need, including the `m-logic` answer conflict, **without reading
 any answer**.
-**Result:**
+**Result:** Done. `reports/scope/05-decisions.md` has 14 decisions, each with evidence, options and
+a recommendation:
+- Q1–Q6, with Q1 refined by the measured "decomposes" pattern.
+- The five §10.3 structural questions: X06 → outcome; s-* track optional; thermal → S7; K05–K07 →
+  prerequisites; calculus case by case.
+- B-D08 (resolved by S7), and duplicate rulings (2 same-ability pairs).
+- A `requires_physical_evidence` specification, backfilled through an overrides table so stored
+  lessons never change.
+- A 9-point merge checklist (crosswalk, id policy, families, `m-logic` with no automatic winner,
+  sessions, levels, pipeline, capacity, backups). No answer was read.
 
 ## [ ] Task 6 — Wave plan and capacity checkpoint
 **Do:**
