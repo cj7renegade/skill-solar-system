@@ -1,5 +1,9 @@
 # Scope 05 — Decision brief for JC (Task 5)
 
+> **Decided 2026-10-05.** JC accepted the recommendation on all 14 decisions. The "Decision" column
+> below records them; `docs/SCOPE.md` §5 and its change log are updated to match. Decisions that
+> change a map are carried out by later queues (`reports/scope/07-checkpoint.md`), not here.
+
 Every decision below belongs to JC. Each has the **measured evidence** (with its source), the
 **options**, and a **recommendation**. Nothing has been changed in any map. Answer on a copy of this
 file, or in chat. Each choice then becomes an entry in `docs/SCOPE.md` §6's change log, and, where it
@@ -7,22 +11,22 @@ changes a map, a later content or merge queue.
 
 **The 14 decisions at a glance**
 
-| # | Decision | Recommendation in one line |
-| --- | --- | --- |
-| 1 | Q1: off-path general mathematics | Keep it as context; count overview breakdowns through a reviewed "decomposes" relationship |
-| 2 | Q2: mathematics depth | Only as deep as an in-scope outcome needs |
-| 3 | Q3: are the X pathways part of "done"? | No; they are labelled extensions |
-| 4 | Q4: safety | Inside branch R10 and the branches that need it |
-| 5 | Q5: tools | Inside lessons, not as skills |
-| 6 | Q6: the broad `r-*` overviews | Keep for now; retire or link at the merge |
-| 7 | `X06` | Reclassify as an extension outcome |
-| 8 | The derivational `s-*` track | Keep optional, joined by *supports* links |
-| 9 | Thermal | No new domain; make S7 the home and add the missing skills there |
-| 10 | `K05`–`K07` planar kinematics | Make them prerequisites (teach planar first) |
-| 11 | Stranded integral calculus | Convert only where an outcome truly integrates |
-| 12 | `B-D08` filing | Resolved by the branch map: S7, Mechanics domain |
-| 13 | Duplicates | Rule `m-ftc`/`m-substitution` same-ability; record the rest as decompositions |
-| 14 | `requires_physical_evidence` | Adopt the field for Edition 07 onward; backfill older editions outside the lesson records |
+| # | Decision | Recommendation in one line | Decision (2026-10-05) |
+| --- | --- | --- | --- |
+| 1 | Q1: off-path general mathematics | Keep it as context; count overview breakdowns through a reviewed "decomposes" relationship | **Accepted** |
+| 2 | Q2: mathematics depth | Only as deep as an in-scope outcome needs | **Accepted** |
+| 3 | Q3: are the X pathways part of "done"? | No; they are labelled extensions | **Accepted** |
+| 4 | Q4: safety | Inside branch R10 and the branches that need it | **Accepted** |
+| 5 | Q5: tools | Inside lessons, not as skills | **Accepted** |
+| 6 | Q6: the broad `r-*` overviews | Keep for now; retire or link at the merge | **Accepted** |
+| 7 | `X06` | Reclassify as an extension outcome | **Accepted** |
+| 8 | The derivational `s-*` track | Keep optional, joined by *supports* links | **Accepted** |
+| 9 | Thermal | No new domain; make S7 the home and add the missing skills there | **Accepted** |
+| 10 | `K05`–`K07` planar kinematics | Make them prerequisites (teach planar first) | **Accepted** |
+| 11 | Stranded integral calculus | Convert only where an outcome truly integrates | **Accepted** |
+| 12 | `B-D08` filing | Resolved by the branch map: S7, Mechanics domain | **Accepted** |
+| 13 | Duplicates | Rule `m-ftc`/`m-substitution` same-ability; record the rest as decompositions | **Accepted** |
+| 14 | `requires_physical_evidence` | Adopt the field for Edition 07 onward; backfill older editions outside the lesson records | **Accepted** |
 
 Plus **§D: what the later V3 merge needs**, which is preparation only.
 

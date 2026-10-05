@@ -1,7 +1,7 @@
 # Skill Solar System — skill scope
 
-**Status: draft for JC's review** (scope queue, branch `scope-foundation`, 2026-10-05). Sections
-marked **open** are decisions for JC. Nothing in this document changes a map. It says what the
+**Status: adopted 2026-10-05.** JC accepted the recommendation on every open question (§5). Earlier
+markers of **open** in this document refer to those questions, now decided. Nothing in this document changes a map. It says what the
 atlas must eventually contain, so content packages and the app can be built toward it.
 
 ## 1. The goal
@@ -35,7 +35,7 @@ A skill is **in scope** if any one of these holds:
 | **Core outcome** | An observable robotics ability on the path to a core milestone (I01–I05, §3) | "Solve planar two-link forward kinematics" |
 | **Extension outcome** | An observable robotics ability on an advanced pathway (X01–X09, §3) | "Implement force or impedance control" |
 | **Foundation** | A **prerequisite**, directly or through a chain of prerequisite links, of any core or extension outcome. This is how mathematics, physics, electronics, mechanics and computing qualify | "Multiply matrices", "Apply Kirchhoff's current law" |
-| **Context** (**open**, see §5 Q1) | Linked to in-scope skills only by *supports* or *related* links, or not linked at all | Many general-mathematics topics imported from a course catalogue |
+| **Context** (decided, see §5 Q1) | Linked to in-scope skills only by *supports* or *related* links, or not linked at all | Many general-mathematics topics imported from a course catalogue |
 
 A skill **qualifies through the map's own links**. A mathematics skill is in scope because a robotics
 outcome needs it, not because it is mathematics. The test is mechanical once the links exist, so it
@@ -83,7 +83,7 @@ with the later V3 merge.
 | X03 | Coordinate base and arm motion simultaneously | |
 | X04 | Apply model-predictive control | |
 | X05 | Evaluate learned robot perception | |
-| X06 | Compare learned policies with nonlearned baselines | Marked as a *milestone* but leads nowhere: an open structural question (PLATFORM.md §10.3) |
+| X06 | Compare learned policies with nonlearned baselines | Decided 2026-10-05: an extension **outcome**, not a milestone; to be relabelled at the V3 merge |
 | X07 | Coordinate multiple mobile robots | |
 | X08 | Design a human-facing robot interaction | |
 | X09 | Develop compliant or dexterous manipulation | |
@@ -112,12 +112,11 @@ Task 4 checks each against V3's branches before anyone proposes a new milestone:
 | Research frontiers beyond the X pathways | Added only when a pathway is defined and reviewed |
 | Tool and product training as standalone skills | See §2.2 and Q5 |
 
-## 5. Open boundary questions for JC
+## 5. Boundary questions (decided 2026-10-05)
 
-Each has options and a recommendation; the decision brief (`reports/scope/05-decisions.md`) adds the
-measured evidence from Tasks 3 and 4.
+JC accepted the recommendation on each. The evidence is in `reports/scope/05-decisions.md`.
 
-| # | Question | Options | Recommendation |
+| # | Question | Options | Decision |
 | --- | --- | --- | --- |
 | Q1 | **General mathematics not on any robotics path.** The master holds 1,221 mathematics skills, many imported from a general course catalogue. How many sit on a robotics path is measured in Task 3 | (a) keep everything, marking off-path skills as *context*; (b) move off-path skills to a separate "general mathematics" atlas family; (c) delete them | **(a)**: nothing is lost, answers stay attached, and the context tier keeps them out of coverage counts. Revisit when capacity work lands |
 | Q2 | **How deep the mathematics goes** (for example calculus and linear algebra beyond what an outcome uses) | (a) only as deep as an in-scope outcome needs; (b) a full undergraduate sequence | **(a)**. Depth follows the outcomes; the X pathways pull in more where they need it |
@@ -143,6 +142,7 @@ measured evidence from Tasks 3 and 4.
 | --- | --- | --- |
 | 2026-10-04 | Scope set to robotics build-and-verify; V3 merges later; scope work first | JC |
 | 2026-10-05 | First draft of this document | Claude Code (scope queue Task 2) |
+| 2026-10-05 | All 14 decisions in `reports/scope/05-decisions.md` accepted as recommended: Q1 (a) now and (b) next; Q2 (a); Q3 (a); Q4 (a); Q5 (a); Q6 (a) now and (c) at the merge; X06 → extension outcome; `s-*` track optional; thermal → S7; K05–K07 → prerequisites; calculus case by case; B-D08 → S7; the two same-ability duplicates ruled; `requires_physical_evidence` adopted for Edition 07 onward | JC |
 
 ## 7. Branch map
 
