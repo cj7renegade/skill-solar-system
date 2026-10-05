@@ -105,7 +105,7 @@ See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
 - Proposed exclusions, and six open questions Q1–Q6 with recommendations.
 - How it is kept: JC-only changes through PRs, with a change log.
 
-## [ ] Task 3 — Measure the master against the scope (read-only)
+## [x] Task 3 — Measure the master against the scope (read-only)
 **Do:**
 - For every master skill, classify it by its prerequisite connections: **on a robotics path** (it
   is, directly or through a chain, a prerequisite of a robotics skill), **supporting only** (linked
@@ -116,7 +116,16 @@ See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
   imported math collections"): same or near-same names across subdomains. Report candidates only;
   merge nothing.
 - Write `reports/scope/03-master-vs-scope.md`.
-**Result:**
+**Result:** Done; both maps unchanged.
+- In scope by prerequisite links: 245 skills (14%) seeded by the 44 master robotics skills, or 324
+  (18%) when counting the 204 ids V3 reuses.
+- The 1,033-skill general-maths import (58% of the atlas) is on no path; 998 of them hang off `m-*`
+  overviews by related links. The 66 granular batch skills are also off-path. Computing reaches
+  robotics only through V3.
+- The master's 44 robotics skills map to 10 V3 branches (a judgement, not a crosswalk).
+- No exact duplicate names; 7 near-duplicates, 2 likely the same ability.
+- Evidence for refining Q1: treat a granular decomposition of an in-scope overview as in scope.
+See `reports/scope/03-master-vs-scope.md`, `scope/master-tiers.json`.
 
 ## [ ] Task 4 — The branch map: every branch, its boundary and its status
 **Do:** Combine the roadmap's branch tables, the 19 Robotics V3 branches and the measurements from
