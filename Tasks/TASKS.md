@@ -1,191 +1,163 @@
-# TASKS — Skill Solar System — Post-merge housekeeping and user-data backup
+# TASKS — Skill Solar System — Skill scope foundation (robotics build-and-verify)
 
-The previous queue (Edition 06 verify and commit) is finished. Its completed version, with every
-Result line, is preserved in Git history at commit `26e9c86`.
+Goal: define the **complete skill scope** the atlas must cover, so the rest of the app can be built
+around it. Scope decision (JC, 2026-10-04): **everything a person needs to design, build, program and
+verify working robots**, from foundations up. Robotics V3 stays a separate map for now; it is
+**merged later**, so this queue only prepares that merge and never performs it.
+
+**This queue plans and measures. It does not add, remove, rename, reconnect or move any skill in any
+real map, and it writes no lesson content.** Authoring the gaps becomes later branch-package queues.
+
+The previous queues are preserved in Git: housekeeping at `f14c8c3` (on `main`), capacity at
+`c7f5950` (branch `capacity-stress-test`, not merged).
 
 ## Rules for Claude Code (read first, every session)
-- Read `docs/PLATFORM.md` and `reports/05-housekeeping.md` first.
+- Read `docs/PLATFORM.md`, `coverage-inventory/COVERAGE-ROADMAP.md` and
+  `coverage-inventory/CLAUDE-HANDOFF.md` first.
 - Work top to bottom, one task at a time. Start at the first unchecked box.
-- Work on branch `housekeeping-2026-09`, created from an up-to-date `main`. Never commit to `main`.
+- Work on branch `scope-foundation`, created from an up-to-date `main`. Never commit to `main`.
   Never merge. Never force-push. Never open or approve a pull request.
 - When a task is done: check its box, fill in its **Result** line, commit, and move on.
-- If a STOP condition triggers, do NOT continue. Write what you found under **Result**,
-  mark the task `[BLOCKED]`, commit, and end the session.
-- Never mark any skill proficient. Never modify node identities, edges, positions, levels, pins,
-  or user proficiency data. Never open an old map copy in the app.
-- Delete or move ONLY the items this file names. Anything else you think should go: report it.
-- Personal maps, answer records and review sessions must never be committed.
-- Environment: Windows, project at `C:\Users\hilli\OneDrive\Desktop\Skill Solar System`.
-  Commands in PLATFORM.md are bash syntax; translate them for your shell without changing what they do.
+- If a STOP condition triggers, do NOT continue. Write what you found under **Result**, mark the task
+  `[BLOCKED]`, commit, and end the session. If the branch does not exist yet, do not commit anywhere;
+  just report.
+- **Real maps are read-only.** You may read `Maps/Skill-Solar-System.json` and
+  `Maps/Robotics-v3/Robotics-v3-Lessons.json` for ids, names, domains, subdomains, descriptions,
+  edges, levels and lesson status. Verify their SHA-256 is unchanged after every task that reads them.
+  Never open them in the app. Never read `proficiency80` values, `%APPDATA%\skill-solar-system\`,
+  or anything in `Maps/Archived maps/`.
+- Never mark any skill proficient. Never change node identities, edges, positions, levels or pins.
+- Scope decisions belong to JC. Where the evidence does not settle a boundary, write the options
+  and a recommendation, and leave it **open**. Do not decide it in the data.
+- Every new file is either documentation (`docs/`, `reports/scope/`) or plain planning data
+  (`scope/`). No application code changes in this queue.
 - JC is still learning to read code. Explain anything technical in one plain sentence.
 
 ---
 
-## [x] Task 0 — Confirm the merge landed (read-only, except updating local main)
+## [x] Task 0 — Starting state and the Instruction Guide
 **Do:**
-- `git fetch origin`. Confirm `origin/main` contains commit `26e9c86`
-  (`git merge-base --is-ancestor 26e9c86 origin/main`).
-- Record `git status`. The only allowed uncommitted change is `Tasks/TASKS.md` (this file).
-- Switch to `main` and update it with `git pull --ff-only` (this only moves local `main` forward
-  to match GitHub; it cannot rewrite anything).
-- Confirm the live export `Maps/Robotics-v3/Robotics-v3-Lessons.json` still has SHA-256
-  `687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11` and counts 298 / 82 / 1 / 381.
-- List remaining local and remote branches. Report them; do not delete any.
-- Create branch `housekeeping-2026-09` from `main`.
-- Write `reports/06-post-merge-state.md`.
-**STOP if:** `origin/main` does not contain `26e9c86`; `git pull --ff-only` refuses; there are
-uncommitted changes other than this file; or the export hash or counts differ.
-**Result:** Done after one stop.
-- `origin/main` = `1c96ba5` (PR #15) and contains `26e9c86`.
-- First pass stopped on an unstaged deletion of `tests/console-smoke.mjs`. JC did it by hand; it is
-  treated as Task 2's removal done early and will be committed with `git rm` in Task 2.
-- `git switch main` refused because of the TASKS.md edit, so local `main` was fast-forwarded with
-  `git fetch origin main:main` (`e2632c0` → `1c96ba5`), and `housekeeping-2026-09` was pointed at it
-  with `git reset --soft main`. No files changed.
-- Export `687f0916…fc11`, 298/82/1/381.
-- 18 local branches, 17 on GitHub; none deleted.
-See `reports/06-post-merge-state.md`.
-
-## [x] Task 1 — Fresh backup before removing anything
-**Do:**
-- Confirm no Electron / Skill Solar System process is running. If one is, STOP and ask JC to close it.
-- Copy `Maps/`, `%APPDATA%\skill-solar-system\proficiency\` and
-  `%APPDATA%\skill-solar-system\Local Storage\` to `backups/pre-housekeeping-<timestamp>/`,
-  the same way as the previous queue's Task 1, and verify every SHA-256.
-- Record counts, sizes and the two key checksums in `reports/07-backup.md`.
-**STOP if:** any copy or checksum fails.
-**Result:** Done. No app process was running. The backup is at
-`backups/pre-housekeeping-20260926-174130/`: 171 files, 96.3 MB (Maps 160, proficiency 1, Local
-Storage 10), every file hash-verified with 0 mismatches. Export `687f0916…fc11`, proficiency
-`4cda601b…e6d0`, both unchanged. `Maps/` grew from 158 to 160 files since the last backup
-(examined in Task 3). See `reports/07-backup.md`.
-
-## [x] Task 2 — Remove the dead items JC approved
-**Do:**
-- Delete `.e2e-baseline/` and `.e2e-c1/`. First re-confirm nothing in `package.json`, `tests/`,
-  `src/`, `authoring/` or `scripts/` references them. If they are tracked by Git, use `git rm`.
-- Remove `tests/console-smoke.mjs` with `git rm` (Git history keeps it).
-- Run `npm run build` and `npm test`. Results must match the last known state:
-  207 tests, 201 pass, 6 skip, 0 fail.
-**STOP if:** any reference is found, or any test result differs.
-**Result:** Done. All three items had already been handled by JC by hand, so nothing was deleted
-this session.
-- `.e2e-baseline/` and `.e2e-c1/`: already gone, and no copy exists anywhere in the project or the
-  top levels of OneDrive, so they were deleted, not moved. Git never tracked them, but every source
-  file in them is in Git history (`reports/05-housekeeping.md` §1). `.git/info/exclude` still
-  lists both (local-only, harmless, left alone).
-- `tests/console-smoke.mjs`: already deleted on disk; the deletion was committed here with `git rm`.
-- References: none in `package.json`, `tests/`, `src/`, `authoring/` or `scripts/`.
-- `npm run build` passed; `npm test` gave 207 tests / 201 pass / 6 skip / 0 fail, matching the last
-  known state.
-
-## [x] Task 3 — Archive the superseded maps (move, never open)
-**Do:**
-- Create `Archive/2026-09-26-superseded-maps/` (it is already ignored by Git through `/Archive/`).
-- Move, without opening them in the app, exactly these files into it:
-  - `Maps/Robotics-v3/Preview-Notes.md`
-  - `Maps/Robotics-v3/Content-Completion-Ledger.csv`
-  - the 13 `Maps/*-with-prerequisites.json` files listed in `reports/05-housekeeping.md` §6
-  - `Maps/Skill-Solar-System-Math-Academy-Marked.json`
-- Add a `README.md` inside that folder, in plain language: why these were archived, that 12 of them
-  hold stale proficiency answers, and that **opening any of them in the app can copy stale answers
-  into the shared record, so they must not be opened.**
-- Verify each moved file's SHA-256 is unchanged, and that `Maps/Skill-Solar-System.json` and the
-  whole `Maps/Robotics-v3/` export set (other than the two moved files) are untouched.
-- Do not touch the `Maps/` subfolders (`Archived maps`, `Backups`, `Checkpoint-2026-09-13`,
-  `description-rewrite`, `Notes`, `Old-root-copies`).
-- Run `npm test` again, then
-  `SSS_ATLAS=Maps/Skill-Solar-System.json npm test` to confirm the six real-atlas tests still pass
-  without the batch sub-maps present. If any test needs a moved file, STOP and report which.
-- Write `reports/08-archive.md` listing every moved file with size and checksum.
-**Result:** Done, with JC's decision.
-- JC had already moved the 13 extracts and Math-Academy-Marked by hand into `Maps/Archived maps/`.
-  All 14 hashes match the backup, and there are also two byte-identical `- Copy` duplicates.
-- That subfolder is one the queue says not to touch, so JC chose to leave all 16 there, and nothing
-  in it was changed.
-- `Archive/2026-09-26-superseded-maps/` was created. `Preview-Notes.md` and
-  `Content-Completion-Ledger.csv` were moved into it with their hashes unchanged, and a README
-  warns never to open the old copies and says where they are.
-- The other 158 `Maps/` files are byte-identical, including the master and the Robotics-v3 set.
-- `npm test` 207/201/6/0; with `SSS_ATLAS`, 207/207/0/0, so no test needs a moved file.
-- Nothing else changed in `Archive/`. The only other `Maps/` change is `Integration-Summary.json`,
-  from the previous queue.
-See `reports/08-archive.md`.
-
-## [x] Task 4 — One-click user-data backup
-**Goal:** JC's answers in `%APPDATA%\skill-solar-system\` are backed up nowhere except the copies in
-`backups/`. Make backing them up (and `Maps/`) a double-click.
-**Do:**
-- Add `scripts/backup-user-data.ps1` and a double-click helper `Backup-User-Data.cmd` in the
-  project root, matching the style of the existing `.cmd` helpers (CRLF line endings, per
-  `.gitattributes`). The script must:
-  - refuse to run, with a clear message, if the Skill Solar System app is open;
-  - copy `Maps\` and `%APPDATA%\skill-solar-system\` into
-    `%OneDrive%\Skill Solar System Backups\<yyyy-MM-dd_HHmmss>\` (outside the project folder);
-  - verify every copied file by SHA-256 and print a plain summary (files, size, pass/fail);
-  - keep the 10 most recent backup folders and delete older ones, only inside that backups folder;
-  - never read, print or change answer contents; never write anywhere else.
-- Run it once and report the result, the destination path and its size.
-- Add a short "Back up your data" recipe to PLATFORM.md §11.5 pointing at the new helper.
-- Commit the script and helper. They contain no personal data.
-**STOP if:** `%OneDrive%` is not set, or verification fails.
+- `git fetch origin`; confirm local `main` equals `origin/main`; create `scope-foundation` from it.
+- Confirm the working tree holds only this file (modified) and
+  `Skill-Solar-System-Instruction-Guide-v0.4.docx` (untracked). Anything else: STOP and report.
+- Run `npm run build` and `npm test`; record the result.
+- Record the SHA-256, skill count and connection count of both real maps.
+- Commit the Instruction Guide **unchanged, where JC put it** (project root), so other users have it.
+  Record its version and date. List any statement in it that the code or a report shows to be
+  inaccurate (report only; JC maintains the guide).
+- Write `reports/scope/00-starting-state.md`.
+**STOP if:** other uncommitted changes exist; `main` cannot fast-forward; tests fail.
 **Result:** Done.
-- Added `scripts/backup-user-data.ps1` (plain ASCII, runs on Windows PowerShell 5.1) and
-  `Backup-User-Data.cmd` (CRLF, same style as the other helpers).
-- Refusal tested: with the app open in an isolated test profile, the script printed "BACKUP NOT
-  MADE: the Skill Solar System app is open…", exited 1, and made no folder.
-- The real app was then found open (started 6:58 PM via `npm start`, not by this session). JC
-  closed it; the proficiency record was unchanged (`4cda601b…`).
-- Real run through the helper: 209 files, 90.9 MB, "Verification: PASSED", 1 backup kept, at
-  `C:\Users\hilli\OneDrive\Skill Solar System Backups\2026-09-27_142456` (95,365,083 bytes).
-- Independent recheck: Maps 158/158 and app data 51/51 files byte-identical.
-- PLATFORM.md §11.5 now has the "Back up your data" recipe.
+- `scope-foundation` was created from `main` at `7dd9a01` (PR #17 merged). The tree was clean apart
+  from this file and the guide.
+- Build passed; `npm test` 213 / 207 pass / 6 skip / 0 fail.
+- Master: 1,769 skills, 5,142 connections, SHA-256 `8e170740…`. It changed since 27 Sep
+  (`04821f06…`) at the same size, consistent with JC saving it; not investigated, because it may be
+  answers. V3: 381 / 894, `687f0916…`, unchanged.
+- The Instruction Guide v0.4 was committed unchanged. Four notes for JC: the "close to the
+  browser-storage limit" claim (the measured ceiling is 52.3 M characters), the silent draft warning
+  on open, and two items about the new features not yet in the guide.
+See `reports/scope/00-starting-state.md`.
 
-## [x] Task 5 — Bring PLATFORM.md up to date
-**Do:** Fix every statement this session or the previous one made false, including at least:
-- §8.1 and §11.2 test totals (now 207 tests, 201 pass, 6 skip) and the
-  `robotics-v3-lessons.test.mjs` count (now 18);
-- "Things I could not determine" item 6 (`Tasks/TASKS.md` is now tracked and is the work queue),
-  plus items 1 and 4 (the `.e2e-*` folders and `console-smoke.mjs` are removed);
-- §2.6 and §10.2 mentions of the removed items;
-- §2.5, noting the superseded maps now live in `Archive/2026-09-26-superseded-maps/`.
-Change nothing else in PLATFORM.md.
-**Result:** Done.
-- §8.1: 207 tests / 201 pass / 6 skip across 27 files, with `robotics-v3-lessons.test.mjs` at 18.
-  §11.2: 207.
-- "Could not determine" items 1, 4 and 6 removed as answered; the rest renumbered 1–5, wording
-  unchanged.
-- §2.6: the `.e2e-*` entry removed; `Tasks/TASKS.md` described as the tracked work queue.
-- §10.2: the two dead-item bullets replaced by one "Removed as dead" line.
-- §2.5: says the preview files are in `Archive/2026-09-26-superseded-maps/`, and the old copies
-  are in `Maps/Archived maps/` (JC's decision in Task 3), with the stale-answer warning.
-- Two further statements these sessions made false were also fixed:
-  - the header and §9.1 said Edition 06 "has not been merged into `main`"; it now cites PR #15 /
-    `1c96ba5`;
-  - the §2.6 `*.cmd` list now includes `Backup-User-Data.cmd`.
-- Checked and still correct: `lesson.js` is 141 lines, and there are 27 test files.
-
-## [x] Task 6 — Push and summarize
+## [ ] Task 1 — Reconcile the coverage inventory with today's maps (read-only)
+Follow `coverage-inventory/CLAUDE-HANDOFF.md` steps 1–3.
 **Do:**
-- Confirm nothing under `Maps/`, `packages/`, `backups/`, `Archive/` or any answer/session data is
-  staged in any commit on this branch.
-- Push the branch: `git push -u origin housekeeping-2026-09`. Do not open a pull request.
-- End with the plain-language summary: tasks finished or stopped and why, branch and commit IDs,
-  the backup destination, and every report file written.
-**Result:** Done.
-- The branch's commits (`63d7e3e` … `2bf88e5`, plus this one) touch only `Backup-User-Data.cmd`,
-  `scripts/backup-user-data.ps1`, `docs/PLATFORM.md`, `Tasks/TASKS.md`, `reports/06`–`08`, and the
-  deletion of `tests/console-smoke.mjs`.
-- Nothing under `Maps/`, `packages/`, `backups/` or `Archive/`, and no answer or session data (0
-  matches).
-- Pushed with `git push -u origin housekeeping-2026-09`. No pull request was opened.
+- Compare `coverage-inventory/baseline-node-index.json` (1,686 skills, Sept 14) with today's master:
+  added, removed and renamed ids; per-domain and per-subdomain counts then and now; which of the
+  four delivered batches are present.
+- Check every branch anchor id in `COVERAGE-ROADMAP.md` still exists in the master.
+- Measure the overlap between the master and Robotics V3: V3 ids with a `rob3:` prefix whose planning
+  id matches a master id (for example `rob3:m-trig` and `m-trig`), same-name matches, and V3 entries
+  with no master equivalent. This is preparation for the later merge; merge nothing.
+- Write `reports/scope/01-reconciliation.md` and `scope/reconciliation.json` (ids, names, domains
+  only: no answers, positions or lesson text).
+**Result:**
+
+## [ ] Task 2 — Write the scope statement
+**Do:** Draft `docs/SCOPE.md` in plain language:
+- The goal in one paragraph: what a person who completes the atlas can do (design, build, program
+  and verify working robots).
+- The **inclusion test**: when a skill belongs in scope, for example "it is required, directly or
+  through prerequisites, to build or verify a robot capability in the atlas", and how supporting
+  skills (maths, physics, electronics, mechanics, computing) qualify.
+- The **backbone**: the build-and-verify milestones that define "done", starting from the Robotics V3
+  milestones I01–I05 and the X advanced pathways, plus any milestone the roadmap's branches imply
+  that V3 lacks (for example fault handling, calibration and identification, machine elements).
+- **Explicit exclusions**, and **open boundary questions** for JC with options and a recommendation
+  (for example: whether general mathematics not on any robotics path stays in the atlas, and to
+  what depth).
+- How the scope will be kept: who changes it, and how a change is recorded.
+**Result:**
+
+## [ ] Task 3 — Measure the master against the scope (read-only)
+**Do:**
+- For every master skill, classify it by its prerequisite connections: **on a robotics path** (it
+  is, directly or through a chain, a prerequisite of a robotics skill), **supporting only** (linked
+  by supports or related links only), or **not connected to any robotics skill**. Count by domain and
+  subdomain.
+- List the master's robotics-domain skills and the V3 milestones they would serve.
+- Flag likely duplicates within the master (the roadmap's "duplicate representations across
+  imported math collections"): same or near-same names across subdomains. Report candidates only;
+  merge nothing.
+- Write `reports/scope/03-master-vs-scope.md`.
+**Result:**
+
+## [ ] Task 4 — The branch map: every branch, its boundary and its status
+**Do:** Combine the roadmap's branch tables, the 19 Robotics V3 branches and the measurements from
+Tasks 1 and 3 into one list of branches across all six domains. For each branch:
+- its scope boundary and exclusions;
+- existing skills that cover it (master ids, V3 ids), and their count;
+- status: **covered**, **partial** or **missing**, with the evidence;
+- each roadmap candidate outcome mapped to: an existing skill, a **proposed new skill** (with a
+  one-line observable ability), a split of a broad existing skill, or an explicit deferral, as in
+  the roadmap's "definition of a completed branch review";
+- a rough size of the remaining work in skills, labelled as an estimate.
+Write `scope/branches.json` and add the branch table to `docs/SCOPE.md`. Report totals: covered /
+partial / missing branches, and the estimated total skills when the scope is complete.
+**Result:**
+
+## [ ] Task 5 — Decision brief for JC
+**Do:** One document, `reports/scope/05-decisions.md`, with the evidence, options and a
+recommendation for each:
+- the open boundary questions from Task 2;
+- the five structural questions in PLATFORM.md §10.3 (`X06`, the `s-*` track, thermal, `K05`–`K07`,
+  the stranded calculus entries), restated as scope decisions;
+- `B-D08` filed under Mechanics although it is a thermal calculation;
+- the duplicate candidates from Task 3 that need a ruling;
+- a specification for a `requires_physical_evidence` field in future edition packages, so the
+  hardware warning no longer depends on wording (see PLATFORM.md §3.5). Specification only.
+List what the later V3 merge will need, including the `m-logic` answer conflict, **without reading
+any answer**.
+**Result:**
+
+## [ ] Task 6 — Wave plan and capacity checkpoint
+**Do:**
+- Turn the branch map into an ordered list of branch packages (the roadmap's six waves, adjusted by
+  the measurements), each with its estimated skill count and dependencies.
+- Mark the point where the atlas would pass about **3,000 skills**, the practical limit of today's app
+  (`reports/capacity/03-current-app.md`, on branch `capacity-stress-test`). Capacity steps 1–4 of
+  `reports/capacity/05-proposal.md` must land before that package.
+- Write `reports/scope/06-wave-plan.md`.
+**Result:**
+
+## [ ] Task 7 — Push and summarize
+**Do:**
+- Confirm no real map, nothing from `Maps/`, `packages/`, `backups/`, `Archive/`, and no answer or
+  session data is in any commit on this branch. Confirm both real maps' SHA-256 are unchanged since
+  Task 0.
+- Push `scope-foundation`. Do not open a pull request.
+- End with a plain-language summary: tasks finished or stopped and why, the scope in two sentences,
+  covered / partial / missing branch counts, the estimated finished size, the decisions waiting
+  for JC, branch and commit IDs, and every report file written.
+**Result:**
 
 ---
 
-## NOT QUEUED — needs JC's decision first
-- Moving the repository out of OneDrive (planned before the 8,000-skill work begins).
-- The five structural questions in PLATFORM.md §10.3 (X06, `s-*` track, thermal, K05–K07, calculus).
-- Adding a `requires_physical_evidence` field to future edition packages.
-- The 8,000-skill scale stress test and platform re-architecture.
-- Merging Robotics V3 into the master atlas, and the `m-logic` answer conflict.
-- The coverage-inventory pass in `CLAUDE-HANDOFF.md`.
+## NOT QUEUED — needs JC's decision first (planned order)
+1. **Capacity safety** (steps 1–4 of `reports/capacity/05-proposal.md`). Needed before the atlas
+   passes about 3,000 skills. It needs a decision on merging `capacity-stress-test` first.
+2. **Move the repository out of OneDrive.** Best done before content grows.
+3. **Wave 1 branch package:** robotics frames, transforms, configuration, basic kinematics.
+4. **Merging Robotics V3 into the master atlas**, and the `m-logic` answer conflict.
+5. **Cleaning up merged branches.**
+6. The 8,000-skill re-architecture beyond capacity steps 1–4, if the wave plan needs it.
