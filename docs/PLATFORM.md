@@ -134,12 +134,12 @@ Plain JavaScript files, each a *module* (a file that can export pieces for other
 
 | File | Lines | What it does | Read by |
 | --- | ---: | --- | --- |
-| `app.js` | 536 | The controller. Wires every button, renders the side panel and the subject card, opens and saves files, and owns the map currently in memory. | the build step |
-| `model.js` | 126 | Defines what a valid map is, and rejects invalid ones. Holds `validate`, `normalize`, `levels`, the six domains and their colours. | nearly everything |
-| `viewer.js` | 247 | The 3D scene: spheres, connection lines, nameplates, camera, mouse and wheel handling. | `app.js` |
+| `app.js` | 552 | The controller. Wires every button, renders the side panel and the subject card, opens and saves files, and owns the map currently in memory. | the build step |
+| `model.js` | 130 | Defines what a valid map is, and rejects invalid ones. Holds `validate`, `normalize`, `levels`, the size `LIMITS`, the six domains and their colours. | nearly everything |
+| `viewer.js` | 261 | The 3D scene: spheres, connection lines, nameplates, camera, mouse and wheel handling. | `app.js` |
 | `review.js` | 179 | The guided review: queue order, session state, and map identity (§5). | `app.js`, `review-dialog.js` |
 | `review-dialog.js` | 157 | The review window's screens and buttons. | `app.js` |
-| `lesson.js` | 141 | Decides *what* a lesson card shows. Returns plain data, no screen code. | `app.js`, tests |
+| `lesson.js` | 149 | Decides *what* a lesson card shows. Returns plain data, no screen code. | `app.js`, tests |
 | `proficiency.js` | 107 | The shared answer record: validation, merging, and the rule that answers are never inferred. | `app.js`, `proficiency-store.js` |
 | `prerequisites.js` | 68 | Walks the prerequisite chain behind one skill, for the bulk-marking control. | `app.js`, tests |
 | `knowledge.js` | 63 | Offline descriptions for the 18 starter subjects only. | `model.js` |
@@ -155,8 +155,9 @@ Plain JavaScript files, each a *module* (a file that can export pieces for other
 | `interaction.js` | 15 | Arrow-key panning directions; double-click detection. | `app.js`, `viewer.js` |
 | `spacing.js` | 12 | Display-only sphere spacing. Never changes stored coordinates. | `app.js`, `viewer.js` |
 | `connections.js` | 6 | Which connection lines are visible. | `viewer.js` |
-| `nameplates.js` | 9 | Where a floating name sits relative to its sphere. | `viewer.js` |
-| `tour.js` | 104 | The guided tour behind the header's **Tour** button: twelve steps on moving the camera, where things are, and good use. Its steps are plain data; the card never blocks the map. | `app.js`, tests |
+| `nameplates.js` | 18 | Where a floating name sits relative to its sphere, and whether it is large enough to draw. | `viewer.js` |
+| `history.js` | 19 | How many Undo steps to keep: 50 for ordinary maps, fewer for very large ones, within a memory budget. | `app.js` |
+| `tour.js` | 105 | The guided tour behind the header's **Tour** button: twelve steps on moving the camera, where things are, and good use. Its steps are plain data; the card never blocks the map. | `app.js`, tests |
 | `index.html` | — | The page skeleton: header, console panel, and three dialog windows. | the build step |
 | `style.css` | — | All appearance. | copied by the build |
 
@@ -184,6 +185,7 @@ The robotics v3 work lives in `authoring/robotics-v3/`:
 | `build-preview.mjs` | tool | Turns the reviewed specification into a runtime map with no lessons. Run once. |
 | `lessons.mjs` | tool | The import logic: reconciliation, conflict detection, status labelling. No file access. |
 | `apply-lessons.mjs` | tool | The command you actually run. Finds inputs, reports, gates, writes. |
+| `evidence-overrides.json` | data | Whether each of the 298 authored entries needs real-hardware evidence, for editions that do not say so themselves (see §3.5). Also lists 44 cards for JC to review. |
 | `Integration-Summary.md` | record | The tracked written handoff note for editions 01–06. |
 | `Edition06-Integration-Summary.md` | record | The Edition 06 importer's own note, kept unchanged. |
 | `I05-Audit.md` | record | The read-only structural audit of the I05 chain. |
@@ -366,6 +368,14 @@ Three details worth knowing:
   For Edition 06, `actual` was added to `NEEDS_REAL_EVIDENCE`, because `Q06` and `V07` say
   "actual" where earlier editions said "physical" and had lost the line. Two unit tests now name
   those entries directly, so the check does not rely on the word list it is testing.
+- **An edition can now say so itself.** A lesson that carries `requires_physical_evidence` (and
+  `evidence_kind`) has them copied into `lessonCard.requiresPhysicalEvidence` / `evidenceKind` by
+  the importer; `needsRealEvidence()` uses that true/false value first and falls back to the word
+  pattern only when it is absent. Editions 01–06 do not carry the field, so the importer takes it
+  from `authoring/robotics-v3/evidence-overrides.json`. That table was made from the pattern's own
+  result (124 of 298 entries true, including `Q06` and `V07`), so no card changed. It is marked
+  "pattern-derived, not yet reviewed card by card", and lists 44 entries from editions 01–02 whose
+  demonstration looks physical but which show no hardware line, for JC to decide one by one.
 
 **Which authored fields have a renderer, and which do not.**
 
@@ -707,7 +717,9 @@ existing record is **kept**, the entry stays authored, the differing field names
 re-import.
 
 **5. Apply.** Set `details`, `placementNote`, `lessonCard` (a rendering summary) and `lesson` (the
-**entire** supplied record, verbatim). Set `contentStatus` and `lessonStatus` for every node, not
+**entire** supplied record, verbatim). The card summary gains `requiresPhysicalEvidence` and
+`evidenceKind`, from the lesson or else from `evidence-overrides.json` (§3.5); the stored lesson is
+never edited, and any lesson with neither is listed in the summary's `evidence.missing`. Set `contentStatus` and `lessonStatus` for every node, not
 just the new ones. Field order is fixed so re-running produces identical bytes.
 
 **6. Restate the title and four metadata keys** — `scope`, `contentEditions`,
@@ -738,7 +750,9 @@ practice_mode, has_practice, has_boundary_case, references, contract_sha256`.
 
 **The integration summary** (`Integration-Summary.json`) holds `sourceRevision` (the Git commit),
 input fingerprints, `counts`, `byEdition`, `thisRun`, `signatures`, `sinceSuppliedBaseline`,
-`preservation` (including the review-session check), `idempotent`, `limitations` and `result`.
+`preservation` (including the review-session check), `evidence` (how many entries took the field
+from the lesson, how many from the table, and which had neither), `idempotent`, `limitations` and
+`result`.
 
 **The tracked written note** is `authoring/robotics-v3/Integration-Summary.md`.
 
@@ -825,15 +839,16 @@ Yes/No, the confirmed prerequisite-chain pass, edit mode, Undo/Redo, and importi
 > **Term: unit test.** A small check of one piece of logic in isolation, with no window and no
 > graphics. Fast — the whole suite runs in under a second.
 
-**217 tests across 30 files: 211 pass, 6 skipped, 0 fail.** Three files are newer than the table
-below: `map-library.test.mjs` (3 tests: what the Your maps list offers and refuses),
+**229 tests across 32 files: 223 pass, 6 skipped, 0 fail.** Five files are newer than the table
+below: `history.test.mjs` (3 tests: the Undo memory budget), `limits.test.mjs` (4 tests: the
+size caps, their messages, and that the desktop save cap matches), `map-library.test.mjs` (3 tests: what the Your maps list offers and refuses),
 `tour.test.mjs` (3 tests: every tour step is complete and points at something on the page) and
 `stress-generator.test.mjs` (4 tests: the synthetic stress-map generator is reproducible, loop-free
 and answer-free).
 
 | File | Tests | Covers |
 | --- | ---: | --- |
-| `robotics-v3-lessons.test.mjs` | 18 | The edition importer, card sections, review migration, the real map |
+| `robotics-v3-lessons.test.mjs` | 21 | The edition importer, card sections, review migration, the real map |
 | `robotics-foundations.test.mjs` | 14 | The Robotics Foundations batch and its merge |
 | `material-behavior.test.mjs` | 13 | Material Behavior batch |
 | `mechanics-statics.test.mjs` | 13 | Mechanics Statics batch |
@@ -848,7 +863,8 @@ and answer-free).
 | `update.test.mjs` | 8 | Update/versioning behaviour |
 | `grid.test.mjs`, `proficiency-store.test.mjs`, `pulse.test.mjs` | 6 each | Grid spacing; storage; pulse maths |
 | `find.test.mjs`, `spacing.test.mjs`, `vortex.test.mjs` | 5 each | Search; spacing; spiral layout |
-| `highlight.test.mjs`, `interaction.test.mjs`, `nameplates.test.mjs` | 4 each | Highlighting; clicks; label projection |
+| `nameplates.test.mjs` | 6 | Label projection; hiding names too small to read; no whole-map loops per frame |
+| `highlight.test.mjs`, `interaction.test.mjs` | 4 each | Highlighting; clicks |
 | `connections.test.mjs`, `orbit.test.mjs`, `placement.test.mjs` | 3 each | Visible edges; orbit; placement |
 | `positions.test.mjs`, `save.test.mjs` | 2 each | Coordinates; atomic save |
 
@@ -886,11 +902,12 @@ replaced by a fixed path. Your real answers are never touched.
 | `orbit-e2e.mjs` | 14 | Click-to-centre and orbit |
 | `pulse-e2e.mjs` | 14 | Proficiency colours and the pulse |
 | `find-e2e.mjs` | 14 | Find box and collapsible panels |
-| `pan-e2e.mjs` | 6 | Held-key panning rate |
+| `pan-e2e.mjs` | 6 | Held-key panning rate (measured from where nameplates first appear) |
 | `grid-e2e.mjs` | 5 | The floor grid at distance |
 | `prerequisites-e2e.mjs` | 47 (52 with a map) | The prerequisite-chain control |
 | `map-picker-e2e.mjs` | 8 | The Your maps dropdown, against a temporary Maps folder |
 | `deselect-e2e.mjs` | 7 | Right-click clears the selection without moving the view; right-drag still pans |
+| `draft-warning-e2e.mjs` | 6 | With browser storage full, the save-now warning stays visible after Open map, an edit, Undo and Redo |
 | `tour-e2e.mjs` | 34 | The guided tour: every step, the highlight, Back, Escape, Close, and the map still turning while it is open |
 | `robotics-v3-e2e.mjs` | 494 with a map | Lesson cards, answers, symbols, units, sessions, save/reload |
 | `atlas-e2e.mjs`, `dc-`, `physics-`, `material-`, `statics-`, `robotics-atlas-e2e.mjs` | — | Each integrated batch against a real atlas |
@@ -898,7 +915,7 @@ replaced by a fixed path. Your real answers are never touched.
 Scripts needing a local map print `Skipped: …` and exit cleanly without one.
 
 ```sh
-npm run test:e2e                                              # 182 checks, no local files needed
+npm run test:e2e                                              # 237 checks, no local files needed
 SSS_V3_MAP=Maps/Robotics-v3/Robotics-v3-Lessons.json \
   SSS_ATLAS=Maps/Skill-Solar-System.json npm run test:e2e     # the full set
 ```
@@ -1001,8 +1018,10 @@ Summarised; details in `authoring/robotics-v3/I05-Audit.md`.
 - **Size ceilings, as measured.** The open and save cap is 150 MB (raised from 10 MB in October 2026).
   Browser storage holds a draft of at most about 52 million characters; above that the draft is not
   cached and the app says so. The robotics map (2.7 MB) and the original atlas (5.4 MB) are far
-  inside both. See `reports/capacity/`.
-- **`app.js` is 536 dense lines** with long single-line statements. It works and is well tested, but
+  inside both. Moving the camera holds about 60 fps up to 12,000 skills since names too small to
+  read stopped being drawn; clicking a skill still rebuilds the whole scene (about 0.55 s at
+  10,000). See `reports/capacity/`, especially `06-safety-results.md`.
+- **`app.js` is 552 dense lines** with long single-line statements. It works and is well tested, but
   it is the hardest file here to change safely.
 - **Two surprises worth flagging.** First, `src/model.js` validates only a dozen fields and silently
   carries everything else — powerful, but a typo in `contentStatus` would pass unnoticed. Second,

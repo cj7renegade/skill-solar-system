@@ -138,10 +138,18 @@ generated 5k, 10k and 12k maps (with the raised caps) against `04-raised-limits.
   (One fix during the task: the importer's second, idempotency pass was not given the table.)
 - Unit tests 227 / 221 pass / 6 skip / 0 fail.
 
-## [ ] Task 6 — Measure, document, merge
+## [x] Task 6 — Measure, document, merge
 **Do:**
 - Run all unit and end-to-end tests.
 - Write `reports/capacity/06-safety-results.md` with before and after numbers.
 - Update PLATFORM.md.
 - Open a pull request, merge it, and update local `main`.
-**Result:**
+**Result:** Done.
+- Unit tests 229 / 223 pass / 6 skip / 0 fail. End to end: all 12 suites, 237 checks pass (one run
+  had a launch hiccup in `shared-e2e.mjs`; the rerun passed; noted in the report).
+- `reports/capacity/06-safety-results.md`: before and after for every task.
+- PLATFORM.md: file table (new `history.js`, line counts), §2.3 the overrides table, §3.4 hidden
+  small names, §3.5 the evidence field, §6.2–6.3 the importer's card fields and `evidence` summary,
+  §8.1/§8.3 test counts (the e2e total was stale at 182; it is 237), §10.2 frame rate.
+- Real maps unchanged: master `8e170740…`, V3 export `687f0916…` (SHA-256, checked at the end).
+- Pull request opened and merged; local `main` updated.
