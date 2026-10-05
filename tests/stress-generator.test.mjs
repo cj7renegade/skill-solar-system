@@ -32,7 +32,7 @@ test('a generated map is a valid map the app would accept, with the requested co
   }
 });
 
-test('maps above today\'s 5,000-skill cap are still loop-free and hold the requested count', () => {
+test('maps above the old 5,000-skill cap are still loop-free and hold the requested count', () => {
   const graph = generateStressMap({ nodes: 6000 });
   assert.equal(graph.nodes.length, 6000);
   const depth = levels(graph); // throws "Prerequisite cycle detected" on any loop

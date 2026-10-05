@@ -54,6 +54,9 @@ try {
   const zoom = async notches => { const mid = await canvasCenter(); for (let i = 0; i < notches; i++) { await send('Input.dispatchMouseEvent', { type: 'mouseWheel', x: mid.x, y: mid.y, deltaX: 0, deltaY: -120 }); await sleep(14); } await sleep(400); };
 
   const steady = PAN_SPHERES_PER_SECOND * SPACING;
+  // At Home the nameplates are too small to read and are not drawn (src/nameplates.js), so move in
+  // just until they appear. That is still far out, where the steady rate applies.
+  for (let i = 0; i < 30 && !(await centreMost()); i++) await zoom(1);
   const overview = await rate();
   check('panning at the overview covers the steady map rate', overview && Math.abs(overview.units - steady) / steady < 0.2, `${Math.round(overview?.units)} of ${steady} units/s at depth ${Math.round(overview?.depth)}`);
   await zoom(12);

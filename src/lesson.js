@@ -21,9 +21,17 @@ const blocks = (...items) => items.filter(Boolean);
 // this entry's demonstration still need evidence from real hardware or a deployed system?
 export const NEEDS_REAL_EVIDENCE = /\b(physical|actual|deployed[-\s]?system|target[-\s]?device|hardware|supervised|on[-\s]robot)\b/i;
 const PREPARATION = /\b(paper|code|design|preparation|written)\b/i;
+// Whether the full demonstration needs real hardware or deployed-system evidence. An edition that
+// states it (requires_physical_evidence, copied into the card summary by the importer, or taken from
+// authoring/robotics-v3/evidence-overrides.json for older editions) decides; otherwise the wording
+// of practice_mode is matched as before.
+export function needsRealEvidence(node) {
+  const stated = node?.lessonCard?.requiresPhysicalEvidence;
+  return typeof stated === 'boolean' ? stated : NEEDS_REAL_EVIDENCE.test(text(node?.lessonCard?.practiceMode));
+}
 export function exerciseKind(node) {
   const mode = text(node?.lessonCard?.practiceMode);
-  if (NEEDS_REAL_EVIDENCE.test(mode)) return 'Introductory exercise: paper, code or design preparation. The full demonstration also needs physical or deployed-system evidence.';
+  if (needsRealEvidence(node)) return 'Introductory exercise: paper, code or design preparation. The full demonstration also needs physical or deployed-system evidence.';
   if (PREPARATION.test(mode)) return 'Introductory exercise on paper, in code or as a design. The full demonstration is done separately.';
   return 'Introductory exercise. The full demonstration is done separately.';
 }

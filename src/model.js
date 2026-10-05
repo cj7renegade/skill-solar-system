@@ -5,6 +5,10 @@ export const DOMAINS = {
   Electronics: '#72d7c5', Computing: '#79baff', Robotics: '#e3d889'
 };
 export const TYPES = ['prerequisite', 'supports', 'related'];
+// Size limits for one map. 150 MB is the largest size measured working (a 98.8 MB map opened and
+// saved; reports/capacity/04-raised-limits.md). desktop/main.cjs repeats mapBytes for saving, and
+// tests/limits.test.mjs checks the two agree.
+export const LIMITS = { nodes: 25000, edges: 100000, mapBytes: 150_000_000 };
 export const clone = value => JSON.parse(JSON.stringify(value));
 // Proficiency colouring shows two states only: green for skills marked Yes, red for everything else,
 // including skills that have not been answered yet. The answer itself is still Yes, No, or unmarked;
@@ -57,7 +61,7 @@ export function placementSummary(graph, node) {
 }
 export function validate(graph) {
   if (!graph || graph.schemaVersion !== 1 || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) throw Error('Expected a version 1 Skill Solar System map.');
-  if (graph.nodes.length > 5000 || graph.edges.length > 20000) throw Error('This version supports at most 5,000 nodes and 20,000 connections.');
+  if (graph.nodes.length > LIMITS.nodes || graph.edges.length > LIMITS.edges) throw Error(`This version supports at most ${LIMITS.nodes.toLocaleString('en-US')} nodes and ${LIMITS.edges.toLocaleString('en-US')} connections.`);
   const ids = new Set();
   for (const n of graph.nodes) {
     if (typeof n.id !== 'string' || !n.id.length || n.id.length > 100 || ids.has(n.id)) throw Error('Node IDs must be unique, nonempty strings.');

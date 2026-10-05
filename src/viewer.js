@@ -4,7 +4,7 @@ import { DOMAINS, nodeColor } from './model.js';
 import { panOffset, nearestAhead, typicalSpacing, navigationDistance, keyPanAmount, wheelPixels, wheelMove, centerOn } from './camera.js';
 import { createActivationTracker } from './interaction.js';
 import { visibleConnections } from './connections.js';
-import { nameplateProjection } from './nameplates.js';
+import { nameplateProjection, nameplateReadable } from './nameplates.js';
 import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
 import { pulseIntensity, pulseWave, steadyIntensity, pulsingIds, PULSE_COLORS } from './pulse.js';
@@ -84,6 +84,9 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   // Wheel travel replaces OrbitControls zoom, so there is exactly one wheel handler (see camera.js).
   controls.enableZoom = false;
   let scale = { spacing:null, extent:0, key:'' };
+  // Whole-map values that only change when positions do: how far the map reaches from the origin and
+  // the sphere centres used for navigation speed. Kept here so a frame does not recompute them.
+  let reach = 1000, navigationPoints = [];
   // The orbit centre follows the selection: a clicked sphere becomes the target (the camera turns
   // toward it over a short animation) and stays the target until the user pans or deselects.
   let anchor = null, flight = null;
@@ -111,7 +114,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   }
   function navigation() {
     const forward = camera.getWorldDirection(new THREE.Vector3()).toArray();
-    const nearest = nearestAhead(objects.map(o=>o.position.toArray()), camera.position.toArray(), forward, 8);
+    const nearest = nearestAhead(navigationPoints, camera.position.toArray(), forward, 8);
     return navigationDistance({ nearest, orbit:camera.position.distanceTo(controls.target), spacing:scale.spacing, extent:scale.extent, minimum:controls.minDistance });
   }
   // Right-drag pans the content at the navigation depth, not at a possibly stale target depth.
@@ -132,7 +135,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   function clear() {
     for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
     stopPulse(); pulsing=[];
-    labelHost.replaceChildren(); objects=[];labels=[];connections=[];
+    labelHost.replaceChildren(); objects=[];labels=[];connections=[];reach=1000;navigationPoints=[];
   }
   function rebuild() {
     clear(); if(!graph)return;
@@ -142,7 +145,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       const color=nodeColor(n,proficiencyOn);
       const mesh = new THREE.Mesh(sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
       mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;if(n.id===selected)mesh.scale.setScalar(1.35);group.add(mesh);objects.push(mesh);
-      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh});
+      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected});
     }
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
     for(const e of visibleConnections(graph.edges,selected,selectedConnectionsOnly)) {
@@ -170,6 +173,8 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const points=[...positions.values()].map(v=>v.toArray()),key=`${spacing}:${points.length}:${points.reduce((s,p)=>s+p[0]+p[1]*3+p[2]*7,0)}`;
     if(key!==scale.key){const box=new THREE.Box3().setFromPoints([...positions.values()]);scale={spacing:typicalSpacing(points),extent:box.isEmpty()?0:box.getSize(new THREE.Vector3()).length(),key};}
     for(const mesh of objects)mesh.position.copy(positions.get(mesh.userData.id));
+    navigationPoints=objects.map(o=>o.position.toArray());
+    reach=1000;for(const o of objects)reach=Math.max(reach,o.position.length());
     for(const {source,target,line,tip} of connections){
       const a=positions.get(source),b=positions.get(target),delta=b.clone().sub(a),length=delta.length();
       line.visible=length>=24;if(tip)tip.visible=line.visible;if(!line.visible)continue;
@@ -187,22 +192,26 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   }
   function draw() {
     // Keep expanded maps visible even after panning or fitting a large atlas.
-    const reach=Math.max(1000,...objects.map(o=>o.position.length()));
     const far=Math.max(30000,camera.position.length()+reach+1000);
     if(camera.far!==far){camera.far=far;camera.updateProjectionMatrix();}
     controls.maxDistance=Math.max(20000,reach*8);
     renderScene();
     const size=host.getBoundingClientRect();
     const cameraSpace=new THREE.Vector3();
-    for(const {el,mesh}of labels){
-      const p=mesh.position.clone().project(camera);
+    // Write the hidden flag only when it changes, so unchanged nameplates cost no DOM work.
+    const hide=(el,value)=>{if(el.hidden!==value)el.hidden=value;};
+    for(const {el,mesh,isSelected}of labels){
+      if(!labelsOn){hide(el,true);continue;}
       const depth=-cameraSpace.copy(mesh.position).applyMatrix4(camera.matrixWorldInverse).z;
       const plate=nameplateProjection(size.height,camera.projectionMatrix.elements[5],depth,mesh.scale.x);
-      el.hidden=!labelsOn||!plate||p.z>1||p.z< -1;
+      // Too small to read: hidden before any projection or style work (see nameplates.js).
+      if(!nameplateReadable(plate,isSelected)){hide(el,true);continue;}
+      const p=mesh.position.clone().project(camera);
+      hide(el,p.z>1||p.z< -1);
       if(el.hidden)continue;
       el.style.left=`${(p.x+1)*size.width/2}px`;
       el.style.top=`${(-p.y+1)*size.height/2+plate.offsetY}px`;
-      // No minimum screen size, including selection: name and background
+      // A shown nameplate is never enlarged to a minimum size: name and background
       // shrink/grow together with their sphere and remain camera-facing.
       el.style.transform=`translateX(-50%) scale(${plate.scale})`;
     }

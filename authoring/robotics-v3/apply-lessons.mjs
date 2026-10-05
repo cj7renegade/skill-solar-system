@@ -87,11 +87,15 @@ const inputs = loadInputs();
 const before = validate(JSON.parse(readFileSync(MAP, 'utf8')));
 const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 
-const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions });
+// Evidence statements for lessons written before editions carried requires_physical_evidence
+// (decision 14 in reports/scope/05-decisions.md). Never written into a stored lesson.
+const OVERRIDES = path.join(ROOT, 'authoring', 'robotics-v3', 'evidence-overrides.json');
+const evidenceOverrides = existsSync(OVERRIDES) ? JSON.parse(readFileSync(OVERRIDES, 'utf8')).entries : {};
+const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions, evidenceOverrides });
 validate(graph);
 const preservation = preservationDiff(before, graph);
 // Idempotence, checked rather than asserted: applying the same editions to the result changes nothing.
-const second = applyLessons(graph, { spec: inputs.spec.data, editions });
+const second = applyLessons(graph, { spec: inputs.spec.data, editions, evidenceOverrides });
 const stable = JSON.stringify(second.graph) === JSON.stringify(graph);
 
 const answersBefore = before.nodes.filter(n => n.proficiency80 != null).length;
@@ -219,6 +223,7 @@ const summary = {
   // this stays meaningful after the import has been re-run and the run changed nothing.
   byEdition: graph.nodes.reduce((t, n) => (n.lessonCard ? (t[n.lessonCard.edition] = (t[n.lessonCard.edition] || 0) + 1) : 0, t), {}),
   thisRun: runDelta(),
+  evidence: { fromLesson: report.evidence.lesson, fromOverrides: report.evidence.overrides, missing: report.evidence.missing },
   i05Closure: milestoneClosure('I05'),
   signatures: { before: signatures(before), after: signatures(graph) },
   sinceSuppliedBaseline: baselineDiff(),

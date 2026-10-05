@@ -9,6 +9,9 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 
 export const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+// How long one step may take before it counts as a hang. Large-map runs raise it, for example
+// SSS_E2E_TIMEOUT_MS=120000; the default is the usual 20 s.
+export const STEP_TIMEOUT = Number(process.env.SSS_E2E_TIMEOUT_MS) || 20000;
 
 export function checker() {
   const passed = [];
@@ -32,14 +35,14 @@ export async function launchApp(prefix, options = {}) {
   const close = () => { ws?.close(); child.kill(); };
   try {
     let target;
-    for (let i = 0; i < 150 && !target; i++) { await sleep(200); try { target = (await (await fetch(`http://127.0.0.1:${port}/json/list`)).json()).find(t => t.type === 'page' && t.url.endsWith('index.html')); } catch {} }
+    for (let i = 0; i < Math.max(150, STEP_TIMEOUT / 133) && !target; i++) { await sleep(200); try { target = (await (await fetch(`http://127.0.0.1:${port}/json/list`)).json()).find(t => t.type === 'page' && t.url.endsWith('index.html')); } catch {} }
     assert.ok(target, 'Electron window did not start');
     ws = new WebSocket(target.webSocketDebuggerUrl);
     await new Promise((resolve, reject) => { ws.onopen = resolve; ws.onerror = reject; });
   } catch (error) { close(); throw error; }
   // Every request times out with its method name, so a hang is reported instead of silently ending the run.
   const send = (method, params = {}) => new Promise((resolve, reject) => {
-    const id = ++seq, timer = setTimeout(() => { if (pending.delete(id)) reject(Error(`CDP ${method} got no reply within 20 s`)); }, 20000);
+    const id = ++seq, timer = setTimeout(() => { if (pending.delete(id)) reject(Error(`CDP ${method} got no reply within ${STEP_TIMEOUT / 1000} s`)); }, STEP_TIMEOUT);
     pending.set(id, { resolve: value => { clearTimeout(timer); resolve(value); }, reject: error => { clearTimeout(timer); reject(error); } });
     ws.send(JSON.stringify({ id, method, params }));
   });
@@ -51,7 +54,7 @@ export async function launchApp(prefix, options = {}) {
   };
   ws.onclose = () => { for (const { reject } of pending.values()) reject(Error('connection closed')); pending.clear(); };
   const evaluate = async expression => { const r = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text); return r.result.value; };
-  const waitFor = async (expression, timeout = 20000) => { const t = Date.now(); while (Date.now() - t < timeout) { if (await evaluate(expression)) return; await sleep(50); } throw Error(`timeout: ${expression}`); };
+  const waitFor = async (expression, timeout = STEP_TIMEOUT) => { const t = Date.now(); while (Date.now() - t < timeout) { if (await evaluate(expression)) return; await sleep(50); } throw Error(`timeout: ${expression}`); };
   await send('Runtime.enable'); await send('DOM.enable'); await send('Page.enable');
   await waitFor(`document.getElementById('counts').textContent.includes('subjects')`);
 

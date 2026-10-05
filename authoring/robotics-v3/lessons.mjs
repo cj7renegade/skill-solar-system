@@ -74,7 +74,7 @@ export function reconcileLesson(lesson, { specNode, node, edition }) {
 
 // The card summary the application renders from. The verbatim lesson record travels alongside it
 // under `lesson`, so an authored field the interface does not show yet is still kept in the export.
-function cardFor(lesson, specNode, edition, authored) {
+function cardFor(lesson, specNode, edition, authored, evidence = null) {
   return {
     edition, authored,
     status: STATUS.authored,
@@ -85,18 +85,30 @@ function cardFor(lesson, specNode, edition, authored) {
     assessmentContract: lesson.assessment_contract ?? specNode.assessment_contract,
     scopeBoundary: specNode.scope_contract?.boundary ?? null,
     practiceMode: lesson.practice_mode ?? null,
-    contractSha256: lesson.node_contract_sha256
+    contractSha256: lesson.node_contract_sha256,
+    // Whether the full demonstration needs real evidence: stated by the lesson (Edition 07 onward) or
+    // by the reviewed overrides table for older editions. Absent when neither says, so the card falls
+    // back to the practice_mode wording.
+    ...(evidence ? { requiresPhysicalEvidence: evidence.requiresPhysicalEvidence, evidenceKind: evidence.evidenceKind ?? null } : {})
   };
+}
+
+// The evidence statement for one lesson: its own field first, then the overrides table.
+export function evidenceFor(lesson, overrides = {}) {
+  if (typeof lesson.requires_physical_evidence === 'boolean') return { requiresPhysicalEvidence: lesson.requires_physical_evidence, evidenceKind: lesson.evidence_kind ?? null, source: 'lesson' };
+  const override = overrides[lesson.id];
+  if (override && typeof override.requiresPhysicalEvidence === 'boolean') return { requiresPhysicalEvidence: override.requiresPhysicalEvidence, evidenceKind: override.evidenceKind ?? null, source: 'overrides' };
+  return null;
 }
 
 // Applies every lesson that reconciles cleanly. Returns a new graph; the input is not modified.
 // An entry that already carries an authored lesson is compared, never silently replaced: if the
 // supplied edition would change it, the existing record is kept and the difference is reported.
-export function applyLessons(graph, { spec, editions }) {
+export function applyLessons(graph, { spec, editions, evidenceOverrides = {} }) {
   const specNodes = new Map(spec.nodes.map(n => [n.id, n]));
   const byRuntimeId = new Map(graph.nodes.map(n => [n.id, n]));
   const reconciled = [], apply = new Map(), seen = new Map();
-  const superseded = [];
+  const superseded = [], evidence = { lesson: 0, overrides: 0, missing: [] };
 
   for (const { metadata, lessons } of editions) {
     for (const lesson of lessons) {
@@ -113,7 +125,11 @@ export function applyLessons(graph, { spec, editions }) {
         outcome.problems.push('the entry already carries a different authored lesson; the existing record was kept');
       }
       reconciled.push(outcome);
-      if (!outcome.problems.length) apply.set(node.id, { lesson, card: cardFor(lesson, specNode, metadata.edition, metadata.authored) });
+      if (!outcome.problems.length) {
+        const stated = evidenceFor(lesson, evidenceOverrides);
+        if (stated) evidence[stated.source]++; else evidence.missing.push(lesson.id);
+        apply.set(node.id, { lesson, card: cardFor(lesson, specNode, metadata.edition, metadata.authored, stated) });
+      }
     }
   }
 
@@ -158,6 +174,8 @@ export function applyLessons(graph, { spec, editions }) {
       applied: [...apply.keys()],
       conflicted: reconciled.filter(r => r.problems.length),
       superseded, relabelled,
+      // Where each applied lesson's evidence statement came from, and which lessons have none.
+      evidence,
       changed, unchanged,
       counts: {
         mapNodes: graph.nodes.length,
