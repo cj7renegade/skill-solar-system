@@ -35,10 +35,15 @@ review-answer test (`reports/capacity/04-raised-limits.md`) on a build with the 
 **STOP if:** any existing test fails.
 **Result:**
 
-## [ ] Task 2 — Make the draft warning visible (proposal S1)
+## [x] Task 2 — Make the draft warning visible (proposal S1)
 **Do:** When the draft cannot be cached, the warning must stay visible after **Open map**, Undo and
 Redo, not be overwritten by the next status message. Add an end-to-end check.
-**Result:**
+**Result:** Done.
+- `src/app.js`: `replace()` (Open map) and `travel()` (Undo/Redo) now add the warning to their own
+  status message when `cache()` fails; the edit path uses the same text (`DRAFT_WARNING`).
+- New `tests/draft-warning-e2e.mjs` (6 checks, all pass) simulates a full browser storage in the
+  isolated profile: the warning shows after Open map, an edit, Undo and Redo, and disappears once
+  storage works again.
 
 ## [ ] Task 3 — Cheaper frames (proposal R1 and R3)
 **Do:**
@@ -50,14 +55,24 @@ Do not change camera behaviour.
 generated 5k, 10k and 12k maps (with the raised caps) against `04-raised-limits.md`.
 **Result:**
 
-## [ ] Task 4 — Raise the size caps to a tested ceiling, with guard tests (proposal step 4)
+## [x] Task 4 — Raise the size caps to a tested ceiling, with guard tests (proposal step 4)
 **Do:**
 - One shared set of limits: **25,000 skills, 100,000 connections, 150 MB** to open or save. 150 MB
   is the ceiling the experiment measured working (98.8 MB opened and saved).
 - Add unit tests that pin the limits and their messages, and check the desktop save cap matches.
 - Make the e2e harness timeouts adjustable for large maps.
 - Update PLATFORM.md wherever it states the old limits.
-**Result:**
+**Result:** Done.
+- `LIMITS = { nodes: 25000, edges: 100000, mapBytes: 150_000_000 }` in `src/model.js` is used by
+  the validator and the Open map check. `desktop/main.cjs` has `MAX_MAP_BYTES = 150_000_000` for
+  saving.
+- New `tests/limits.test.mjs` (4 tests): it pins the values and the messages, checks that a
+  6,000-skill map now validates, and checks that the save and open caps match, with no `10_000_000`
+  left.
+- `tests/e2e-harness.mjs` timeouts now follow `SSS_E2E_TIMEOUT_MS` (default 20 s, unchanged).
+- PLATFORM.md (§3.2, §4.1, §5.3, §7.1, §10.2), README, a generator comment and a test name were
+  updated.
+- Unit tests 224 / 218 pass / 6 skip / 0 fail.
 
 ## [ ] Task 5 — The `requires_physical_evidence` field (decision 14)
 **Do:**

@@ -45,7 +45,7 @@ const text = (length, label = '') => { const base = label ? `${label} ` : ''; re
 const pad = (i, width) => String(i).padStart(width, '0');
 
 // The same arithmetic as src/vortex.js (referenceLevels and arrangeVortex). It is repeated here
-// because the app's own functions call validate(), which refuses maps above today's 5,000-skill cap.
+// because the app's own functions call validate(), which refuses maps above the app's skill cap (5,000 when this was written, 25,000 since).
 function vortexLayout(nodes, edges, depth) {
   const maximum = Math.max(0, ...depth.values()), step = maximum ? Math.min(3, 99 / maximum) : 3;
   if (maximum > 99) throw Error(`Generated chain depth ${maximum} needs more than 100 levels.`);

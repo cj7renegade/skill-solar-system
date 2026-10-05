@@ -284,7 +284,7 @@ prevented). It can only ask the main process to do things, through one narrow do
 | `maps.read(path)` | Read one map **that list offers**, and nothing else |
 
 Every handler in `main.cjs` checks `event.sender === win.webContents` first — a request from
-anywhere but this window is refused. Saves are capped at 10 MB, records at 5 MB
+anywhere but this window is refused. Saves are capped at 150 MB (`MAX_MAP_BYTES`, matching `LIMITS.mapBytes` in `src/model.js`), records at 5 MB
 (`desktop/proficiency-store.cjs`), and a record is parsed and checked to be the right *format* and
 the right *family* before it is written.
 
@@ -394,7 +394,9 @@ by a crash or a power cut cannot leave a half-written map.
 ### 4.1 The map file
 
 A map is one JSON file. `src/model.js` accepts it only if `schemaVersion` is `1`, `nodes` and
-`edges` are lists, and there are at most 5,000 nodes and 20,000 connections.
+`edges` are lists, and there are at most 25,000 nodes and 100,000 connections (`LIMITS` in
+`src/model.js`, raised in October 2026 from 5,000 and 20,000 after the capacity study). The app opens
+files up to 150 MB.
 
 ```
 { schemaVersion, title, nodes[], edges[], metadata{}, layout{}, roboticsV3Preview{} }
@@ -642,8 +644,10 @@ Five keys live in browser storage, all defined in `src/app.js` and `src/review.j
 | `skill-solar-system-tour-seen-v1` | whether the tour has been opened once (the Tour button glows until it has) |
 
 The draft is a convenience, not a backup — `main.cjs` says so when you close with unsaved changes.
-At 2.7 MB the robotics map is near enough to browser-storage limits that `cache()` catches failure
-and tells you to save to a file.
+Browser storage was measured to hold a draft of up to about 52 million characters
+(`reports/capacity/04-raised-limits.md`); the robotics map's 2.4 million and the atlas's 4.7 million
+are far inside that. If a draft ever cannot be stored, `cache()` catches the failure and the status
+line says to save to a file. That warning stays visible after opening a map, Undo and Redo.
 
 ---
 
@@ -754,7 +758,7 @@ A dry run exits non-zero if the checks fail, so it is safe to inspect first, alw
 
 Three buttons — **Yes**, **No**, **Clear** — appear on the side panel and on the subject card
 (`proficiencyControls` in `src/app.js`). Pressing one runs `commit()`, which: copies the map, sets
-`proficiency80`, validates, pushes the old version onto the undo history (50 deep), saves the draft,
+`proficiency80`, validates, pushes the old version onto the undo history (50 steps for ordinary maps, fewer for very large ones: `src/history.js`), saves the draft,
 writes the change into the shared record, redraws, and reports.
 
 The heading above them reads *"At least 80% proficient?"* with *"Your judgment only. No tests or
@@ -992,8 +996,10 @@ Summarised; details in `authoring/robotics-v3/I05-Audit.md`.
 - **`review-e2e.mjs` with `SSS_ATLAS` set times out**, reproducibly, when it opens the 5.4 MB atlas
   at the end of its long session. The same file opens fine in a fresh session. Pre-existing — it
   reproduces on commits before this year's robotics work.
-- **The 10 MB open limit and browser-storage limit are real ceilings.** The robotics map at 2.7 MB
-  is comfortable; the original atlas at 5.4 MB is not far off.
+- **Size ceilings, as measured.** The open and save cap is 150 MB (raised from 10 MB in October 2026).
+  Browser storage holds a draft of at most about 52 million characters; above that the draft is not
+  cached and the app says so. The robotics map (2.7 MB) and the original atlas (5.4 MB) are far
+  inside both. See `reports/capacity/`.
 - **`app.js` is 536 dense lines** with long single-line statements. It works and is well tested, but
   it is the hardest file here to change safely.
 - **Two surprises worth flagging.** First, `src/model.js` validates only a dozen fields and silently

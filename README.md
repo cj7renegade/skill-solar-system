@@ -212,7 +212,7 @@ It is an editorial plan, not a completeness claim. Node counts measure spheres, 
 - Pinned subjects keep their positions in every layout.
 
 **Files**
-- Maps are saved and opened as version-1 JSON (up to 10 MB, 5,000 subjects, and 20,000 connections). Ctrl+S saves.
+- Maps are saved and opened as version-1 JSON (up to 150 MB, 25,000 subjects, and 100,000 connections). Ctrl+S saves.
 - Saves are atomic: the file is written in full to a temporary copy and then swapped into place, so an interrupted save leaves the previous file intact.
 - A local draft is cached between sessions. Closing with unsaved changes asks for confirmation.
 - Invalid map files are rejected with a message.

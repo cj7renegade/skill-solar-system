@@ -7,6 +7,8 @@ const { listMaps, readMap } = require('./map-library.cjs');
 app.setAppUserModelId('local.skillsolarsystem.atlas');
 // The folder the "Your maps" dropdown lists. Tests point it at their own folder.
 const MAPS_DIR = process.env.SSS_MAPS_DIR || path.join(__dirname, '..', 'Maps');
+// The largest map that can be saved: the same as LIMITS.mapBytes in src/model.js (checked by tests/limits.test.mjs).
+const MAX_MAP_BYTES = 150_000_000;
 app.commandLine.appendSwitch('disable-background-networking');
 app.commandLine.appendSwitch('disable-component-update');
 let win;
@@ -28,7 +30,7 @@ app.whenReady().then(() => {
   });
   const fromWindow = event => event.sender === win.webContents;
   ipcMain.handle('save-map', async (event, content, options = {}) => {
-    if (!fromWindow(event) || typeof content !== 'string' || Buffer.byteLength(content) > 10_000_000) throw Error('Invalid save request.');
+    if (!fromWindow(event) || typeof content !== 'string' || Buffer.byteLength(content) > MAX_MAP_BYTES) throw Error('Invalid save request.');
     const record = options?.kind === 'record';
     const defaultPath = typeof options?.defaultName === 'string' && /^[\w.-]{1,120}$/.test(options.defaultName) ? options.defaultName : 'Skill-Solar-System.json';
     const result = await dialog.showSaveDialog(win, { defaultPath, filters: [{ name: record ? 'Proficiency record' : 'Skill map', extensions: ['json'] }] });

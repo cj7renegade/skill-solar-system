@@ -1,5 +1,5 @@
 import { arrangeVortex } from './vortex.js';
-import { DOMAINS, TYPES, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
+import { DOMAINS, TYPES, LIMITS, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
 import { spacingValue } from './spacing.js';
 import { findSkills } from './find.js';
 import { starter } from './starter.js';
@@ -36,6 +36,8 @@ function options(values,current){return values.map(value=>el('option',{value,tex
 function field(title,input){return el('label',{class:'field'},document.createTextNode(title),input);}
 // mapChars: the size of the map as saved text, which also sets how many Undo steps fit in memory (history.js).
 let mapChars=0;
+// Added to the status line whenever the draft could not be stored, so the next message never hides it.
+const DRAFT_WARNING=' Draft cache unavailable: save the map to a JSON file now.';
 function cache(){try{const text=JSON.stringify(graph);mapChars=text.length;localStorage.setItem(CACHE,text);return true;}catch{message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
 const safeStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{return null;}},setItem:(key,value)=>localStorage.setItem(key,value)};
 
@@ -87,12 +89,12 @@ function setProficiency(next,values){for(const n of next.nodes)if(values.has(n.i
 
 function change(mutator,status){if(editing)commit(mutator,status);}
 function commit(mutator,status,source='edit',{share=true}={}){
-  try{const previous=graph,next=clone(graph);mutator(next);const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;dirty=true;const cached=cache();const note=share?shareChanges(previous,normalized,source):'';render();message(`${status}${note}${cached?'':' Draft cache unavailable: save the map to a JSON file now.'}`);return {ok:true,cached};}
+  try{const previous=graph,next=clone(graph);mutator(next);const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;dirty=true;const cached=cache();const note=share?shareChanges(previous,normalized,source):'';render();message(`${status}${note}${cached?'':DRAFT_WARNING}`);return {ok:true,cached};}
   catch(error){message(error.message);return {ok:false,cached:false};}
 }
 function replace(next,status){
   listActivation.reset();closeDetails();
-  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);cache();render();viewer?.highlight(subjects);viewer?.fit();message(status);
+  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
 }
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
@@ -220,8 +222,8 @@ async function travel(from,to,source){
     const previous=graph;to.push(clone(graph));trimHistory(to,undoLimit(mapChars));let next=from.pop(),note='';
     if(atlasFamily(previous)===atlasFamily(next)&&(previous.title||'')===(next.title||''))note=shareChanges(previous,next,source);
     else{const shared=await applyShared(next);next=normalize(shared.graph);note=shared.note;}
-    graph=next;dirty=true;subjects=pruneSubjects(subjects,graph);cache();render();viewer?.highlight(subjects);
-    message(`${source==='undo'?'Previous map restored.':'Change redone.'}${note}`);
+    graph=next;dirty=true;subjects=pruneSubjects(subjects,graph);const cached=cache();render();viewer?.highlight(subjects);
+    message(`${source==='undo'?'Previous map restored.':'Change redone.'}${note}${cached?'':DRAFT_WARNING}`);
   }finally{traveling=false;}
 }
 $('undo').onclick=()=>travel(history,redo,'undo');
@@ -233,7 +235,7 @@ $('blank').onclick=()=>{if(editing&&confirm('Start an empty map? Save your curre
 $('reset').onclick=()=>{if(editing&&confirm('Restore the starter map? Undo is available.')){replace(starter,'Starter restored.');loadRecord(graph);}};
 $('load').onclick=()=>{if(!dirty||confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))$('file').click();};
 // Opening a map, from a file or from Your maps: validate it, then apply shared answers before anything (counts, review) reads it.
-async function openMap(name,size,readText){try{if(size>10_000_000)throw Error('Map files must be smaller than 10 MB.');const parsed=validate(JSON.parse(await readText()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}}
+async function openMap(name,size,readText){try{if(size>LIMITS.mapBytes)throw Error(`Map files must be smaller than ${LIMITS.mapBytes/1_000_000} MB.`);const parsed=validate(JSON.parse(await readText()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}}
 $('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;await openMap(file.name,file.size,()=>file.text());e.target.value='';};
 // Your maps: the maps in the project's Maps folder (desktop only; archive and backup folders are never listed).
 const mapLabel=m=>{const title=m.title&&m.title.length>60?`${m.title.slice(0,59)}…`:m.title;return title?`${title} — ${m.path}`:m.path;};
