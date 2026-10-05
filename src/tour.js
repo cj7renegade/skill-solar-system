@@ -24,7 +24,7 @@ export const TOUR_STEPS = [
   { target: '.view-tools', title: 'Map tools', text: [
     'Find skill: type part of a name, then choose a result. The camera travels to it.',
     'Fit map shows everything at once. Front view looks at the map straight on.',
-    'Labels, Selected connections only and Sphere spacing change only what you see. They never move or edit anything.'] },
+    'Labels, Selected connections only and Sphere spacing change only what you see and never edit anything. Names too small to read stay hidden until you move closer.'] },
   { target: '#legend', title: 'Colours and subjects', text: [
     'Sphere colour shows the subject: Mathematics, Physics, Mechanics, Electronics, Computing or Robotics.',
     'Click a subject in this legend to highlight where it sits. Turn on Proficiency in the map tools to colour the map by your own answers instead.'] },

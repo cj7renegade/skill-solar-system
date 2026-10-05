@@ -7,3 +7,12 @@ export function nameplateProjection(viewportHeight,projectionY,depth,sphereScale
   const pixelsPerUnit=viewportHeight*projectionY/(2*depth);
   return {scale:pixelsPerUnit*sphereScale,offsetY:11*pixelsPerUnit*sphereScale};
 }
+
+// A nameplate drawn with text smaller than this many pixels cannot be read, and thousands of them
+// cost most of each frame, so it is not drawn until the camera comes close enough. The selected
+// skill's nameplate always shows.
+export const LABEL_TEXT_PX = 11;
+export const MIN_READABLE_TEXT_PX = 4;
+export function nameplateReadable(plate, selected = false) {
+  return !!plate && (selected || plate.scale * LABEL_TEXT_PX >= MIN_READABLE_TEXT_PX);
+}

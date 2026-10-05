@@ -53,7 +53,7 @@ Redo, not be overwritten by the next status message. Add an end-to-end check.
   isolated profile: the warning shows after Open map, an edit, Undo and Redo, and disappears once
   storage works again.
 
-## [ ] Task 3 — Cheaper frames (proposal R1 and R3)
+## [x] Task 3 — Cheaper frames (proposal R1 and R3)
 **Do:**
 - Show a nameplate only when it is large enough to read (the selected skill's always shows).
 - Stop recomputing whole-map values on every frame: the map's reach and the point list used for
@@ -61,7 +61,30 @@ Redo, not be overwritten by the next status message. Add an end-to-end check.
 Do not change camera behaviour.
 **Check:** Existing camera, orbit, pan, find, tour and deselect tests pass. Re-measure frame rate on
 generated 5k, 10k and 12k maps (with the raised caps) against `04-raised-limits.md`.
-**Result:**
+**Result:** Done.
+- `src/nameplates.js`: `nameplateReadable` hides a name whose text would be under 4 px; the selected
+  skill's always shows. `src/viewer.js` checks this before any projection or style work, and writes
+  `hidden` only when it changes.
+- `src/viewer.js`: the map's reach and the sphere centres used for navigation are computed in
+  `updatePositions` (when positions change), not on every frame or camera move. Camera code unchanged.
+- Orbit, 10 s, skeleton maps, median of 3 runs, same build process and machine (raw:
+  `C:sss-scratchstress	3-before.jsonl`, `t3-after.jsonl`):
+
+  | Map | Before, names on (median / worst 5%) | After, names on | Before, names off | After, names off |
+  | --- | --- | --- | --- | --- |
+  | 5,000 | 20 / 15 fps | **59.9 / 59.5** | 59.9 / 30 | 59.9 / 59.5 |
+  | 10,000 | 10 / 7.5 fps | **59.9 / 29.9** | 29.9 / 20 | 59.9 / 29.9 |
+  | 12,000 | 8.6 / 5.4 fps | **59.5 / 29.9** | 20 / 15 | 59.5 / 29.9 |
+
+  About 60 fps is this screen's ceiling. The "names off" gain comes from the R3 caching.
+- Not measured after the change: click-to-card. The measuring script finds a sphere to click by its
+  visible nameplate, and at the whole-map view none are now large enough to show. Before: 0.27 s at
+  5k, 0.55 s at 10k, 0.65 s at 12k.
+- `tests/pan-e2e.mjs` (changed because the behaviour it relied on changed): it measures distance with
+  nameplates, so it now moves in from Home until they appear, still in the steady-rate range; the
+  rates are as before (1,384 and 1,389 of 1,400 units/s). Tour, README and PLATFORM.md mention
+  hidden small names. 2 new unit tests in `tests/nameplates.test.mjs`.
+- Unit tests 229 / 223 pass / 6 skip / 0 fail. All 12 end-to-end suites pass.
 
 ## [x] Task 4 — Raise the size caps to a tested ceiling, with guard tests (proposal step 4)
 **Do:**

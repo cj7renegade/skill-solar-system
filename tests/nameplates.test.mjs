@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {nameplateProjection} from '../src/nameplates.js';
+import {nameplateProjection, nameplateReadable, LABEL_TEXT_PX, MIN_READABLE_TEXT_PX} from '../src/nameplates.js';
+import {readFileSync} from 'node:fs';
 const projection=1/Math.tan(43*Math.PI/360);
 const close=(a,b)=>assert(Math.abs(a-b)<1e-10);
 test('doubling depth halves the entire nameplate and sphere-to-label gap',()=>{
@@ -22,4 +23,20 @@ test('far labels have no fixed pixel floor and near labels have no fixed pixel c
 test('behind-camera and invalid projections are hidden',()=>{
  for(const depth of [0,-100,NaN,Infinity])assert.equal(nameplateProjection(800,projection,depth),null);
  assert.equal(nameplateProjection(0,projection,100),null);
+});
+
+test('a nameplate too small to read is skipped, except the selected one',()=>{
+ const scale=s=>({scale:s,offsetY:11*s});
+ assert.equal(LABEL_TEXT_PX*.3<MIN_READABLE_TEXT_PX,true);
+ assert.equal(nameplateReadable(scale(.3)),false);
+ assert.equal(nameplateReadable(scale(.3),true),true);
+ assert.equal(nameplateReadable(scale(MIN_READABLE_TEXT_PX/LABEL_TEXT_PX)),true);
+ assert.equal(nameplateReadable(scale(1)),true);
+ assert.equal(nameplateReadable(null,true),false);
+});
+test('the frame no longer recomputes whole-map values',()=>{
+ const viewer=readFileSync(new URL('../src/viewer.js',import.meta.url),'utf8');
+ const draw=viewer.slice(viewer.indexOf('function draw()'),viewer.indexOf("controls.addEventListener('change',draw)"));
+ assert.doesNotMatch(draw,/objects\.map/);
+ assert.doesNotMatch(viewer.slice(viewer.indexOf('function navigation()'),viewer.indexOf('const syncPanSpeed')),/objects\.map/);
 });

@@ -312,7 +312,9 @@ link is `related`.
 
 Names are **not** drawn in 3D. They are ordinary HTML elements floating above the canvas, positioned
 each frame by projecting the sphere's location onto the screen (`src/nameplates.js`), so a name
-shrinks and grows with its sphere instead of staying a fixed size.
+shrinks and grows with its sphere instead of staying a fixed size. A name whose text would be smaller
+than 4 pixels is not drawn at all until the camera comes closer (`nameplateReadable`); the selected
+skill's name always shows. On large maps this was about half of each frame's cost.
 
 Three display-only controls never touch stored data:
 
