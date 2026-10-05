@@ -173,7 +173,7 @@ a recommendation:
 - A 9-point merge checklist (crosswalk, id policy, families, `m-logic` with no automatic winner,
   sessions, levels, pipeline, capacity, backups). No answer was read.
 
-## [ ] Task 6 — Wave plan and capacity checkpoint
+## [x] Task 6 — Wave plan and capacity checkpoint
 **Do:**
 - Turn the branch map into an ordered list of branch packages (the roadmap's six waves, adjusted by
   the measurements), each with its estimated skill count and dependencies.
@@ -181,7 +181,16 @@ a recommendation:
   (`reports/capacity/03-current-app.md`, on branch `capacity-stress-test`). Capacity steps 1–4 of
   `reports/capacity/05-proposal.md` must land before that package.
 - Write `reports/scope/06-wave-plan.md`.
-**Result:**
+**Result:** Done.
+- 10 ordered packages: decisions → capacity steps 1–4 → **V3 merge (the largest step: +177 skills,
+  298 lessons)** → robotics completions → electronics, mechanics, physics and computing splits
+  (38–114 skills) → maths audit → extension pathways.
+- Roadmap wave 1 is already done; waves 2–5 are covered by V3.
+- **The atlas never passes 3,000 skills** (≈ 2,060 at most). The binding limit is the 10 MB file
+  cap with lessons: ≈ 7.6 MB after the merge, ≈ 9.1–9.75 MB with lessons on all required skills
+  (size model within 3% of the measured V3 file).
+- So the capacity checkpoint is before the merge.
+See `reports/scope/06-wave-plan.md`.
 
 ## [ ] Task 7 — Push and summarize
 **Do:**
