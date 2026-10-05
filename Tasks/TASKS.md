@@ -192,7 +192,7 @@ a recommendation:
 - So the capacity checkpoint is before the merge.
 See `reports/scope/06-wave-plan.md`.
 
-## [ ] Task 7 — Push and summarize
+## [x] Task 7 — Push and summarize
 **Do:**
 - Confirm no real map, nothing from `Maps/`, `packages/`, `backups/`, `Archive/`, and no answer or
   session data is in any commit on this branch. Confirm both real maps' SHA-256 are unchanged since
@@ -201,7 +201,13 @@ See `reports/scope/06-wave-plan.md`.
 - End with a plain-language summary: tasks finished or stopped and why, the scope in two sentences,
   covered / partial / missing branch counts, the estimated finished size, the decisions waiting
   for JC, branch and commit IDs, and every report file written.
-**Result:**
+**Result:** Done.
+- The 7 commits since `main` touch only `docs/SCOPE.md`, `reports/scope/*`, `scope/*.json`, the
+  Instruction Guide and this file.
+- 0 paths under `Maps/`, `packages/`, `backups/` or `Archive/`; 0 answer fields.
+- Both real maps still match their Task 0 SHA-256 (`8e170740…`, `687f0916…`).
+- `npm test` 213 / 207 pass / 6 skip / 0 fail.
+- Pushed `scope-foundation`. No pull request.
 
 ---
 
