@@ -127,7 +127,7 @@ See `reports/scope/01-reconciliation.md`, `scope/reconciliation.json`.
 - Evidence for refining Q1: treat a granular decomposition of an in-scope overview as in scope.
 See `reports/scope/03-master-vs-scope.md`, `scope/master-tiers.json`.
 
-## [ ] Task 4 — The branch map: every branch, its boundary and its status
+## [x] Task 4 — The branch map: every branch, its boundary and its status
 **Do:** Combine the roadmap's branch tables, the 19 Robotics V3 branches and the measurements from
 Tasks 1 and 3 into one list of branches across all six domains. For each branch:
 - its scope boundary and exclusions;
@@ -139,7 +139,16 @@ Tasks 1 and 3 into one list of branches across all six domains. For each branch:
 - a rough size of the remaining work in skills, labelled as an estimate.
 Write `scope/branches.json` and add the branch table to `docs/SCOPE.md`. Report totals: covered /
 partial / missing branches, and the estimated total skills when the scope is complete.
-**Result:**
+**Result:** Done; both maps unchanged.
+- 46 branches: the roadmap's 43, plus S8 CAD/fabrication, R13 milestones and R14 advanced pathways.
+  All 1,769 master skills and 177 V3-only entries were placed.
+- Branch status: 7 covered in the master today, 9 covered after the V3 merge, 3 covered by V3 only
+  (not in the roadmap), 24 partial, 3 audit needed (maths), 0 missing.
+- The 132 roadmap candidates, reviewed by hand: 86 existing (27 only in V3), 34 splits, 4 new,
+  7 planning tasks, 1 deferred.
+- Estimate: ≈ 540–615 skills in the finished required scope (strict rule); ≈ 1,984–2,060 for the
+  whole atlas with context. With lessons on every skill, that is over the 10 MB cap.
+See `docs/SCOPE.md` §7, `scope/branches.json`, `reports/scope/04-branch-map.md`.
 
 ## [ ] Task 5 — Decision brief for JC
 **Do:** One document, `reports/scope/05-decisions.md`, with the evidence, options and a
