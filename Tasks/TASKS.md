@@ -1,22 +1,56 @@
-# TASKS — Skill Solar System — Capacity safety and the hardware-evidence field
+# TASKS — Skill Solar System — The Robotics V3 merge
 
-Steps 2 and 3 of `reports/scope/07-checkpoint.md` §2, approved by JC on 2026-10-05 ("continue with
-all of them"). Step 4 (the Robotics V3 merge) is the first step that changes JC's real data, so it is
-**not** in this queue: it gets its own queue and JC's go-ahead.
+Step 4 of `reports/scope/07-checkpoint.md` §2, following the decision brief §D
+(`reports/scope/05-decisions.md`). JC asked for it on 2026-10-05 ("Yes lets do step 4"). **Draft:
+waiting for JC's approval before any task runs.**
 
-The previous queue (scope foundation) is preserved in Git: merged in PR #19, its final queue file at
-`d5d7a65`.
+This is the first queue that produces a new real map. It never edits the two existing maps: the
+merged atlas is a **new file**, and the old master and the V3 export stay exactly as they are, so
+going back is just opening the old file.
+
+The previous queue (capacity safety) is preserved in Git: merged in PR #20, its final queue file at
+`97e0fbd`.
+
+## What is already known (measured 2026-10-05, before drafting)
+
+| | Master atlas | Robotics V3 export |
+| --- | --- | --- |
+| File | `Maps/Skill-Solar-System.json` | `Maps/Robotics-v3/Robotics-v3-Lessons.json` |
+| Skills / connections | 1,769 / 5,142 | 381 / 894 |
+| Answer family | none declared; falls back to `sss-robotics-foundations-2026-09` | `robotics-foundations-integration-v3-review` |
+| Answers in the file | 309 | **0** |
+| Shared answer record | `sss-robotics-foundations-2026-09-2eb611994d87.json` | **none exists** |
+
+- **The `m-logic` conflict is already resolved:** `Maps/Checkpoint-2026-09-13/Integration-Summary.md`
+  records that both now hold `No`. V3 has no answers at all, so the "answered differently" list is
+  expected to be empty. Task 1 checks this rather than assuming it.
+- **Size:** the two files together are about 8 MB, far inside the new 150 MB cap. Lessons stay on the
+  V3 skills only for now (step 7 adds the rest).
+
+## The plan in one paragraph
+
+Build the merged atlas from the **master** (its ids, its family, its 309 answers carry over
+untouched), add V3's 177 new entries under their `rob3:` ids, attach V3's lessons to all 381 V3
+entries (204 of them land on the existing master skill with the same id), merge the connections,
+apply decisions 6, 7, 10, 11 and 12, recalculate levels, and point the lesson importer at the
+merged map. JC reviews the crosswalk before anything is built (**Checkpoint A**) and the finished
+map before it becomes the working map (**Checkpoint B**).
 
 ## Rules for Claude Code (read first, every session)
-- Read `docs/PLATFORM.md`, `reports/capacity/05-proposal.md` and `reports/scope/05-decisions.md`
-  (decision 14) first.
-- Work on branch `capacity-safety`, created from an up-to-date `main`. Never commit to `main`.
-  Never force-push. Commit after each task. When every task is done and every test passes, open a
-  pull request and merge it (JC asked for this), then update local `main`.
-- **Never touch JC's real data.** Every app launch uses the e2e harness's isolated profile, and
-  generated maps live only in `C:\sss-scratch\stress\`. `Maps/` is read-only. In particular,
-  `apply-lessons.mjs` runs **only as a dry run**: rewriting the Robotics V3 export waits for the
-  merge queue.
+- Read `docs/PLATFORM.md` (§4–§7), `reports/scope/05-decisions.md` (§D and decisions 6, 7, 10–13)
+  and `docs/SCOPE.md` first.
+- Work on branch `v3-merge`, created from an up-to-date `main`. Never commit to `main`. Never
+  force-push. Commit after each task. When every task is done, every test passes and JC has passed
+  Checkpoint B, open a pull request and merge it, then update local `main`.
+- **Backup first:** JC runs `Backup-User-Data.cmd` (app closed) before Task 1. Record the backup
+  folder name in Task 1's result.
+- **The two existing maps are read-only.** Check their SHA-256 at the start and end of every task;
+  they must not change. The merged map is written to `C:\sss-scratch\merge\` until Checkpoint B,
+  and only then copied into `Maps/` as a new file.
+- **Answers are never inferred, copied between families, or given an automatic winner.** The only
+  answers in the merged map are the master's own, carried by unchanged ids. JC's shared answer
+  record is read (Task 1, to check for conflicts) but never written by this queue.
+- Every app launch uses the e2e harness's isolated profile, never JC's real profile.
 - Change only what each task names. Keep every existing test passing; change an existing test only
   where a task changes the behaviour it checks, and say so.
 - If a STOP condition triggers, mark the task `[BLOCKED]`, write what was found, commit, and stop.
@@ -24,132 +58,94 @@ The previous queue (scope foundation) is preserved in Git: merged in PR #19, its
 
 ---
 
-## [x] Task 1 — Undo within a memory budget (capacity proposal U1)
-**Do:** Replace the fixed 50-step Undo history with a budget. The number of kept steps is
-`clamp(floor(budget / map size), 5, 50)`, with a budget of about 500 MB of map text, so small maps
-keep 50 steps and very large maps keep fewer. Trim Redo the same way. Put the rule in a small pure
-module with unit tests.
-**Check:** Unit tests. Regenerate `stress-10000-full` in scratch and repeat the capacity queue's
-review-answer test (`reports/capacity/04-raised-limits.md`) on a build with the caps raised
-(Task 4): 100 answers must survive, and memory must level off.
-**STOP if:** any existing test fails.
-**Result:** Done.
-- New `src/history.js`: steps kept = clamp(floor(500,000,000 / map characters), 5, 50), used for
-  Undo and Redo in `src/app.js`. A small map keeps 50 steps; the 10,000-skill full map
-  (73,739,503 characters) keeps 6. New `tests/history.test.mjs` (3 tests).
-- Re-run of the capacity review-answer test on `stress-10000-full` (scratch, isolated profile):
-  **100 answers survived, no page errors.** Page memory after garbage collection stayed at
-  **687–689 MB from answer 10 to answer 100** (567 MB after opening). Before this change the same
-  map climbed about 72 MB per answer and the page crashed on answer 48. Time per answer: median
-  1.47 s (1.36–1.68 s), no longer rising.
-
-## [x] Task 2 — Make the draft warning visible (proposal S1)
-**Do:** When the draft cannot be cached, the warning must stay visible after **Open map**, Undo and
-Redo, not be overwritten by the next status message. Add an end-to-end check.
-**Result:** Done.
-- `src/app.js`: `replace()` (Open map) and `travel()` (Undo/Redo) now add the warning to their own
-  status message when `cache()` fails; the edit path uses the same text (`DRAFT_WARNING`).
-- New `tests/draft-warning-e2e.mjs` (6 checks, all pass) simulates a full browser storage in the
-  isolated profile: the warning shows after Open map, an edit, Undo and Redo, and disappears once
-  storage works again.
-
-## [x] Task 3 — Cheaper frames (proposal R1 and R3)
+## [ ] Task 1 — Starting state and answer check
 **Do:**
-- Show a nameplate only when it is large enough to read (the selected skill's always shows).
-- Stop recomputing whole-map values on every frame: the map's reach and the point list used for
-  navigation are computed only when positions change.
-Do not change camera behaviour.
-**Check:** Existing camera, orbit, pan, find, tour and deselect tests pass. Re-measure frame rate on
-generated 5k, 10k and 12k maps (with the raised caps) against `04-raised-limits.md`.
-**Result:** Done.
-- `src/nameplates.js`: `nameplateReadable` hides a name whose text would be under 4 px; the selected
-  skill's always shows. `src/viewer.js` checks this before any projection or style work, and writes
-  `hidden` only when it changes.
-- `src/viewer.js`: the map's reach and the sphere centres used for navigation are computed in
-  `updatePositions` (when positions change), not on every frame or camera move. Camera code unchanged.
-- Orbit, 10 s, skeleton maps, median of 3 runs, same build process and machine (raw:
-  `C:sss-scratchstress	3-before.jsonl`, `t3-after.jsonl`):
+- Record SHA-256, counts and metadata for both maps and the backup folder name in
+  `reports/merge/00-starting-state.md`.
+- Confirm `Maps/Skill-Solar-System.json` is the master JC works in (compare it with
+  `Maps/Checkpoint-2026-09-13/Skill-Solar-System-Current-Master.json` and the skills present in
+  the shared answer record).
+- **Answer check:** list every skill whose answer differs between any two of: the master file, the
+  master's shared record, the V3 file, and a V3 shared record if one exists. Expected: none.
+- For the 204 shared ids, list every difference in name, description or prerequisites between the
+  master and V3 (`m-order` is one known name difference).
+**STOP if:** the master file is not the current one, or any answer differs. List it for JC, who
+decides each one.
+**Check:** both maps' SHA-256 unchanged.
 
-  | Map | Before, names on (median / worst 5%) | After, names on | Before, names off | After, names off |
-  | --- | --- | --- | --- | --- |
-  | 5,000 | 20 / 15 fps | **59.9 / 59.5** | 59.9 / 30 | 59.9 / 59.5 |
-  | 10,000 | 10 / 7.5 fps | **59.9 / 29.9** | 29.9 / 20 | 59.9 / 29.9 |
-  | 12,000 | 8.6 / 5.4 fps | **59.5 / 29.9** | 20 / 15 | 59.5 / 29.9 |
+## [ ] Task 2 — The crosswalk (draft for JC)
+**Do:** Write `scope/merge/crosswalk.json` and a readable `reports/merge/01-crosswalk.md`:
+- **The 177 new V3 entries** (129 robotics, 48 foundation): for each, the closest master skill if
+  any, and a proposal: *new skill* (default), *same ability as master skill X* (then V3's lesson
+  goes onto X and the `rob3:` entry is not added), or *decomposes master skill X*. Start from the 35
+  word-overlap suggestions, but judge by meaning; about a third are coincidences.
+- **The 27 broad `r-*` overviews** (decision 6): for each, *retire* (replace with *related* links to
+  the V3 outcomes it summarizes) or *keep as orientation*, with the outcomes it covers. A retired
+  overview that holds an answer is **kept**, not retired, and flagged for JC.
+- **The 204 shared ids:** which version of name, description and prerequisites wins where Task 1
+  found a difference. Recommended: V3's prerequisites (reviewed and chain-checked), the master's
+  name unless V3's is clearer, and say which.
+- **Decision 11:** each of the three calculus *supports* links (into `C03`, `N10`), with a proposal
+  to make it a prerequisite or leave it.
+**STOP (Checkpoint A):** JC reviews the crosswalk and answers each open item. Nothing is built
+until then.
 
-  About 60 fps is this screen's ceiling. The "names off" gain comes from the R3 caching.
-- Not measured after the change: click-to-card. The measuring script finds a sphere to click by its
-  visible nameplate, and at the whole-map view none are now large enough to show. Before: 0.27 s at
-  5k, 0.55 s at 10k, 0.65 s at 12k.
-- `tests/pan-e2e.mjs` (changed because the behaviour it relied on changed): it measures distance with
-  nameplates, so it now moves in from Home until they appear, still in the steady-rate range; the
-  rates are as before (1,384 and 1,389 of 1,400 units/s). Tour, README and PLATFORM.md mention
-  hidden small names. 2 new unit tests in `tests/nameplates.test.mjs`.
-- Unit tests 229 / 223 pass / 6 skip / 0 fail. All 12 end-to-end suites pass.
+## [ ] Task 3 — The merge tool
+**Do:** Write `authoring/merge/merge.mjs` (logic only, no file access) and
+`authoring/merge/build-merged.mjs` (the command, dry run by default), following the applier's
+style (PLATFORM.md §6.2). The tool:
+- starts from the master: every master node, edge, field and answer kept, in order;
+- applies the crosswalk exactly as JC approved it;
+- adds the new `rob3:` nodes and every V3 connection, translated to master ids where the crosswalk
+  says so; drops exact duplicate connections;
+- carries V3's `lesson`, `lessonCard`, `details`, `contentStatus`, `lessonStatus` and
+  `nodeKind`/`feedsMilestones` onto the merged node; never `proficiency80`;
+- applies decision 7 (`X06` becomes `nodeKind: outcome`), decision 10 (`K05`–`K07` become
+  prerequisites of `K08`, `K10`, `K11`), decision 11 as approved, and decision 12 (`B-D08`
+  `subdomain` aligned to S7's);
+- declares `atlasFamily: sss-robotics-foundations-2026-09` and a new
+  `datasetKey: robotics-atlas-merged`;
+- refuses to write unless its gates pass: no master answer changed or lost; no master node or
+  edge lost except crosswalk-approved retirements; no prerequisite loop; every V3 milestone chain
+  I01–I05 still closed; running it twice gives identical bytes.
+**Check:** unit tests for each rule and gate (`tests/merge.test.mjs`), including a small synthetic
+pair of maps. Write the dry-run summary to `C:\sss-scratch\merge\`.
 
-## [x] Task 4 — Raise the size caps to a tested ceiling, with guard tests (proposal step 4)
-**Do:**
-- One shared set of limits: **25,000 skills, 100,000 connections, 150 MB** to open or save. 150 MB
-  is the ceiling the experiment measured working (98.8 MB opened and saved).
-- Add unit tests that pin the limits and their messages, and check the desktop save cap matches.
-- Make the e2e harness timeouts adjustable for large maps.
-- Update PLATFORM.md wherever it states the old limits.
-**Result:** Done.
-- `LIMITS = { nodes: 25000, edges: 100000, mapBytes: 150_000_000 }` in `src/model.js` is used by
-  the validator and the Open map check. `desktop/main.cjs` has `MAX_MAP_BYTES = 150_000_000` for
-  saving.
-- New `tests/limits.test.mjs` (4 tests): it pins the values and the messages, checks that a
-  6,000-skill map now validates, and checks that the save and open caps match, with no `10_000_000`
-  left.
-- `tests/e2e-harness.mjs` timeouts now follow `SSS_E2E_TIMEOUT_MS` (default 20 s, unchanged).
-- PLATFORM.md (§3.2, §4.1, §5.3, §7.1, §10.2), README, a generator comment and a test name were
-  updated.
-- Unit tests 224 / 218 pass / 6 skip / 0 fail.
+## [ ] Task 4 — Levels and layout
+**Do:** Recalculate levels on the merged map with the existing level and vortex code, and record
+how many skills moved and the new highest level. Keep any pinned positions.
+**Check:** the app opens the merged map in the isolated profile; frame rate and click time
+measured against `reports/capacity/06-safety-results.md`.
 
-## [x] Task 5 — The `requires_physical_evidence` field (decision 14)
-**Do:**
-- **Card:** when a lesson's card summary says whether real evidence is required, show the hardware
-  line from that; otherwise fall back to today's word pattern.
-- **Importer:** copy `requires_physical_evidence` and `evidence_kind` from a lesson into its card
-  summary. For lessons without the field (editions 01–06), take them from a reviewed table
-  `authoring/robotics-v3/evidence-overrides.json`, never by editing a stored lesson. Report every
-  lesson that has neither.
-- **The table** starts exactly from today's pattern result, so no card changes. Cards whose
-  demonstration looks physical but which show no line are listed for JC's review, not changed.
-- **Tests:**
-  - the field overrides the pattern;
-  - the table covers all 298 authored entries and matches today's display;
-  - Q06 and V07 stay `true`;
-  - the importer copies the field.
-- Run `apply-lessons.mjs` as a **dry run only** and record that its gates pass.
-**Result:** Done.
-- `src/lesson.js`: new `needsRealEvidence(node)`. A boolean `lessonCard.requiresPhysicalEvidence`
-  decides; without it, the old word pattern is used, so no card changes today.
-- Importer (`lessons.mjs`, `apply-lessons.mjs`): copies `requires_physical_evidence` and
-  `evidence_kind` from a lesson into its card summary, or takes them from the table for older
-  editions; the report counts each source and lists any lesson with neither. Stored lessons are
-  never edited.
-- New `authoring/robotics-v3/evidence-overrides.json`: 298 entries made from today's pattern result
-  (124 need real evidence, including Q06 and V07). It also lists 44 cards from editions 01–02 whose
-  demonstration looks physical but which show no hardware line, **for JC to review**; none changed.
-- 3 new tests in `tests/robotics-v3-lessons.test.mjs` (field beats pattern; the table covers all
-  298 and matches today's display, Q06 and V07 true; the importer copies the field).
-- Dry run: `result: passed`, idempotent, 0 existing payloads changed, evidence 298 from the table
-  and 0 missing. The three `Maps/Robotics-v3` files were fingerprinted before and after: unchanged.
-  (One fix during the task: the importer's second, idempotency pass was not given the table.)
-- Unit tests 227 / 221 pass / 6 skip / 0 fail.
+## [ ] Task 5 — Re-base the lesson importer
+**Do:** Make `apply-lessons.mjs` able to target the merged map (a `--target` option; the V3 export
+stays the default until the merge PR lands, then the merged map). Its gates are re-based on the
+merged map: re-applying editions 01–06 must change **nothing** (all 298 lessons already there).
+`evidence-overrides.json` keeps working by planning id.
+**Check:** dry run against the merged map reports 0 changes; existing importer tests pass.
 
-## [x] Task 6 — Measure, document, merge
-**Do:**
-- Run all unit and end-to-end tests.
-- Write `reports/capacity/06-safety-results.md` with before and after numbers.
-- Update PLATFORM.md.
-- Open a pull request, merge it, and update local `main`.
-**Result:** Done.
-- Unit tests 229 / 223 pass / 6 skip / 0 fail. End to end: all 12 suites, 237 checks pass (one run
-  had a launch hiccup in `shared-e2e.mjs`; the rerun passed; noted in the report).
-- `reports/capacity/06-safety-results.md`: before and after for every task.
-- PLATFORM.md: file table (new `history.js`, line counts), §2.3 the overrides table, §3.4 hidden
-  small names, §3.5 the evidence field, §6.2–6.3 the importer's card fields and `evidence` summary,
-  §8.1/§8.3 test counts (the e2e total was stale at 182; it is 237), §10.2 frame rate.
-- Real maps unchanged: master `8e170740…`, V3 export `687f0916…` (SHA-256, checked at the end).
-- Pull request opened and merged; local `main` updated.
+## [ ] Task 6 — Measure and report
+**Do:** Run all unit and end-to-end tests, plus a new e2e check that opens the merged map and
+confirms: answers shown match the shared record; a V3 lesson card renders on a shared-id skill and
+on a `rob3:` skill; the draft warning is absent. Write `reports/merge/02-results.md`: counts before
+and after, file size, what was retired, decisions applied, levels moved, and the review-session
+note (old sessions for either map will not resume on the merged map; a new review starts fresh).
+Update `docs/PLATFORM.md` and `docs/SCOPE.md` coverage (the 9 "after the merge" branches).
+**STOP (Checkpoint B):** JC opens the merged map (a copy in scratch, through the app's normal Open)
+and says go or no-go.
+
+## [ ] Task 7 — Make it the working map, then merge
+**Do (only after JC's go):**
+- Copy the merged map to `Maps/Robotics-Atlas.json`. Do not delete or overwrite the old master or
+  the V3 export; move them to `Maps/Archived maps/` only if JC asks.
+- Make the merged map the importer's default target.
+- Open the pull request, merge it, and update local `main`.
+**Check:** both old maps' SHA-256 match Task 1; JC's shared answer record is unchanged.
+
+---
+
+## Not in this queue
+- Step 5 onward (robotics completions, splits, lessons for every required skill).
+- The 44 evidence cards in `evidence-overrides.json` waiting for JC's review.
+- Moving the project out of OneDrive (07-checkpoint says "best before step 4"; JC to decide).
+- The `m-ftc` / `m-substitution` same-ability merges (decision 13: a later content pass).
