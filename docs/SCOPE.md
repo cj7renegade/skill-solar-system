@@ -62,17 +62,19 @@ abilities a learner would answer differently should be split.
 
 ### 3.1 Core milestones (from Robotics V3)
 
-| Id | Milestone | Prerequisite chain today (V3) |
-| --- | --- | ---: |
-| I01 | Integrate and verify a controlled joint | 185 entries |
-| I02 | Integrate and verify a robot arm | 249 |
-| I03 | Integrate and verify an autonomous wheeled robot | 241 |
-| I04 | Integrate a perception-guided mobile manipulator | 291 |
-| I05 | Verify a repeatable robotic work system | 298 |
+| Id | Milestone | Prerequisite chain in V3 | In the merged atlas |
+| --- | --- | ---: | ---: |
+| I01 | Integrate and verify a controlled joint | 185 entries | 189 |
+| I02 | Integrate and verify a robot arm | 249 | 279 |
+| I03 | Integrate and verify an autonomous wheeled robot | 241 | 252 |
+| I04 | Integrate a perception-guided mobile manipulator | 291 | 319 |
+| I05 | Verify a repeatable robotic work system | 298 | 326 |
 
 Each is a physical integration and verification task. V3 already closes all five chains with
-introductory cards (PLATFORM.md §9). The master atlas does not yet carry these milestones; they arrive
-with the later V3 merge.
+introductory cards (PLATFORM.md §9). The merged Robotics Atlas (`reports/merge/02-results.md`, built
+2026-10-10, waiting for JC's go at Checkpoint B) carries them. Its chains are longer, because the
+master's own foundations and planar-arm steps now feed them. Every V3 entry in them keeps its card;
+the added entries are master skills.
 
 ### 3.2 Extension pathways (from Robotics V3, labelled separately)
 
@@ -83,7 +85,7 @@ with the later V3 merge.
 | X03 | Coordinate base and arm motion simultaneously | |
 | X04 | Apply model-predictive control | |
 | X05 | Evaluate learned robot perception | |
-| X06 | Compare learned policies with nonlearned baselines | Decided 2026-10-05: an extension **outcome**, not a milestone; to be relabelled at the V3 merge |
+| X06 | Compare learned policies with nonlearned baselines | Decided 2026-10-05: an extension **outcome**, not a milestone; relabelled in the merged atlas |
 | X07 | Coordinate multiple mobile robots | |
 | X08 | Design a human-facing robot interaction | |
 | X09 | Develop compliant or dexterous manipulation | |
@@ -123,7 +125,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | Q3 | **Whether the X pathways are part of "done"** | (a) core milestones only; (b) core plus every X pathway | **(a) for "done"**, with X pathways as labelled extensions authored after the core |
 | Q4 | **Safety and ethics** | (a) as skills inside the branches that need them (stop categories, guarding, risk assessment); (b) a separate branch | **(a)**, plus a short cross-cutting list so nothing is missed |
 | Q5 | **Tools** (a CAD program, a robot software framework, a microcontroller family) | (a) inside lessons only; (b) as optional context skills | **(a)**. Abilities, not products, are skills |
-| Q6 | **Two layers in today's Robotics domain**: 27 broad `r-*` overviews above 17 granular `sss-rob-*` skills | (a) keep overviews as orientation, outside coverage counts; (b) split them into granular skills; (c) retire them at the V3 merge | **(a) now, (c) at the merge.** Decide per skill when the crosswalk is done |
+| Q6 | **Two layers in today's Robotics domain**: 27 broad `r-*` overviews above 17 granular `sss-rob-*` skills | (a) keep overviews as orientation, outside coverage counts; (b) split them into granular skills; (c) retire them at the V3 merge | **(a) now, (c) at the merge.** Crosswalk approved 2026-10-10: 26 retired, each replaced by the V3 outcomes it summarizes; `r-singular` kept as orientation (`reports/merge/01-crosswalk.md` A5) |
 
 ## 6. How the scope is kept
 
@@ -143,6 +145,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | 2026-10-04 | Scope set to robotics build-and-verify; V3 merges later; scope work first | JC |
 | 2026-10-05 | First draft of this document | Claude Code (scope queue Task 2) |
 | 2026-10-05 | All 14 decisions in `reports/scope/05-decisions.md` accepted as recommended: Q1 (a) now and (b) next; Q2 (a); Q3 (a); Q4 (a); Q5 (a); Q6 (a) now and (c) at the merge; X06 → extension outcome; `s-*` track optional; thermal → S7; K05–K07 → prerequisites; calculus case by case; B-D08 → S7; the two same-ability duplicates ruled; `requires_physical_evidence` adopted for Edition 07 onward | JC |
+| 2026-10-10 | V3 merge crosswalk approved (A1–A8 in `reports/merge/01-crosswalk.md`); the merged atlas covers the 9 "after the merge" branches, pending Checkpoint B | JC (approval); Claude Code (status update) |
 
 ## 7. Branch map
 
@@ -154,7 +157,7 @@ mapping of all 132 roadmap candidates are in `reports/scope/04-branch-map.md`.
 | Status | Branches |
 | --- | ---: |
 | Covered in the master today | 7 |
-| Covered once Robotics V3 is merged | 9 |
+| Covered once Robotics V3 is merged (covered in the merged atlas, waiting for Checkpoint B) | 9 |
 | Covered by V3 entries the roadmap never listed (S8, R13, R14) | 3 |
 | Partial: at least one skill to split out or add | 24 |
 | Audit needed: the three mathematics branches, where the roadmap lists only review tasks | 3 |
@@ -183,7 +186,7 @@ a broad one**, **4 need a new skill**, 7 are planning tasks rather than skills, 
 | E4 | Analog sensing and amplification | partial | 8 (1) | 1 (1) | 2 / 1 / 0 / 0 | 1–3 |
 | E5 | Digital timing and conversion | partial | 11 (8) | 1 | 2 / 1 / 0 / 0 | 1–3 |
 | E6 | Power and motor drives | **covered** | 9 (4) | 6 | 3 / 0 / 0 / 0 | 0 |
-| E7 | Instrumentation and sensor interfaces | **covered after the V3 merge** | 8 (3) | 2 | 3 / 0 / 0 / 0 | 0 |
+| E7 | Instrumentation and sensor interfaces | **covered in the merged atlas** | 8 (3) | 2 | 3 / 0 / 0 / 0 | 0 |
 | E8 | PCB layout and interference | partial | 4 (1) | 2 (1) | 1 / 2 / 0 / 0 | 2–6 |
 | S1 | Statics and load transfer | partial | 13 (2) | 0 | 1 / 2 / 0 / 0 | 2–6 |
 | S2 | Stress, strain and material response | partial | 20 (5) | 2 | 2 / 1 / 0 / 0 | 1–3 |
@@ -199,17 +202,17 @@ a broad one**, **4 need a new skill**, 7 are planning tasks rather than skills, 
 | C4 | Networking, embedded and real time | **covered** | 19 (11) | 5 (1) | 3 / 0 / 0 / 0 | 0 |
 | C5 | Robot software and integration | **covered** | 10 (7) | 5 (1) | 3 / 0 / 0 / 0 | 0 |
 | C6 | Machine learning for robots | partial | 10 (8) | 0 | 1 / 2 / 0 / 0 | 2–6 |
-| R1 | Frames and rigid motion | **covered after the V3 merge** | 8 (8) | 4 | 4 / 0 / 0 / 0 | 0 |
+| R1 | Frames and rigid motion | **covered in the merged atlas** | 8 (8) | 4 | 4 / 0 / 0 / 0 | 0 |
 | R2 | Configuration and kinematics | **covered** | 12 (12) | 6 (2) | 4 / 0 / 0 / 0 | 0 |
 | R3 | Jacobians, statics and dynamics | **covered** | 7 (7) | 3 (1) | 4 / 0 / 0 / 0 | 0 |
-| R4 | Actuation and transmissions | **covered after the V3 merge** | 3 (3) | 9 | 4 / 0 / 0 / 0 | 0 |
-| R5 | Trajectories and feedback | **covered after the V3 merge** | 5 (5) | 10 (4) | 4 / 0 / 0 / 0 | 0 |
+| R4 | Actuation and transmissions | **covered in the merged atlas** | 3 (3) | 9 | 4 / 0 / 0 / 0 | 0 |
+| R5 | Trajectories and feedback | **covered in the merged atlas** | 5 (5) | 10 (4) | 4 / 0 / 0 / 0 | 0 |
 | R6 | Estimation and sensor fusion | partial | 2 (2) | 6 (1) | 3 / 1 / 0 / 0 | 1–3 |
-| R7 | Perception, localization and navigation | **covered after the V3 merge** | 2 (2) | 14 (1) | 4 / 0 / 0 / 0 | 0 |
-| R8 | Planning and manipulation | **covered after the V3 merge** | 2 (2) | 8 | 4 / 0 / 0 / 0 | 0 |
-| R9 | System integration and validation | **covered after the V3 merge** | 2 (2) | 12 | 4 / 0 / 0 / 0 | 0 |
-| R10 | Robot fault handling and safety | **covered after the V3 merge** | 0 (0) | 5 | 2 / 0 / 0 / 0 | 0 |
-| R11 | Calibration and identification | **covered after the V3 merge** | 0 (0) | 2 (1) | 2 / 0 / 0 / 0 | 0 |
+| R7 | Perception, localization and navigation | **covered in the merged atlas** | 2 (2) | 14 (1) | 4 / 0 / 0 / 0 | 0 |
+| R8 | Planning and manipulation | **covered in the merged atlas** | 2 (2) | 8 | 4 / 0 / 0 / 0 | 0 |
+| R9 | System integration and validation | **covered in the merged atlas** | 2 (2) | 12 | 4 / 0 / 0 / 0 | 0 |
+| R10 | Robot fault handling and safety | **covered in the merged atlas** | 0 (0) | 5 | 2 / 0 / 0 / 0 | 0 |
+| R11 | Calibration and identification | **covered in the merged atlas** | 0 (0) | 2 (1) | 2 / 0 / 0 / 0 | 0 |
 | R12 | Mechanical machine elements | partial | 0 (0) | 1 | 1 / 0 / 1 / 0 | 1–3 |
 | R13 | Integration milestones (I01–I05) | covered by V3 (not in the roadmap) | 0 (0) | 5 | — | 0 |
 | R14 | Advanced pathways (X01–X09) | covered by V3 (not in the roadmap) | 0 (0) | 12 (11) | — | 0 |

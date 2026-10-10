@@ -180,15 +180,28 @@ gain the evidence statement from `evidence-overrides.json` (`requiresPhysicalEvi
 the table without rewriting the real maps. It is left out on purpose until JC has reviewed the
 44 flagged cards. Tests: 236 pass, 0 fail.
 
-## [ ] Task 6 — Measure and report
+## [x] Task 6 — Measure and report (2026-10-10)
 **Do:** Run all unit and end-to-end tests, plus a new e2e check that opens the merged map and
 confirms: answers shown match the shared record; a V3 lesson card renders on a shared-id skill and
 on a `rob3:` skill; the draft warning is absent. Write `reports/merge/02-results.md`: counts before
 and after, file size, what was retired, decisions applied, levels moved, and the review-session
 note (old sessions for either map will not resume on the merged map; a new review starts fresh).
 Update `docs/PLATFORM.md` and `docs/SCOPE.md` coverage (the 9 "after the merge" branches).
+**Result:** `reports/merge/02-results.md`.
+- **Unit tests:** 236 pass, 0 fail, 6 skipped (the long-standing skips).
+- **End-to-end suite:** 748 checks pass, 0 fail. That includes the new `tests/merged-atlas-e2e.mjs`
+  (12 checks): answers shown match a copy of JC's shared record (310 entries); V3 cards render on
+  `m-count`, `rob3:K03` and `e-current`; no draft warning; no page errors. The 6 optional real-atlas
+  sub-map checks were skipped, because they need `SSS_ATLAS` and a sub-map, as before.
+- **Docs:** `docs/PLATFORM.md` (§2.3, §6.4, §9.1a) and `docs/SCOPE.md` (§3.1, §3.2, Q6, the 9 branches,
+  change log) are updated.
+- **Review-session note:** sessions saved for the old maps will not resume on the merged atlas; a
+  review there starts fresh.
+- JC's real answer record and both source maps are unchanged.
+
 **STOP (Checkpoint B):** JC opens the merged map (a copy in scratch, through the app's normal Open)
 and says go or no-go.
+**Waiting for JC at Checkpoint B (2026-10-10).** The backup is also still owed before Task 7.
 
 ## [ ] Task 7 — Make it the working map, then merge
 **Do (only after JC's go):**

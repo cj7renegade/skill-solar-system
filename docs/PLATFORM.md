@@ -191,6 +191,14 @@ The robotics v3 work lives in `authoring/robotics-v3/`:
 | `I05-Audit.md` | record | The read-only structural audit of the I05 chain. |
 | `Edition06-Targets.json` | record | The six then-unwritten I05 entries, extracted verbatim. |
 
+The master + Robotics V3 merge lives in `authoring/merge/` (Tasks/TASKS.md, October 2026):
+
+| File | Kind | What it does |
+| --- | --- | --- |
+| `draft-crosswalk.mjs` | tool | Regenerates `scope/merge/crosswalk.json`, the skill-by-skill crosswalk JC approved, and checks it with a structure-only simulated merge. |
+| `merge.mjs` | tool | The merge logic and its gates, plus levels and layout. No file access. |
+| `build-merged.mjs` | tool | The command. Dry run by default; `--write` writes the merged map to `C:\sss-scratch\merge\` (never into `Maps/` before Checkpoint B). |
+
 ### 2.4 `packages/` — supplied source packages (ignored by Git)
 
 Content that arrived from outside. **Never edited.** Each edition package holds its lesson JSON, a
@@ -766,6 +774,12 @@ node authoring/robotics-v3/apply-lessons.mjs --write    # again: must change not
 
 A dry run exits non-zero if the checks fail, so it is safe to inspect first, always.
 
+`--target <map.json>` applies the editions to another map. On the merged Robotics Atlas
+(`datasetKey` `robotics-atlas-merged`), lessons find their skill by planning id, because shared skills
+keep their master ids. Master skills without a planning id are left untouched, the atlas keeps its
+own title and `datasetKey`, and the ledger and summary are written next to the target. The V3
+export stays the default until the merge is accepted.
+
 ---
 
 ## 7. Proficiency and review
@@ -952,6 +966,20 @@ Edition 06 was verified and committed on the `edition-06-integration` branch, th
 | `wheeled-robot-04` | 28 | I03 |
 | `mobile-manipulation-05` | 10 | I04 |
 | `repeatable-work-system-06` | 6 | I05 |
+
+### 9.1a The merged Robotics Atlas (built, waiting for Checkpoint B)
+
+The master atlas and the V3 export merged as JC approved (`reports/merge/02-results.md`):
+
+| | |
+| --- | --- |
+| Map | 1,918 skills, 5,708 connections, `datasetKey` `robotics-atlas-merged`, family `sss-robotics-foundations-2026-09` (the master's, so its answers apply) |
+| Answers | the master's 309 carried by unchanged ids, except `c-variables`, which takes the shared record's Clear (JC, A1) |
+| Lessons | all 298 V3 cards: 150 on shared master skills, 2 on same-ability master skills (`e-current`, `e-voltage`), 146 on new `rob3:` entries |
+| Retired | 26 broad `r-*` overviews, replaced by the V3 outcomes they summarize; `r-singular` kept |
+| Levels | recalculated: 1–82 |
+
+Shared skills that took a V3 card keep their master text in `atlasDetails` and `atlasPlacementNote`.
 
 ### 9.2 Chain closure
 
