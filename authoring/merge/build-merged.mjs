@@ -10,7 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
-import { merge, gates } from './merge.mjs';
+import { merge, gates, arrangeMerged } from './merge.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..');
 const INPUTS = {
@@ -36,10 +36,11 @@ if (crosswalk.sources.v3.sha256 !== before.v3) problems.push('The V3 export has 
 const render = g => JSON.stringify(g, null, 2) + '\n';
 let text = '', merged = null;
 try {
-  merged = merge(master, v3, crosswalk);
+  const build = () => arrangeMerged(merge(master, v3, crosswalk), master, v3, crosswalk).graph;
+  merged = build();
   problems.push(...gates(master, v3, crosswalk, merged));
   text = render(merged);
-  if (render(merge(master, v3, crosswalk)) !== text) problems.push('A second build did not give identical bytes.');
+  if (render(build()) !== text) problems.push('A second build did not give identical bytes.');
 } catch (error) { problems.push(error.message); }
 const after = Object.fromEntries(Object.entries(INPUTS).map(([k, f]) => [k, sha(readFileSync(f))]));
 for (const k in before) if (before[k] !== after[k]) problems.push(`${k} changed during the build.`);
@@ -55,7 +56,7 @@ const summary = {
     file: OUT_MAP, bytes: Buffer.byteLength(text), sha256: sha(text),
     skills: merged.nodes.length, connections: merged.edges.length, edgeTypes: count(merged.edges, e => e.type),
     answers: merged.nodes.filter(n => n.proficiency80 != null).length, lessons: merged.nodes.filter(n => n.lesson).length,
-    domains: count(merged.nodes, n => n.domain), skippedEdges: merged.roboticsV3Merge.skippedEdges,
+    domains: count(merged.nodes, n => n.domain), skippedEdges: merged.roboticsV3Merge.skippedEdges, levels: merged.roboticsV3Merge.levels,
     retired: merged.roboticsV3Merge.retiredOverviews.length, sameAbility: merged.roboticsV3Merge.sameAbility,
     answerChanges: merged.roboticsV3Merge.answerChanges
   },

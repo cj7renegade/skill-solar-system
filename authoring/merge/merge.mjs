@@ -8,6 +8,7 @@
 // Answers are never inferred or copied: the only answers are the master's own, carried by unchanged
 // ids, plus any answer change JC decided item by item in the crosswalk.
 import { clone, validate } from '../../src/model.js';
+import { arrangeVortex } from '../../src/vortex.js';
 
 export const FAMILY = 'sss-robotics-foundations-2026-09';
 export const DATASET_KEY = 'robotics-atlas-merged';
@@ -156,4 +157,35 @@ export function gates(master, v3, crosswalk, merged) {
   const expectedNodes = master.nodes.length - p.retired.size + p.fresh.length;
   if (merged.nodes.length !== expectedNodes) fail.push(`Expected ${expectedNodes} skills, got ${merged.nodes.length}.`);
   return fail;
+}
+
+// Task 4: levels and layout. The merged prerequisite graph is new, so levels are recalculated from
+// it with the app's own level and spiral code (pinned skills keep their positions), and the change
+// is measured against both source maps.
+export function arrangeMerged(merged, master, v3, crosswalk) {
+  const to = translator(master, plan(crosswalk));
+  const arranged = arrangeVortex(merged, { recalculate: true });
+  const used = arranged.nodes.map(n => n.skillLevel);
+  if (arranged.levelModel) arranged.levelModel = { ...arranged.levelModel, usedRange: [Math.min(...used), Math.max(...used)] };
+  const after = new Map(arranged.nodes.map(n => [n.id, n]));
+  const compare = (nodes, idOf) => {
+    let same = 0, up = 0, down = 0, moved = 0, biggest = 0;
+    for (const n of nodes) {
+      const m = after.get(idOf(n.id)); if (!m) continue;
+      const d = m.skillLevel - (n.skillLevel ?? 0);
+      if (d === 0) same++; else if (d > 0) up++; else down++;
+      biggest = Math.max(biggest, Math.abs(d));
+      if (m.position.some((v, i) => v !== n.position[i])) moved++;
+    }
+    return { levelSame: same, levelUp: up, levelDown: down, largestLevelChange: biggest, positionChanged: moved };
+  };
+  const levelsBefore = g => { const l = g.nodes.map(n => n.skillLevel).filter(Number.isInteger); return [Math.min(...l), Math.max(...l)]; };
+  const report = {
+    levelRange: arranged.levelModel?.usedRange ?? [Math.min(...used), Math.max(...used)],
+    masterLevelRangeBefore: levelsBefore(master), v3LevelRangeBefore: levelsBefore(v3),
+    pinned: arranged.nodes.filter(n => n.pinned).length,
+    masterSkills: compare(master.nodes, id => id), v3Entries: compare(v3.nodes, to)
+  };
+  arranged.roboticsV3Merge = { ...arranged.roboticsV3Merge, levels: report };
+  return { graph: arranged, report };
 }

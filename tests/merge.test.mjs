@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { merge, gates, plan, FAMILY, DATASET_KEY, S7_BRANCH } from '../authoring/merge/merge.mjs';
+import { merge, gates, plan, arrangeMerged, FAMILY, DATASET_KEY, S7_BRANCH } from '../authoring/merge/merge.mjs';
 import { validate } from '../src/model.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -140,11 +140,24 @@ test('building twice gives identical bytes', () => {
   assert.equal(JSON.stringify(build()), JSON.stringify(build()));
 });
 
+test('levels are recalculated from the merged graph, a pinned skill stays put, and the gates still pass', () => {
+  const master = masterMap(), v3 = v3Map(), cw = crosswalk(), merged = merge(master, v3, cw);
+  merged.nodes.find(n => n.id === 'm-a').pinned = true; merged.nodes.find(n => n.id === 'm-a').position = [5, 6, 7];
+  const { graph, report } = arrangeMerged(merged, master, v3, cw);
+  assert.deepEqual(gates(master, v3, cw, graph), []);
+  assert.deepEqual(graph.nodes.find(n => n.id === 'm-a').position, [5, 6, 7]);
+  const level = id => graph.nodes.find(n => n.id === id).skillLevel;
+  assert.ok(level('rob3:NEW') > level('m-shared') && level('m-shared') > level('m-a'), 'levels follow prerequisites');
+  assert.equal(report.pinned, 1);
+  assert.equal(graph.roboticsV3Merge.levels, report);
+});
+
 const REAL = ['Maps/Skill-Solar-System.json', 'Maps/Robotics-v3/Robotics-v3-Lessons.json', 'scope/merge/crosswalk.json'].map(f => path.join(ROOT, f));
 test('the real merge passes every gate with the approved counts', { skip: REAL.every(existsSync) ? false : 'the real maps are not present' }, () => {
   const [master, v3, cw] = REAL.map(f => JSON.parse(readFileSync(f, 'utf8')));
-  const g = merge(master, v3, cw);
+  const g = arrangeMerged(merge(master, v3, cw), master, v3, cw).graph;
   assert.deepEqual(gates(master, v3, cw, g), []);
+  assert.ok(Math.max(...g.nodes.map(n => n.skillLevel)) <= 100);
   assert.equal(g.nodes.length, 1918);
   assert.equal(g.nodes.filter(n => n.proficiency80 != null).length, 308);
   assert.equal(g.nodes.filter(n => n.lesson).length, 298);

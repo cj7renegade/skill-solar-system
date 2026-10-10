@@ -131,11 +131,31 @@ tests, all passing. **Backup:** still not taken, because the app is still open o
 Task 3 writes only to `C:\sss-scratch\merge\`, so the backup is now required before Task 7, which
 is the first step that writes into `Maps/`.
 
-## [ ] Task 4 — Levels and layout
+## [x] Task 4 — Levels and layout (2026-10-10)
 **Do:** Recalculate levels on the merged map with the existing level and vortex code, and record
 how many skills moved and the new highest level. Keep any pinned positions.
 **Check:** the app opens the merged map in the isolated profile; frame rate and click time
 measured against `reports/capacity/06-safety-results.md`.
+**Result:** `arrangeMerged` in `merge.mjs` runs inside `build-merged.mjs`, and every gate still passes.
+- **Levels:** now 1–82 (both old maps topped out at 70). Of the master skills, 1,143 kept their level,
+  280 moved up and 320 down, by at most 12. Of the V3 entries, 267 kept their level and 114 moved up,
+  by as much as 30, now that they sit on the master's foundations. No skill is pinned, so 1,370
+  master positions changed: the visible change JC should expect.
+- **In the app:** isolated profile, 3 runs each against a scratch copy of the current master.
+
+  | | Master | Merged |
+  | --- | --- | --- |
+  | Open | 0.36 s | 0.43–0.49 s |
+  | Moving the camera, names on and off | 59.9 fps (worst 5%: 59.5) | 59.9 fps (worst 5%: 59.5) |
+  | Arrange spiral | 0.27–0.31 s | 0.33–0.34 s |
+  | Save | 0.15–0.17 s | 0.17–0.20 s |
+  | Start a review | 0.21–0.24 s | 0.20–0.21 s |
+  | Memory | about 647 MB | about 683 MB |
+
+  No page errors. **Click-to-card time was not measured**, for the reason already given in
+  `06-safety-results.md` §4: the script finds a sphere by its visible name, and none is readable
+  at the whole-map view. It was 0.27 s at 5,000 skills before, so it should be well under that at
+  1,918. Raw data: `C:\sss-scratch\merge\t4-measure.jsonl`.
 
 ## [ ] Task 5 — Re-base the lesson importer
 **Do:** Make `apply-lessons.mjs` able to target the merged map (a `--target` option; the V3 export
