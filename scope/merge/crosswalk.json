@@ -1,0 +1,5610 @@
+{
+  "format": "skill-solar-system-merge-crosswalk",
+  "version": 1,
+  "status": "DRAFT for JC (Checkpoint A). Nothing is built from it until JC approves.",
+  "generated": "2026-10-10",
+  "sources": {
+    "master": {
+      "file": "Maps/Skill-Solar-System.json",
+      "sha256": "8e170740169f857458109f50a46b1d7feabb98e4add850350261fce8c22dba51"
+    },
+    "v3": {
+      "file": "Maps/Robotics-v3/Robotics-v3-Lessons.json",
+      "sha256": "687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11"
+    }
+  },
+  "idPolicy": "Master ids for the 204 shared skills; rob3: ids for the new V3 entries; the master for the two same-ability entries.",
+  "newEntries": [
+    {
+      "planningId": "B-C01",
+      "v3Id": "rob3:B-C01",
+      "name": "Navigate files and edit plain text",
+      "kind": "foundation",
+      "branch": "Computing",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-terminal",
+          "relation": "precedes",
+          "note": "V3 makes it a prerequisite of c-terminal"
+        }
+      ],
+      "closestMaster": "c-terminal"
+    },
+    {
+      "planningId": "B-S01",
+      "v3Id": "rob3:B-S01",
+      "name": "Describe an observable task and its limits",
+      "kind": "foundation",
+      "branch": "Systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-model",
+          "relation": "precedes",
+          "note": "V3 makes it a prerequisite of p-model"
+        }
+      ],
+      "closestMaster": "p-model"
+    },
+    {
+      "planningId": "B-C02",
+      "v3Id": "rob3:B-C02",
+      "name": "Run and inspect a first program",
+      "kind": "foundation",
+      "branch": "Computing",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-values-types",
+          "relation": "precedes",
+          "note": "V3 makes it a prerequisite of c-values-types"
+        }
+      ],
+      "closestMaster": "c-values-types"
+    },
+    {
+      "planningId": "B-C04",
+      "v3Id": "rob3:B-C04",
+      "name": "Record a reproducible procedure",
+      "kind": "foundation",
+      "branch": "Computing",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-S02",
+      "v3Id": "rob3:B-S02",
+      "name": "Recognize hazards and seek appropriate controls",
+      "kind": "foundation",
+      "branch": "Systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-C03",
+      "v3Id": "rob3:B-C03",
+      "name": "Write a step-by-step algorithm",
+      "kind": "foundation",
+      "branch": "Computing",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-variables",
+          "relation": "precedes",
+          "note": "V3 makes it a prerequisite of c-variables"
+        }
+      ],
+      "closestMaster": "c-variables"
+    },
+    {
+      "planningId": "B-E01",
+      "v3Id": "rob3:B-E01",
+      "name": "Recognize a complete circuit and its source",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-schematic",
+          "relation": "related",
+          "note": "Complete circuit and source before schematic reading"
+        }
+      ],
+      "closestMaster": "e-schematic"
+    },
+    {
+      "planningId": "B-C05",
+      "v3Id": "rob3:B-C05",
+      "name": "Distinguish hardware, software and signals",
+      "kind": "foundation",
+      "branch": "Computing",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-io",
+          "relation": "precedes",
+          "note": "V3 makes it a prerequisite of c-io"
+        }
+      ],
+      "closestMaster": "c-io"
+    },
+    {
+      "planningId": "B-E03",
+      "v3Id": "rob3:B-E03",
+      "name": "Interpret voltage between two points",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "sss-dc-voltage-measurement"
+      ],
+      "proposal": "same-ability",
+      "masterId": "e-voltage",
+      "why": "V3 demonstration \"a node voltage needs a reference and ground is not automatically earth\" matches e-voltage \"choose a voltage reference node and distinguish signal ground from earth\". V3 replaced e-voltage with B-E03 in the prerequisites of e-schematic, e-resistance, e-capacitor and e-logicvoltage.",
+      "effect": "V3's lesson and lesson fields go onto e-voltage; rob3:B-E03 is not added; V3 edges to and from it use e-voltage. planningId B-E03 is kept on the node so the lesson importer and evidence overrides still find it."
+    },
+    {
+      "planningId": "Q01",
+      "v3Id": "rob3:Q01",
+      "name": "Write measurable robot requirements",
+      "kind": "outcome",
+      "branch": "Requirements and systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "Q03",
+      "v3Id": "rob3:Q03",
+      "name": "Identify hazards and protective functions",
+      "kind": "outcome",
+      "branch": "Requirements and systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system",
+        "c-watchdog"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "c-watchdog",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-watchdog"
+    },
+    {
+      "planningId": "Q05",
+      "v3Id": "rob3:Q05",
+      "name": "Plan traceable verification",
+      "kind": "outcome",
+      "branch": "Requirements and systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-testing",
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-testing",
+          "relation": "related"
+        },
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "c-testing"
+    },
+    {
+      "planningId": "B-M01",
+      "v3Id": "rob3:B-M01",
+      "name": "Compare and order measured numbers",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": false,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-P01",
+      "v3Id": "rob3:B-P01",
+      "name": "Measure length, time and mass",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-units",
+          "relation": "related",
+          "note": "Measuring with SI units"
+        }
+      ],
+      "closestMaster": "p-units"
+    },
+    {
+      "planningId": "B-D01",
+      "v3Id": "rob3:B-D01",
+      "name": "Recognize links, joints and constrained motion",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-D02",
+      "v3Id": "rob3:B-D02",
+      "name": "Read a simple mechanical sketch",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-P02",
+      "v3Id": "rob3:B-P02",
+      "name": "Distinguish a force from mass and motion",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "p-inertia"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-inertia",
+          "relation": "related",
+          "note": "A first conceptual step before Newton's laws"
+        }
+      ],
+      "closestMaster": "p-inertia"
+    },
+    {
+      "planningId": "B-M02",
+      "v3Id": "rob3:B-M02",
+      "name": "Use powers of ten and scientific notation",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "m-sci"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "m-sci",
+          "relation": "possible",
+          "note": "Adds SI prefixes. m-sci holds a Yes answer, so it is not merged: that would stretch an answer over a broader definition"
+        }
+      ],
+      "closestMaster": "m-sci",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "B-E02",
+      "v3Id": "rob3:B-E02",
+      "name": "Interpret current as charge flow rate",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "e-current"
+      ],
+      "proposal": "same-ability",
+      "masterId": "e-current",
+      "why": "V3 demonstration \"distinguish current from voltage and assign a current reference direction\" matches e-current \"interpret current as charge per unit time and choose consistent reference directions\". V3 replaced e-current with B-E02 in the prerequisites of e-schematic and e-resistance.",
+      "effect": "V3's lesson and lesson fields go onto e-current; rob3:B-E02 is not added; V3 edges to and from it use e-current. planningId B-E02 is kept on the node so the lesson importer and evidence overrides still find it."
+    },
+    {
+      "planningId": "B-M03",
+      "v3Id": "rob3:B-M03",
+      "name": "Summarize a measured dataset",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "m-center",
+          "relation": "related",
+          "note": "Summary statistics of measured data"
+        }
+      ],
+      "closestMaster": "m-center"
+    },
+    {
+      "planningId": "Q04",
+      "v3Id": "rob3:Q04",
+      "name": "Allocate system budgets",
+      "kind": "outcome",
+      "branch": "Requirements and systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-powerbudget",
+        "r-thermal"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-powerbudget",
+          "relation": "related"
+        },
+        {
+          "masterId": "r-thermal",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "e-powerbudget"
+    },
+    {
+      "planningId": "R-M02",
+      "v3Id": "rob3:R-M02",
+      "name": "Compute sampled rates and accumulated changes",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-D07",
+      "v3Id": "rob3:B-D07",
+      "name": "Plan basic tool use and workholding",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "B-D03",
+      "v3Id": "rob3:B-D03",
+      "name": "Distinguish material stiffness, strength and component geometry",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-elastic",
+          "relation": "related",
+          "note": "Stiffness versus strength"
+        }
+      ],
+      "closestMaster": "s-elastic"
+    },
+    {
+      "planningId": "B-P03",
+      "v3Id": "rob3:B-P03",
+      "name": "Draw and balance simple planar forces",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-fbd",
+          "relation": "related",
+          "note": "Planar free-body balance is a narrow case of free-body diagrams and equilibrium"
+        }
+      ],
+      "closestMaster": "p-fbd"
+    },
+    {
+      "planningId": "B-P06",
+      "v3Id": "rob3:B-P06",
+      "name": "Account for mechanical work and power in simple motion",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "p-energy"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-power",
+          "relation": "related",
+          "note": "Work and power in simple motion"
+        }
+      ],
+      "closestMaster": "p-power"
+    },
+    {
+      "planningId": "B-E04",
+      "v3Id": "rob3:B-E04",
+      "name": "Read component values, units and terminal ratings",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-resistance",
+          "relation": "related",
+          "note": "Reading component ratings"
+        }
+      ],
+      "closestMaster": "e-resistance"
+    },
+    {
+      "planningId": "B-M04",
+      "v3Id": "rob3:B-M04",
+      "name": "Calculate empirical variance and standard deviation",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "mf-skill-c5b308b94788eca5"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "mf-skill-c5b308b94788eca5",
+          "relation": "possible",
+          "note": "Same calculation; V3 frames it on measured data"
+        }
+      ],
+      "closestMaster": "mf-skill-c5b308b94788eca5",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "K01",
+      "v3Id": "rob3:K01",
+      "name": "Label frames and joint conventions",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "sss-rob-frame-labels",
+        "sss-rob-joint-conventions"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-frame-labels",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-joint-conventions",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-frame-labels"
+    },
+    {
+      "planningId": "Q02",
+      "v3Id": "rob3:Q02",
+      "name": "Define subsystem interfaces",
+      "kind": "outcome",
+      "branch": "Requirements and systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system",
+        "c-integration"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "c-integration",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-integration"
+    },
+    {
+      "planningId": "B-P05",
+      "v3Id": "rob3:B-P05",
+      "name": "Calculate a one-dimensional center of mass",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "p-com"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-com",
+          "relation": "decomposes",
+          "note": "One-dimensional case of center of mass"
+        }
+      ],
+      "closestMaster": "p-com"
+    },
+    {
+      "planningId": "B-E12",
+      "v3Id": "rob3:B-E12",
+      "name": "Select a measurement setup for a low-voltage circuit",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-multimeter",
+          "relation": "related",
+          "note": "Choosing a measurement setup"
+        }
+      ],
+      "closestMaster": "e-multimeter"
+    },
+    {
+      "planningId": "E01",
+      "v3Id": "rob3:E01",
+      "name": "Interpret DC connectivity and references",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "sss-dc-nodes"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-dc-nodes",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "sss-dc-nodes"
+    },
+    {
+      "planningId": "B-M05",
+      "v3Id": "rob3:B-M05",
+      "name": "Interpret an empirical noise distribution",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "m-histogram",
+          "relation": "related",
+          "note": "Distribution shape of measured noise"
+        }
+      ],
+      "closestMaster": "m-histogram"
+    },
+    {
+      "planningId": "D01",
+      "v3Id": "rob3:D01",
+      "name": "Make a constrained CAD part",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-machining"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-machining",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-machining"
+    },
+    {
+      "planningId": "K04",
+      "v3Id": "rob3:K04",
+      "name": "Distinguish configuration, workspace and constraints",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "sss-rob-serial-dof",
+        "sss-rob-task-coordinates"
+      ],
+      "wordOverlapSuggestions": [
+        "sss-rob-task-coordinates"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-serial-dof",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-task-coordinates",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-serial-dof"
+    },
+    {
+      "planningId": "Q06",
+      "v3Id": "rob3:Q06",
+      "name": "Maintain configuration and interface changes",
+      "kind": "outcome",
+      "branch": "Requirements and systems practice",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-documentation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-documentation",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-documentation"
+    },
+    {
+      "planningId": "B-D04",
+      "v3Id": "rob3:B-D04",
+      "name": "Estimate stress in a simple axial member",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-stress",
+          "relation": "decomposes",
+          "note": "Axial case of normal stress"
+        }
+      ],
+      "closestMaster": "s-stress"
+    },
+    {
+      "planningId": "B-E05",
+      "v3Id": "rob3:B-E05",
+      "name": "Calculate DC power and energy",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "p-rotenergy"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-power",
+          "relation": "possible",
+          "note": "DC power and energy; V3 adds energy over time"
+        }
+      ],
+      "closestMaster": "e-power",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "R-M01",
+      "v3Id": "rob3:R-M01",
+      "name": "Fit and check a scalar calibration line",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "px-calibrate"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "px-calibrate",
+          "relation": "possible",
+          "note": "Same straight-line fit; V3 adds residual checks and validation points"
+        }
+      ],
+      "closestMaster": "px-calibrate",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "R-P01",
+      "v3Id": "rob3:R-P01",
+      "name": "Apply a stated dry-friction contact model",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-friction",
+          "relation": "related",
+          "note": "Applies a stated dry-friction model"
+        }
+      ],
+      "closestMaster": "p-friction"
+    },
+    {
+      "planningId": "B-P04",
+      "v3Id": "rob3:B-P04",
+      "name": "Calculate a planar moment",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-torque",
+          "relation": "related",
+          "note": "Planar case of torque about a point"
+        }
+      ],
+      "closestMaster": "p-torque"
+    },
+    {
+      "planningId": "E03",
+      "v3Id": "rob3:E03",
+      "name": "Take and interpret low-voltage circuit measurements",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-multimeter",
+        "e-scope"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-multimeter",
+          "relation": "related"
+        },
+        {
+          "masterId": "e-scope",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-multimeter"
+    },
+    {
+      "planningId": "D02",
+      "v3Id": "rob3:D02",
+      "name": "Create an assembly with defined motion",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-dof",
+        "s-fits"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-dof",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "s-fits",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-fits"
+    },
+    {
+      "planningId": "D03",
+      "v3Id": "rob3:D03",
+      "name": "Produce a manufacturing drawing",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-fits"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-fits",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-fits"
+    },
+    {
+      "planningId": "A01",
+      "v3Id": "rob3:A01",
+      "name": "Calculate transmission ratio and direction",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-transmission"
+      ],
+      "wordOverlapSuggestions": [
+        "r-transmission"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-transmission",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-transmission"
+    },
+    {
+      "planningId": "C05",
+      "v3Id": "rob3:C05",
+      "name": "Generate bounded joint trajectories",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-trajectory"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-trajectory",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-trajectory"
+    },
+    {
+      "planningId": "S02",
+      "v3Id": "rob3:S02",
+      "name": "Create a reproducible software build",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-documentation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-documentation",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-documentation"
+    },
+    {
+      "planningId": "B-D06",
+      "v3Id": "rob3:B-D06",
+      "name": "Apply a stated design margin",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "s-safetyfactor"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-safetyfactor",
+          "relation": "possible",
+          "note": "Applies a stated margin; master chooses margins under uncertainty"
+        }
+      ],
+      "closestMaster": "s-safetyfactor",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "B-D08",
+      "v3Id": "rob3:B-D08",
+      "name": "Estimate temperature rise with a lumped model",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-thermalresist",
+          "relation": "related",
+          "note": "Lumped thermal model (S7, decision 12)"
+        }
+      ],
+      "closestMaster": "s-thermalresist"
+    },
+    {
+      "planningId": "B-E09",
+      "v3Id": "rob3:B-E09",
+      "name": "Interpret PWM duty and period",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-pwm",
+          "relation": "possible",
+          "note": "Duty and period"
+        }
+      ],
+      "closestMaster": "e-pwm",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "B-E10",
+      "v3Id": "rob3:B-E10",
+      "name": "Predict continuity of inductor current",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-inductor",
+          "relation": "related",
+          "note": "Inductor current continuity"
+        }
+      ],
+      "closestMaster": "e-inductor"
+    },
+    {
+      "planningId": "B-E06",
+      "v3Id": "rob3:B-E06",
+      "name": "Model a battery with stated limits",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-battery",
+          "relation": "possible",
+          "note": "Battery model with stated limits"
+        }
+      ],
+      "closestMaster": "e-battery",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "B-E07",
+      "v3Id": "rob3:B-E07",
+      "name": "Use a diode as a directional circuit element",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-diode",
+          "relation": "related",
+          "note": "Diode as a directional element"
+        }
+      ],
+      "closestMaster": "e-diode"
+    },
+    {
+      "planningId": "B-E08",
+      "v3Id": "rob3:B-E08",
+      "name": "Use a transistor as a controlled switch",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "e-bjt"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-mosfet",
+          "relation": "related",
+          "note": "Generic controlled switch; master splits it into e-mosfet and e-bjt"
+        }
+      ],
+      "closestMaster": "e-mosfet"
+    },
+    {
+      "planningId": "E02",
+      "v3Id": "rob3:E02",
+      "name": "Solve and measure a resistive interface",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-divider",
+        "e-tolerance"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-divider",
+          "relation": "related"
+        },
+        {
+          "masterId": "e-tolerance",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-divider"
+    },
+    {
+      "planningId": "K02",
+      "v3Id": "rob3:K02",
+      "name": "Construct and check rotation matrices",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "sss-rob-rotation-columns",
+        "sss-rob-rotation-check"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-rotation-columns",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-rotation-check",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-rotation-columns"
+    },
+    {
+      "planningId": "A03",
+      "v3Id": "rob3:A03",
+      "name": "Estimate planar gravity holding torque",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-staticload"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-staticload",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-staticload"
+    },
+    {
+      "planningId": "B-D05",
+      "v3Id": "rob3:B-D05",
+      "name": "Apply a supplied beam stress and deflection model",
+      "kind": "foundation",
+      "branch": "Mechanics",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "s-deflection"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-deflection",
+          "relation": "related",
+          "note": "Applies a supplied model; the derivation stays in the optional s-* track (decision 8)"
+        }
+      ],
+      "closestMaster": "s-deflection"
+    },
+    {
+      "planningId": "B-P07",
+      "v3Id": "rob3:B-P07",
+      "name": "Relate shaft torque, speed and mechanical power",
+      "kind": "foundation",
+      "branch": "Physics",
+      "domain": "Physics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-rotenergy",
+          "relation": "related",
+          "note": "Shaft power = torque x speed"
+        }
+      ],
+      "closestMaster": "p-rotenergy"
+    },
+    {
+      "planningId": "R-M04",
+      "v3Id": "rob3:R-M04",
+      "name": "Interpret Gaussian state uncertainty and covariance",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "m-covariance",
+          "relation": "related",
+          "note": "Covariance read as state uncertainty"
+        }
+      ],
+      "closestMaster": "m-covariance"
+    },
+    {
+      "planningId": "P01",
+      "v3Id": "rob3:P01",
+      "name": "Calibrate a scalar sensor",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-calibration",
+        "px-calibrate"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-calibration",
+          "relation": "related"
+        },
+        {
+          "masterId": "px-calibrate",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-calibration"
+    },
+    {
+      "planningId": "D08",
+      "v3Id": "rob3:D08",
+      "name": "Select bearings and shaft supports",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-wear",
+        "s-fits"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-wear",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-fits",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-wear"
+    },
+    {
+      "planningId": "D04",
+      "v3Id": "rob3:D04",
+      "name": "Measure and inspect a part",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "p-precision",
+        "s-fits"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "p-precision",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-fits",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "p-precision"
+    },
+    {
+      "planningId": "D05",
+      "v3Id": "rob3:D05",
+      "name": "Plan and execute a fabrication process",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-machining",
+        "s-additive",
+        "s-welding"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-machining",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-additive",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-welding",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-machining"
+    },
+    {
+      "planningId": "A05",
+      "v3Id": "rob3:A05",
+      "name": "Refer inertia through a gearbox",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-transmission"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-transmission",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-transmission"
+    },
+    {
+      "planningId": "S01",
+      "v3Id": "rob3:S01",
+      "name": "Write a small numerical robotics program",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-transforms"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-transforms",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-transforms"
+    },
+    {
+      "planningId": "S10",
+      "v3Id": "rob3:S10",
+      "name": "Create logs and replayable tests",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-time-sync"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-time-sync",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-time-sync"
+    },
+    {
+      "planningId": "D07",
+      "v3Id": "rob3:D07",
+      "name": "Select and document fasteners",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-fastener"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-fastener",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-fastener"
+    },
+    {
+      "planningId": "R-E01",
+      "v3Id": "rob3:R-E01",
+      "name": "Connect a specified digital communication interface",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-bus",
+          "relation": "related",
+          "note": "Wiring a UART/SPI/I2C link"
+        }
+      ],
+      "closestMaster": "e-bus"
+    },
+    {
+      "planningId": "R-E02",
+      "v3Id": "rob3:R-E02",
+      "name": "Interpret encoder channels and count conventions",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-encoder",
+          "relation": "related",
+          "note": "Encoder channels and counts"
+        }
+      ],
+      "closestMaster": "e-encoder"
+    },
+    {
+      "planningId": "E08",
+      "v3Id": "rob3:E08",
+      "name": "Explain inductive current paths",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-flyback"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-flyback",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-flyback"
+    },
+    {
+      "planningId": "E04",
+      "v3Id": "rob3:E04",
+      "name": "Design a low-voltage power budget",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-powerbudget"
+      ],
+      "wordOverlapSuggestions": [
+        "e-powerbudget"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-powerbudget",
+          "relation": "related"
+        },
+        {
+          "masterId": "e-powerbudget",
+          "relation": "possible",
+          "note": "Same budget; V3 adds voltage sag and runtime"
+        }
+      ],
+      "closestMaster": "e-powerbudget",
+      "flag": "possible same ability: left new, related link, for a later content pass"
+    },
+    {
+      "planningId": "B-E11",
+      "v3Id": "rob3:B-E11",
+      "name": "Evaluate a simple RC input filter",
+      "kind": "foundation",
+      "branch": "Electronics",
+      "domain": "Electronics",
+      "hasLesson": false,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "e-antialias"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-antialias",
+          "relation": "related",
+          "note": "An RC input filter is the simplest anti-alias filter"
+        }
+      ],
+      "closestMaster": "e-antialias"
+    },
+    {
+      "planningId": "K03",
+      "v3Id": "rob3:K03",
+      "name": "Apply, compose and invert rigid transforms",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "sss-rob-point-direction",
+        "sss-rob-compose",
+        "sss-rob-inverse"
+      ],
+      "wordOverlapSuggestions": [
+        "sss-rob-compose"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-point-direction",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-compose",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-inverse",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-point-direction"
+    },
+    {
+      "planningId": "K12",
+      "v3Id": "rob3:K12",
+      "name": "Compare orientation representations",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-rigid"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-rigid",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-rigid"
+    },
+    {
+      "planningId": "G01",
+      "v3Id": "rob3:G01",
+      "name": "Estimate grasp and contact requirements",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-grasp"
+      ],
+      "wordOverlapSuggestions": [
+        "r-grasp"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-grasp",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-grasp"
+    },
+    {
+      "planningId": "D09",
+      "v3Id": "rob3:D09",
+      "name": "Evaluate member stress and deflection",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-structure"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-structure",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-structure"
+    },
+    {
+      "planningId": "A02",
+      "v3Id": "rob3:A02",
+      "name": "Calculate transmitted torque and losses",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-transmission"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-transmission",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-transmission"
+    },
+    {
+      "planningId": "P03",
+      "v3Id": "rob3:P03",
+      "name": "Model noise and covariance",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-estimation"
+      ],
+      "wordOverlapSuggestions": [
+        "mf-skill-ed905bdd6a434f63"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-estimation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-estimation"
+    },
+    {
+      "planningId": "D06",
+      "v3Id": "rob3:D06",
+      "name": "Design an assembly tolerance stack",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-stack"
+      ],
+      "wordOverlapSuggestions": [
+        "s-stack"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-stack",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-stack"
+    },
+    {
+      "planningId": "S06",
+      "v3Id": "rob3:S06",
+      "name": "Define robot messages and coordinate conventions",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-transforms"
+      ],
+      "wordOverlapSuggestions": [
+        "r-frame"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-transforms",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-transforms"
+    },
+    {
+      "planningId": "S07",
+      "v3Id": "rob3:S07",
+      "name": "Implement a robot behavior state machine",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-errors"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-errors",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-errors"
+    },
+    {
+      "planningId": "S11",
+      "v3Id": "rob3:S11",
+      "name": "Validate a simulation model",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": false,
+      "specCandidates": [
+        "c-replay-testing"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-replay-testing",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-replay-testing"
+    },
+    {
+      "planningId": "V03",
+      "v3Id": "rob3:V03",
+      "name": "Evaluate accuracy and repeatability",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "A08",
+      "v3Id": "rob3:A08",
+      "name": "Convert encoder counts to joint motion",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-encoder"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-encoder",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-encoder"
+    },
+    {
+      "planningId": "E09",
+      "v3Id": "rob3:E09",
+      "name": "Interpret motor-driver states",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-hbridge",
+        "e-gatedrive"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-hbridge",
+          "relation": "related"
+        },
+        {
+          "masterId": "e-gatedrive",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-hbridge"
+    },
+    {
+      "planningId": "E05",
+      "v3Id": "rob3:E05",
+      "name": "Specify wiring and protection",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-grounding"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-grounding",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-grounding"
+    },
+    {
+      "planningId": "E11",
+      "v3Id": "rob3:E11",
+      "name": "Evaluate thermal operation",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-thermal"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-thermal",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-thermal"
+    },
+    {
+      "planningId": "E07",
+      "v3Id": "rob3:E07",
+      "name": "Condition a sensor signal",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": false,
+      "specCandidates": [
+        "e-buffer",
+        "e-antialias"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-buffer",
+          "relation": "related"
+        },
+        {
+          "masterId": "e-antialias",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-buffer"
+    },
+    {
+      "planningId": "K05",
+      "v3Id": "rob3:K05",
+      "name": "Solve planar two-link forward kinematics",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "sss-rob-planar-fk",
+        "sss-rob-tool-offset"
+      ],
+      "wordOverlapSuggestions": [
+        "r-forward"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-planar-fk",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-tool-offset",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-planar-fk"
+    },
+    {
+      "planningId": "K08",
+      "v3Id": "rob3:K08",
+      "name": "Implement general serial-arm forward kinematics",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-forward"
+      ],
+      "wordOverlapSuggestions": [
+        "r-forward"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-forward",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-forward"
+    },
+    {
+      "planningId": "P06",
+      "v3Id": "rob3:P06",
+      "name": "Process depth and range observations",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-fusion"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-fusion",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-fusion"
+    },
+    {
+      "planningId": "R-P02",
+      "v3Id": "rob3:R-P02",
+      "name": "Project a point with a calibrated pinhole model",
+      "kind": "foundation",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "R-K01",
+      "v3Id": "rob3:R-K01",
+      "name": "Measure orientation error for numerical pose solving",
+      "kind": "foundation",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "S12",
+      "v3Id": "rob3:S12",
+      "name": "Restrict and recover remote robot access",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": false,
+      "specCandidates": [
+        "c-transport"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-transport",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-transport"
+    },
+    {
+      "planningId": "D10",
+      "v3Id": "rob3:D10",
+      "name": "Select robot materials and processes",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "s-select",
+        "s-fatigue",
+        "s-corrosion"
+      ],
+      "wordOverlapSuggestions": [
+        "s-select"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-select",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-fatigue",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-corrosion",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-select"
+    },
+    {
+      "planningId": "N10",
+      "v3Id": "rob3:N10",
+      "name": "Check mobile stability and traction",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-structure"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-structure",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-structure"
+    },
+    {
+      "planningId": "K09",
+      "v3Id": "rob3:K09",
+      "name": "Represent spatial motion and force",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-jacobian"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-jacobian",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-jacobian"
+    },
+    {
+      "planningId": "N01",
+      "v3Id": "rob3:N01",
+      "name": "Model differential-drive motion",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [
+        "mf-skill-be2db3cda43e6554"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "E06",
+      "v3Id": "rob3:E06",
+      "name": "Build and inspect a wiring harness",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-schematic"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-schematic",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-schematic"
+    },
+    {
+      "planningId": "K06",
+      "v3Id": "rob3:K06",
+      "name": "Solve and verify planar inverse kinematics",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "sss-rob-planar-reach",
+        "sss-rob-planar-ik",
+        "sss-rob-ik-verification"
+      ],
+      "wordOverlapSuggestions": [
+        "r-inverse"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-planar-reach",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-planar-ik",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-ik-verification",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-planar-reach"
+    },
+    {
+      "planningId": "G03",
+      "v3Id": "rob3:G03",
+      "name": "Represent collision geometry and clearance",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-planning"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-planning",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-planning"
+    },
+    {
+      "planningId": "N04",
+      "v3Id": "rob3:N04",
+      "name": "Represent maps and robot footprint",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "S03",
+      "v3Id": "rob3:S03",
+      "name": "Program basic MCU input and output",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-firmware"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-firmware",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-firmware"
+    },
+    {
+      "planningId": "R-M06",
+      "v3Id": "rob3:R-M06",
+      "name": "Represent and discretize a linear dynamical model",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "mf-skill-3549d48174f26c3b"
+      ],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "D11",
+      "v3Id": "rob3:D11",
+      "name": "Assemble and inspect a joint module",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-structure"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-structure",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-structure"
+    },
+    {
+      "planningId": "A04",
+      "v3Id": "rob3:A04",
+      "name": "Estimate single-axis acceleration torque",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-actuator"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-actuator",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-actuator"
+    },
+    {
+      "planningId": "E10",
+      "v3Id": "rob3:E10",
+      "name": "Diagnose supply and interference faults",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-grounding",
+        "e-shielding"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-grounding",
+          "relation": "related"
+        },
+        {
+          "masterId": "e-shielding",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-grounding"
+    },
+    {
+      "planningId": "N06",
+      "v3Id": "rob3:N06",
+      "name": "Plan a feasible grid route",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-planning"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-planning",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-planning"
+    },
+    {
+      "planningId": "S04",
+      "v3Id": "rob3:S04",
+      "name": "Acquire timed sensor data",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-queues"
+      ],
+      "wordOverlapSuggestions": [
+        "c-sensor-acquisition"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-queues",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-queues"
+    },
+    {
+      "planningId": "S05",
+      "v3Id": "rob3:S05",
+      "name": "Implement a device communication interface",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "e-bus"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-bus",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-bus"
+    },
+    {
+      "planningId": "R-M03",
+      "v3Id": "rob3:R-M03",
+      "name": "Differentiate trigonometric rotation expressions",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [
+        "mf-skill-420d3178d95e779e"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "m-transdiff",
+          "relation": "related",
+          "note": "Trigonometric derivatives applied to rotations"
+        }
+      ],
+      "closestMaster": "m-transdiff"
+    },
+    {
+      "planningId": "P08",
+      "v3Id": "rob3:P08",
+      "name": "Implement a state estimator",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-estimation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-estimation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-estimation"
+    },
+    {
+      "planningId": "A09",
+      "v3Id": "rob3:A09",
+      "name": "Measure backlash and compliance",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-compliance"
+      ],
+      "wordOverlapSuggestions": [
+        "r-compliance"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-compliance",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-compliance"
+    },
+    {
+      "planningId": "A06",
+      "v3Id": "rob3:A06",
+      "name": "Select an actuator for a duty cycle",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-actuator"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-actuator",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-actuator"
+    },
+    {
+      "planningId": "E12",
+      "v3Id": "rob3:E12",
+      "name": "Design and inspect a simple interface PCB",
+      "kind": "outcome",
+      "branch": "Electrical power, interfaces and measurement",
+      "domain": "Electronics",
+      "hasLesson": false,
+      "specCandidates": [
+        "e-pcb"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "e-pcb",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-pcb"
+    },
+    {
+      "planningId": "C01",
+      "v3Id": "rob3:C01",
+      "name": "Evaluate sampled feedback and error sign",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-feedback"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-feedback",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-feedback"
+    },
+    {
+      "planningId": "N02",
+      "v3Id": "rob3:N02",
+      "name": "Integrate wheel odometry",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "P02",
+      "v3Id": "rob3:P02",
+      "name": "Align and timestamp sensor streams",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-fusion"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-fusion",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-fusion"
+    },
+    {
+      "planningId": "S08",
+      "v3Id": "rob3:S08",
+      "name": "Implement bounded fault response",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-timing-constraints"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-timing-constraints",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-timing-constraints"
+    },
+    {
+      "planningId": "S09",
+      "v3Id": "rob3:S09",
+      "name": "Measure execution budgets and concurrency",
+      "kind": "outcome",
+      "branch": "Software and embedded implementation",
+      "domain": "Computing",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-rt-scheduling",
+        "c-rtos"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-rt-scheduling",
+          "relation": "related"
+        },
+        {
+          "masterId": "c-rtos",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-rt-scheduling"
+    },
+    {
+      "planningId": "K07",
+      "v3Id": "rob3:K07",
+      "name": "Calculate and test a planar Jacobian",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "sss-rob-position-jacobian",
+        "sss-rob-joint-to-tip-rate",
+        "sss-rob-planar-singularity"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "sss-rob-position-jacobian",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-joint-to-tip-rate",
+          "relation": "component"
+        },
+        {
+          "masterId": "sss-rob-planar-singularity",
+          "relation": "component"
+        }
+      ],
+      "closestMaster": "sss-rob-position-jacobian"
+    },
+    {
+      "planningId": "K10",
+      "v3Id": "rob3:K10",
+      "name": "Compute a spatial Jacobian",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-jacobian"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-jacobian",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-jacobian"
+    },
+    {
+      "planningId": "R-M05",
+      "v3Id": "rob3:R-M05",
+      "name": "Solve a small nonlinear least-squares problem",
+      "kind": "foundation",
+      "branch": "Mathematics",
+      "domain": "Mathematics",
+      "hasLesson": true,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "m-leastsquares",
+          "relation": "related",
+          "note": "Nonlinear extension; m-leastsquares is already its prerequisite"
+        }
+      ],
+      "closestMaster": "m-leastsquares"
+    },
+    {
+      "planningId": "A07",
+      "v3Id": "rob3:A07",
+      "name": "Match a motor to its driver",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-actuator",
+        "e-hbridge"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-actuator",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "e-hbridge",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "e-hbridge"
+    },
+    {
+      "planningId": "N03",
+      "v3Id": "rob3:N03",
+      "name": "Calibrate wheel geometry",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "P07",
+      "v3Id": "rob3:P07",
+      "name": "Estimate orientation from inertial data",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-fusion"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-fusion",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-fusion"
+    },
+    {
+      "planningId": "P09",
+      "v3Id": "rob3:P09",
+      "name": "Fuse nonlinear mobile-robot measurements",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-fusion"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-fusion",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-fusion"
+    },
+    {
+      "planningId": "V01",
+      "v3Id": "rob3:V01",
+      "name": "Commission a subsystem in stages",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-integration",
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-integration",
+          "relation": "related"
+        },
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "c-integration"
+    },
+    {
+      "planningId": "K11",
+      "v3Id": "rob3:K11",
+      "name": "Solve numerical inverse kinematics",
+      "kind": "outcome",
+      "branch": "Robot geometry and kinematics",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-inverse",
+        "r-singular"
+      ],
+      "wordOverlapSuggestions": [
+        "r-inverse"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-inverse",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "r-singular",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "r-singular"
+    },
+    {
+      "planningId": "P04",
+      "v3Id": "rob3:P04",
+      "name": "Calibrate a camera model",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-cameramodel"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-cameramodel",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-cameramodel"
+    },
+    {
+      "planningId": "P10",
+      "v3Id": "rob3:P10",
+      "name": "Identify robot calibration parameters",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-cameramodel",
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-cameramodel",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-cameramodel"
+    },
+    {
+      "planningId": "X01",
+      "v3Id": "rob3:X01",
+      "name": "Model coupled multi-joint dynamics",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-dynamics"
+      ],
+      "wordOverlapSuggestions": [
+        "r-dynamics"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-dynamics",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-dynamics"
+    },
+    {
+      "planningId": "D12",
+      "v3Id": "rob3:D12",
+      "name": "Validate a structural model",
+      "kind": "outcome",
+      "branch": "CAD, fabrication and mechanical design",
+      "domain": "Mechanics",
+      "hasLesson": false,
+      "specCandidates": [
+        "s-fea",
+        "s-mesh"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "s-fea",
+          "relation": "related"
+        },
+        {
+          "masterId": "s-mesh",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "s-fea"
+    },
+    {
+      "planningId": "A10",
+      "v3Id": "rob3:A10",
+      "name": "Specify holding and power-loss behavior",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "A11",
+      "v3Id": "rob3:A11",
+      "name": "Identify a simple actuator model",
+      "kind": "outcome",
+      "branch": "Actuation and transmissions",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-dynamics"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-dynamics",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-dynamics"
+    },
+    {
+      "planningId": "C02",
+      "v3Id": "rob3:C02",
+      "name": "Implement bounded proportional control",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-feedback",
+        "c-control-loop"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-feedback",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "c-control-loop",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-control-loop"
+    },
+    {
+      "planningId": "G02",
+      "v3Id": "rob3:G02",
+      "name": "Design and build a simple gripper",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-grasp"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-grasp",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-grasp"
+    },
+    {
+      "planningId": "N05",
+      "v3Id": "rob3:N05",
+      "name": "Localize against a known map",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "V02",
+      "v3Id": "rob3:V02",
+      "name": "Verify interfaces under fault injection",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-integration"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-integration",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-integration"
+    },
+    {
+      "planningId": "C07",
+      "v3Id": "rob3:C07",
+      "name": "Analyze a linear control model",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-statespace"
+      ],
+      "wordOverlapSuggestions": [
+        "mf-skill-3549d48174f26c3b"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-statespace",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-statespace"
+    },
+    {
+      "planningId": "R-X02",
+      "v3Id": "rob3:R-X02",
+      "name": "Define and evaluate a reinforcement-learning task",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "G04",
+      "v3Id": "rob3:G04",
+      "name": "Plan and time an arm motion",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-planning"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-planning",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-planning"
+    },
+    {
+      "planningId": "P05",
+      "v3Id": "rob3:P05",
+      "name": "Estimate a known object's pose",
+      "kind": "outcome",
+      "branch": "Sensing, calibration and estimation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-cameramodel"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-cameramodel",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-cameramodel"
+    },
+    {
+      "planningId": "V04",
+      "v3Id": "rob3:V04",
+      "name": "Demonstrate stop and restart behavior",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "C03",
+      "v3Id": "rob3:C03",
+      "name": "Implement practical PID behavior",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-pid"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-pid",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-pid"
+    },
+    {
+      "planningId": "C04",
+      "v3Id": "rob3:C04",
+      "name": "Measure tracking and transient performance",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-feedback"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-feedback",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-feedback"
+    },
+    {
+      "planningId": "G07",
+      "v3Id": "rob3:G07",
+      "name": "Select a mobile base pose for reaching",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-planning"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-planning",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-planning"
+    },
+    {
+      "planningId": "N09",
+      "v3Id": "rob3:N09",
+      "name": "Evaluate a SLAM pipeline",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "V05",
+      "v3Id": "rob3:V05",
+      "name": "Diagnose integrated failures",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-debugging"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-debugging",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-debugging"
+    },
+    {
+      "planningId": "C08",
+      "v3Id": "rob3:C08",
+      "name": "Evaluate sampling, delay and noise",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "c-control-loop"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-control-loop",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-control-loop"
+    },
+    {
+      "planningId": "C09",
+      "v3Id": "rob3:C09",
+      "name": "Design state feedback and an observer",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-statespace",
+        "r-observe"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-statespace",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "r-observe",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-statespace"
+    },
+    {
+      "planningId": "G05",
+      "v3Id": "rob3:G05",
+      "name": "Transform perception into a grasp target",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-grasp"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-grasp",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-grasp"
+    },
+    {
+      "planningId": "X05",
+      "v3Id": "rob3:X05",
+      "name": "Evaluate learned robot perception",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "c-model-deployment"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-model-deployment",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-model-deployment"
+    },
+    {
+      "planningId": "V06",
+      "v3Id": "rob3:V06",
+      "name": "Run reliability and duty-cycle trials",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "C06",
+      "v3Id": "rob3:C06",
+      "name": "Add model-based feedforward",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-dynamics"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-dynamics",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-dynamics"
+    },
+    {
+      "planningId": "N07",
+      "v3Id": "rob3:N07",
+      "name": "Track a mobile path",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-navigation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-navigation",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-navigation"
+    },
+    {
+      "planningId": "C10",
+      "v3Id": "rob3:C10",
+      "name": "Coordinate multiple joint controllers",
+      "kind": "outcome",
+      "branch": "Control and trajectories",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-trajectory"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-trajectory",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-trajectory"
+    },
+    {
+      "planningId": "I01",
+      "v3Id": "rob3:I01",
+      "name": "Integrate and verify a controlled joint",
+      "kind": "milestone",
+      "branch": "Integration milestones",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "X02",
+      "v3Id": "rob3:X02",
+      "name": "Implement force or impedance control",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-grasp",
+        "r-feedback"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-grasp",
+          "relation": "replaces-overview"
+        },
+        {
+          "masterId": "r-feedback",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-grasp"
+    },
+    {
+      "planningId": "X04",
+      "v3Id": "rob3:X04",
+      "name": "Apply model-predictive control",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-statespace"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-statespace",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-statespace"
+    },
+    {
+      "planningId": "X10",
+      "v3Id": "rob3:X10",
+      "name": "Future specialization scope: legged, humanoid or aerial systems",
+      "kind": "roadmap",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-dynamics"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-dynamics",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-dynamics"
+    },
+    {
+      "planningId": "R-X01",
+      "v3Id": "rob3:R-X01",
+      "name": "Define and evaluate an imitation-learning task",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [],
+      "closestMaster": null
+    },
+    {
+      "planningId": "V07",
+      "v3Id": "rob3:V07",
+      "name": "Document service and handover",
+      "kind": "outcome",
+      "branch": "Verification, diagnosis and reliability",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "c-documentation"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-documentation",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-documentation"
+    },
+    {
+      "planningId": "N08",
+      "v3Id": "rob3:N08",
+      "name": "Respond to changing obstacles",
+      "kind": "outcome",
+      "branch": "Wheeled mobility and navigation",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-planning"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-planning",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-planning"
+    },
+    {
+      "planningId": "G06",
+      "v3Id": "rob3:G06",
+      "name": "Coordinate a pick-and-place task",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "I02",
+      "v3Id": "rob3:I02",
+      "name": "Integrate and verify a robot arm",
+      "kind": "milestone",
+      "branch": "Integration milestones",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "X09",
+      "v3Id": "rob3:X09",
+      "name": "Develop compliant or dexterous manipulation",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-grasp"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-grasp",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-grasp"
+    },
+    {
+      "planningId": "X06",
+      "v3Id": "rob3:X06",
+      "name": "Compare learned policies with nonlearned baselines",
+      "kind": "milestone",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "c-model-deployment"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "c-model-deployment",
+          "relation": "related"
+        }
+      ],
+      "closestMaster": "c-model-deployment"
+    },
+    {
+      "planningId": "I03",
+      "v3Id": "rob3:I03",
+      "name": "Integrate and verify an autonomous wheeled robot",
+      "kind": "milestone",
+      "branch": "Integration milestones",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "G08",
+      "v3Id": "rob3:G08",
+      "name": "Coordinate navigation and manipulation",
+      "kind": "outcome",
+      "branch": "Manipulation and combined tasks",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "X07",
+      "v3Id": "rob3:X07",
+      "name": "Coordinate multiple mobile robots",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-planning"
+      ],
+      "wordOverlapSuggestions": [
+        "r-frame"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-planning",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-planning"
+    },
+    {
+      "planningId": "I04",
+      "v3Id": "rob3:I04",
+      "name": "Integrate a perception-guided mobile manipulator",
+      "kind": "milestone",
+      "branch": "Integration milestones",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "I05",
+      "v3Id": "rob3:I05",
+      "name": "Verify a repeatable robotic work system",
+      "kind": "milestone",
+      "branch": "Integration milestones",
+      "domain": "Robotics",
+      "hasLesson": true,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "X03",
+      "v3Id": "rob3:X03",
+      "name": "Coordinate base and arm motion simultaneously",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    },
+    {
+      "planningId": "X08",
+      "v3Id": "rob3:X08",
+      "name": "Design a human-facing robot interaction",
+      "kind": "outcome",
+      "branch": "Advanced pathways",
+      "domain": "Robotics",
+      "hasLesson": false,
+      "specCandidates": [
+        "r-system"
+      ],
+      "wordOverlapSuggestions": [
+        "r-structure"
+      ],
+      "proposal": "new",
+      "masterRelations": [
+        {
+          "masterId": "r-system",
+          "relation": "replaces-overview"
+        }
+      ],
+      "closestMaster": "r-system"
+    }
+  ],
+  "overviews": [
+    {
+      "id": "r-frame",
+      "name": "Robot coordinate frames",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K01",
+      "covers": [
+        "K01",
+        "S06"
+      ],
+      "coversNames": [
+        "Label frames and joint conventions",
+        "Define robot messages and coordinate conventions"
+      ]
+    },
+    {
+      "id": "r-rigid",
+      "name": "Rigid transformations",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K03",
+      "covers": [
+        "K02",
+        "K03",
+        "K12"
+      ],
+      "coversNames": [
+        "Construct and check rotation matrices",
+        "Apply, compose and invert rigid transforms",
+        "Compare orientation representations"
+      ]
+    },
+    {
+      "id": "r-dof",
+      "name": "Degrees of freedom and constraints",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K04",
+      "covers": [
+        "K04"
+      ],
+      "coversNames": [
+        "Distinguish configuration, workspace and constraints"
+      ]
+    },
+    {
+      "id": "r-configuration",
+      "name": "Configuration space",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K04",
+      "covers": [
+        "K04",
+        "G03"
+      ],
+      "coversNames": [
+        "Distinguish configuration, workspace and constraints",
+        "Represent collision geometry and clearance"
+      ]
+    },
+    {
+      "id": "r-forward",
+      "name": "Forward kinematics",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K08",
+      "covers": [
+        "K05",
+        "K08"
+      ],
+      "coversNames": [
+        "Solve planar two-link forward kinematics",
+        "Implement general serial-arm forward kinematics"
+      ]
+    },
+    {
+      "id": "r-inverse",
+      "name": "Inverse kinematics",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K11",
+      "covers": [
+        "K06",
+        "K11"
+      ],
+      "coversNames": [
+        "Solve and verify planar inverse kinematics",
+        "Solve numerical inverse kinematics"
+      ]
+    },
+    {
+      "id": "r-jacobian",
+      "name": "Robot velocity Jacobians",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "K10",
+      "covers": [
+        "K07",
+        "K09",
+        "K10"
+      ],
+      "coversNames": [
+        "Calculate and test a planar Jacobian",
+        "Represent spatial motion and force",
+        "Compute a spatial Jacobian"
+      ]
+    },
+    {
+      "id": "r-singular",
+      "name": "Kinematic singularities",
+      "answer": null,
+      "proposal": "keep as orientation",
+      "why": "No V3 outcome assesses spatial singularity analysis (rank loss and SVD); K07 covers only the planar determinant. Kept as orientation; its prerequisite r-jacobian (retired) is replaced by K10."
+    },
+    {
+      "id": "r-staticload",
+      "name": "Static joint-load estimation",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "A03",
+      "covers": [
+        "A03",
+        "K09"
+      ],
+      "coversNames": [
+        "Estimate planar gravity holding torque",
+        "Represent spatial motion and force"
+      ]
+    },
+    {
+      "id": "r-dynamics",
+      "name": "Robot dynamic models",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "A04",
+      "covers": [
+        "A04",
+        "A11",
+        "C06",
+        "X01"
+      ],
+      "coversNames": [
+        "Estimate single-axis acceleration torque",
+        "Identify a simple actuator model",
+        "Add model-based feedforward",
+        "Model coupled multi-joint dynamics"
+      ]
+    },
+    {
+      "id": "r-transmission",
+      "name": "Gears, belts, and transmission ratios",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "A02",
+      "covers": [
+        "A01",
+        "A02",
+        "A05"
+      ],
+      "coversNames": [
+        "Calculate transmission ratio and direction",
+        "Calculate transmitted torque and losses",
+        "Refer inertia through a gearbox"
+      ]
+    },
+    {
+      "id": "r-actuator",
+      "name": "Actuator and drive matching",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "A06",
+      "covers": [
+        "A04",
+        "A06",
+        "A07"
+      ],
+      "coversNames": [
+        "Estimate single-axis acceleration torque",
+        "Select an actuator for a duty cycle",
+        "Match a motor to its driver"
+      ]
+    },
+    {
+      "id": "r-compliance",
+      "name": "Compliance and backlash in mechanisms",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "A09",
+      "covers": [
+        "A09"
+      ],
+      "coversNames": [
+        "Measure backlash and compliance"
+      ]
+    },
+    {
+      "id": "r-trajectory",
+      "name": "Trajectory timing and smoothness",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "C05",
+      "covers": [
+        "C05",
+        "C10",
+        "G04"
+      ],
+      "coversNames": [
+        "Generate bounded joint trajectories",
+        "Coordinate multiple joint controllers",
+        "Plan and time an arm motion"
+      ]
+    },
+    {
+      "id": "r-feedback",
+      "name": "Feedback-control concepts",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "C01",
+      "covers": [
+        "C01",
+        "C02",
+        "C04"
+      ],
+      "coversNames": [
+        "Evaluate sampled feedback and error sign",
+        "Implement bounded proportional control",
+        "Measure tracking and transient performance"
+      ]
+    },
+    {
+      "id": "r-pid",
+      "name": "PID control concepts",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "C03",
+      "covers": [
+        "C02",
+        "C03"
+      ],
+      "coversNames": [
+        "Implement bounded proportional control",
+        "Implement practical PID behavior"
+      ]
+    },
+    {
+      "id": "r-statespace",
+      "name": "State-space robot models",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "R-M06",
+      "covers": [
+        "R-M06",
+        "C07"
+      ],
+      "coversNames": [
+        "Represent and discretize a linear dynamical model",
+        "Analyze a linear control model"
+      ]
+    },
+    {
+      "id": "r-observe",
+      "name": "Observability and controllability",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "C09",
+      "covers": [
+        "C09"
+      ],
+      "coversNames": [
+        "Design state feedback and an observer"
+      ]
+    },
+    {
+      "id": "r-estimation",
+      "name": "Probabilistic state estimation",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "P08",
+      "covers": [
+        "R-M04",
+        "P03",
+        "P08"
+      ],
+      "coversNames": [
+        "Interpret Gaussian state uncertainty and covariance",
+        "Model noise and covariance",
+        "Implement a state estimator"
+      ]
+    },
+    {
+      "id": "r-fusion",
+      "name": "Multisensor fusion",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "P09",
+      "covers": [
+        "P02",
+        "P06",
+        "P07",
+        "P09"
+      ],
+      "coversNames": [
+        "Align and timestamp sensor streams",
+        "Process depth and range observations",
+        "Estimate orientation from inertial data",
+        "Fuse nonlinear mobile-robot measurements"
+      ]
+    },
+    {
+      "id": "r-cameramodel",
+      "name": "Camera geometry and calibration",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "P04",
+      "covers": [
+        "R-P02",
+        "P04",
+        "P05",
+        "P10"
+      ],
+      "coversNames": [
+        "Project a point with a calibrated pinhole model",
+        "Calibrate a camera model",
+        "Estimate a known object's pose",
+        "Identify robot calibration parameters"
+      ]
+    },
+    {
+      "id": "r-navigation",
+      "name": "Mobile-robot localization and navigation",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "N05",
+      "covers": [
+        "N01",
+        "N02",
+        "N03",
+        "N04",
+        "N05",
+        "N06",
+        "N07",
+        "N08",
+        "N09"
+      ],
+      "coversNames": [
+        "Model differential-drive motion",
+        "Integrate wheel odometry",
+        "Calibrate wheel geometry",
+        "Represent maps and robot footprint",
+        "Localize against a known map",
+        "Plan a feasible grid route",
+        "Track a mobile path",
+        "Respond to changing obstacles",
+        "Evaluate a SLAM pipeline"
+      ]
+    },
+    {
+      "id": "r-planning",
+      "name": "Collision-aware motion planning",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "G04",
+      "covers": [
+        "G03",
+        "G04",
+        "N06",
+        "N08"
+      ],
+      "coversNames": [
+        "Represent collision geometry and clearance",
+        "Plan and time an arm motion",
+        "Plan a feasible grid route",
+        "Respond to changing obstacles"
+      ]
+    },
+    {
+      "id": "r-grasp",
+      "name": "Grasping and contact mechanics",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "G01",
+      "covers": [
+        "G01",
+        "G02",
+        "G05"
+      ],
+      "coversNames": [
+        "Estimate grasp and contact requirements",
+        "Design and build a simple gripper",
+        "Transform perception into a grasp target"
+      ]
+    },
+    {
+      "id": "r-thermal",
+      "name": "Robot thermal integration",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "E11",
+      "covers": [
+        "B-D08",
+        "E11"
+      ],
+      "coversNames": [
+        "Estimate temperature rise with a lumped model",
+        "Evaluate thermal operation"
+      ]
+    },
+    {
+      "id": "r-structure",
+      "name": "Robot structural design",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "D09",
+      "covers": [
+        "D09",
+        "D10",
+        "D11",
+        "D12",
+        "N10"
+      ],
+      "coversNames": [
+        "Evaluate member stress and deflection",
+        "Select robot materials and processes",
+        "Assemble and inspect a joint module",
+        "Validate a structural model",
+        "Check mobile stability and traction"
+      ]
+    },
+    {
+      "id": "r-system",
+      "name": "Robot system integration",
+      "answer": null,
+      "proposal": "retire",
+      "primaryOutcome": "I05",
+      "covers": [
+        "Q01",
+        "Q02",
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "V06",
+        "V07",
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "coversNames": [
+        "Write measurable robot requirements",
+        "Define subsystem interfaces",
+        "Commission a subsystem in stages",
+        "Verify interfaces under fault injection",
+        "Evaluate accuracy and repeatability",
+        "Demonstrate stop and restart behavior",
+        "Diagnose integrated failures",
+        "Run reliability and duty-cycle trials",
+        "Document service and handover",
+        "Integrate and verify a controlled joint",
+        "Integrate and verify a robot arm",
+        "Integrate and verify an autonomous wheeled robot",
+        "Integrate a perception-guided mobile manipulator",
+        "Verify a repeatable robotic work system"
+      ]
+    }
+  ],
+  "overviewEdges": {
+    "dropped": [
+      "prerequisite r-frame -> r-rigid",
+      "prerequisite r-dof -> r-configuration",
+      "prerequisite r-rigid -> r-forward",
+      "prerequisite r-dof -> r-forward",
+      "prerequisite r-forward -> r-inverse",
+      "prerequisite r-forward -> r-jacobian",
+      "prerequisite r-forward -> r-staticload",
+      "prerequisite r-forward -> r-dynamics",
+      "prerequisite r-transmission -> r-actuator",
+      "prerequisite r-forward -> r-compliance",
+      "prerequisite r-feedback -> r-pid",
+      "prerequisite r-dynamics -> r-statespace",
+      "prerequisite r-statespace -> r-observe",
+      "prerequisite r-statespace -> r-estimation",
+      "prerequisite r-estimation -> r-fusion",
+      "prerequisite r-frame -> r-cameramodel",
+      "prerequisite r-fusion -> r-navigation",
+      "prerequisite r-configuration -> r-planning",
+      "prerequisite r-forward -> r-planning",
+      "prerequisite r-staticload -> r-grasp",
+      "prerequisite r-staticload -> r-structure",
+      "prerequisite r-actuator -> r-system",
+      "prerequisite r-feedback -> r-system",
+      "prerequisite r-structure -> r-system",
+      "prerequisite r-thermal -> r-system",
+      "supports p-damping -> r-pid",
+      "supports m-laplace -> r-feedback",
+      "supports m-invlaplace -> r-statespace",
+      "supports m-numerror -> r-dynamics",
+      "supports m-rk -> r-dynamics",
+      "supports m-mle -> r-estimation",
+      "supports m-pseudoinverse -> r-inverse",
+      "supports m-lagrange -> r-planning",
+      "supports m-hessian -> r-planning",
+      "supports m-complexity -> r-planning",
+      "related m-dag -> r-rigid",
+      "supports p-com -> r-staticload",
+      "supports p-parallelaxis -> r-dynamics",
+      "supports p-impulse -> r-compliance",
+      "supports p-buoyancy -> r-staticload",
+      "supports p-pascal -> r-actuator",
+      "supports p-pendulum -> r-dynamics",
+      "supports p-doppler -> r-fusion",
+      "supports p-diffraction -> r-cameramodel",
+      "supports p-polarization -> r-cameramodel",
+      "supports e-bridge -> r-staticload",
+      "supports e-encoder -> r-feedback",
+      "supports e-thermal-sensor -> r-thermal",
+      "supports e-sampling -> r-pid",
+      "supports e-piecewise -> r-pid",
+      "supports e-bus -> r-fusion",
+      "supports e-grounding -> r-fusion",
+      "supports e-powerbudget -> r-trajectory",
+      "supports s-fatigue -> r-trajectory",
+      "supports s-fastener -> r-structure",
+      "supports s-stack -> r-forward",
+      "supports s-mesh -> r-structure",
+      "supports s-elastomer -> r-grasp",
+      "supports s-carbonfiber -> r-structure",
+      "supports s-additive -> r-structure",
+      "supports s-coating -> r-structure",
+      "supports r-compliance -> r-cameramodel",
+      "supports r-cameramodel -> r-fusion",
+      "supports r-grasp -> r-system",
+      "supports r-navigation -> r-system",
+      "supports r-planning -> r-system",
+      "supports r-trajectory -> r-system",
+      "supports px-loop-torque -> r-actuator",
+      "supports px-radiation -> r-thermal",
+      "supports px-static-friction -> r-grasp",
+      "supports px-torque-sign -> r-staticload",
+      "supports px-rolling-speed -> r-navigation",
+      "supports px-lens-magnification -> r-cameramodel",
+      "supports px-rayleigh -> r-cameramodel",
+      "supports px-echo-range -> r-fusion",
+      "supports c-time-sync -> r-fusion",
+      "supports c-integration -> r-system",
+      "related r-frame -> sss-rob-frame-labels",
+      "related r-rigid -> sss-rob-rotation-columns",
+      "related r-rigid -> sss-rob-rotation-check",
+      "related r-frame -> sss-rob-point-direction",
+      "related r-rigid -> sss-rob-compose",
+      "related r-rigid -> sss-rob-inverse",
+      "related r-dof -> sss-rob-serial-dof",
+      "related r-configuration -> sss-rob-joint-conventions",
+      "related r-configuration -> sss-rob-task-coordinates",
+      "related r-forward -> sss-rob-planar-fk",
+      "related r-forward -> sss-rob-tool-offset",
+      "related r-inverse -> sss-rob-planar-reach",
+      "related r-inverse -> sss-rob-planar-ik",
+      "related r-inverse -> sss-rob-ik-verification",
+      "related r-jacobian -> sss-rob-position-jacobian",
+      "related r-jacobian -> sss-rob-joint-to-tip-rate",
+      "supports sss-rob-ik-verification -> r-planning",
+      "supports sss-rob-planar-singularity -> r-trajectory"
+    ],
+    "repointed": [
+      {
+        "from": "prerequisite r-jacobian -> r-singular",
+        "to": "prerequisite rob3:K10 -> r-singular",
+        "why": "Spatial Jacobian, for the kept r-singular"
+      },
+      {
+        "from": "prerequisite r-rigid -> c-transforms",
+        "to": "prerequisite rob3:K03 -> c-transforms",
+        "why": "Composing and inverting transforms is K03"
+      },
+      {
+        "from": "prerequisite r-pid -> c-control-loop",
+        "to": "prerequisite rob3:C01 -> c-control-loop",
+        "why": "Sampled feedback and error sign is the concept c-control-loop implements; C02/C03 overlap it and get related links"
+      },
+      {
+        "from": "supports r-dynamics -> c-simulation",
+        "to": "supports rob3:A04 -> c-simulation",
+        "why": "Single-axis torque model for simulation"
+      }
+    ],
+    "carriedAsSupports": [
+      {
+        "source": "m-changebasis",
+        "overview": "r-frame",
+        "target": "rob3:K01",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-orthogonal",
+        "overview": "r-frame",
+        "target": "rob3:K01",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-rank",
+        "overview": "r-dof",
+        "target": "rob3:K04",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-model",
+        "overview": "r-dof",
+        "target": "rob3:K04",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-set",
+        "overview": "r-configuration",
+        "target": "rob3:K04",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-trigeq",
+        "overview": "r-inverse",
+        "target": "rob3:K11",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-jacobian",
+        "overview": "r-jacobian",
+        "target": "rob3:K10",
+        "action": "already a prerequisite ancestor: dropped"
+      },
+      {
+        "source": "p-equilibrium",
+        "overview": "r-staticload",
+        "target": "rob3:A03",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-lagrangian",
+        "overview": "r-dynamics",
+        "target": "rob3:A04",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-inertia-moment",
+        "overview": "r-dynamics",
+        "target": "rob3:A04",
+        "action": "already a prerequisite ancestor: dropped"
+      },
+      {
+        "source": "m-proportion",
+        "overview": "r-transmission",
+        "target": "rob3:A02",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-rotenergy",
+        "overview": "r-transmission",
+        "target": "rob3:A02",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-torque",
+        "overview": "r-transmission",
+        "target": "rob3:A02",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-rotdynamics",
+        "overview": "r-actuator",
+        "target": "rob3:A06",
+        "action": "already a prerequisite ancestor: dropped"
+      },
+      {
+        "source": "e-powerbudget",
+        "overview": "r-actuator",
+        "target": "rob3:A06",
+        "action": "added as supports"
+      },
+      {
+        "source": "e-hbridge",
+        "overview": "r-actuator",
+        "target": "rob3:A06",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-deflection",
+        "overview": "r-compliance",
+        "target": "rob3:A09",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-wear",
+        "overview": "r-compliance",
+        "target": "rob3:A09",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-parametric",
+        "overview": "r-trajectory",
+        "target": "rob3:C05",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-calcmotion",
+        "overview": "r-trajectory",
+        "target": "rob3:C05",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-model",
+        "overview": "r-feedback",
+        "target": "rob3:C01",
+        "action": "already a prerequisite ancestor: dropped"
+      },
+      {
+        "source": "m-function",
+        "overview": "r-feedback",
+        "target": "rob3:C01",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-ftc",
+        "overview": "r-pid",
+        "target": "rob3:C03",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-odesystem",
+        "overview": "r-statespace",
+        "target": "rob3:R-M06",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-bayes",
+        "overview": "r-estimation",
+        "target": "rob3:P08",
+        "action": "already a prerequisite ancestor: dropped"
+      },
+      {
+        "source": "m-covariance",
+        "overview": "r-estimation",
+        "target": "rob3:P08",
+        "action": "added as supports"
+      },
+      {
+        "source": "e-imu",
+        "overview": "r-fusion",
+        "target": "rob3:P09",
+        "action": "added as supports"
+      },
+      {
+        "source": "e-encoder",
+        "overview": "r-fusion",
+        "target": "rob3:P09",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-lens",
+        "overview": "r-cameramodel",
+        "target": "rob3:P04",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-leastsquares",
+        "overview": "r-cameramodel",
+        "target": "rob3:P04",
+        "action": "already a prerequisite ancestor: dropped"
+      },
+      {
+        "source": "m-search",
+        "overview": "r-navigation",
+        "target": "rob3:N05",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-rolling",
+        "overview": "r-navigation",
+        "target": "rob3:N05",
+        "action": "added as supports"
+      },
+      {
+        "source": "m-search",
+        "overview": "r-planning",
+        "target": "rob3:G04",
+        "action": "added as supports"
+      },
+      {
+        "source": "p-friction",
+        "overview": "r-grasp",
+        "target": "rob3:G01",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-elastic",
+        "overview": "r-grasp",
+        "target": "rob3:G01",
+        "action": "added as supports"
+      },
+      {
+        "source": "e-powerbudget",
+        "overview": "r-thermal",
+        "target": "rob3:E11",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-thermalresist",
+        "overview": "r-thermal",
+        "target": "rob3:E11",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-convection",
+        "overview": "r-thermal",
+        "target": "rob3:E11",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-select",
+        "overview": "r-structure",
+        "target": "rob3:D09",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-safetyfactor",
+        "overview": "r-structure",
+        "target": "rob3:D09",
+        "action": "added as supports"
+      },
+      {
+        "source": "s-fits",
+        "overview": "r-structure",
+        "target": "rob3:D09",
+        "action": "added as supports"
+      }
+    ]
+  },
+  "componentAndRelatedLinks": [
+    {
+      "type": "related",
+      "source": "e-schematic",
+      "target": "rob3:B-E01",
+      "reason": "Complete circuit and source before schematic reading",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-watchdog",
+      "target": "rob3:Q03",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-testing",
+      "target": "rob3:Q05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-units",
+      "target": "rob3:B-P01",
+      "reason": "Measuring with SI units",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-inertia",
+      "target": "rob3:B-P02",
+      "reason": "A first conceptual step before Newton's laws",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "m-sci",
+      "target": "rob3:B-M02",
+      "reason": "Adds SI prefixes. m-sci holds a Yes answer, so it is not merged: that would stretch an answer over a broader definition",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "m-center",
+      "target": "rob3:B-M03",
+      "reason": "Summary statistics of measured data",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-powerbudget",
+      "target": "rob3:Q04",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-elastic",
+      "target": "rob3:B-D03",
+      "reason": "Stiffness versus strength",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-fbd",
+      "target": "rob3:B-P03",
+      "reason": "Planar free-body balance is a narrow case of free-body diagrams and equilibrium",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-power",
+      "target": "rob3:B-P06",
+      "reason": "Work and power in simple motion",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-resistance",
+      "target": "rob3:B-E04",
+      "reason": "Reading component ratings",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "mf-skill-c5b308b94788eca5",
+      "target": "rob3:B-M04",
+      "reason": "Same calculation; V3 frames it on measured data",
+      "origin": "possible"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-frame-labels",
+      "target": "rob3:K01",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-joint-conventions",
+      "target": "rob3:K01",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "c-integration",
+      "target": "rob3:Q02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-com",
+      "target": "rob3:B-P05",
+      "reason": "One-dimensional case of center of mass",
+      "origin": "decomposes"
+    },
+    {
+      "type": "related",
+      "source": "e-multimeter",
+      "target": "rob3:B-E12",
+      "reason": "Choosing a measurement setup",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "sss-dc-nodes",
+      "target": "rob3:E01",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "m-histogram",
+      "target": "rob3:B-M05",
+      "reason": "Distribution shape of measured noise",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-machining",
+      "target": "rob3:D01",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-task-coordinates",
+      "target": "rob3:K04",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "c-documentation",
+      "target": "rob3:Q06",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-stress",
+      "target": "rob3:B-D04",
+      "reason": "Axial case of normal stress",
+      "origin": "decomposes"
+    },
+    {
+      "type": "related",
+      "source": "e-power",
+      "target": "rob3:B-E05",
+      "reason": "DC power and energy; V3 adds energy over time",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "px-calibrate",
+      "target": "rob3:R-M01",
+      "reason": "Same straight-line fit; V3 adds residual checks and validation points",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "p-friction",
+      "target": "rob3:R-P01",
+      "reason": "Applies a stated dry-friction model",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-torque",
+      "target": "rob3:B-P04",
+      "reason": "Planar case of torque about a point",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-multimeter",
+      "target": "rob3:E03",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-scope",
+      "target": "rob3:E03",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fits",
+      "target": "rob3:D02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fits",
+      "target": "rob3:D03",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-documentation",
+      "target": "rob3:S02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-safetyfactor",
+      "target": "rob3:B-D06",
+      "reason": "Applies a stated margin; master chooses margins under uncertainty",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "s-thermalresist",
+      "target": "rob3:B-D08",
+      "reason": "Lumped thermal model (S7, decision 12)",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-pwm",
+      "target": "rob3:B-E09",
+      "reason": "Duty and period",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "e-inductor",
+      "target": "rob3:B-E10",
+      "reason": "Inductor current continuity",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-battery",
+      "target": "rob3:B-E06",
+      "reason": "Battery model with stated limits",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "e-diode",
+      "target": "rob3:B-E07",
+      "reason": "Diode as a directional element",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-mosfet",
+      "target": "rob3:B-E08",
+      "reason": "Generic controlled switch; master splits it into e-mosfet and e-bjt",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-divider",
+      "target": "rob3:E02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-tolerance",
+      "target": "rob3:E02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-rotation-check",
+      "target": "rob3:K02",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "s-deflection",
+      "target": "rob3:B-D05",
+      "reason": "Applies a supplied model; the derivation stays in the optional s-* track (decision 8)",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-rotenergy",
+      "target": "rob3:B-P07",
+      "reason": "Shaft power = torque x speed",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "m-covariance",
+      "target": "rob3:R-M04",
+      "reason": "Covariance read as state uncertainty",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-calibration",
+      "target": "rob3:P01",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "px-calibrate",
+      "target": "rob3:P01",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-wear",
+      "target": "rob3:D08",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fits",
+      "target": "rob3:D08",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "p-precision",
+      "target": "rob3:D04",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fits",
+      "target": "rob3:D04",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-machining",
+      "target": "rob3:D05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-additive",
+      "target": "rob3:D05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-welding",
+      "target": "rob3:D05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-transforms",
+      "target": "rob3:S01",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-time-sync",
+      "target": "rob3:S10",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fastener",
+      "target": "rob3:D07",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-bus",
+      "target": "rob3:R-E01",
+      "reason": "Wiring a UART/SPI/I2C link",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-encoder",
+      "target": "rob3:R-E02",
+      "reason": "Encoder channels and counts",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-flyback",
+      "target": "rob3:E08",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-powerbudget",
+      "target": "rob3:E04",
+      "reason": "Same budget; V3 adds voltage sag and runtime",
+      "origin": "possible"
+    },
+    {
+      "type": "related",
+      "source": "e-antialias",
+      "target": "rob3:B-E11",
+      "reason": "An RC input filter is the simplest anti-alias filter",
+      "origin": "related"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-compose",
+      "target": "rob3:K03",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-inverse",
+      "target": "rob3:K03",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "s-stack",
+      "target": "rob3:D06",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-transforms",
+      "target": "rob3:S06",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-errors",
+      "target": "rob3:S07",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-replay-testing",
+      "target": "rob3:S11",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-encoder",
+      "target": "rob3:A08",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-hbridge",
+      "target": "rob3:E09",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-gatedrive",
+      "target": "rob3:E09",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-grounding",
+      "target": "rob3:E05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-buffer",
+      "target": "rob3:E07",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-antialias",
+      "target": "rob3:E07",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-planar-fk",
+      "target": "rob3:K05",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-tool-offset",
+      "target": "rob3:K05",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "c-transport",
+      "target": "rob3:S12",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-select",
+      "target": "rob3:D10",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fatigue",
+      "target": "rob3:D10",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-corrosion",
+      "target": "rob3:D10",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-schematic",
+      "target": "rob3:E06",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-ik-verification",
+      "target": "rob3:K06",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "c-firmware",
+      "target": "rob3:S03",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-grounding",
+      "target": "rob3:E10",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-shielding",
+      "target": "rob3:E10",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-queues",
+      "target": "rob3:S04",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-bus",
+      "target": "rob3:S05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "m-transdiff",
+      "target": "rob3:R-M03",
+      "reason": "Trigonometric derivatives applied to rotations",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-pcb",
+      "target": "rob3:E12",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-timing-constraints",
+      "target": "rob3:S08",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-rt-scheduling",
+      "target": "rob3:S09",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-rtos",
+      "target": "rob3:S09",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "prerequisite",
+      "source": "sss-rob-planar-singularity",
+      "target": "rob3:K07",
+      "reason": "Decision 10: the master planar skills are the steps of this V3 outcome",
+      "origin": "component"
+    },
+    {
+      "type": "related",
+      "source": "m-leastsquares",
+      "target": "rob3:R-M05",
+      "reason": "Nonlinear extension; m-leastsquares is already its prerequisite",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "e-hbridge",
+      "target": "rob3:A07",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-integration",
+      "target": "rob3:V01",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "r-singular",
+      "target": "rob3:K11",
+      "reason": "Kept overview",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-fea",
+      "target": "rob3:D12",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "s-mesh",
+      "target": "rob3:D12",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-control-loop",
+      "target": "rob3:C02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-integration",
+      "target": "rob3:V02",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-debugging",
+      "target": "rob3:V05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-control-loop",
+      "target": "rob3:C08",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-model-deployment",
+      "target": "rob3:X05",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-documentation",
+      "target": "rob3:V07",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    },
+    {
+      "type": "related",
+      "source": "c-model-deployment",
+      "target": "rob3:X06",
+      "reason": "Named by the V3 specification as an existing atlas candidate",
+      "origin": "related"
+    }
+  ],
+  "sharedIds": {
+    "count": 204,
+    "name": [
+      {
+        "id": "m-order",
+        "master": "Order of operations",
+        "v3": "Order of operations for basic arithmetic",
+        "proposal": "V3",
+        "why": "Matches the narrowed prerequisites and the V3 lesson"
+      }
+    ],
+    "description": {
+      "proposal": "master",
+      "why": "All 204 differ only because every V3 description is a copy of its name; the master descriptions are full sentences. V3's teaching text travels in its lesson fields."
+    },
+    "prerequisites": [
+      {
+        "id": "c-terminal",
+        "masterOnly": [],
+        "v3Only": [
+          "B-C01"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "c-values-types",
+        "masterOnly": [],
+        "v3Only": [
+          "B-C02"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "p-model",
+        "masterOnly": [],
+        "v3Only": [
+          "B-S01"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "c-variables",
+        "masterOnly": [],
+        "v3Only": [
+          "B-C03"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "m-order",
+        "masterOnly": [
+          "m-power"
+        ],
+        "v3Only": [
+          "m-multiply",
+          "m-sign"
+        ],
+        "proposal": "V3",
+        "why": "V3 narrows m-order to basic arithmetic (its lesson teaches + − × ÷ and grouping) and places powers after fractions (m-fracmul → m-power). Keeping m-power → m-order would contradict the lesson. This removes one master edge: m-power → m-order.",
+        "removesMasterEdges": [
+          "m-power -> m-order"
+        ]
+      },
+      {
+        "id": "c-expressions",
+        "masterOnly": [],
+        "v3Only": [
+          "m-order"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "m-power",
+        "masterOnly": [],
+        "v3Only": [
+          "m-fracmul"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "c-event-loops",
+        "masterOnly": [],
+        "v3Only": [
+          "c-loops",
+          "c-errors"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      },
+      {
+        "id": "c-io",
+        "masterOnly": [],
+        "v3Only": [
+          "B-C05"
+        ],
+        "proposal": "union",
+        "why": "V3 only adds prerequisites here; every master prerequisite stays."
+      }
+    ]
+  },
+  "decision11": [
+    {
+      "source": "m-defintegral",
+      "target": "C03",
+      "proposal": "leave as supports",
+      "why": "C03 implements the integral term in sampled form, and R-M02 (sampled accumulation) is already its prerequisite. The continuous integral explains it but is not needed to build or verify it."
+    },
+    {
+      "source": "m-derivative",
+      "target": "C03",
+      "proposal": "leave as supports",
+      "why": "The derivative term is a finite difference, covered by R-M02. m-derivative is already on the path through other skills."
+    },
+    {
+      "source": "m-numericalint",
+      "target": "N02",
+      "proposal": "leave as supports",
+      "why": "Odometry sums sampled increments (R-M02 is its prerequisite). Numerical integration theory is useful context, not required."
+    }
+  ],
+  "answerCheck": {
+    "differences": [
+      {
+        "id": "c-variables",
+        "masterFile": true,
+        "sharedRecord": null,
+        "meaning": "The record holds a deliberate Clear, saved 2026-09-20; the map file (last changed 2026-09-14) still says Yes. The app shows the record, so JC currently sees Not marked.",
+        "proposal": "JC decides. If unsure, keep the record (Not marked): it is the newer choice and what the app shows today."
+      }
+    ],
+    "mLogic": "Both No (file and record); V3 has no answers."
+  },
+  "simulation": {
+    "nodes": 1918,
+    "edges": 5718,
+    "danglingEdges": 0,
+    "prerequisiteCycle": false,
+    "longestChain": 27,
+    "milestonesPresent": true,
+    "redundantComponentLinks": [
+      "sss-rob-serial-dof -> rob3:K04",
+      "sss-rob-rotation-columns -> rob3:K02",
+      "sss-rob-point-direction -> rob3:K03",
+      "sss-rob-planar-reach -> rob3:K06",
+      "sss-rob-planar-ik -> rob3:K06",
+      "sss-rob-position-jacobian -> rob3:K07",
+      "sss-rob-joint-to-tip-rate -> rob3:K07"
+    ],
+    "note": "Structure only. No answers, lessons, levels or positions. Task 3 builds the real map with its own gates."
+  }
+}
