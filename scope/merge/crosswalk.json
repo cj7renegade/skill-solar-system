@@ -1,7 +1,23 @@
 {
   "format": "skill-solar-system-merge-crosswalk",
   "version": 1,
-  "status": "DRAFT for JC (Checkpoint A). Nothing is built from it until JC approves.",
+  "status": "APPROVED",
+  "approval": {
+    "by": "JC",
+    "date": "2026-10-10",
+    "said": "Approve the crosswalk",
+    "accepted": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7",
+      "A8"
+    ],
+    "note": "Every recommendation in reports/merge/01-crosswalk.md accepted as written."
+  },
   "generated": "2026-10-10",
   "sources": {
     "master": {
@@ -4431,23 +4447,47 @@
     ],
     "repointed": [
       {
-        "from": "prerequisite r-jacobian -> r-singular",
-        "to": "prerequisite rob3:K10 -> r-singular",
+        "replaces": {
+          "type": "prerequisite",
+          "source": "r-jacobian",
+          "target": "r-singular"
+        },
+        "type": "prerequisite",
+        "source": "rob3:K10",
+        "target": "r-singular",
         "why": "Spatial Jacobian, for the kept r-singular"
       },
       {
-        "from": "prerequisite r-rigid -> c-transforms",
-        "to": "prerequisite rob3:K03 -> c-transforms",
+        "replaces": {
+          "type": "prerequisite",
+          "source": "r-rigid",
+          "target": "c-transforms"
+        },
+        "type": "prerequisite",
+        "source": "rob3:K03",
+        "target": "c-transforms",
         "why": "Composing and inverting transforms is K03"
       },
       {
-        "from": "prerequisite r-pid -> c-control-loop",
-        "to": "prerequisite rob3:C01 -> c-control-loop",
+        "replaces": {
+          "type": "prerequisite",
+          "source": "r-pid",
+          "target": "c-control-loop"
+        },
+        "type": "prerequisite",
+        "source": "rob3:C01",
+        "target": "c-control-loop",
         "why": "Sampled feedback and error sign is the concept c-control-loop implements; C02/C03 overlap it and get related links"
       },
       {
-        "from": "supports r-dynamics -> c-simulation",
-        "to": "supports rob3:A04 -> c-simulation",
+        "replaces": {
+          "type": "supports",
+          "source": "r-dynamics",
+          "target": "c-simulation"
+        },
+        "type": "supports",
+        "source": "rob3:A04",
+        "target": "c-simulation",
         "why": "Single-axis torque model for simulation"
       }
     ],
@@ -5515,7 +5555,11 @@
         "proposal": "V3",
         "why": "V3 narrows m-order to basic arithmetic (its lesson teaches + − × ÷ and grouping) and places powers after fractions (m-fracmul → m-power). Keeping m-power → m-order would contradict the lesson. This removes one master edge: m-power → m-order.",
         "removesMasterEdges": [
-          "m-power -> m-order"
+          {
+            "type": "prerequisite",
+            "source": "m-power",
+            "target": "m-order"
+          }
         ]
       },
       {
@@ -5584,7 +5628,13 @@
         "masterFile": true,
         "sharedRecord": null,
         "meaning": "The record holds a deliberate Clear, saved 2026-09-20; the map file (last changed 2026-09-14) still says Yes. The app shows the record, so JC currently sees Not marked.",
-        "proposal": "JC decides. If unsure, keep the record (Not marked): it is the newer choice and what the app shows today."
+        "proposal": "JC decides. If unsure, keep the record (Not marked): it is the newer choice and what the app shows today.",
+        "decision": {
+          "value": null,
+          "by": "JC",
+          "date": "2026-10-10",
+          "item": "A1"
+        }
       }
     ],
     "mLogic": "Both No (file and record); V3 has no answers."

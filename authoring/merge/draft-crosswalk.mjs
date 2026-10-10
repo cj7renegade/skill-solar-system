@@ -1,6 +1,6 @@
 // Generates the Task 2 crosswalk draft (scope/merge/crosswalk.json) from the master and the V3 export,
 // and checks it with a structure-only simulated merge (no answers, lessons or layout). Read-only on
-// the maps. The judgements below are the draft JC reviews at Checkpoint A (reports/merge/01-crosswalk.md).
+// the maps. The judgements below are the crosswalk JC approved at Checkpoint A on 2026-10-10 (reports/merge/01-crosswalk.md).
 //   node authoring/merge/draft-crosswalk.mjs . scope/merge/crosswalk.json
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -154,7 +154,7 @@ for (const b of sharedIds) {
   if (masterOnly.length || v3Only.length) sharedDiffs.push({ id: b, masterOnly, v3Only });
 }
 const prereqPolicy = sharedDiffs.map(d => {
-  if (d.id === 'm-order') return { ...d, proposal: 'V3', why: 'V3 narrows m-order to basic arithmetic (its lesson teaches + − × ÷ and grouping) and places powers after fractions (m-fracmul → m-power). Keeping m-power → m-order would contradict the lesson. This removes one master edge: m-power → m-order.', removesMasterEdges: d.masterOnly.map(s => `${s} -> ${d.id}`) };
+  if (d.id === 'm-order') return { ...d, proposal: 'V3', why: 'V3 narrows m-order to basic arithmetic (its lesson teaches + − × ÷ and grouping) and places powers after fractions (m-fracmul → m-power). Keeping m-power → m-order would contradict the lesson. This removes one master edge: m-power → m-order.', removesMasterEdges: d.masterOnly.map(s => ({ type: 'prerequisite', source: s, target: d.id })) };
   return { ...d, proposal: 'union', why: 'V3 only adds prerequisites here; every master prerequisite stays.' };
 });
 
@@ -164,11 +164,11 @@ const add = e => { if (e.source === e.target) return; const k = key(e); if (!E.h
 const nodes = new Set(master.nodes.map(n => n.id).filter(id => !retired.has(id)));
 for (const p of fresh) if (!SAME[p]) nodes.add(`rob3:${p}`);
 const mid = id => { const b = bare(id); return SAME[b]?.master ?? (M.has(b) ? b : `rob3:${b}`); };
-const removed = new Set(prereqPolicy.flatMap(p => p.removesMasterEdges || []));
+const removed = new Set(prereqPolicy.flatMap(p => (p.removesMasterEdges || []).map(e => `${e.source} -> ${e.target}`)));
 for (const e of master.edges) {
   if (retired.has(e.source) || retired.has(e.target)) {
     const rp = REPOINT[`${e.source}>${e.target}`];
-    if (rp) { add({ type: rp[1], source: `rob3:${rp[0]}`, target: e.target }); overviewEdges.repointed.push({ from: `${e.type} ${e.source} -> ${e.target}`, to: `${rp[1]} rob3:${rp[0]} -> ${e.target}`, why: rp[2] }); }
+    if (rp) { add({ type: rp[1], source: `rob3:${rp[0]}`, target: e.target }); overviewEdges.repointed.push({ replaces: { type: e.type, source: e.source, target: e.target }, type: rp[1], source: `rob3:${rp[0]}`, target: e.target, why: rp[2] }); }
     else if (retired.has(e.target) && !retired.has(e.source) && e.type === 'prerequisite') overviewEdges.carriedAsSupports.push({ source: e.source, overview: e.target, target: primaryOf[e.target] });
     else overviewEdges.dropped.push(`${e.type} ${e.source} -> ${e.target}`);
     continue;
@@ -208,7 +208,9 @@ const simulation = {
 };
 
 const crosswalk = {
-  format: 'skill-solar-system-merge-crosswalk', version: 1, status: 'DRAFT for JC (Checkpoint A). Nothing is built from it until JC approves.',
+  format: 'skill-solar-system-merge-crosswalk', version: 1, status: 'APPROVED',
+  approval: { by: 'JC', date: '2026-10-10', said: 'Approve the crosswalk', accepted: ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8'],
+    note: 'Every recommendation in reports/merge/01-crosswalk.md accepted as written.' },
   generated: '2026-10-10',
   sources: { master: { file: 'Maps/Skill-Solar-System.json', sha256: sha(masterRaw) }, v3: { file: 'Maps/Robotics-v3/Robotics-v3-Lessons.json', sha256: sha(v3Raw) } },
   idPolicy: 'Master ids for the 204 shared skills; rob3: ids for the new V3 entries; the master for the two same-ability entries.',
@@ -218,7 +220,7 @@ const crosswalk = {
     description: { proposal: 'master', why: `All ${sharedIds.length} differ only because every V3 description is a copy of its name; the master descriptions are full sentences. V3's teaching text travels in its lesson fields.` },
     prerequisites: prereqPolicy },
   decision11: DECISION11,
-  answerCheck: { differences: [{ id: 'c-variables', masterFile: true, sharedRecord: null, meaning: 'The record holds a deliberate Clear, saved 2026-09-20; the map file (last changed 2026-09-14) still says Yes. The app shows the record, so JC currently sees Not marked.', proposal: 'JC decides. If unsure, keep the record (Not marked): it is the newer choice and what the app shows today.' }], mLogic: 'Both No (file and record); V3 has no answers.' },
+  answerCheck: { differences: [{ id: 'c-variables', masterFile: true, sharedRecord: null, meaning: 'The record holds a deliberate Clear, saved 2026-09-20; the map file (last changed 2026-09-14) still says Yes. The app shows the record, so JC currently sees Not marked.', proposal: 'JC decides. If unsure, keep the record (Not marked): it is the newer choice and what the app shows today.', decision: { value: null, by: 'JC', date: '2026-10-10', item: 'A1' } }], mLogic: 'Both No (file and record); V3 has no answers.' },
   simulation
 };
 writeFileSync(OUT, JSON.stringify(crosswalk, null, 2) + '\n');

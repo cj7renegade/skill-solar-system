@@ -102,7 +102,7 @@ V3's version, and decision 11's links stay *supports*. A structure-only simulate
 skills, 5,718 connections, no loop and a longest chain of 27. **Waiting for JC at Checkpoint A, and
 for the backup.**
 
-## [ ] Task 3 — The merge tool
+## [x] Task 3 — The merge tool (2026-10-10)
 **Do:** Write `authoring/merge/merge.mjs` (logic only, no file access) and
 `authoring/merge/build-merged.mjs` (the command, dry run by default), following the applier's
 style (PLATFORM.md §6.2). The tool:
@@ -122,6 +122,14 @@ style (PLATFORM.md §6.2). The tool:
   I01–I05 still closed; running it twice gives identical bytes.
 **Check:** unit tests for each rule and gate (`tests/merge.test.mjs`), including a small synthetic
 pair of maps. Write the dry-run summary to `C:\sss-scratch\merge\`.
+**Result:** `authoring/merge/merge.mjs` and `build-merged.mjs`. The dry run **PASSED** every gate:
+1,918 skills; 5,708 connections (4,323 prerequisite, 175 supports, 1,210 related); 308 answers
+(the master's 309 minus the `c-variables` Clear JC approved as A1); all 298 lessons carried byte for
+byte; identical bytes on rebuild; both source maps unchanged. The merged file is 7.7 MB. Shared
+skills that take a V3 lesson keep their master text in `atlasDetails`. `tests/merge.test.mjs`: 11
+tests, all passing. **Backup:** still not taken, because the app is still open on JC's real profile.
+Task 3 writes only to `C:\sss-scratch\merge\`, so the backup is now required before Task 7, which
+is the first step that writes into `Maps/`.
 
 ## [ ] Task 4 — Levels and layout
 **Do:** Recalculate levels on the merged map with the existing level and vortex code, and record
