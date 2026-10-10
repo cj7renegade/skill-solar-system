@@ -2,6 +2,9 @@
 //
 //   node authoring/robotics-v3/apply-lessons.mjs            dry run: reconcile and report only
 //   node authoring/robotics-v3/apply-lessons.mjs --write    write the map, the ledger and the summary
+//   --target <map.json>                                       apply to another map instead, such as the
+//                                                             merged Robotics Atlas; the ledger and the
+//                                                             summary are written next to it
 //
 // Inputs are located rather than hard-coded, so the supplied package can sit where it was extracted
 // or be reorganised under packages/ without editing this file. Every input is fingerprinted in the
@@ -19,11 +22,15 @@ const ROOT = path.resolve(import.meta.dirname, '..', '..');
 // The base is the current export when one exists, so any later change to it — a moved sphere, a
 // recorded answer, a newer lesson — is carried forward rather than rebuilt away. Only a first run
 // starts from the generated preview.
+const args = process.argv.slice(2);
+const TARGET = args.includes('--target') ? path.resolve(args[args.indexOf('--target') + 1]) : null;
 const PREVIEW = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Preview.json');
-const OUT_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
-const MAP = existsSync(OUT_MAP) ? OUT_MAP : PREVIEW;
-const OUT_LEDGER = path.join(ROOT, 'Maps', 'Robotics-v3', 'Content-Import-Ledger.csv');
-const OUT_SUMMARY = path.join(ROOT, 'Maps', 'Robotics-v3', 'Integration-Summary.json');
+const V3_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
+const OUT_MAP = TARGET ?? V3_MAP;
+const MAP = TARGET ?? (existsSync(V3_MAP) ? V3_MAP : PREVIEW);
+const OUT_DIR = TARGET ? path.dirname(TARGET) : path.join(ROOT, 'Maps', 'Robotics-v3');
+const OUT_LEDGER = path.join(OUT_DIR, 'Content-Import-Ledger.csv');
+const OUT_SUMMARY = path.join(OUT_DIR, 'Integration-Summary.json');
 
 // The supplied package as extracted, and the same files once reorganised under packages/.
 const CANDIDATES = {
@@ -80,22 +87,23 @@ function gitRevision() {
   try { return execSync('git rev-parse HEAD', { cwd: ROOT, encoding: 'utf8' }).trim(); } catch { return null; }
 }
 
-const args = process.argv.slice(2);
 if (!existsSync(MAP)) { console.error(`No v3 map at ${MAP}. Run authoring/robotics-v3/build-preview.mjs --write first.`); process.exit(1); }
 
 const inputs = loadInputs();
 const before = validate(JSON.parse(readFileSync(MAP, 'utf8')));
+// The merged Robotics Atlas (authoring/merge/) holds the V3 entries among the master's skills.
+const MERGED = before.metadata?.datasetKey === 'robotics-atlas-merged';
 const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06].map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 
 // Evidence statements for lessons written before editions carried requires_physical_evidence
 // (decision 14 in reports/scope/05-decisions.md). Never written into a stored lesson.
 const OVERRIDES = path.join(ROOT, 'authoring', 'robotics-v3', 'evidence-overrides.json');
 const evidenceOverrides = existsSync(OVERRIDES) ? JSON.parse(readFileSync(OVERRIDES, 'utf8')).entries : {};
-const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions, evidenceOverrides });
+const { graph, report } = applyLessons(before, { spec: inputs.spec.data, editions, evidenceOverrides, merged: MERGED });
 validate(graph);
 const preservation = preservationDiff(before, graph);
 // Idempotence, checked rather than asserted: applying the same editions to the result changes nothing.
-const second = applyLessons(graph, { spec: inputs.spec.data, editions, evidenceOverrides });
+const second = applyLessons(graph, { spec: inputs.spec.data, editions, evidenceOverrides, merged: MERGED });
 const stable = JSON.stringify(second.graph) === JSON.stringify(graph);
 
 const answersBefore = before.nodes.filter(n => n.proficiency80 != null).length;
@@ -166,17 +174,19 @@ function baselineDiff() {
   const file = BASELINE.map(r => path.join(ROOT, r)).find(existsSync);
   if (!file) return { compared: false, reason: 'no supplied baseline export found' };
   const base = JSON.parse(readFileSync(file, 'utf8'));
-  const was = new Map(base.nodes.map(n => [n.id, n]));
+  // On the merged atlas the V3 entries are matched by planning id, and only their lessons are
+  // compared: names, positions and levels there are the atlas's own, by design.
+  const was = new Map(base.nodes.map(n => [MERGED ? n.planningId : n.id, n]));
   const gained = [], lessonChanged = [], otherFieldsChanged = [];
   for (const node of graph.nodes) {
-    const old = was.get(node.id);
+    const old = was.get(MERGED ? node.planningId : node.id);
     if (!old) continue;
     if (!old.lesson && node.lesson) gained.push(node.id);
     else if (old.lesson && JSON.stringify(old.lesson) !== JSON.stringify(node.lesson)) lessonChanged.push(node.id);
-    for (const key of PRESERVED) if (JSON.stringify(old[key]) !== JSON.stringify(node[key])) otherFieldsChanged.push(`${node.id}.${key}`);
+    if (!MERGED) for (const key of PRESERVED) if (JSON.stringify(old[key]) !== JSON.stringify(node[key])) otherFieldsChanged.push(`${node.id}.${key}`);
   }
   return {
-    compared: true, file: rel(file), sha256: sha256(file),
+    compared: true, file: rel(file), sha256: sha256(file), preservedFieldsCompared: !MERGED,
     lessonsBefore: base.nodes.filter(n => n.lesson).length,
     lessonsAfter: graph.nodes.filter(n => n.lesson).length,
     entriesGainedALesson: gained.length,
@@ -201,11 +211,11 @@ const summary = {
   generated: new Date().toISOString().slice(0, 10),
   sourceRevision: gitRevision(),
   inputs: Object.fromEntries(Object.entries(inputs).map(([name, i]) => [name, { file: i.relative, sha256: i.sha256 }])),
-  map: { input: rel(MAP), output: rel(OUT_MAP), atlasFamilyBefore: atlasFamily(before), atlasFamilyAfter: atlasFamily(graph), title: graph.title },
+  map: { input: rel(MAP), output: rel(OUT_MAP), target: MERGED ? 'merged Robotics Atlas' : 'Robotics V3 export', atlasFamilyBefore: atlasFamily(before), atlasFamilyAfter: atlasFamily(graph), title: graph.title },
   editions: editions.map(e => ({ edition: e.metadata.edition, authored: e.metadata.authored, supplied: e.lessons.length, selection: e.metadata.selection })),
   titleChange: { before: before.title, after: graph.title, reviewSessionsKeptBy: `metadata.datasetKey = ${JSON.stringify(datasetKey(graph))}` },
   counts: report.counts,
-  expected: { uniqueAuthoredCards: 298, pendingAssessable: 82, roadmapEntries: 1, mapEntries: 381 },
+  expected: { uniqueAuthoredCards: 298, pendingAssessable: 82, roadmapEntries: 1, plannedEntries: 381, mapEntries: MERGED ? before.nodes.length : 381 },
   expectedEdition06Delta: { newLessons: 6, unchangedPriorLessons: 292, skipped: 0, conflicting: 0 },
   reconciliation: {
     imported: report.counts.imported,
@@ -264,7 +274,7 @@ const ok = summary.preservation.reviewOrderUnchanged && summary.preservation.rev
   && (!baseline.compared || (!baseline.existingLessonsChanged.length && !baseline.preservedFieldsChanged.length))
   && report.counts.imported === expected.uniqueAuthoredCards && report.counts.authored === expected.uniqueAuthoredCards
   && report.counts.pending === expected.pendingAssessable && report.counts.roadmap === expected.roadmapEntries
-  && report.counts.mapNodes === expected.mapEntries && answersBefore === answersAfter && atlasFamily(before) === atlasFamily(graph);
+  && report.counts.mapNodes === expected.mapEntries && report.counts.plannedEntries === expected.plannedEntries && answersBefore === answersAfter && atlasFamily(before) === atlasFamily(graph);
 summary.result = ok ? 'passed' : 'review required';
 
 console.log(JSON.stringify(summary, null, 2));

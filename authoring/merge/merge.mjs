@@ -56,6 +56,8 @@ export function merge(master, v3, crosswalk) {
       if (from.lesson) {
         if (node.details && node.details !== from.details) node.atlasDetails = node.details;
         node.details = from.details;
+        if (node.placementNote !== undefined && node.placementNote !== from.placementNote) node.atlasPlacementNote = node.placementNote;
+        node.placementNote = from.placementNote;
         node.lessonCard = clone(from.lessonCard);
         node.lesson = clone(from.lesson);
       }
@@ -96,6 +98,7 @@ export function merge(master, v3, crosswalk) {
     push({ source: c.source, target: c.target, type: 'supports', rationale: `Was a prerequisite of the retired overview ${c.overview}; kept as optional preparation for the outcome that replaces it.`, authorship: AUTHORSHIP }, { optional: true });
 
   const metadata = { ...clone(master.metadata), atlasFamily: FAMILY, datasetKey: DATASET_KEY, created: crosswalk.approval.date,
+    contentEditions: clone(v3.metadata?.contentEditions ?? []), contentStatusPolicy: v3.metadata?.contentStatusPolicy,
     scope: 'The master atlas merged with the Robotics V3 curriculum: master skills and answers unchanged, V3 entries and lessons added, broad robotics overviews replaced by granular V3 outcomes.',
     proficiencyPolicy: 'Answers come only from the master, by unchanged ids, plus the answer changes JC decided in the crosswalk. Nothing is inferred; new V3 entries start unmarked.' };
   const graph = { schemaVersion: 1, title: TITLE, nodes, edges, metadata };

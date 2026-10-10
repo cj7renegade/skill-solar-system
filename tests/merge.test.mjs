@@ -164,3 +164,25 @@ test('the real merge passes every gate with the approved counts', { skip: REAL.e
   assert.ok(g.nodes.some(n => n.id === 'r-singular'));
   assert.ok(!g.nodes.some(n => n.id === 'r-forward'));
 });
+
+test('the lesson importer finds V3 entries on the merged atlas by planning id and leaves master skills alone', async () => {
+  const { applyLessons, contractHash, STATUS } = await import('../authoring/robotics-v3/lessons.mjs');
+  const specNode = (id, name) => ({ id, name, requires: [], demonstration: `Show ${id}.`, kind: 'foundation', scope_contract: {}, runtime_identity: { proposed_id: `rob3:${id}` } });
+  const spec = { nodes: [specNode('m-shared', 'New name'), specNode('B-E02', 'Interpret current'), specNode('NEW', 'Skill rob3:NEW')] };
+  const lessonFor = s => ({ id: s.id, name: s.name, proposed_runtime_id: `rob3:${s.id}`, requires: [], details: `Card ${s.id}.`, placement_note: `Note ${s.id}.`, proficiency_write: false, node_contract_sha256: contractHash(s) });
+  const editions = [{ metadata: { edition: 'e1', authored: '2026-09-18' }, lessons: spec.nodes.map(lessonFor) }];
+  const atlas = build();
+  for (const n of atlas.nodes) { delete n.lesson; delete n.lessonCard; }
+  const { graph, report } = applyLessons(atlas, { spec, editions, merged: true });
+  assert.equal(report.conflicted.length, 0, JSON.stringify(report.conflicted));
+  assert.equal(graph.title, atlas.title, 'the atlas keeps its title');
+  assert.equal(graph.metadata.datasetKey, DATASET_KEY);
+  const by = id => graph.nodes.find(n => n.id === id);
+  assert.equal(by('m-shared').lesson.id, 'm-shared');
+  assert.equal(by('e-current').lesson.id, 'B-E02', 'the approved same-ability skill keeps its master name and still takes the card');
+  assert.equal(by('rob3:NEW').contentStatus, STATUS.authored);
+  assert.deepEqual(by('m-a'), atlas.nodes.find(n => n.id === 'm-a'), 'a master skill outside V3 is untouched');
+  assert.equal(report.counts.plannedEntries, atlas.nodes.filter(n => n.planningId).length);
+  const again = applyLessons(graph, { spec, editions, merged: true }).graph;
+  assert.equal(JSON.stringify(again), JSON.stringify(graph), 're-applying changes nothing');
+});

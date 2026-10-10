@@ -157,12 +157,28 @@ measured against `reports/capacity/06-safety-results.md`.
   at the whole-map view. It was 0.27 s at 5,000 skills before, so it should be well under that at
   1,918. Raw data: `C:\sss-scratch\merge\t4-measure.jsonl`.
 
-## [ ] Task 5 — Re-base the lesson importer
+## [x] Task 5 — Re-base the lesson importer (2026-10-10)
 **Do:** Make `apply-lessons.mjs` able to target the merged map (a `--target` option; the V3 export
 stays the default until the merge PR lands, then the merged map). Its gates are re-based on the
 merged map: re-applying editions 01–06 must change **nothing** (all 298 lessons already there).
 `evidence-overrides.json` keeps working by planning id.
 **Check:** dry run against the merged map reports 0 changes; existing importer tests pass.
+**Result:** `apply-lessons.mjs --target <map>`. On the merged atlas, `applyLessons(..., { merged: true })`:
+- finds a lesson's skill by planning id;
+- accepts the master name on the two approved same-ability skills;
+- leaves the 1,537 master skills without a planning id untouched;
+- keeps the atlas's title and `datasetKey`.
+
+The V3 default is unchanged (same signatures and summary as before). The merge now also carries V3's
+placement notes, keeping the master's in `atlasPlacementNote`, and the two content-policy metadata keys.
+
+The dry run against the merged map **passed**: 298 imported, 0 conflicts, 0 lesson payloads changed,
+0 relabelled; node order, connections, layout and answers identical; I05 closure complete; a review
+session survives; idempotent. **One known difference, not from the merge:** 298 card summaries would
+gain the evidence statement from `evidence-overrides.json` (`requiresPhysicalEvidence`,
+`evidenceKind`). The V3 export has exactly the same pending change, because capacity-safety added
+the table without rewriting the real maps. It is left out on purpose until JC has reviewed the
+44 flagged cards. Tests: 236 pass, 0 fail.
 
 ## [ ] Task 6 — Measure and report
 **Do:** Run all unit and end-to-end tests, plus a new e2e check that opens the merged map and
