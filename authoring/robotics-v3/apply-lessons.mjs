@@ -1,15 +1,17 @@
-// Applies the authored robotics learning editions to the dedicated v3 map and reports what changed.
+// Applies the authored robotics learning editions to the working robotics map and reports what changed.
 //
 //   node authoring/robotics-v3/apply-lessons.mjs            dry run: reconcile and report only
 //   node authoring/robotics-v3/apply-lessons.mjs --write    write the map, the ledger and the summary
-//   --target <map.json>                                       apply to another map instead, such as the
-//                                                             merged Robotics Atlas; the ledger and the
+//   (default target: Maps/Robotics-Atlas.json, the merged atlas; ledger and summary in Maps/Robotics-Atlas-import/)
+//   --v3                                                      apply to the old V3 export, Maps/Robotics-v3/, instead
+//   --target <map.json>                                       apply to another map instead, such as a
+//                                                             scratch copy; the ledger and the
 //                                                             summary are written next to it
 //
 // Inputs are located rather than hard-coded, so the supplied package can sit where it was extracted
 // or be reorganised under packages/ without editing this file. Every input is fingerprinted in the
 // summary, so a later edition can tell which revision of each file was actually applied.
-import { readFileSync, writeFileSync, existsSync, renameSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, renameSync, mkdirSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
@@ -23,12 +25,17 @@ const ROOT = path.resolve(import.meta.dirname, '..', '..');
 // recorded answer, a newer lesson — is carried forward rather than rebuilt away. Only a first run
 // starts from the generated preview.
 const args = process.argv.slice(2);
-const TARGET = args.includes('--target') ? path.resolve(args[args.indexOf('--target') + 1]) : null;
 const PREVIEW = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Preview.json');
 const V3_MAP = path.join(ROOT, 'Maps', 'Robotics-v3', 'Robotics-v3-Lessons.json');
+// Since Checkpoint B the merged Robotics Atlas is the working map and the default target. --v3
+// targets the old V3 export instead; if the merged atlas is missing, the V3 export is used as before.
+const ATLAS_MAP = path.join(ROOT, 'Maps', 'Robotics-Atlas.json');
+const TARGET = args.includes('--target') ? path.resolve(args[args.indexOf('--target') + 1])
+  : !args.includes('--v3') && existsSync(ATLAS_MAP) ? ATLAS_MAP : null;
 const OUT_MAP = TARGET ?? V3_MAP;
 const MAP = TARGET ?? (existsSync(V3_MAP) ? V3_MAP : PREVIEW);
-const OUT_DIR = TARGET ? path.dirname(TARGET) : path.join(ROOT, 'Maps', 'Robotics-v3');
+// The atlas sits directly in Maps/, so its ledger and summary get their own folder there.
+const OUT_DIR = TARGET === ATLAS_MAP ? path.join(ROOT, 'Maps', 'Robotics-Atlas-import') : TARGET ? path.dirname(TARGET) : path.join(ROOT, 'Maps', 'Robotics-v3');
 const OUT_LEDGER = path.join(OUT_DIR, 'Content-Import-Ledger.csv');
 const OUT_SUMMARY = path.join(OUT_DIR, 'Integration-Summary.json');
 
@@ -283,6 +290,7 @@ if (!args.includes('--write')) { console.log('\nDry run: nothing written. Add --
 if (!ok) { console.error('\nRefusing to write: the checks above did not all pass.'); process.exit(1); }
 
 function writeAtomic(file, content) { const temp = `${file}.${process.pid}.tmp`; writeFileSync(temp, content); renameSync(temp, file); }
+mkdirSync(OUT_DIR, { recursive: true });
 writeAtomic(OUT_MAP, JSON.stringify(graph, null, 2) + '\n');
 writeAtomic(OUT_LEDGER, ledger(graph));
 writeAtomic(OUT_SUMMARY, JSON.stringify(summary, null, 2) + '\n');
