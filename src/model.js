@@ -60,7 +60,7 @@ export function placementSummary(graph, node) {
   return second ? `${first} ${second}` : first;
 }
 export function validate(graph) {
-  if (!graph || graph.schemaVersion !== 1 || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) throw Error('Expected a version 1 Skill Solar System map.');
+  if (!graph || graph.schemaVersion !== 1 || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) throw Error('Expected a version 1 HelixSkill map.');
   if (graph.nodes.length > LIMITS.nodes || graph.edges.length > LIMITS.edges) throw Error(`This version supports at most ${LIMITS.nodes.toLocaleString('en-US')} nodes and ${LIMITS.edges.toLocaleString('en-US')} connections.`);
   const ids = new Set();
   for (const n of graph.nodes) {

@@ -7,7 +7,7 @@ import { mergeBatch, batchSubmap } from '../batch.mjs';
 export { edgeKey, normalizeName, clearance } from '../batch.mjs';
 
 export const BATCH_FILE = new URL('./dc-circuits-batch-01.json', import.meta.url);
-export const SUBMAP_TITLE = 'Skill Solar System / DC Circuits + prerequisites';
+export const SUBMAP_TITLE = 'HelixSkill / DC Circuits + prerequisites';
 export const EXPANSION = { edition: 'dc-circuits-batch-01', version: '1.0', created: '2026-09-13', origin: 'sss-dc-batch-01' };
 export const EXPANSION_KEY = 'dcCircuitsExpansion';
 const PLACEMENT = 'New skills sit in the Electronics ribbon of the existing spiral, in rows beyond those their level already uses. Existing skills, coordinates, levels, pins, and answers were not changed.';

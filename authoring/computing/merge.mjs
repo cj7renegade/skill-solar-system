@@ -4,7 +4,7 @@ import { validate, levels, clone } from '../../src/model.js';
 import { referenceLevels, arrangeVortex } from '../../src/vortex.js';
 import { EDITION, REFERENCES, CHECKLIST, BEYOND_CHECKLIST, edition } from './index.mjs';
 
-export const SUBMAP_TITLE = 'Skill Solar System / Computing + prerequisites';
+export const SUBMAP_TITLE = 'HelixSkill / Computing + prerequisites';
 export const edgeKey = e => JSON.stringify(e.type === 'related' ? [e.type, ...[e.source, e.target].sort()] : [e.type, e.source, e.target]);
 const listNames = names => names.length <= 2 ? names.join(' and ') : `${names.slice(0, 2).join(', ')} and ${names.length - 2} more`;
 

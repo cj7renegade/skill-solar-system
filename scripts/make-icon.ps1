@@ -1,4 +1,4 @@
-# Draws the Skill Solar System icon and writes desktop\icon.ico (16-256 px) and desktop\icon.png (256 px).
+# Draws the HelixSkill icon and writes desktop\icon.ico (16-256 px) and desktop\icon.png (256 px).
 # A gold sun on the app's navy background, two orbit rings, and planets in the subject colours.
 # Run again after editing to regenerate:  powershell -NoProfile -ExecutionPolicy Bypass -File scripts\make-icon.ps1
 $ErrorActionPreference = 'Stop'

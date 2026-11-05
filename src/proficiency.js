@@ -23,7 +23,7 @@ export function emptyRecord(family) {
 }
 
 export function validateRecord(value, family = null) {
-  if (!value || typeof value !== 'object' || value.format !== RECORD_FORMAT || value.version !== 1) throw Error('This is not a Skill Solar System proficiency record.');
+  if (!value || typeof value !== 'object' || value.format !== RECORD_FORMAT || value.version !== 1) throw Error('This is not a HelixSkill proficiency record.');
   if (typeof value.family !== 'string' || !FAMILY.test(value.family)) throw Error('The record has no valid atlas family.');
   if (family && value.family !== family) throw Error(`The record belongs to atlas family "${value.family}", not "${family}".`);
   if (!value.entries || typeof value.entries !== 'object' || Array.isArray(value.entries)) throw Error('The record has no entries.');

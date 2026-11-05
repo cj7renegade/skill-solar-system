@@ -289,4 +289,4 @@ writeAtomic(OUT_SUMMARY, JSON.stringify(summary, null, 2) + '\n');
 console.log(`\nWrote ${OUT_MAP}`);
 console.log(`Wrote ${OUT_LEDGER}`);
 console.log(`Wrote ${OUT_SUMMARY}`);
-console.log('\nThe original Skill Solar System map and the shared proficiency record were neither read for answers nor written.');
+console.log('\nThe original HelixSkill map and the shared proficiency record were neither read for answers nor written.');

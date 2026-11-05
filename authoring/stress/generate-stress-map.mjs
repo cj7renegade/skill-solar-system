@@ -1,4 +1,4 @@
-// Generates synthetic Skill Solar System maps for capacity testing. The shape copies the real master
+// Generates synthetic HelixSkill maps for capacity testing. The shape copies the real master
 // atlas (measured in reports/capacity/02-generator.md); none of its content is copied. Every id and
 // name is plainly synthetic, the atlas family is `stress-test-synthetic`, and every answer is null.
 //
@@ -167,7 +167,7 @@ export function generateStressMap({ nodes: count, variant = 'skeleton', seed = 1
     nodes, edges,
     metadata: {
       atlasFamily: ATLAS_FAMILY, datasetKey: `${ATLAS_FAMILY}-${count}-${variant}`, created: '2026-09-27',
-      compatibleApp: 'Skill Solar System; schemaVersion 1', syntheticNotice: 'Synthetic stress-test data. No real skills, content or answers.',
+      compatibleApp: 'HelixSkill; schemaVersion 1', syntheticNotice: 'Synthetic stress-test data. No real skills, content or answers.',
       generator: { script: 'authoring/stress/generate-stress-map.mjs', version: 1, nodes: count, variant, seed }
     }
   };

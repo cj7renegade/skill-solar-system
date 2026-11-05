@@ -12,7 +12,7 @@ import { arrangeVortex } from '../../src/vortex.js';
 
 export const FAMILY = 'sss-robotics-foundations-2026-09';
 export const DATASET_KEY = 'robotics-atlas-merged';
-export const TITLE = 'Skill Solar System — Robotics Atlas (master + Robotics V3)';
+export const TITLE = 'HelixSkill — Robotics Atlas (master + Robotics V3)';
 export const S7_BRANCH = 'Thermal and environmental behavior';
 // Planning fields V3 records on every entry; a shared master skill takes them from V3.
 const V3_FIELDS = ['planningId', 'nodeKind', 'feedsMilestones', 'pathRole', 'tier', 'assessmentMode', 'assessable', 'contentStatus', 'lessonStatus'];

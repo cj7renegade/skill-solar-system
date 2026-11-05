@@ -7,7 +7,7 @@ import { mergeBatch, batchSubmap } from '../batch.mjs';
 export { edgeKey, normalizeName, clearance } from '../batch.mjs';
 
 export const BATCH_FILE = new URL('./mechanics-statics-batch-01.json', import.meta.url);
-export const SUBMAP_TITLE = 'Skill Solar System / Mechanics Statics Batch 01 + prerequisites';
+export const SUBMAP_TITLE = 'HelixSkill / Mechanics Statics Batch 01 + prerequisites';
 export const EXPANSION = { edition: 'mechanics-statics-batch-01', version: '1.0', created: '2026-09-13', origin: 'sss-mechanics-statics-batch-01' };
 // The Mechanics domain already carries the materials strand and the Material Behavior batch. This
 // batch keeps its own key so none of the earlier expansion records are overwritten.

@@ -1,4 +1,4 @@
-# TASKS — Skill Solar System — The Robotics V3 merge
+# TASKS — HelixSkill — The Robotics V3 merge
 
 Step 4 of `reports/scope/07-checkpoint.md` §2, following the decision brief §D
 (`reports/scope/05-decisions.md`). JC asked for it on 2026-10-05 ("Yes lets do step 4"). **Draft:

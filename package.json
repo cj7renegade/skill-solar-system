@@ -22,7 +22,7 @@
   },
   "build": {
     "appId": "local.skillsolarsystem.atlas",
-    "productName": "Skill Solar System",
+    "productName": "HelixSkill",
     "files": [
       "dist/**/*",
       "desktop/**/*",
@@ -35,6 +35,6 @@
       "target": "portable",
       "signAndEditExecutable": false
     },
-    "artifactName": "Skill-Solar-System-${version}-${arch}.${ext}"
+    "artifactName": "HelixSkill-${version}-${arch}.${ext}"
   }
 }

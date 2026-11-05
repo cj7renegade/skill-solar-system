@@ -1,4 +1,4 @@
-# Skill Solar System — DC Circuits Batch 01
+# HelixSkill — DC Circuits Batch 01
 
 This package is for Claude Code to integrate into the existing local project. It is not a replacement application and its authoring JSON cannot be loaded with Open map.
 

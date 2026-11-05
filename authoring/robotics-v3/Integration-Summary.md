@@ -205,7 +205,7 @@ Signatures taken before and after the applying run:
 | Review-session identity | **preserved outright** | key `dataset:robotics-curriculum-v3\|381\|cbb516b3` **identical before and after**; the title restates the counts and the key does not follow it |
 | Review queue position | **preserved** | a session built pre-import resumes post-import on the same skill, position, visited and skipped lists, no missing entries — checked by the importer and again in Electron against a planted session |
 | Review order | **preserved** | `buildQueue` identical before and after |
-| Original Skill Solar System map | **preserved** | never opened for writing; its copy verified unchanged after the app opened it |
+| Original HelixSkill map | **preserved** | never opened for writing; its copy verified unchanged after the app opened it |
 | Supplied packages vs. generated exports | **kept separate** | packages under `packages/`, generated artefacts under `Maps/Robotics-v3/` |
 
 ## Verification performed

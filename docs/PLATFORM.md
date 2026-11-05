@@ -1,4 +1,4 @@
-# Skill Solar System — platform documentation
+# HelixSkill — platform documentation
 
 Written for the owner of this project: someone who designed the system and knows why it exists, but
 who is still learning to read code. Every programming term is defined the first time it appears.
@@ -26,7 +26,7 @@ Contents:
 
 ## 1. Purpose
 
-### What the Skill Solar System is
+### What the HelixSkill is
 
 A desktop program that shows a body of knowledge as a three-dimensional map. Each skill is a sphere.
 Lines between spheres record which skills come before which. You fly a camera through it, click a
@@ -47,11 +47,11 @@ the code, and both are enforced rather than merely stated:
 
 ### What the Robotics V3 curriculum is within it
 
-The Skill Solar System can hold any number of maps. One of them — `Maps/Robotics-v3/` — is a
+The HelixSkill can hold any number of maps. One of them — `Maps/Robotics-v3/` — is a
 dedicated, deliberately separate map holding a reviewed robotics curriculum: **381 entries** joined
 by **894 connections**, aimed at building and verifying a working robot.
 
-It is kept apart from your main Skill Solar System map on purpose. They declare different *atlas
+It is kept apart from your main HelixSkill map on purpose. They declare different *atlas
 families* (§5), which is the mechanism that stops an answer in one map from ever appearing in the
 other.
 
@@ -112,7 +112,7 @@ that arrived from outside, never edited) and **generated artifacts** (files a to
 can be thrown away and rebuilt). Both are excluded from Git by `.gitignore`, so neither is published.
 
 ```
-Skill Solar System/
+HelixSkill/
 ├── src/              ← the program's source code (TRACKED)
 ├── desktop/          ← the Electron shell (TRACKED)
 ├── dist/             ← GENERATED build output, ignored
@@ -1079,7 +1079,7 @@ npm start
 Or double-click `Setup-Windows.cmd` once, then `Launch-Windows.cmd`.
 
 **Desktop icon and taskbar.** Double-click `Create-Desktop-Shortcut.cmd` once. It puts a
-"Skill Solar System" shortcut with the app's icon on the desktop. The shortcut starts this project's
+"HelixSkill" shortcut with the app's icon on the desktop. The shortcut starts this project's
 Electron on this folder, exactly as `Launch-Windows.cmd` does, and carries the app's id
 (`local.skillsolarsystem.atlas`, set in `desktop/main.cjs`), so the pinned icon and the running
 window share one taskbar button. Windows does not let a program pin itself: right-click the shortcut,
@@ -1148,7 +1148,7 @@ in the project folder. It runs `scripts/backup-user-data.ps1`, which:
 
 - refuses to run while the app is open;
 - copies `Maps\` and the whole `%APPDATA%\skill-solar-system\` folder into
-  `%OneDrive%\Skill Solar System Backups\<yyyy-MM-dd_HHmmss>\`, outside the project;
+  `%OneDrive%\HelixSkill Backups\<yyyy-MM-dd_HHmmss>\`, outside the project;
 - checks every copied file against its original by SHA-256 and prints the file count, the size, and
   PASSED or FAILED;
 - keeps the 10 newest backups and removes older ones, only inside that backups folder.
@@ -1209,7 +1209,7 @@ applier never writes them.
    subjects and returns nothing for any real map.
 4. **Whether the packaged app uses a different user-data folder.** In development it is
    `%APPDATA%\skill-solar-system`, confirmed on disk. `electron-builder` sets `productName` to
-   "Skill Solar System", which would normally give `%APPDATA%\Skill Solar System` — I could not
+   "HelixSkill", which would normally give `%APPDATA%\HelixSkill` — I could not
    verify this without building and running the packaged executable.
 5. **Whether the review-session migration has ever run against a real saved session.** Every check
    used a planted session in an isolated profile, and no session store for the robotics family

@@ -1,7 +1,7 @@
 // An illustrative macro map, not a validated curriculum. Broad links are supports.
 export const starter = {
   schemaVersion: 1,
-  title: 'Skill Solar System',
+  title: 'HelixSkill',
   nodes: [
     ['arithmetic','Arithmetic','Mathematics',-230,0,0,'Number operations and numerical reasoning.'],
     ['algebra','Algebra','Mathematics',-250,95,0,'Expressions, equations, functions, and relationships.'],

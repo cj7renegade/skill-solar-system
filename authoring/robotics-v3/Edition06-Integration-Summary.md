@@ -19,7 +19,7 @@ Source revision at import: `7c95db636812ed0109cc25e275ac15f458341f70`.
 
 ## Preservation evidence
 
-Before/after signatures are unchanged for node order, all 894 edges, positions, reference levels, pins, layout modes, and proficiency. `metadata.datasetKey` remains `robotics-curriculum-v3`; `metadata.atlasFamily` remains `robotics-foundations-integration-v3-review`. A simulated in-progress review resumed with the same key, item, queue position, and skipped list. The original general Skill Solar System map and external proficiency storage were not modified.
+Before/after signatures are unchanged for node order, all 894 edges, positions, reference levels, pins, layout modes, and proficiency. `metadata.datasetKey` remains `robotics-curriculum-v3`; `metadata.atlasFamily` remains `robotics-foundations-integration-v3-review`. A simulated in-progress review resumed with the same key, item, queue position, and skipped list. The original general HelixSkill map and external proficiency storage were not modified.
 
 A second application produced the same map SHA-256 (`687f0916ad0ba8b6332cdc5d1084960b134818d448eae97bdd212fe8d6cefc11`), confirming a byte-identical no-op.
 

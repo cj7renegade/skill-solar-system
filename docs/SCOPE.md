@@ -1,4 +1,4 @@
-# Skill Solar System — skill scope
+# HelixSkill — skill scope
 
 **Status: adopted 2026-10-05.** JC accepted the recommendation on every open question (§5). Earlier
 markers of **open** in this document refer to those questions, now decided. Nothing in this document changes a map. It says what the

@@ -169,7 +169,7 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {}, me
   const counted = kind => planned.filter(n => n.contentStatus === kind).length;
   // The title and three metadata keys are restated so an exported file says what it now contains.
   // atlasFamily is deliberately untouched: it is what keeps this map's answers separate from the
-  // original Skill Solar System record, and preservationDiff fails if the patch ever changes it.
+  // original HelixSkill record, and preservationDiff fails if the patch ever changes it.
   const metadata = merged ? {
     ...graph.metadata,
     contentEditions: [...new Set([...apply.values()].map(m => m.card.edition))],

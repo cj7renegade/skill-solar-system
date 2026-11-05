@@ -1,4 +1,4 @@
-# Skill Solar System — coverage inventory, revision 1
+# HelixSkill — coverage inventory, revision 1
 
 This is the expansion roadmap, not another small content patch. It inventories all six existing domains, identifies representative existing anchors, and proposes outcomes to investigate before authoring. It does not certify any domain complete. The uploaded master is a historical baseline; Claude’s latest local map must be reconciled after its current task finishes.
 

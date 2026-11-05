@@ -7,7 +7,7 @@ import { mergeBatch, batchSubmap } from '../batch.mjs';
 export { edgeKey, normalizeName, clearance } from '../batch.mjs';
 
 export const BATCH_FILE = new URL('./material-behavior-batch-01.json', import.meta.url);
-export const SUBMAP_TITLE = 'Skill Solar System / Material Behavior Batch 01 + prerequisites';
+export const SUBMAP_TITLE = 'HelixSkill / Material Behavior Batch 01 + prerequisites';
 export const EXPANSION = { edition: 'material-behavior-batch-01', version: '1.0', created: '2026-09-13', origin: 'sss-material-behavior-batch-01' };
 // Materials live in the Mechanics domain in this atlas, which already carries broad stress, strain,
 // elasticity, plasticity and tensile-test topics. This batch keeps its own key so none of the
