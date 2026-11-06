@@ -35,6 +35,8 @@ In order. Sizes are **estimates** from the branch map and the capacity measureme
 
 **Rough total:** about 7–9 queues of the size run so far. Steps 4 and 7 are the big ones.
 
+> **Update 2026-11-05.** Steps 1–7 are done: every core skill has a lesson (350 of 351). JC dropped steps 8 and 9, and started a new campaign: the supporting subjects' skills are authored with Claude in the desktop app and integrated batch by batch (`campaigns/subject-buildout/`).
+
 ## 3. JC's idea: a "progressive depth" map
 
 **The idea.** Start a new map from the bare-bones fundamentals, for example Mathematics as Algebra →

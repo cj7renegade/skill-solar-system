@@ -1,308 +1,50 @@
-# TASKS — HelixSkill — Core lessons (step 7)
+# TASKS — HelixSkill — Campaign: subject build-out
 
-Step 7 of `reports/scope/07-checkpoint.md` §2: introductory lessons for every required skill. JC
-asked for it on 2026-11-05 ("Let's queue up step 7"). **Done: both parts finished, Checkpoints B1 and B2 passed on 2026-11-05.**
+Started 2026-11-05. JC: *"Let's scrap the last two steps from the list and start a new campaign for
+the project … building out all the skills for the other subjects necessary for the specific robotics
+goals … with Claude in the desktop app and bring back the hierarchies soon."*
 
-The queue has **two parts**, one edition each, and each part ends with its own Checkpoint B and pull
-request. JC reads about twenty lessons at a time rather than forty-four at once, and the working map
-gains the first batch before the second is written. Everything is built in `C:\sss-scratch\lessons\`
-first. The working map is replaced only after JC's go, and the version it replaces is kept in
-`Maps/Backups/`.
+**Waiting for the first batch.** The campaign folder is `campaigns/subject-buildout/`.
 
-The previous queue (foundation splits) is preserved in Git: merged in PR #23, its final queue file at
-`2efb2cc`.
+The previous queue (core lessons, step 7) is preserved in Git: merged in PRs #24 and #25, its final
+queue file at `63426b9`.
 
-## What is already known (measured 2026-11-05, before drafting)
+## Decisions recorded
 
-- **Working map:** `Maps/Robotics-Atlas.json`, SHA-256 `7c418655…375892a`. 1,955 skills, 306
-  lessons, 308 answers in the file. JC's answer record: `23471d5c…`, 311 entries.
-- **The old estimate was too high.** `07-checkpoint.md` expected 240–320 lessons. It counted skills
-  that later decisions put outside "done": the extension pathways (Q3) and the optional splits (D4).
-  Measured with the scope's own rule (every robotics skill, minus the extension pathways, plus
-  everything they need through prerequisites), the core is **351 skills; 306 have a lesson and 45 do not**:
+- **Steps 8 and 9 are dropped** from `reports/scope/07-checkpoint.md` §2: the mathematics audit (the
+  two same-ability duplicates and the "decomposes" relationship) and the extension pathways X01–X09.
+  Nothing from them was started. The roadmap and `docs/SCOPE.md` record the change.
+- **The supporting subjects are authored outside this repository**, by JC with Claude in the desktop
+  app, and integrated here batch by batch.
 
-  | Group | Skills | What they are | Lesson can be checked against |
-  | --- | ---: | --- | --- |
-  | **A. On the I05 path, master-only** | 23 | 17 `sss-rob-*` frame and planar-arm steps, `p-charge`, `p-electricfield`, `p-potentialelectric`, `m-log`, `m-trigidentity`, `m-transdiff` | **nothing yet**: no specification entry, no planning id |
-  | **B. Core but off the I05 path, V3** | 21 | e.g. `C06`–`C09`, `N09`, `P07`, `A11`, `e-imu`, `e-adc`, `e-calibration`, `m-laplace`, the integral-calculus thread, `m-random`, `m-regression` | V3's reviewed specification |
-  | `r-singular` | 1 | the one overview kept as orientation | — (Q6: orientation, outside coverage counts) |
+## What is ready
 
-- **Not in step 7:** the 35 optional splits (D4); the 11 pending extension-pathway entries (step 9);
-  44 other pending V3 entries that no robotics skill needs (context, Q1 (a)); the roadmap note.
-- **Group A needs groundwork the importer does not have.** The importer finds a lesson's skill by
-  planning id and checks it against a specification entry. Group A skills have neither, and the
-  importer's preservation gate forbids adding a planning id to an existing skill. Part 1 therefore
-  drafts a specification entry for each (for JC's approval) and teaches the importer to match an
-  approved master-skill entry by the skill's own id.
-- **None of the 45 has an answer** in the file. Lessons never write one.
-- Lessons from Edition 08 on state `requires_physical_evidence` (decision 14), as Edition 07 did.
+- `campaigns/subject-buildout/AUTHORING-BRIEF.md`, for Claude in the desktop app. It covers the
+  goal, the scope, the atlas's rules (inclusion through dependencies, granularity, reuse before
+  adding, never touch existing skills, no answers), the id policy, the exact batch JSON format, the
+  checks to run before delivery, and what happens on import.
+- `campaigns/subject-buildout/handoff/Atlas-Reference.json`: a read-only export of the working atlas
+  (`1212ad46…`), with 1,955 skills, 46 branches and 5 milestones. It has ids, names, subjects,
+  branches, descriptions, prerequisites and coverage flags, and no answers, positions or lesson text.
+  Regenerate it with `node authoring/campaign/export-reference.mjs`.
+- `campaigns/subject-buildout/intake/`, where returned batches go.
 
-## The plan in one paragraph
+## Intake, per batch (to be queued when a batch arrives)
 
-**Part 1 (Edition 08):** record the starting state; draft a lesson specification for each Group A
-skill and the open scope questions, for JC to approve (**Checkpoint A**); teach the importer
-master-skill lessons; write and import Edition 08's 23 lessons; JC reads them and opens the map
-(**Checkpoint B1**); make it the working map and merge. **Part 2 (Edition 09):** write and import
-the 21 Group B lessons against V3's specification; JC reads them and opens the map
-(**Checkpoint B2**); make it the working map and merge. After Part 2, every core skill has a lesson.
+1. **Starting state:** fingerprints, a backup, and the batch read in full.
+2. **Reconcile:** each new skill against the live atlas, by id and by meaning; every edge endpoint;
+   loops; inclusion (does each skill lead to the core?); and every `intoExisting` link.
+3. **Checkpoint A:** JC approves the skills, any duplicates found, and each `intoExisting` link.
+4. **Gated build in scratch**, reusing the splits tool (`authoring/splits/`). No answer, existing
+  skill, connection or lesson may change; only approved edges are added; levels are recalculated.
+5. **Tests**, unit and end-to-end, plus a check that opens the map with the batch's skills.
+6. **Checkpoint B:** JC opens the result and says go.
+7. **Working map**, with a dated backup, then a pull request.
+8. **Refresh `Atlas-Reference.json`**, so the next batch sees the new skills.
 
-## Rules for Claude Code (read first, every session)
-- Read `docs/PLATFORM.md` (§3.5, §4–§7), `docs/SCOPE.md` (§2, §5) and the Edition 07 package
-  (`authoring/completions/edition-07/`) first. Edition 07 is the model for both editions.
-- Part 1 works on branch `lessons-core`; Part 2 on `lessons-core-2`, each from an up-to-date `main`.
-  Never commit to `main`. Never force-push. Commit after each task. At the end of each part, when
-  every test passes and JC has said go, open a pull request and merge it, then update local `main`.
-- **Backup first:** before each part's first write (Tasks 3 and 9), JC runs `Backup-User-Data.cmd` (app
-  closed). If the app is closed, Claude Code may run the backup script itself. Record the folder name.
-- **`Maps/Robotics-Atlas.json` is read-only except in Tasks 7 and 11.** Check its SHA-256 and the
-  answer record's at the start and end of every task. The old master and the V3 export stay untouched.
-- **Answers are never inferred or written.** Lessons set `proficiency_write: false`.
-- **No existing lesson changes**, and no skill, connection, position or answer changes: a lesson import
-  adds lesson fields only.
-- Every number in a worked example or an answer is recomputed by the edition's lab, and the package
-  checker confirms it appears in the text, as in Edition 07.
-- Every app launch uses the e2e harness's isolated profile, never JC's real profile. A copy of the
-  answer record keeps its original file name.
-- Change only what each task names. Keep every existing test passing; change an existing test only
-  where a task changes the behaviour it checks, and say so.
-- If a STOP condition triggers, mark the task `[BLOCKED]`, write what was found, commit, and stop.
-- JC is still learning to read code. Explain anything technical in one plain sentence.
+## Still open (unchanged)
 
----
-
-# Part 1 — Edition 08: the I05 path
-
-## [ ] Task 1 — Starting state
-**Do:** In `reports/lessons/00-starting-state.md`, record:
-- SHA-256, counts and metadata of the working map and the answer record;
-- the three groups above, measured again, with each skill's level, prerequisites and answer;
-- for each Group A skill, the text it already has (`details`, `proficiencyReference`, `scopeNote`);
-- the backup folder name, or that it is not yet taken.
-
-**STOP if:** the groups differ from the counts above, or a Group A or B skill has an answer.
-**Check:** the working map and answer record unchanged.
-**Result:** `reports/lessons/00-starting-state.md`.
-- The working map is the splits map (`7c418655…`). The answer record is unchanged.
-- The groups match (23 / 21 / 1) and none has an answer, so there is no STOP.
-- The 17 `sss-rob-*` skills already have "I can…" statements and scope notes.
-- Every prerequisite outside Group A has a lesson.
-- Backup: not yet taken for this queue (app closed). It comes before Task 3.
-
-## [ ] Task 2 — Lesson specifications for Group A (draft for JC)
-**Do:** Write `scope/lessons/master-specifications.json` and a readable
-`reports/lessons/01-specifications.md`. For each of the 23 Group A skills, an entry in the reviewed
-specification's format:
-- `requires`: the skill's prerequisites in the map, so a lesson cannot drift from the map;
-- `demonstration`, `assessment_contract` and `scope_contract`, built from the skill's existing
-  `proficiencyReference` and `scopeNote` where it has them (the 17 `sss-rob-*` skills), and drafted
-  for the six physics and mathematics skills;
-- `runtime_identity.proposed_id`: the skill's own id, with no planning id added.
-
-Also list the open questions, each with a recommendation:
-- **E1 — What step 7 covers:** Groups A and B (44 lessons); not the splits, the extension pathways,
-  the off-path V3 entries or `r-singular`.
-- **E2 — Batches:** Part 1 = Group A (Edition 08), Part 2 = Group B (Edition 09).
-- **E3 — Authoring:** Claude Code writes both editions, as for Edition 07.
-- **E4 — Hardware evidence:** decided per lesson from its demonstration, as in Edition 07.
-
-**STOP (Checkpoint A):** JC approves or changes the specifications and E1–E4. Nothing is built until then.
-**Result:** `scope/lessons/master-specifications.json` (generated by
-`authoring/lessons/draft-specifications.mjs`) and `reports/lessons/01-specifications.md`.
-- **23 entries.** Name and prerequisites come from the map; the assessment wording is V3's own for each
-  mode; only the demonstrations are drafted. 20 are written calculation and 3 (the physics skills)
-  calculation and explanation. All feed I02, I04 and I05.
-- **One question added, E5:** eight Group A skills are the fine steps under Edition 07's `K05`–`K07`.
-  The recommendation is to keep each lesson to its own step, with different numbers.
-
-**Checkpoint A passed on 2026-11-05:** JC accepted E1–E5 as recommended. Recorded in
-`master-specifications.json` (`status: APPROVED`, each entry's review marked approved).
-
-## [ ] Task 3 — Teach the importer master-skill lessons
-**Do:** Extend `authoring/robotics-v3/lessons.mjs` and `apply-lessons.mjs`:
-- read the approved `scope/lessons/master-specifications.json` alongside V3's specification;
-- find a lesson's skill by planning id as now, or, for an approved master-skill entry, by the
-  skill's own id;
-- reconcile it with the same checks (name, `requires`, contract fingerprint, `proficiency_write`),
-  and accept that a master skill has no planning id;
-- count master-skill lessons separately from V3 entries in the summary and the gates; the expected
-  counts become per edition;
-- the I05 closure gate counts master-only skills too, so after Edition 08 the I05 path is complete.
-
-**Check:**
-- unit tests for the new matching and its refusals (a lesson for an unapproved master skill, a drifted
-  `requires`, a planning id where none should be);
-- every existing target still behaves exactly as before: the V3 export, the completions map and the
-  current working map (dry runs pass at their current counts).
-
-**Result:**
-- **Backup first:** `%OneDrive%\HelixSkill Backups\2026-11-05_204456` (every file verified; the app
-  was closed, so Claude Code ran the script).
-- **`lessons.mjs`:** an approved master-skill entry (`runtime_identity.master_skill`) is matched by the
-  skill's own id, and every other check is unchanged. A master entry that meets a skill with a planning
-  id is refused. The skill gains the lesson fields and a content status, keeps its own text in
-  `atlasDetails` and `atlasPlacementNote`, and gets no planning id. The summary counts
-  `masterSkillLessons` separately.
-- **`apply-lessons.mjs`:** Edition 08 and `scope/lessons/master-specifications.json` are optional
-  inputs. When both are present and approved, on a merged atlas holding `P11`:
-  - Edition 08 applies;
-  - the expected counts become 306 V3 lessons plus 23 master-skill lessons;
-  - the I05 chain counts master-only skills as entries (expected 328, all with a card);
-  - the baseline is Edition 08's own.
-- **Unchanged:** every existing target's dry run passes as before (V3 export 298, completions map 306,
-  working map 306, all touching nothing).
-- `tests/lessons.test.mjs`: 7 tests covering the matching and its refusals. All unit tests: 260 pass,
-  0 fail, 6 skipped.
-
-## [ ] Task 4 — Write Edition 08
-**Do:** Write `authoring/lessons/edition-08/` in Edition 07's layout:
-- the lesson source, built lessons, readable lessons, workbook, study sequence and ledger;
-- `check_package.py` and a standard-library lab that recomputes every number;
-- `INTEGRATION.md`, and the full package assembled in `packages/core-lessons-learning-edition-08/`
-  with its `baseline/`.
-
-23 introductory lessons, one per Group A skill, each with 27 fields and its evidence statement.
-**Check:** `check_package.py` passes; the lab results are recorded.
-**Result:** written by Claude Code (E3). The sources are tracked in `authoring/lessons/edition-08/`.
-`authoring/lessons/build-edition08.mjs` copies every specification-decided field from the approved
-entries and the map, and assembles `packages/core-lessons-learning-edition-08/` with its `baseline/`.
-- **23 lessons, all saying no real-hardware evidence is needed** (E4).
-- The planar-arm steps use a 0.5 m / 0.25 m arm, unlike K05–K07's 0.4 m / 0.3 m, and each teaches
-  only its own step (E5).
-- "Prepares for" names the next skills on the I05 path.
-- **`core_lab.py`** (standard-library Python) recomputes every number.
-- **`check_package.py`: 79 checks passed** under Python 3.13.13. They cover fingerprints, counts,
-  field order, evidence fields, contracts against the approved entries, `requires` against the map's
-  own prerequisites, the I05 chain (328, missing exactly the 23) and every number in the text.
-- **For JC to read at Checkpoint B1:** `authoring/lessons/edition-08/Core-Learning-Edition-08.md`.
-
-## [ ] Task 5 — Import Edition 08
-**Do:** Import into a scratch copy of the working map. Expected:
-- 23 gained, 306 unchanged, 0 conflicts, 329 lessons;
-- the I05 path complete, master-only skills included (328/328).
-
-**Check:** every importer gate passes; re-applying changes nothing; no existing card changes.
-**Result:** imported into `C:\sss-scratch\lessons\Robotics-Atlas.json` (`e91a4292…772f81e`), and every
-gate passed:
-- 23 gained, 306 unchanged, 0 conflicts;
-- 306 V3 lessons plus 23 master-skill lessons;
-- I05 328/328;
-- 0 existing lessons or cards changed, and every signature but the lesson payloads identical;
-- a re-run touches nothing.
-
-Each skill keeps its own text in `atlasDetails` and gains no planning id.
-
-## [ ] Task 6 — Measure and report Part 1
-**Do:**
-- Run all unit and end-to-end tests, plus a new e2e check: the 23 cards render, name their edition,
-  show the hardware line exactly where stated, and answers match the record.
-- Write `reports/lessons/02-edition08-results.md`.
-- Update `docs/PLATFORM.md` §9.
-
-**STOP (Checkpoint B1):** JC reads the 23 lessons, opens the finished map from scratch and says go or no-go.
-**Result:** `reports/lessons/02-edition08-results.md`.
-- **Unit tests:** 260 pass, 0 fail, 6 skipped.
-- **New e2e** `tests/core-lessons-e2e.mjs`: 11 checks pass. All 23 cards render with their edition name
-  and no hardware line, all 328 I05-path skills have a card, and answers match JC's record.
-- **Full e2e suite** with every map supplied: 796 checks pass, 0 fail.
-- `src/lesson.js` names the edition, and `docs/PLATFORM.md` has a new §9.1d.
-- A review in progress resumes, because the skill set is unchanged.
-
-**Passed:** JC opened the finished map and said **go** on 2026-11-05.
-
-## [ ] Task 7 — Make it the working map, then merge Part 1
-**Do (only after JC's go):** back up `Maps/Robotics-Atlas.json` to `Maps/Backups/` with the date,
-replace it, keep the importer's default dry run passing, open the pull request, merge it, update
-local `main`.
-**Check:** the backup matches Task 1; the old maps and the answer record are unchanged.
-**Result (2026-11-05, after JC's "Go"):**
-- **Backed up:** `Maps/Backups/2026-11-05-before-edition08/Robotics-Atlas.json`, which matches Task 1
-  (`7c418655…`).
-- **Replaced:** `Maps/Robotics-Atlas.json` is now `e91a4292…772f81e`. The ledger and summary are in
-  `Maps/Robotics-Atlas-import/`.
-- **Check passed:** the old maps and the answer record (`23471d5c…`) are unchanged. The app was closed.
-- On the new working map, the importer's default dry run passes (306 V3 + 23 master-skill lessons,
-  nothing to change, I05 328/328), and the e2e checks pass (core lessons 11, splits 10, merged atlas 12).
-- **One test changed:** `tests/completions.test.mjs` expected exactly 306 lessons on the working map. It
-  now expects at least 306, because later editions add lessons. Unit tests: 260 pass, 0 fail, 6 skipped.
-
----
-
-# Part 2 — Edition 09: the rest of the core
-
-## [ ] Task 8 — Starting state for Part 2
-**Do:** On branch `lessons-core-2`, re-measure Group B against the new working map: the 21 entries,
-their specification records and contract fingerprints, and their prerequisites' lessons. Write
-`Edition09-Targets.json`.
-**STOP if:** a Group B prerequisite outside the 21 has no lesson.
-**Result:**
-- Working map `e91a4292…` (the Edition 08 map). The answer record is unchanged.
-- Group B is the 21 entries, none answered, all with V3 specification records.
-- **Every prerequisite outside the 21 has a lesson**, so there is no STOP. Eight entries depend on others
-  in the group, so the lessons run in dependency order.
-- `authoring/lessons/edition-09/Edition09-Targets.json` is written by the build (Task 9). It holds each
-  entry's map record, specification, contract fingerprint and prerequisites.
-
-## [ ] Task 9 — Write Edition 09
-**Do:** The same package layout and checks as Edition 08, for the 21 Group B entries, against V3's
-reviewed specification. Backup first.
-**Check:** `check_package.py` passes; the lab results are recorded.
-**Result:**
-- **Backup:** `%OneDrive%\HelixSkill Backups\2026-11-05_211412` (every file verified; the app was closed).
-- **Package:** sources in `authoring/lessons/edition-09/`. `authoring/lessons/build-edition09.mjs`
-  copies every specification-decided field from V3's reviewed specification, and assembles
-  `packages/core-lessons-learning-edition-09/`.
-- **21 lessons, all saying no real-hardware evidence is needed** (E4). The four entries assessed as
-  *circuit analysis or supervised measurement* (`e-sampling`, `e-adc`, `e-calibration`, `e-imu`) follow
-  24 of the 30 earlier cards in that mode. The five runnable-code entries (`C06`–`C09`, `N09`) are taught
-  through small simulations that the lab runs.
-- **`check_package.py`: 68 checks passed.** They cover fingerprints, counts, field order, evidence
-  fields, contracts, the core (351 skills; without a card, exactly the 21 and `r-singular`) and every
-  number and simulation in the text.
-- **For JC to read at Checkpoint B2:** `authoring/lessons/edition-09/Core-Learning-Edition-09.md`.
-
-## [ ] Task 10 — Import, measure and report Part 2
-**Do:**
-- Import into a scratch copy of the working map. Expected: 21 gained, 329 unchanged, 0 conflicts,
-  350 lessons; every core skill but `r-singular` has a lesson.
-- Run every test, plus an e2e check of the 21 cards.
-- Write `reports/lessons/03-edition09-results.md`, including the final core coverage.
-- Update `docs/PLATFORM.md` and `docs/SCOPE.md`.
-
-**STOP (Checkpoint B2):** JC reads the 21 lessons, opens the finished map and says go or no-go.
-**Result:** `reports/lessons/03-edition09-results.md`.
-- **Importer:** Edition 09 is an optional input applied after Edition 08; its expected counts are
-  327 V3 + 23 master-skill lessons.
-- **Import** into `C:\sss-scratch\lessons\Robotics-Atlas-09.json` (`1212ad46…714b452`) passed: 21 gained,
-  329 unchanged, 0 conflicts, 0 existing lessons or cards changed, and a re-run touches nothing.
-- **Every core skill has a card except `r-singular` (350 of 351).**
-- **Tests:** unit 260 pass, 0 fail, 6 skipped. New e2e `tests/core-lessons-09-e2e.mjs`: 11 checks pass.
-  Full e2e suite with every map: 807 checks pass, 0 fail.
-- **Docs:** `src/lesson.js` names the edition. `docs/PLATFORM.md` has a new §9.1e, and
-  `docs/SCOPE.md` has a change-log entry.
-- **Display issue noted, not changed:** the "Physical work" demonstration line for the
-  supervised-measurement mode. It goes with JC's evidence-card review.
-
-**Passed:** JC opened the finished map and said **go** on 2026-11-05.
-
-## [ ] Task 11 — Make it the working map, then merge Part 2
-**Do (only after JC's go):** as Task 7.
-**Result (2026-11-05, after JC's "Go"):**
-- **Backed up:** `Maps/Backups/2026-11-05-before-edition09/Robotics-Atlas.json`, which matches the Edition
-  08 map (`e91a4292…`).
-- **Replaced:** `Maps/Robotics-Atlas.json` is now `1212ad46…714b452`.
-- **Check passed:** the old maps and the answer record are unchanged. The app was closed.
-- The importer's default dry run passes (327 V3 + 23 master-skill lessons, nothing to change, I05
-  328/328). The e2e checks pass on the new working map: Edition 09 11, Edition 08 11, splits 10,
-  merged atlas 12.
-- **One test changed:** in `tests/completions.test.mjs`, the wording check used `P07` and `A11` as
-  pending entries, and both now have lessons. It now reads them from the map the step-5 skills were
-  approved against. Unit tests: 260 pass, 0 fail, 6 skipped.
-
----
-
-## Not in this queue
-- Lessons for the 35 optional splits, the 11 extension-pathway entries (step 9), and the 44 V3
-  entries no robotics skill needs.
-- The mathematics audit (step 8).
-- The 44 evidence cards in `evidence-overrides.json` waiting for JC's review.
-- Moving the project out of OneDrive (JC to decide).
+- The 44 evidence cards in `evidence-overrides.json`, and the "Physical work" wording on cards in the
+  *circuit analysis or supervised measurement* mode (`reports/lessons/03-edition09-results.md`).
+- Moving the project out of OneDrive.
+- Deleting about 27 merged branches.
