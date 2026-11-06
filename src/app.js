@@ -1,5 +1,5 @@
 import { arrangeVortex } from './vortex.js';
-import { isHelixMap, helixCourses, courseColors, arrangeHelix, tierOf, matchesHelixFilters, activeFilters } from './helix.js';
+import { isHelixMap, helixCourses, courseColors, arrangeHelix, tierOf, matchesHelixFilters, activeFilters, levelLine } from './helix.js';
 import { DOMAINS, TYPES, LIMITS, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
 import { spacingValue } from './spacing.js';
 import { findSkills } from './find.js';
@@ -102,6 +102,7 @@ function render(){
   $('counts').textContent=`${graph.nodes.length} subjects / ${graph.edges.length} connections`;
   $('dirty').textContent=dirty?'Local draft · save to file':'Saved to file';
   $('map-name').textContent=graph.title||'Untitled map';
+  $('layout-help').textContent=isHelixMap(graph)?HELIX_LAYOUT_HELP:SPIRAL_LAYOUT_HELP;
   $('layout-summary').textContent=isHelixMap(graph)?'Upward: helix level · Around: course · Proficiency is separate':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
   viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
@@ -122,7 +123,7 @@ function inspect(){
   cardToggle.setAttribute('aria-expanded',String(panels.card));
   const body=el('div',{class:'inspector-body'});
   panel.classList.toggle('collapsed',!panels.card);
-  panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))),cardToggle),body);
+  panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,n,'Level',' · Level unassigned')}))),cardToggle),body);
   if(!editing){
     // A map that records one says whether this subject has an authored lesson, so the reader knows
     // what opening the card will show. It describes the content, never the reader's proficiency.
@@ -278,6 +279,9 @@ function setSubjects(next){
   subjects=pruneSubjects(next,graph);viewer?.highlight(subjects);renderLegend();
   if(focused)$('legend').querySelector(`[data-subject="${focused}"]`)?.focus();
 }
+// The Map layout help: the page's own wording for the spiral, and the helix's on helix maps.
+const SPIRAL_LAYOUT_HELP=document.getElementById('layout-help').textContent;
+const HELIX_LAYOUT_HELP='Helix: each skill\'s height is its helix level (1 + 3 × its longest prerequisite chain), scaled so the top level sits where level 100 does on other maps. Each of the 16 courses winds upward in its own band; milestones sit on the axis. Levels are independent of proficiency. Pins keep their positions. Both arrange buttons rebuild the helix.';
 // Course colours on helix maps (src/helix.js); null elsewhere, so other maps keep their domain colours.
 function palette(){return isHelixMap(graph)?courseColors(helixCourses(graph)):null;}
 // Helix filters are display state only, like subject highlights: they dim non-matching skills and never
@@ -305,6 +309,7 @@ function renderHelixLegend(legend){
 }
 function renderLegend(){
   const legend=$('legend');legend.replaceChildren();
+  legend.classList.toggle('helix-legend',isHelixMap(graph));
   if(isHelixMap(graph))renderHelixLegend(legend);
   const counts=domainCounts(graph);
   legend.append(el('div',{class:'legend-heading',text:'Subjects · click to highlight'}));
@@ -529,7 +534,7 @@ function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
-  body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:node.domain+(node.skillLevel!=null?` · Reference level ${node.skillLevel}/100`:' · Reference level unassigned')})));
+  body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,node,'Reference level',' · Reference level unassigned')})));
   // What content this entry has, then what is still missing even where a card exists. Both describe
   // the content only; neither says anything about the reader's proficiency.
   const status=contentStatusLine(node),pending=contentPendingLine(node);

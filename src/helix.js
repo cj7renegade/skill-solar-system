@@ -30,6 +30,13 @@ function hsl(h, s, l) {
 // as helixTier; Atlas skills, whose fields stay unchanged, have it in the import's lookup table.
 export const tierOf = (graph, node) => node.helixTier ?? graph?.metadata?.humanoidHelixImport?.atlasTiers?.[node.id] ?? null;
 
+// The level line on a card: course and helix level on helix maps; elsewhere the domain and the
+// 1–100 reference level, worded exactly as before. ifMissing is the text for a skill without a level.
+export function levelLine(graph, node, word, ifMissing) {
+  if (isHelixMap(graph) && node.helixLevel != null) return `${node.course ?? node.domain} · Helix level ${node.helixLevel}/${graph.layout.topLevel}`;
+  return node.domain + (node.skillLevel != null ? ` · ${word} ${node.skillLevel}/100` : ifMissing);
+}
+
 // The helix level from the map's own prerequisites, for every skill.
 export function helixLevels(graph) {
   const depth = levels(graph), out = new Map();

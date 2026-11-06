@@ -100,3 +100,5 @@
 /* Helix maps only: the four filters in the legend panel (src/app.js renderHelixLegend). */
 .helix-filter{display:flex;flex-direction:column;gap:2px;margin:4px 0;font-size:12px}
 .helix-filter select{max-width:100%}
+/* Helix maps: the legend holds filters and 16 courses, so it scrolls instead of running under the tools bar. */
+#legend.helix-legend{max-width:250px;max-height:calc(100% - 230px);overflow-y:auto}

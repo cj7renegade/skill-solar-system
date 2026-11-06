@@ -103,3 +103,12 @@ test('the real helix map: valid, milestones on the axis, checkpoints and tiers i
   assert.ok(map.nodes.every(n => tierOf(map, n)));
   assert.equal(Math.max(...map.nodes.map(n => n.position[1])), HELIX_HEIGHT);
 });
+
+test('the card level line shows the helix level on helix maps, and the old wording elsewhere', async () => {
+  const { levelLine } = await import('../src/helix.js');
+  const g = arrangeHelix(helixGraph()), n = { ...g.nodes[1], course: 'Second course', helixLevel: 4, skillLevel: 30 };
+  assert.equal(levelLine(g, n, 'Level', ' · Level unassigned'), 'Second course · Helix level 4/10');
+  const plain = { ...g, layout: { type: 'vortex' } };
+  assert.equal(levelLine(plain, n, 'Reference level', ''), 'Robotics · Reference level 30/100');
+  assert.equal(levelLine(plain, { ...n, skillLevel: null }, 'Level', ' · Level unassigned'), 'Robotics · Level unassigned');
+});
