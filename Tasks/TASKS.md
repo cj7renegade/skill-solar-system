@@ -211,7 +211,7 @@ and says go or no-go.
 - Open the pull request, merge it, and update local `main`.
 **Check:** both old maps' SHA-256 match Task 1; JC's shared answer record is unchanged.
 **Result:**
-- **Backup:** `%OneDrive%\HelixSkill Backups6-11-05_190224` (210 files, 103.7 MB, every file verified).
+- **Backup:** `%OneDrive%\HelixSkill Backups\2026-11-05_190224` (210 files, 103.7 MB, every file verified).
 - **Rebuilt before copying**, because the project was renamed to HelixSkill after the Checkpoint B
   build. The only line that differs from the map JC reviewed is the title, now
   `HelixSkill — Robotics Atlas (master + Robotics V3)`. Every gate passed and a second build gave identical bytes.
