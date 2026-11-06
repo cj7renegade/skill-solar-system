@@ -57,9 +57,11 @@ const CANDIDATES = {
   // Optional until written: Edition 08 (core lessons on master skills) and the master-skill
   // specifications JC approved for it (step 7, Checkpoint A).
   edition08: ['packages/core-lessons-learning-edition-08/Core-Lessons-08.json', 'authoring/lessons/edition-08/Core-Lessons-08.json'],
-  masterSpec: ['scope/lessons/master-specifications.json']
+  masterSpec: ['scope/lessons/master-specifications.json'],
+  // Optional until written: Edition 09 (the rest of the core, on V3 entries; step 7 Part 2).
+  edition09: ['packages/core-lessons-learning-edition-09/Core-Lessons-09.json', 'authoring/lessons/edition-09/Core-Lessons-09.json']
 };
-const OPTIONAL = new Set(['edition08', 'masterSpec']);
+const OPTIONAL = new Set(['edition08', 'masterSpec', 'edition09']);
 // The export the latest edition was reconciled against, shipped inside its package. Optional: it
 // only exists once an edition has been supplied with one. It is never written, only compared, so
 // the summary can still show what the newest edition added after the import has been re-run.
@@ -68,6 +70,8 @@ const OPTIONAL = new Set(['edition08', 'masterSpec']);
 const BASELINE_07 = ['packages/robotics-completions-learning-edition-07/baseline/Confirmed-Structure-Map.json'];
 // Edition 08's baseline: the working map it was written against.
 const BASELINE_08 = ['packages/core-lessons-learning-edition-08/baseline/Confirmed-Working-Map.json'];
+// Edition 09's baseline: the working map after Edition 08.
+const BASELINE_09 = ['packages/core-lessons-learning-edition-09/baseline/Confirmed-Working-Map.json'];
 const BASELINE = [
   'packages/repeatable-work-system-learning-edition-06/baseline/Confirmed-Edition05-Export.json',
   'packages/wheeled-robot-learning-edition-04/baseline/Robotics-v3-Lessons.json',
@@ -89,7 +93,7 @@ export function loadInputs() {
   const found = Object.fromEntries(Object.keys(CANDIDATES).filter(present).map(name => [name, resolveInput(name)]));
   const read = name => found[name] ? { ...found[name], sha256: sha256(found[name].file), data: JSON.parse(readFileSync(found[name].file, 'utf8')) } : undefined;
   return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04'), edition05: read('edition05'), edition06: read('edition06'),
-    edition07: read('edition07'), extension: read('extension'), edition08: read('edition08'), masterSpec: read('masterSpec') };
+    edition07: read('edition07'), extension: read('extension'), edition08: read('edition08'), masterSpec: read('masterSpec'), edition09: read('edition09') };
 }
 
 function ledger(graph) {
@@ -123,12 +127,16 @@ const COMPLETIONS = MERGED && before.nodes.some(n => n.planningId === 'P11');
 // Edition 08 applies to the same atlas once it exists; its lessons are on master skills, checked against
 // the master-skill specifications JC approved (scope/lessons/), and matched by the skill's own id.
 const CORE08 = COMPLETIONS && !!inputs.edition08 && inputs.masterSpec?.data.status === 'APPROVED';
+// Edition 09 follows Edition 08 on the same atlas; its lessons are V3 entries, checked against V3's specification.
+const CORE09 = CORE08 && !!inputs.edition09;
 const spec = COMPLETIONS ? { ...inputs.spec.data, nodes: [...inputs.spec.data.nodes, ...inputs.extension.data.skills.map(s => s.specification), ...(CORE08 ? inputs.masterSpec.data.entries : [])] } : inputs.spec.data;
-const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06, ...(COMPLETIONS ? [inputs.edition07] : []), ...(CORE08 ? [inputs.edition08] : [])]
+const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06, ...(COMPLETIONS ? [inputs.edition07] : []), ...(CORE08 ? [inputs.edition08] : []), ...(CORE09 ? [inputs.edition09] : [])]
   .map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 // What a passing import produces, per target.
 // authored, pending and roadmap count V3 entries; master counts lessons on master skills.
-const EXPECT = CORE08
+const EXPECT = CORE09
+  ? { authored: 327, pending: 55, roadmap: 1, planned: 383, master: 23, i05: 328, delta: { edition: 'core-lessons-09', newLessons: 21, unchangedPriorLessons: 329, skipped: 0, conflicting: 0 } }
+  : CORE08
   ? { authored: 306, pending: 76, roadmap: 1, planned: 383, master: 23, i05: 328, delta: { edition: 'core-lessons-08', newLessons: 23, unchangedPriorLessons: 306, skipped: 0, conflicting: 0 } }
   : COMPLETIONS
   ? { authored: 306, pending: 76, roadmap: 1, planned: 383, master: 0, i05: 305, delta: { edition: 'robotics-completions-07', newLessons: 8, unchangedPriorLessons: 298, skipped: 0, conflicting: 0 } }
@@ -216,7 +224,7 @@ function runDelta() {
 // that copy shows what this integration added, and proves the lessons that were already there came
 // through untouched, using the package's own bytes rather than a claim in a summary.
 function baselineDiff() {
-  const file = (CORE08 ? BASELINE_08 : COMPLETIONS ? BASELINE_07 : BASELINE).map(r => path.join(ROOT, r)).find(existsSync);
+  const file = (CORE09 ? BASELINE_09 : CORE08 ? BASELINE_08 : COMPLETIONS ? BASELINE_07 : BASELINE).map(r => path.join(ROOT, r)).find(existsSync);
   if (!file) return { compared: false, reason: 'no supplied baseline export found' };
   const base = JSON.parse(readFileSync(file, 'utf8'));
   // On the merged atlas the V3 entries are matched by planning id, master skills by their own id, and only
@@ -316,7 +324,7 @@ const summary = {
     `${report.counts.pending} assessable entries still have no authored introductory lesson, and ${report.counts.roadmap} roadmap entry is not assessed.`,
     'Introductory content coverage is not proficiency and not a physical milestone. Nothing here says a skill has been demonstrated.',
     'No proficiency answer is read, written or inferred by this import.',
-    'The teaching labs are supplemental offline synthetic exercises, not wired into the application and not evidence of a working robot. Edition 03 needs NumPy and models planar kinematics only. Edition 04 needs NumPy; its route tracking uses an ideal true pose, and its estimation and fault supervision are separate experiments. Edition 05 needs NumPy and SciPy; its perception, base placement and pick-and-place exercises are synthetic. Edition 06 uses only Python standard-library calculations; its thermal traces, trial logs, manifests and handover checks are generated. Edition 07 (merged atlas only) also uses only the standard library; its planar-arm, filter and joint traces are generated. None demonstrates a physical robot, none has a hardware interface, and none may be connected to one.',
+    'The teaching labs are supplemental offline synthetic exercises, not wired into the application and not evidence of a working robot. Edition 03 needs NumPy and models planar kinematics only. Edition 04 needs NumPy; its route tracking uses an ideal true pose, and its estimation and fault supervision are separate experiments. Edition 05 needs NumPy and SciPy; its perception, base placement and pick-and-place exercises are synthetic. Edition 06 uses only Python standard-library calculations; its thermal traces, trial logs, manifests and handover checks are generated. Edition 07 (merged atlas only) also uses only the standard library; its planar-arm, filter and joint traces are generated. Editions 08 and 09 (merged atlas only) use only the standard library too; their arm geometry, signals, fits and control-loop simulations are generated. None demonstrates a physical robot, none has a hardware interface, and none may be connected to one.',
     `The map title restates the counts. Guided-review sessions key on metadata.datasetKey (${JSON.stringify(datasetKey(graph))}) rather than the title${session.checked && session.keyBefore === session.keyAfter ? ', which is unchanged by this import, so every saved session keeps its key, queue and position outright' : ', and a session saved under an earlier title is migrated by its node set, so progress and queue position survive the rename'}. Review order is unchanged: it comes from saved heights, names and ids, none of which this patch touches.`
   ]
 };

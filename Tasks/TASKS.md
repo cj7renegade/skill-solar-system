@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Core lessons (step 7)
 
 Step 7 of `reports/scope/07-checkpoint.md` §2: introductory lessons for every required skill. JC
-asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1 done: Checkpoint B1 passed on 2026-11-05 and merged. Part 2 not started.**
+asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1 done and merged. Part 2: Tasks 8–10 done; waiting at Checkpoint B2.**
 
 The queue has **two parts**, one edition each, and each part ends with its own Checkpoint B and pull
 request. JC reads about twenty lessons at a time rather than forty-four at once, and the working map
@@ -269,6 +269,20 @@ reviewed specification. Backup first.
 - Update `docs/PLATFORM.md` and `docs/SCOPE.md`.
 
 **STOP (Checkpoint B2):** JC reads the 21 lessons, opens the finished map and says go or no-go.
+**Result:** `reports/lessons/03-edition09-results.md`.
+- **Importer:** Edition 09 is an optional input applied after Edition 08; its expected counts are
+  327 V3 + 23 master-skill lessons.
+- **Import** into `C:\sss-scratch\lessons\Robotics-Atlas-09.json` (`1212ad46…714b452`) passed: 21 gained,
+  329 unchanged, 0 conflicts, 0 existing lessons or cards changed, and a re-run touches nothing.
+- **Every core skill has a card except `r-singular` (350 of 351).**
+- **Tests:** unit 260 pass, 0 fail, 6 skipped. New e2e `tests/core-lessons-09-e2e.mjs`: 11 checks pass.
+  Full e2e suite with every map: 807 checks pass, 0 fail.
+- **Docs:** `src/lesson.js` names the edition. `docs/PLATFORM.md` has a new §9.1e, and
+  `docs/SCOPE.md` has a change-log entry.
+- **Display issue noted, not changed:** the "Physical work" demonstration line for the
+  supervised-measurement mode. It goes with JC's evidence-card review.
+
+**Waiting for JC at Checkpoint B2.**
 
 ## [ ] Task 11 — Make it the working map, then merge Part 2
 **Do (only after JC's go):** as Task 7.
