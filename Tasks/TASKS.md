@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Core lessons (step 7)
 
 Step 7 of `reports/scope/07-checkpoint.md` §2: introductory lessons for every required skill. JC
-asked for it on 2026-11-05 ("Let's queue up step 7"). **Tasks 1–2 done; waiting at Checkpoint A.**
+asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1, Tasks 1–6 done; waiting at Checkpoint B1.**
 
 The queue has **two parts**, one edition each, and each part ends with its own Checkpoint B and pull
 request. JC reads about twenty lessons at a time rather than forty-four at once, and the working map
@@ -181,6 +181,15 @@ entries and the map, and assembles `packages/core-lessons-learning-edition-08/` 
 - the I05 path complete, master-only skills included (328/328).
 
 **Check:** every importer gate passes; re-applying changes nothing; no existing card changes.
+**Result:** imported into `C:\sss-scratch\lessons\Robotics-Atlas.json` (`e91a4292…772f81e`), and every
+gate passed:
+- 23 gained, 306 unchanged, 0 conflicts;
+- 306 V3 lessons plus 23 master-skill lessons;
+- I05 328/328;
+- 0 existing lessons or cards changed, and every signature but the lesson payloads identical;
+- a re-run touches nothing.
+
+Each skill keeps its own text in `atlasDetails` and gains no planning id.
 
 ## [ ] Task 6 — Measure and report Part 1
 **Do:**
@@ -190,6 +199,15 @@ entries and the map, and assembles `packages/core-lessons-learning-edition-08/` 
 - Update `docs/PLATFORM.md` §9.
 
 **STOP (Checkpoint B1):** JC reads the 23 lessons, opens the finished map from scratch and says go or no-go.
+**Result:** `reports/lessons/02-edition08-results.md`.
+- **Unit tests:** 260 pass, 0 fail, 6 skipped.
+- **New e2e** `tests/core-lessons-e2e.mjs`: 11 checks pass. All 23 cards render with their edition name
+  and no hardware line, all 328 I05-path skills have a card, and answers match JC's record.
+- **Full e2e suite** with every map supplied: 796 checks pass, 0 fail.
+- `src/lesson.js` names the edition, and `docs/PLATFORM.md` has a new §9.1d.
+- A review in progress resumes, because the skill set is unchanged.
+
+**Waiting for JC at Checkpoint B1.**
 
 ## [ ] Task 7 — Make it the working map, then merge Part 1
 **Do (only after JC's go):** back up `Maps/Robotics-Atlas.json` to `Maps/Backups/` with the date,
