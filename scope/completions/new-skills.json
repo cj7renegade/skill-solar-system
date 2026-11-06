@@ -1,0 +1,242 @@
+{
+  "status": "APPROVED",
+  "approval": {
+    "by": "JC",
+    "date": "2026-11-05",
+    "accepted": [
+      "C1 (a): 8 lessons; the 23 master-only skills go to step 7",
+      "C2: P11 required, between P08 and P09",
+      "C3: A12 optional",
+      "C4: recalculate feedsMilestones",
+      "C5: Claude Code writes Edition 07"
+    ],
+    "quote": "C1 a, C2 yes, C3 optional, C4 yes, C5 Claude Code"
+  },
+  "drafted": "2026-11-05",
+  "baseMap": {
+    "file": "Maps/Robotics-Atlas.json",
+    "sha256": "f307121cfef98615c7588b88240364b3c293742d51a131c9519136bbb6db047c"
+  },
+  "note": "Each specification record follows the format of packages/robotics-curriculum-v3/Robotics-Reviewed-Specification.json, so its lesson can be checked the same way. dependency_depth is one more than the deepest prerequisite in that specification (P08 14; A09 14, D08 10); feeds_milestones follows the approved edges.",
+  "skills": [
+    {
+      "planningId": "P11",
+      "runtimeId": "rob3:P11",
+      "source": "R6 split (reports/scope/04-branch-map.md): Detect an inconsistent measurement innovation",
+      "required": true,
+      "edges": [
+        {
+          "source": "rob3:P08",
+          "target": "rob3:P11",
+          "type": "prerequisite",
+          "rationale": "The innovation and its covariance are produced by the state estimator's update step."
+        },
+        {
+          "source": "rob3:P11",
+          "target": "rob3:P09",
+          "type": "prerequisite",
+          "rationale": "Fusing nonlinear measurements includes testing inconsistent measurements; this is that test, split out and taught first on the linear case."
+        },
+        {
+          "source": "m-hypothesis",
+          "target": "rob3:P11",
+          "type": "supports",
+          "rationale": "A gate threshold is a hypothesis test; its false-alarm rate is a type I error."
+        }
+      ],
+      "specification": {
+        "id": "P11",
+        "branch": "Sensing, calibration and estimation",
+        "name": "Detect an inconsistent measurement innovation",
+        "requires": [
+          "P08"
+        ],
+        "demonstration": "For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.",
+        "kind": "outcome",
+        "origin": "scope R6 split of P09, completions edition 07",
+        "tier": "core",
+        "existing_candidates": [],
+        "proficiency80": null,
+        "migration": "New outcome; no source skill.",
+        "dependency_depth": 15,
+        "path_role": "core endpoint path",
+        "feeds_milestones": [
+          "I03",
+          "I04",
+          "I05"
+        ],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Detect an inconsistent measurement innovation",
+          "completion_evidence": "For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "drafted in completions Task 2; awaiting JC at Checkpoint A",
+          "decision": "proposed",
+          "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 07."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:P11",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "sss-robotics-foundations-2026-09",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      }
+    },
+    {
+      "planningId": "A12",
+      "runtimeId": "rob3:A12",
+      "source": "R12 new skill (reports/scope/04-branch-map.md): Distinguish coupling misalignment from backlash",
+      "required": false,
+      "edges": [
+        {
+          "source": "rob3:A09",
+          "target": "rob3:A12",
+          "type": "prerequisite",
+          "rationale": "Separating lost motion from elastic deflection comes first; misalignment is the third effect to tell apart."
+        },
+        {
+          "source": "rob3:D08",
+          "target": "rob3:A12",
+          "type": "prerequisite",
+          "rationale": "Misalignment shows up as radial load on the shaft supports chosen there."
+        },
+        {
+          "source": "rob3:A12",
+          "target": "rob3:V05",
+          "type": "supports",
+          "rationale": "Telling misalignment from backlash is one diagnosis an integrated failure may need, but not every joint has a separate shaft coupling."
+        }
+      ],
+      "specification": {
+        "id": "A12",
+        "branch": "Actuation and transmissions",
+        "name": "Distinguish coupling misalignment from backlash",
+        "requires": [
+          "A09",
+          "D08"
+        ],
+        "demonstration": "Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.",
+        "kind": "outcome",
+        "origin": "scope R12 gap, completions edition 07",
+        "tier": "core",
+        "existing_candidates": [],
+        "proficiency80": null,
+        "migration": "New outcome; no source skill.",
+        "dependency_depth": 15,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "calculation and explanation",
+          "task": "Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.",
+          "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+          "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Distinguish coupling misalignment from backlash",
+          "completion_evidence": "Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence, coupling selection or alignment procedure, or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "drafted in completions Task 2; awaiting JC at Checkpoint A",
+          "decision": "proposed",
+          "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 07."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:A12",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "sss-robotics-foundations-2026-09",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      }
+    }
+  ],
+  "feedsMilestonesCorrections": {
+    "rule": "Recalculate from prerequisite edges for every V3 skill and the two new skills; a milestone keeps listing itself; master-only skills stay without the list.",
+    "changes": {
+      "rob3:K05": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "rob3:K06": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "rob3:K07": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "m-inverse": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "m-invtrig": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "p-work": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "m-rational-power": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "m-expfunction": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "m-dot": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ]
+    }
+  }
+}

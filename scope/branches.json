@@ -2,17 +2,17 @@
  "generated": "2026-10-05",
  "method": "Branches from the coverage roadmap plus three from Robotics V3. Master skills placed by subdomain, or by id where a subdomain spans branches; V3 entries not in the master placed by planning id. Candidate mappings are reviewed judgements (Task 4). Status: covered = every candidate maps to an existing skill; partial = at least one split or new skill; audit needed = only planning tasks; missing = no existing skills.",
  "totals": {
-  "low": 38,
-  "high": 114,
-  "existing": 86,
-  "split": 34,
-  "new": 4,
+  "low": 36,
+  "high": 108,
+  "existing": 88,
+  "split": 33,
+  "new": 3,
   "planning": 7,
   "deferred": 1,
-  "coveredOnlyByV3": 27,
+  "coveredOnlyByV3": 29,
   "audit needed": 3,
-  "covered": 16,
-  "partial": 24,
+  "covered": 18,
+  "partial": 22,
   "covered by V3 (no roadmap candidates)": 3
  },
  "unassignedMasterSkills": [],
@@ -3862,7 +3862,7 @@
    "masterInScope": 12,
    "masterContext": 0,
    "v3OnlyEntries": 6,
-   "v3PendingLessons": 2,
+   "v3PendingLessons": 0,
    "existingTotal": 18,
    "candidates": [
     {
@@ -3954,7 +3954,7 @@
    "masterInScope": 7,
    "masterContext": 0,
    "v3OnlyEntries": 3,
-   "v3PendingLessons": 1,
+   "v3PendingLessons": 0,
    "existingTotal": 10,
    "candidates": [
     {
@@ -4214,9 +4214,9 @@
    "masterSkills": 2,
    "masterInScope": 2,
    "masterContext": 0,
-   "v3OnlyEntries": 6,
+   "v3OnlyEntries": 7,
    "v3PendingLessons": 1,
-   "existingTotal": 8,
+   "existingTotal": 9,
    "candidates": [
     {
      "outcome": "Distinguish state prediction and measurement correction",
@@ -4241,13 +4241,13 @@
     },
     {
      "outcome": "Detect an inconsistent measurement innovation",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "rob3:P09",
-      "rob3:P08"
+      "rob3:P11"
      ],
-     "viaV3Only": false
+     "viaV3Only": true,
+     "resolvedBy": "robotics completions, 2026-11-05 (split)"
     },
     {
      "outcome": "Handle asynchronous observations",
@@ -4260,18 +4260,18 @@
     }
    ],
    "counts": {
-    "existing": 3,
-    "split": 1,
+    "existing": 4,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
-    "coveredOnlyByV3": 1
+    "coveredOnlyByV3": 2
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -4284,7 +4284,8 @@
     "rob3:P03",
     "rob3:P07",
     "rob3:P08",
-    "rob3:P09"
+    "rob3:P09",
+    "rob3:P11"
    ]
   },
   {
@@ -4670,9 +4671,9 @@
    "masterSkills": 0,
    "masterInScope": 0,
    "masterContext": 0,
-   "v3OnlyEntries": 1,
+   "v3OnlyEntries": 2,
    "v3PendingLessons": 0,
-   "existingTotal": 1,
+   "existingTotal": 2,
    "candidates": [
     {
      "outcome": "Choose bearing load directions in a conceptual assembly",
@@ -4685,33 +4686,34 @@
     },
     {
      "outcome": "Distinguish coupling misalignment from backlash",
-     "mapping": "proposed new skill",
-     "code": "N",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "rob3:A09",
-      "rob3:D08"
+      "rob3:A12"
      ],
-     "viaV3Only": false
+     "viaV3Only": true,
+     "resolvedBy": "robotics completions, 2026-11-05 (new)"
     }
    ],
    "counts": {
-    "existing": 1,
+    "existing": 2,
     "split": 0,
-    "new": 1,
+    "new": 0,
     "planning": 0,
     "deferred": 0,
-    "coveredOnlyByV3": 1
+    "coveredOnlyByV3": 2
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [],
    "v3EntryIds": [
-    "rob3:D08"
+    "rob3:D08",
+    "rob3:A12"
    ]
   },
   {
