@@ -168,6 +168,22 @@ the lessons JSON, the readable lessons, a workbook, `Study-Sequence.csv`, `Conte
   the lab computes the planar pose, both inverse solutions, and the Jacobian against a finite
   difference.
 **Check:** `check_package.py` passes; the lab results are recorded.
+**Result:** written by Claude Code (C5). The authored text and package sources are tracked in
+`authoring/completions/edition-07/`. `authoring/completions/build-edition07.mjs` copies every
+specification-decided field from the targets, writes the lessons, and assembles the full package in
+`packages/robotics-completions-learning-edition-07/` with its `baseline/`, which is not tracked because
+the map is 7.8 MB.
+- **8 lessons:** each has 27 fields, Edition 06's 25 plus decision 14's two. **All 8 say no
+  real-hardware evidence is needed**, because each full demonstration works from stated values or
+  generated data. `A12` is the closest call; its card lists measuring a real joint as remaining work.
+- **The lab** (`completions_lab.py`, standard-library Python) recomputes every worked example and
+  answer. It found one bug before the lessons were finished: at the edge of reach, rounding produced
+  two nearly identical solutions. That is fixed and tested.
+- **`check_package.py`: 87 checks passed** under Python 3.13.13. They cover fingerprints, counts,
+  field order, evidence fields against the practice wording, contracts, the I05 chain (305 entries;
+  the missing ones are exactly the 7 required targets) and every number, recomputed and found in the
+  lesson text.
+- **For JC to read at Checkpoint B:** `authoring/completions/edition-07/Robotics-Completions-Learning-Edition-07.md`.
 
 ## [ ] Task 6 Ã¢â‚¬â€ Import Edition 07
 **Do:** Register Edition 07 with `apply-lessons.mjs` and import it into the Task 3 map in scratch.

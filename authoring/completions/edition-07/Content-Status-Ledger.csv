@@ -1,0 +1,384 @@
+Planning ID,Name,Authoring status,Integration evidence
+m-count,Counting and place value,introductory card authored,confirmed shared-foundations-01
+m-add,Addition and subtraction,introductory card authored,confirmed shared-foundations-01
+m-multiply,Multiplication and division,introductory card authored,confirmed shared-foundations-01
+m-sign,Signed numbers,introductory card authored,confirmed shared-foundations-01
+m-factors,Factors and multiples,introductory card authored,confirmed shared-foundations-01
+m-fraction,Fractions and equivalence,introductory card authored,confirmed shared-foundations-01
+m-fracadd,Adding unlike fractions,introductory card authored,confirmed shared-foundations-01
+m-fracmul,Fraction products and quotients,introductory card authored,confirmed shared-foundations-01
+m-decimal,Decimals and rounding,introductory card authored,confirmed shared-foundations-01
+m-percent,Percentages,introductory card authored,confirmed shared-foundations-01
+m-ratio,Ratios and unit rates,introductory card authored,confirmed shared-foundations-01
+m-proportion,Direct and inverse proportion,introductory card authored,confirmed shared-foundations-01
+m-power,Integer powers,introductory card authored,confirmed shared-foundations-01
+m-exp-laws,Exponent rules,introductory card authored,confirmed shared-foundations-01
+m-root,Roots and radicals,introductory card authored,confirmed shared-foundations-01
+m-rational-power,Fractional exponents,introductory card authored,confirmed wheeled-robot-04
+m-order,Order of operations for basic arithmetic,introductory card authored,confirmed shared-foundations-01
+m-absolute,Absolute value and distance,introductory card authored,confirmed shared-foundations-01
+m-expr,Variables and expressions,introductory card authored,confirmed shared-foundations-01
+m-like,Collecting terms and distribution,introductory card authored,confirmed shared-foundations-01
+m-equation,Linear equations in one unknown,introductory card authored,confirmed shared-foundations-01
+m-formula,Rearranging formulas,introductory card authored,confirmed controlled-joint-02
+m-inequality,Linear inequalities and intervals,introductory card authored,confirmed controlled-joint-02
+m-coordinate,Cartesian coordinates,introductory card authored,confirmed shared-foundations-01
+m-slope,Slope and intercept,introductory card authored,confirmed shared-foundations-01
+m-system,Two-variable linear systems,introductory card authored,confirmed controlled-joint-02
+m-polynomial,Polynomial arithmetic,introductory card authored,confirmed complete-arm-03
+m-factorpoly,Factoring polynomials,introductory card authored,confirmed complete-arm-03
+m-quadratic,Solving quadratic equations,introductory card authored,confirmed complete-arm-03
+m-rational,Rational expressions and restrictions,introductory card authored,confirmed complete-arm-03
+m-function,"Functions, domains, and ranges",introductory card authored,confirmed shared-foundations-01
+m-compose,Function composition,introductory card authored,confirmed shared-foundations-01
+m-inverse,Inverse functions,introductory card authored,Edition 07 package; integration pending
+m-expfunction,Exponential models,introductory card authored,confirmed wheeled-robot-04
+m-angle,Angles and geometric relationships,introductory card authored,confirmed shared-foundations-01
+m-area,Perimeter and planar area,introductory card authored,confirmed shared-foundations-01
+m-similar,Similarity and scale drawings,introductory card authored,confirmed controlled-joint-02
+m-pythagoras,Right-triangle distances,introductory card authored,confirmed controlled-joint-02
+m-trig,Right-triangle trigonometry,introductory card authored,confirmed controlled-joint-02
+m-radian,Radians and arc length,introductory card authored,confirmed shared-foundations-01
+m-unitcircle,Unit-circle trigonometry,introductory card authored,confirmed complete-arm-03
+m-invtrig,Inverse trigonometry and quadrants,introductory card authored,Edition 07 package; integration pending
+m-limit,Limits of functions,introductory card authored,confirmed complete-arm-03
+m-derivative,Derivative as local rate,introductory card authored,confirmed complete-arm-03
+m-diffrules,"Power, product, and quotient differentiation",introductory card authored,confirmed complete-arm-03
+m-chain,Chain rule,introductory card authored,confirmed complete-arm-03
+m-linearize,Local linear approximation,introductory card authored,confirmed complete-arm-03
+m-antiderivative,Antiderivatives,introductory card pending,confirmed structure map
+m-defintegral,Definite integrals and accumulation,introductory card pending,confirmed structure map
+m-ftc,Fundamental theorem of calculus,introductory card pending,confirmed structure map
+m-improper,Improper integrals,introductory card pending,confirmed structure map
+m-numericalint,Numerical quadrature,introductory card pending,confirmed structure map
+m-sequence,Sequences and finite sums,introductory card authored,confirmed shared-foundations-01
+m-vector,Vector components and arithmetic,introductory card authored,confirmed shared-foundations-01
+m-norm,Vector length and normalization,introductory card authored,confirmed complete-arm-03
+m-dot,Dot products and projection,introductory card authored,confirmed complete-arm-03
+m-cross,Cross products,introductory card authored,confirmed controlled-joint-02
+m-matrix,Matrix arithmetic,introductory card authored,confirmed complete-arm-03
+m-gauss,Gaussian elimination,introductory card authored,confirmed complete-arm-03
+m-determinant,Determinants,introductory card authored,confirmed complete-arm-03
+m-span,Span and linear independence,introductory card authored,confirmed complete-arm-03
+m-basis,Bases and dimension,introductory card authored,confirmed complete-arm-03
+m-rank,Rank and null spaces,introductory card authored,confirmed complete-arm-03
+m-eigen,Eigenvalues and eigenvectors,introductory card authored,confirmed complete-arm-03
+m-orthogonal,Orthogonality and orthonormal bases,introductory card authored,confirmed complete-arm-03
+m-leastsquares,Linear least-squares fitting,introductory card authored,confirmed complete-arm-03
+m-svd,Singular value decomposition,introductory card authored,confirmed complete-arm-03
+m-pseudoinverse,Pseudoinverses,introductory card authored,confirmed complete-arm-03
+m-multifunction,Functions of several variables,introductory card authored,confirmed complete-arm-03
+m-partial,Partial derivatives,introductory card authored,confirmed complete-arm-03
+m-gradient,Gradients and directional derivatives,introductory card pending,confirmed structure map
+m-jacobian,Jacobian matrices,introductory card authored,confirmed complete-arm-03
+m-multichain,Multivariable chain rule,introductory card pending,confirmed structure map
+m-lagrange,Constrained extrema,introductory card pending,confirmed structure map
+m-ode,Differential equations and initial values,introductory card authored,confirmed wheeled-robot-04
+m-laplace,Laplace transforms,introductory card pending,confirmed structure map
+m-set,Sets and event operations,introductory card authored,confirmed shared-foundations-01
+m-prob,Probability rules,introductory card authored,confirmed shared-foundations-01
+m-conditional,Conditional probability and independence,introductory card authored,confirmed shared-foundations-01
+m-bayes,Bayesian updating,introductory card authored,confirmed wheeled-robot-04
+m-random,Random variables and distributions,introductory card pending,confirmed structure map
+m-sampling,Sampling and bias,introductory card pending,confirmed structure map
+m-regression,Regression and residual analysis,introductory card pending,confirmed structure map
+m-logic,Propositions and truth tables,introductory card authored,confirmed shared-foundations-01
+m-binary,Binary and hexadecimal representation,introductory card authored,confirmed shared-foundations-01
+m-boolean,Boolean algebra,introductory card pending,confirmed structure map
+m-graph,"Graphs, paths, and connectivity",introductory card authored,confirmed shared-foundations-01
+m-search,Graph traversal and shortest paths,introductory card authored,confirmed wheeled-robot-04
+m-complex,Complex-number arithmetic,introductory card pending,confirmed structure map
+m-newtonroot,Newton's method for roots,introductory card authored,confirmed complete-arm-03
+p-units,Physical quantities and SI units,introductory card authored,confirmed shared-foundations-01
+p-convert,Unit conversions,introductory card authored,confirmed shared-foundations-01
+p-precision,Significant figures and resolution,introductory card authored,confirmed shared-foundations-01
+p-uncertainty,Measurement uncertainty,introductory card authored,confirmed shared-foundations-01
+p-graphs,Interpreting physical graphs,introductory card authored,confirmed controlled-joint-02
+p-model,"Systems, assumptions, and models",introductory card authored,confirmed shared-foundations-01
+p-position,Position and displacement,introductory card authored,confirmed shared-foundations-01
+p-speed,Speed and average velocity,introductory card authored,confirmed shared-foundations-01
+p-accel,Acceleration,introductory card authored,confirmed controlled-joint-02
+p-inertia,"Mass, inertia, and net force",introductory card authored,confirmed controlled-joint-02
+p-fbd,Free-body diagrams,introductory card authored,confirmed controlled-joint-02
+p-newton,Newton's second law in components,introductory card authored,confirmed controlled-joint-02
+p-work,Work by a constant force,introductory card authored,Edition 07 package; integration pending
+p-kinetic,Kinetic energy and work-energy balance,introductory card pending,confirmed structure map
+p-potential,Gravitational and spring potential energy,introductory card pending,confirmed structure map
+p-energy,Mechanical energy accounting,introductory card pending,confirmed structure map
+p-angular,"Angular position, speed, and acceleration",introductory card authored,confirmed controlled-joint-02
+p-torque,Torque and lever arms,introductory card authored,confirmed controlled-joint-02
+p-equilibrium,Force and torque equilibrium,introductory card pending,confirmed structure map
+p-inertia-moment,Mass moment of inertia,introductory card authored,confirmed controlled-joint-02
+p-rotdynamics,Rotational dynamics about a fixed axis,introductory card authored,confirmed controlled-joint-02
+p-hooke,Ideal springs and restoring forces,introductory card authored,confirmed controlled-joint-02
+p-lagrangian,Lagrangian mechanics,introductory card pending,confirmed structure map
+p-temperature,Temperature and thermal equilibrium,introductory card authored,confirmed shared-foundations-01
+p-wave,"Wave speed, frequency, and wavelength",introductory card pending,confirmed structure map
+B-E02,Current and charge flow,introductory card authored,confirmed shared-foundations-01
+B-E03,Voltage references and ground,introductory card authored,confirmed shared-foundations-01
+e-resistance,Resistance and Ohm's law,introductory card authored,confirmed controlled-joint-02
+e-schematic,Reading schematics and connectivity,introductory card authored,confirmed controlled-joint-02
+e-kcl,Kirchhoff current law,introductory card authored,confirmed controlled-joint-02
+e-kvl,Kirchhoff voltage law,introductory card authored,confirmed controlled-joint-02
+e-nodal,Nodal analysis,introductory card pending,confirmed structure map
+e-capacitor,Capacitance and stored energy,introductory card authored,confirmed complete-arm-03
+e-rc,RC transient response,introductory card pending,confirmed structure map
+e-opamp,Operational-amplifier models,introductory card pending,confirmed structure map
+e-logicvoltage,Logic levels and noise margins,introductory card authored,confirmed controlled-joint-02
+e-gates,Logic gates and combinational circuits,introductory card pending,confirmed structure map
+e-latch,Latches and flip-flops,introductory card pending,confirmed structure map
+e-timing,Digital timing and metastability,introductory card pending,confirmed structure map
+e-adc,Analog-to-digital conversion,introductory card pending,confirmed structure map
+e-sampling,Sampling and aliasing,introductory card pending,confirmed structure map
+e-decoupling,Supply decoupling and return paths,introductory card authored,confirmed complete-arm-03
+e-calibration,Sensor calibration curves,introductory card pending,confirmed structure map
+e-imu,Inertial measurement units,introductory card pending,confirmed structure map
+e-bus,Local serial interfaces,introductory card pending,confirmed structure map
+s-load,Load paths and structural idealization,introductory card pending,confirmed structure map
+s-stress,Normal and shear stress,introductory card pending,confirmed structure map
+s-strain,Normal and shear strain,introductory card pending,confirmed structure map
+s-elastic,Elastic modulus and linear elasticity,introductory card pending,confirmed structure map
+s-beamforces,Beam shear and bending moments,introductory card pending,confirmed structure map
+s-section,Area moments of inertia,introductory card pending,confirmed structure map
+s-bending,Beam bending stress,introductory card pending,confirmed structure map
+s-deflection,Beam deflection,introductory card pending,confirmed structure map
+c-values-types,Values and data types,introductory card authored,confirmed shared-foundations-01
+c-variables,Variables and assignment,introductory card authored,confirmed shared-foundations-01
+c-expressions,Expressions and operators,introductory card authored,confirmed shared-foundations-01
+c-type-conversion,Type conversion and formatted output,introductory card authored,confirmed shared-foundations-01
+c-strings,Text strings and parsing,introductory card authored,confirmed shared-foundations-01
+c-conditions,Conditional branching,introductory card authored,confirmed shared-foundations-01
+c-loops,Loops and iteration,introductory card authored,confirmed shared-foundations-01
+c-functions,"Functions, parameters, and return values",introductory card authored,confirmed shared-foundations-01
+c-collections,"Lists, dictionaries, and sets",introductory card authored,confirmed controlled-joint-02
+c-errors,Exceptions and error handling,introductory card authored,confirmed shared-foundations-01
+c-terminal,Terminal navigation and commands,introductory card authored,confirmed shared-foundations-01
+c-shell-pipes,"Redirection, pipes, and exit codes",introductory card authored,confirmed shared-foundations-01
+c-files,Reading and writing files,introductory card authored,confirmed controlled-joint-02
+c-modules,Modules and imports,introductory card authored,confirmed shared-foundations-01
+c-dependencies,Package dependencies and environments,introductory card authored,confirmed controlled-joint-02
+c-build,"Compilation, linking, and build tools",introductory card authored,confirmed controlled-joint-02
+c-testing,Unit testing,introductory card authored,confirmed controlled-joint-02
+c-git-commits,Version control with Git commits,introductory card authored,confirmed shared-foundations-01
+c-linux-admin,"Remote Linux administration: SSH, permissions, and services",introductory card pending,confirmed structure map
+c-arrays,Arrays and dynamic arrays,introductory card authored,confirmed controlled-joint-02
+c-queues,Queues and ring buffers,introductory card authored,confirmed wheeled-robot-04
+c-hash-tables,Hash tables,introductory card authored,confirmed wheeled-robot-04
+c-graph-code,Graphs in code: representation and traversal,introductory card authored,confirmed wheeled-robot-04
+c-numeric-arrays,Numerical arrays and vectorized computation,introductory card authored,confirmed controlled-joint-02
+c-integers,Integer representation and overflow,introductory card authored,confirmed controlled-joint-02
+c-floats,Floating-point numbers and rounding error,introductory card authored,confirmed controlled-joint-02
+c-bitwise,Bitwise operations and masks,introductory card authored,confirmed controlled-joint-02
+c-memory,"Memory, addresses, and alignment",introductory card authored,confirmed controlled-joint-02
+c-byte-order,Byte order and binary data layouts,introductory card authored,confirmed controlled-joint-02
+c-io,"Device input and output: polling, interrupts, and DMA",introductory card authored,confirmed controlled-joint-02
+c-c-language,C language essentials,introductory card authored,confirmed controlled-joint-02
+c-kernel,Operating system kernel and system calls,introductory card authored,confirmed complete-arm-03
+c-processes,Processes and program execution,introductory card authored,confirmed complete-arm-03
+c-threads,Threads,introductory card authored,confirmed complete-arm-03
+c-race-conditions,Race conditions and shared data,introductory card authored,confirmed complete-arm-03
+c-synchronization,"Locks, semaphores, and condition variables",introductory card authored,confirmed complete-arm-03
+c-event-loops,Event loops and asynchronous I/O,introductory card authored,confirmed complete-arm-03
+c-packets,"Packets, headers, and protocol layers",introductory card pending,confirmed structure map
+c-ip-addressing,"IP addresses, subnets, and ports",introductory card pending,confirmed structure map
+c-framing,Message framing and serialization,introductory card authored,confirmed controlled-joint-02
+c-microcontrollers,Microcontroller architecture,introductory card authored,confirmed controlled-joint-02
+c-firmware,"Firmware structure, build, and flashing",introductory card authored,confirmed controlled-joint-02
+c-gpio,GPIO configuration and digital I/O,introductory card authored,confirmed controlled-joint-02
+c-interrupts,Interrupts and interrupt service routines,introductory card authored,confirmed controlled-joint-02
+c-timers,Hardware timers and PWM generation,introductory card authored,confirmed controlled-joint-02
+c-serial-drivers,"UART, SPI, and I²C in firmware",introductory card pending,confirmed structure map
+c-watchdog,Watchdog timers and fail-safe states,introductory card authored,confirmed controlled-joint-02
+c-timing-constraints,"Deadlines, jitter, and execution-time budgets",introductory card authored,confirmed complete-arm-03
+c-sensor-acquisition,Sensor data acquisition in software,introductory card authored,confirmed controlled-joint-02
+c-messaging,Publish-subscribe messaging and robot middleware,introductory card authored,confirmed complete-arm-03
+c-state-machines,Finite-state machines for robot behaviour,introductory card authored,confirmed controlled-joint-02
+c-simulation,Robot simulation and simulated time,introductory card authored,confirmed controlled-joint-02
+c-logging,Logging and recorded data,introductory card authored,confirmed controlled-joint-02
+c-time-sync,Timestamps and clock synchronization,introductory card authored,confirmed wheeled-robot-04
+c-replay-testing,Testing with simulation and recorded data,introductory card authored,confirmed controlled-joint-02
+c-datasets,"Datasets, features, and labels",introductory card pending,confirmed structure map
+c-train-inference,Training versus inference,introductory card pending,confirmed structure map
+c-ml-regression,Regression models and loss functions,introductory card pending,confirmed structure map
+c-gradient-descent,Gradient-descent training,introductory card pending,confirmed structure map
+c-classification,Classification and decision thresholds,introductory card pending,confirmed structure map
+c-evaluation,Evaluating models with metrics and held-out data,introductory card pending,confirmed structure map
+c-overfitting,"Overfitting, underfitting, and regularization",introductory card pending,confirmed structure map
+c-neural-networks,Neural-network basics,introductory card pending,confirmed structure map
+B-C01,Navigate files and edit plain text,introductory card authored,confirmed shared-foundations-01
+B-S01,Describe an observable task and its limits,introductory card authored,confirmed shared-foundations-01
+B-C02,Run and inspect a first program,introductory card authored,confirmed shared-foundations-01
+B-C04,Record a reproducible procedure,introductory card authored,confirmed shared-foundations-01
+B-S02,Recognize hazards and seek appropriate controls,introductory card authored,confirmed shared-foundations-01
+B-C03,Write a step-by-step algorithm,introductory card authored,confirmed shared-foundations-01
+B-E01,Recognize a complete circuit and its source,introductory card authored,confirmed shared-foundations-01
+B-C05,"Distinguish hardware, software and signals",introductory card authored,confirmed shared-foundations-01
+Q01,Write measurable robot requirements,introductory card authored,confirmed shared-foundations-01
+Q03,Identify hazards and protective functions,introductory card authored,confirmed shared-foundations-01
+Q05,Plan traceable verification,introductory card authored,confirmed shared-foundations-01
+B-M01,Compare and order measured numbers,introductory card pending,confirmed structure map
+B-P01,"Measure length, time and mass",introductory card authored,confirmed shared-foundations-01
+B-D01,"Recognize links, joints and constrained motion",introductory card authored,confirmed shared-foundations-01
+B-D02,Read a simple mechanical sketch,introductory card authored,confirmed shared-foundations-01
+B-P02,Distinguish a force from mass and motion,introductory card authored,confirmed shared-foundations-01
+B-M02,Use powers of ten and scientific notation,introductory card authored,confirmed shared-foundations-01
+B-M03,Summarize a measured dataset,introductory card authored,confirmed shared-foundations-01
+Q04,Allocate system budgets,introductory card authored,confirmed shared-foundations-01
+R-M02,Compute sampled rates and accumulated changes,introductory card authored,confirmed shared-foundations-01
+B-D07,Plan basic tool use and workholding,introductory card authored,confirmed controlled-joint-02
+B-D03,"Distinguish material stiffness, strength and component geometry",introductory card authored,confirmed controlled-joint-02
+B-P03,Draw and balance simple planar forces,introductory card authored,confirmed controlled-joint-02
+B-P06,Account for mechanical work and power in simple motion,introductory card authored,confirmed controlled-joint-02
+B-E04,"Read component values, units and terminal ratings",introductory card authored,confirmed controlled-joint-02
+B-M04,Calculate empirical variance and standard deviation,introductory card authored,confirmed wheeled-robot-04
+K01,Label frames and joint conventions,introductory card authored,confirmed complete-arm-03
+Q02,Define subsystem interfaces,introductory card authored,confirmed complete-arm-03
+B-P05,Calculate a one-dimensional center of mass,introductory card authored,confirmed controlled-joint-02
+B-E12,Select a measurement setup for a low-voltage circuit,introductory card authored,confirmed controlled-joint-02
+E01,Interpret DC connectivity and references,introductory card authored,confirmed controlled-joint-02
+B-M05,Interpret an empirical noise distribution,introductory card authored,confirmed wheeled-robot-04
+D01,Make a constrained CAD part,introductory card authored,confirmed controlled-joint-02
+K04,"Distinguish configuration, workspace and constraints",introductory card authored,confirmed complete-arm-03
+Q06,Maintain configuration and interface changes,introductory card authored,confirmed repeatable-work-system-06
+B-D04,Estimate stress in a simple axial member,introductory card authored,confirmed controlled-joint-02
+B-E05,Calculate DC power and energy,introductory card authored,confirmed controlled-joint-02
+R-M01,Fit and check a scalar calibration line,introductory card authored,confirmed controlled-joint-02
+R-P01,Apply a stated dry-friction contact model,introductory card authored,confirmed complete-arm-03
+B-P04,Calculate a planar moment,introductory card authored,confirmed controlled-joint-02
+E03,Take and interpret low-voltage circuit measurements,introductory card authored,confirmed controlled-joint-02
+D02,Create an assembly with defined motion,introductory card authored,confirmed controlled-joint-02
+D03,Produce a manufacturing drawing,introductory card authored,confirmed controlled-joint-02
+A01,Calculate transmission ratio and direction,introductory card authored,confirmed controlled-joint-02
+C05,Generate bounded joint trajectories,introductory card authored,confirmed controlled-joint-02
+S02,Create a reproducible software build,introductory card authored,confirmed controlled-joint-02
+B-D06,Apply a stated design margin,introductory card authored,confirmed controlled-joint-02
+B-D08,Estimate temperature rise with a lumped model,introductory card authored,confirmed repeatable-work-system-06
+B-E09,Interpret PWM duty and period,introductory card authored,confirmed controlled-joint-02
+B-E10,Predict continuity of inductor current,introductory card authored,confirmed controlled-joint-02
+B-E06,Model a battery with stated limits,introductory card authored,confirmed controlled-joint-02
+B-E07,Use a diode as a directional circuit element,introductory card authored,confirmed controlled-joint-02
+B-E08,Use a transistor as a controlled switch,introductory card authored,confirmed controlled-joint-02
+E02,Solve and measure a resistive interface,introductory card authored,confirmed controlled-joint-02
+K02,Construct and check rotation matrices,introductory card authored,confirmed complete-arm-03
+A03,Estimate planar gravity holding torque,introductory card authored,confirmed controlled-joint-02
+B-D05,Apply a supplied beam stress and deflection model,introductory card authored,confirmed controlled-joint-02
+B-P07,"Relate shaft torque, speed and mechanical power",introductory card authored,confirmed controlled-joint-02
+R-M04,Interpret Gaussian state uncertainty and covariance,introductory card authored,confirmed wheeled-robot-04
+P01,Calibrate a scalar sensor,introductory card authored,confirmed controlled-joint-02
+D08,Select bearings and shaft supports,introductory card authored,confirmed controlled-joint-02
+D04,Measure and inspect a part,introductory card authored,confirmed controlled-joint-02
+D05,Plan and execute a fabrication process,introductory card authored,confirmed controlled-joint-02
+A05,Refer inertia through a gearbox,introductory card authored,confirmed controlled-joint-02
+S01,Write a small numerical robotics program,introductory card authored,confirmed controlled-joint-02
+S10,Create logs and replayable tests,introductory card authored,confirmed controlled-joint-02
+D07,Select and document fasteners,introductory card authored,confirmed controlled-joint-02
+R-E01,Connect a specified digital communication interface,introductory card authored,confirmed controlled-joint-02
+R-E02,Interpret encoder channels and count conventions,introductory card authored,confirmed controlled-joint-02
+E08,Explain inductive current paths,introductory card authored,confirmed controlled-joint-02
+E04,Design a low-voltage power budget,introductory card authored,confirmed controlled-joint-02
+B-E11,Evaluate a simple RC input filter,introductory card pending,confirmed structure map
+K03,"Apply, compose and invert rigid transforms",introductory card authored,confirmed complete-arm-03
+K12,Compare orientation representations,introductory card authored,confirmed complete-arm-03
+G01,Estimate grasp and contact requirements,introductory card authored,confirmed complete-arm-03
+D09,Evaluate member stress and deflection,introductory card authored,confirmed controlled-joint-02
+A02,Calculate transmitted torque and losses,introductory card authored,confirmed controlled-joint-02
+P03,Model noise and covariance,introductory card authored,confirmed wheeled-robot-04
+D06,Design an assembly tolerance stack,introductory card authored,confirmed controlled-joint-02
+S06,Define robot messages and coordinate conventions,introductory card authored,confirmed complete-arm-03
+S07,Implement a robot behavior state machine,introductory card authored,confirmed controlled-joint-02
+S11,Validate a simulation model,introductory card pending,confirmed structure map
+V03,Evaluate accuracy and repeatability,introductory card authored,confirmed controlled-joint-02
+A08,Convert encoder counts to joint motion,introductory card authored,confirmed controlled-joint-02
+E09,Interpret motor-driver states,introductory card authored,confirmed controlled-joint-02
+E05,Specify wiring and protection,introductory card authored,confirmed controlled-joint-02
+E11,Evaluate thermal operation,introductory card authored,confirmed repeatable-work-system-06
+E07,Condition a sensor signal,introductory card pending,confirmed structure map
+K05,Solve planar two-link forward kinematics,introductory card authored,Edition 07 package; integration pending
+K08,Implement general serial-arm forward kinematics,introductory card authored,confirmed complete-arm-03
+P06,Process depth and range observations,introductory card authored,confirmed wheeled-robot-04
+R-P02,Project a point with a calibrated pinhole model,introductory card authored,confirmed mobile-manipulation-05
+R-K01,Measure orientation error for numerical pose solving,introductory card authored,confirmed complete-arm-03
+S12,Restrict and recover remote robot access,introductory card pending,confirmed structure map
+D10,Select robot materials and processes,introductory card authored,confirmed controlled-joint-02
+N10,Check mobile stability and traction,introductory card authored,confirmed wheeled-robot-04
+K09,Represent spatial motion and force,introductory card authored,confirmed complete-arm-03
+N01,Model differential-drive motion,introductory card authored,confirmed wheeled-robot-04
+E06,Build and inspect a wiring harness,introductory card authored,confirmed controlled-joint-02
+K06,Solve and verify planar inverse kinematics,introductory card authored,Edition 07 package; integration pending
+G03,Represent collision geometry and clearance,introductory card authored,confirmed complete-arm-03
+N04,Represent maps and robot footprint,introductory card authored,confirmed wheeled-robot-04
+S03,Program basic MCU input and output,introductory card authored,confirmed controlled-joint-02
+R-M06,Represent and discretize a linear dynamical model,introductory card authored,confirmed wheeled-robot-04
+D11,Assemble and inspect a joint module,introductory card authored,confirmed controlled-joint-02
+A04,Estimate single-axis acceleration torque,introductory card authored,confirmed controlled-joint-02
+E10,Diagnose supply and interference faults,introductory card authored,confirmed complete-arm-03
+N06,Plan a feasible grid route,introductory card authored,confirmed wheeled-robot-04
+S04,Acquire timed sensor data,introductory card authored,confirmed controlled-joint-02
+S05,Implement a device communication interface,introductory card authored,confirmed controlled-joint-02
+R-M03,Differentiate trigonometric rotation expressions,introductory card authored,confirmed complete-arm-03
+P08,Implement a state estimator,introductory card authored,confirmed wheeled-robot-04
+A09,Measure backlash and compliance,introductory card authored,confirmed controlled-joint-02
+A06,Select an actuator for a duty cycle,introductory card authored,confirmed controlled-joint-02
+E12,Design and inspect a simple interface PCB,introductory card pending,confirmed structure map
+C01,Evaluate sampled feedback and error sign,introductory card authored,confirmed controlled-joint-02
+N02,Integrate wheel odometry,introductory card authored,confirmed wheeled-robot-04
+P02,Align and timestamp sensor streams,introductory card authored,confirmed wheeled-robot-04
+S08,Implement bounded fault response,introductory card authored,confirmed controlled-joint-02
+S09,Measure execution budgets and concurrency,introductory card authored,confirmed complete-arm-03
+K07,Calculate and test a planar Jacobian,introductory card authored,Edition 07 package; integration pending
+K10,Compute a spatial Jacobian,introductory card authored,confirmed complete-arm-03
+R-M05,Solve a small nonlinear least-squares problem,introductory card authored,confirmed mobile-manipulation-05
+A07,Match a motor to its driver,introductory card authored,confirmed controlled-joint-02
+N03,Calibrate wheel geometry,introductory card authored,confirmed wheeled-robot-04
+P07,Estimate orientation from inertial data,introductory card pending,confirmed structure map
+P09,Fuse nonlinear mobile-robot measurements,introductory card authored,confirmed wheeled-robot-04
+V01,Commission a subsystem in stages,introductory card authored,confirmed controlled-joint-02
+K11,Solve numerical inverse kinematics,introductory card authored,confirmed complete-arm-03
+P04,Calibrate a camera model,introductory card authored,confirmed mobile-manipulation-05
+P10,Identify robot calibration parameters,introductory card authored,confirmed mobile-manipulation-05
+X01,Model coupled multi-joint dynamics,introductory card pending,confirmed structure map
+D12,Validate a structural model,introductory card pending,confirmed structure map
+A10,Specify holding and power-loss behavior,introductory card authored,confirmed controlled-joint-02
+A11,Identify a simple actuator model,introductory card pending,confirmed structure map
+C02,Implement bounded proportional control,introductory card authored,confirmed controlled-joint-02
+G02,Design and build a simple gripper,introductory card authored,confirmed complete-arm-03
+N05,Localize against a known map,introductory card authored,confirmed wheeled-robot-04
+V02,Verify interfaces under fault injection,introductory card authored,confirmed complete-arm-03
+C07,Analyze a linear control model,introductory card pending,confirmed structure map
+R-X02,Define and evaluate a reinforcement-learning task,introductory card pending,confirmed structure map
+G04,Plan and time an arm motion,introductory card authored,confirmed complete-arm-03
+P05,Estimate a known object's pose,introductory card authored,confirmed mobile-manipulation-05
+V04,Demonstrate stop and restart behavior,introductory card authored,confirmed controlled-joint-02
+C03,Implement practical PID behavior,introductory card authored,confirmed controlled-joint-02
+C04,Measure tracking and transient performance,introductory card authored,confirmed controlled-joint-02
+G07,Select a mobile base pose for reaching,introductory card authored,confirmed mobile-manipulation-05
+N09,Evaluate a SLAM pipeline,introductory card pending,confirmed structure map
+V05,Diagnose integrated failures,introductory card authored,confirmed complete-arm-03
+C08,"Evaluate sampling, delay and noise",introductory card pending,confirmed structure map
+C09,Design state feedback and an observer,introductory card pending,confirmed structure map
+G05,Transform perception into a grasp target,introductory card authored,confirmed mobile-manipulation-05
+X05,Evaluate learned robot perception,introductory card pending,confirmed structure map
+V06,Run reliability and duty-cycle trials,introductory card authored,confirmed repeatable-work-system-06
+C06,Add model-based feedforward,introductory card pending,confirmed structure map
+N07,Track a mobile path,introductory card authored,confirmed wheeled-robot-04
+C10,Coordinate multiple joint controllers,introductory card authored,confirmed complete-arm-03
+I01,Integrate and verify a controlled joint,introductory card authored,confirmed controlled-joint-02
+X02,Implement force or impedance control,introductory card pending,confirmed structure map
+X04,Apply model-predictive control,introductory card pending,confirmed structure map
+X10,"Future specialization scope: legged, humanoid or aerial systems","roadmap note, not assessed",confirmed structure map
+R-X01,Define and evaluate an imitation-learning task,introductory card pending,confirmed structure map
+V07,Document service and handover,introductory card authored,confirmed repeatable-work-system-06
+N08,Respond to changing obstacles,introductory card authored,confirmed wheeled-robot-04
+G06,Coordinate a pick-and-place task,introductory card authored,confirmed mobile-manipulation-05
+I02,Integrate and verify a robot arm,introductory card authored,confirmed complete-arm-03
+X09,Develop compliant or dexterous manipulation,introductory card pending,confirmed structure map
+X06,Compare learned policies with nonlearned baselines,introductory card pending,confirmed structure map
+I03,Integrate and verify an autonomous wheeled robot,introductory card authored,confirmed wheeled-robot-04
+G08,Coordinate navigation and manipulation,introductory card authored,confirmed mobile-manipulation-05
+X07,Coordinate multiple mobile robots,introductory card pending,confirmed structure map
+I04,Integrate a perception-guided mobile manipulator,introductory card authored,confirmed mobile-manipulation-05
+I05,Verify a repeatable robotic work system,introductory card authored,confirmed repeatable-work-system-06
+X03,Coordinate base and arm motion simultaneously,introductory card pending,confirmed structure map
+X08,Design a human-facing robot interaction,introductory card pending,confirmed structure map
+P11,Detect an inconsistent measurement innovation,introductory card authored,Edition 07 package; integration pending
+A12,Distinguish coupling misalignment from backlash,introductory card authored,Edition 07 package; integration pending

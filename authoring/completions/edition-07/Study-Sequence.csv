@@ -1,0 +1,9 @@
+Order,Planning ID,Name,Requires
+1,m-inverse,Inverse functions,m-function m-equation
+2,m-invtrig,Inverse trigonometry and quadrants,m-trig m-inverse
+3,p-work,Work by a constant force,p-newton m-dot
+4,K05,Solve planar two-link forward kinematics,K03 K04 m-unitcircle
+5,K06,Solve and verify planar inverse kinematics,K05 m-invtrig
+6,K07,Calculate and test a planar Jacobian,K05 m-partial R-M03 R-M02
+7,P11,Detect an inconsistent measurement innovation,P08
+8,A12,Distinguish coupling misalignment from backlash,A09 D08
