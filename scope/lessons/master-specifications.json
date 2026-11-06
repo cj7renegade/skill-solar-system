@@ -1,0 +1,1374 @@
+{
+  "status": "draft for JC at Checkpoint A; nothing is built from this file until JC approves it",
+  "drafted": "2026-11-06",
+  "baseMap": {
+    "file": "Maps/Robotics-Atlas.json",
+    "sha256": "7c4186556c58fe6549aed80aac5caedb1630d5371118768f4b0800598375892a"
+  },
+  "note": "One entry per master-only skill on the I05 path, in the reviewed specification's format. name and requires are the map's own; the assessment wording is V3's for the stated mode; runtime_identity.master_skill marks an entry the importer matches by the skill's own id, because these skills have no planning id.",
+  "entries": [
+    {
+      "id": "sss-rob-serial-dof",
+      "branch": "Frames and kinematics foundations",
+      "name": "Count independent coordinates of an unconstrained serial joint chain",
+      "requires": [],
+      "demonstration": "Count the configuration coordinates of stated fixed-base open chains of revolute and prismatic joints, label each as an angle or a translation, and identify a stated case (a closed loop or a coupled joint) where the counting rule does not apply.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 0,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Count the configuration coordinates of stated fixed-base open chains of revolute and prismatic joints, label each as an angle or a translation, and identify a stated case (a closed loop or a coupled joint) where the counting rule does not apply.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Count independent coordinates of an unconstrained serial joint chain",
+        "completion_evidence": "Count the configuration coordinates of stated fixed-base open chains of revolute and prismatic joints, label each as an angle or a translation, and identify a stated case (a closed loop or a coupled joint) where the counting rule does not apply.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-serial-dof",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "p-charge",
+      "branch": "Fields, waves, and light",
+      "name": "Electric charge and conservation",
+      "requires": [
+        "p-model"
+      ],
+      "demonstration": "Track charge through stated transfers between objects and around a circuit using conservation and whole multiples of e, and explain why a circuit converts energy rather than consuming charge.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 3,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Track charge through stated transfers between objects and around a circuit using conservation and whole multiples of e, and explain why a circuit converts energy rather than consuming charge.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Electric charge and conservation",
+        "completion_evidence": "Track charge through stated transfers between objects and around a circuit using conservation and whole multiples of e, and explain why a circuit converts energy rather than consuming charge.",
+        "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "p-charge",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-frame-labels",
+      "branch": "Frames and kinematics foundations",
+      "name": "Label the reference frame of a robot position or direction",
+      "requires": [
+        "m-vector"
+      ],
+      "demonstration": "Label the frame of each coordinate tuple in a stated multi-sensor scenario, flag every comparison between tuples in different frames, and explain how different coordinates can describe the same unmoved object.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 7,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Label the frame of each coordinate tuple in a stated multi-sensor scenario, flag every comparison between tuples in different frames, and explain how different coordinates can describe the same unmoved object.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Label the reference frame of a robot position or direction",
+        "completion_evidence": "Label the frame of each coordinate tuple in a stated multi-sensor scenario, flag every comparison between tuples in different frames, and explain how different coordinates can describe the same unmoved object.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-frame-labels",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-joint-conventions",
+      "branch": "Frames and kinematics foundations",
+      "name": "Specify joint order, zero references, signs, and units for a configuration",
+      "requires": [
+        "sss-rob-serial-dof",
+        "m-radian"
+      ],
+      "demonstration": "Write a configuration vector with joint order, units, positive directions and zero references for a stated arm, and convert its joint angles between relative and absolute form.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 7,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Write a configuration vector with joint order, units, positive directions and zero references for a stated arm, and convert its joint angles between relative and absolute form.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Specify joint order, zero references, signs, and units for a configuration",
+        "completion_evidence": "Write a configuration vector with joint order, units, positive directions and zero references for a stated arm, and convert its joint angles between relative and absolute form.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-joint-conventions",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-rotation-columns",
+      "branch": "Frames and kinematics foundations",
+      "name": "Construct a rotation matrix from one frame’s axes expressed in another",
+      "requires": [
+        "sss-rob-frame-labels",
+        "m-matrix"
+      ],
+      "demonstration": "Build R_AB from frame B's unit axes expressed in frame A, use it to convert stated B components into A components, and show that swapping the frame labels gives the transpose.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 8,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Build R_AB from frame B's unit axes expressed in frame A, use it to convert stated B components into A components, and show that swapping the frame labels gives the transpose.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Construct a rotation matrix from one frame’s axes expressed in another",
+        "completion_evidence": "Build R_AB from frame B's unit axes expressed in frame A, use it to convert stated B components into A components, and show that swapping the frame labels gives the transpose.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-rotation-columns",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-task-coordinates",
+      "branch": "Frames and kinematics foundations",
+      "name": "Distinguish joint configuration, task coordinates, and reachable workspace",
+      "requires": [
+        "sss-rob-joint-conventions"
+      ],
+      "demonstration": "For stated targets, say whether each specifies position, orientation or both, distinguish it from a joint configuration, and explain why reaching a point does not guarantee every orientation there.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 8,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "For stated targets, say whether each specifies position, orientation or both, distinguish it from a joint configuration, and explain why reaching a point does not guarantee every orientation there.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Distinguish joint configuration, task coordinates, and reachable workspace",
+        "completion_evidence": "For stated targets, say whether each specifies position, orientation or both, distinguish it from a joint configuration, and explain why reaching a point does not guarantee every orientation there.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-task-coordinates",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "m-log",
+      "branch": "Algebra and functions",
+      "name": "Logarithms",
+      "requires": [
+        "m-expfunction",
+        "m-inverse"
+      ],
+      "demonstration": "Evaluate and rearrange logarithms using the definition, the product, quotient and power rules and change of base; state the domain restrictions; and reject the invalid split of log(x + y).",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 9,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Evaluate and rearrange logarithms using the definition, the product, quotient and power rules and change of base; state the domain restrictions; and reject the invalid split of log(x + y).",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Logarithms",
+        "completion_evidence": "Evaluate and rearrange logarithms using the definition, the product, quotient and power rules and change of base; state the domain restrictions; and reject the invalid split of log(x + y).",
+        "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "m-log",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-planar-reach",
+      "branch": "Frames and kinematics foundations",
+      "name": "Check the geometric position reach of an unrestricted planar two-link arm",
+      "requires": [
+        "sss-rob-task-coordinates",
+        "m-norm"
+      ],
+      "demonstration": "Test stated targets against |L1 - L2| <= r <= L1 + L2 for a planar two-link arm, and state what a passing test does not establish (joint limits, obstacles, tool orientation).",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 9,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Test stated targets against |L1 - L2| <= r <= L1 + L2 for a planar two-link arm, and state what a passing test does not establish (joint limits, obstacles, tool orientation).",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Check the geometric position reach of an unrestricted planar two-link arm",
+        "completion_evidence": "Test stated targets against |L1 - L2| <= r <= L1 + L2 for a planar two-link arm, and state what a passing test does not establish (joint limits, obstacles, tool orientation).",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-planar-reach",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-point-direction",
+      "branch": "Frames and kinematics foundations",
+      "name": "Apply translation to a point but not to a free displacement vector",
+      "requires": [
+        "sss-rob-rotation-columns"
+      ],
+      "demonstration": "Convert a point and a free displacement vector between frames with a stated rotation and translation, and show that the difference of two converted points rotates without the translation.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 9,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Convert a point and a free displacement vector between frames with a stated rotation and translation, and show that the difference of two converted points rotates without the translation.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Apply translation to a point but not to a free displacement vector",
+        "completion_evidence": "Convert a point and a free displacement vector between frames with a stated rotation and translation, and show that the difference of two converted points rotates without the translation.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-point-direction",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-rotation-check",
+      "branch": "Frames and kinematics foundations",
+      "name": "Check whether a supplied matrix represents a proper 3D rotation",
+      "requires": [
+        "sss-rob-rotation-columns"
+      ],
+      "demonstration": "Test stated 3x3 matrices for R^T R = I and det R = +1 within a stated tolerance, and classify each as a proper rotation, a reflection or a scaled matrix.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 9,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Test stated 3x3 matrices for R^T R = I and det R = +1 within a stated tolerance, and classify each as a proper rotation, a reflection or a scaled matrix.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Check whether a supplied matrix represents a proper 3D rotation",
+        "completion_evidence": "Test stated 3x3 matrices for R^T R = I and det R = +1 within a stated tolerance, and classify each as a proper rotation, a reflection or a scaled matrix.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-rotation-check",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "m-trigidentity",
+      "branch": "Geometry and trigonometry",
+      "name": "Trigonometric identities",
+      "requires": [
+        "m-unitcircle",
+        "m-like"
+      ],
+      "demonstration": "Simplify stated trigonometric expressions and prove stated identities using the Pythagorean, quotient, sum and double-angle identities, and check each result numerically at a test angle.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 10,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Simplify stated trigonometric expressions and prove stated identities using the Pythagorean, quotient, sum and double-angle identities, and check each result numerically at a test angle.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Trigonometric identities",
+        "completion_evidence": "Simplify stated trigonometric expressions and prove stated identities using the Pythagorean, quotient, sum and double-angle identities, and check each result numerically at a test angle.",
+        "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "m-trigidentity",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-compose",
+      "branch": "Frames and kinematics foundations",
+      "name": "Compose a chain of labeled rigid transforms in the correct order",
+      "requires": [
+        "sss-rob-point-direction",
+        "m-matrix"
+      ],
+      "demonstration": "Compose a labeled chain of rigid transforms as T_AC = T_AB T_BC in the correct order, and check the result with a point of known location.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 10,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compose a labeled chain of rigid transforms as T_AC = T_AB T_BC in the correct order, and check the result with a point of known location.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Compose a chain of labeled rigid transforms in the correct order",
+        "completion_evidence": "Compose a labeled chain of rigid transforms as T_AC = T_AB T_BC in the correct order, and check the result with a point of known location.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-compose",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-inverse",
+      "branch": "Frames and kinematics foundations",
+      "name": "Invert a rigid transform while rotating its translation correctly",
+      "requires": [
+        "sss-rob-point-direction",
+        "sss-rob-rotation-check"
+      ],
+      "demonstration": "Invert a stated rigid transform as rotation R^T and translation -R^T t, and verify it with a point round trip within a stated tolerance.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 10,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Invert a stated rigid transform as rotation R^T and translation -R^T t, and verify it with a point round trip within a stated tolerance.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Invert a rigid transform while rotating its translation correctly",
+        "completion_evidence": "Invert a stated rigid transform as rotation R^T and translation -R^T t, and verify it with a point round trip within a stated tolerance.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-inverse",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-planar-fk",
+      "branch": "Frames and kinematics foundations",
+      "name": "Calculate position and orientation of an ideal two-revolute-link planar arm",
+      "requires": [
+        "sss-rob-joint-conventions",
+        "m-unitcircle"
+      ],
+      "demonstration": "Compute the tip position and orientation of an ideal planar two-link arm for stated joint angles, and check the method with the straight and right-angle configurations.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 10,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compute the tip position and orientation of an ideal planar two-link arm for stated joint angles, and check the method with the straight and right-angle configurations.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Calculate position and orientation of an ideal two-revolute-link planar arm",
+        "completion_evidence": "Compute the tip position and orientation of an ideal planar two-link arm for stated joint angles, and check the method with the straight and right-angle configurations.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-planar-fk",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "p-electricfield",
+      "branch": "Fields, waves, and light",
+      "name": "Electric force and field",
+      "requires": [
+        "p-charge",
+        "p-newton"
+      ],
+      "demonstration": "Calculate the force between two point charges and the field of one or two point charges with its direction, and state the force on a charge of either sign placed in a given field.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 11,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Calculate the force between two point charges and the field of one or two point charges with its direction, and state the force on a charge of either sign placed in a given field.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Electric force and field",
+        "completion_evidence": "Calculate the force between two point charges and the field of one or two point charges with its direction, and state the force on a charge of either sign placed in a given field.",
+        "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "p-electricfield",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-planar-ik",
+      "branch": "Frames and kinematics foundations",
+      "name": "Calculate both regular inverse-kinematic branches of a planar two-link arm",
+      "requires": [
+        "sss-rob-planar-reach",
+        "m-invtrig",
+        "sss-rob-planar-fk"
+      ],
+      "demonstration": "Compute both regular inverse-kinematic branches for a reachable planar two-link target, and identify the boundary and degenerate cases where the formula needs special handling.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 11,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compute both regular inverse-kinematic branches for a reachable planar two-link target, and identify the boundary and degenerate cases where the formula needs special handling.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Calculate both regular inverse-kinematic branches of a planar two-link arm",
+        "completion_evidence": "Compute both regular inverse-kinematic branches for a reachable planar two-link target, and identify the boundary and degenerate cases where the formula needs special handling.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-planar-ik",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-tool-offset",
+      "branch": "Frames and kinematics foundations",
+      "name": "Include a fixed tool offset after the final link transform",
+      "requires": [
+        "sss-rob-compose"
+      ],
+      "demonstration": "Append a fixed link-to-tool transform to a chain and compute the tool point in the base frame, rotating a locally expressed offset before adding it.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 11,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Append a fixed link-to-tool transform to a chain and compute the tool point in the base frame, rotating a locally expressed offset before adding it.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Include a fixed tool offset after the final link transform",
+        "completion_evidence": "Append a fixed link-to-tool transform to a chain and compute the tool point in the base frame, rotating a locally expressed offset before adding it.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-tool-offset",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "p-potentialelectric",
+      "branch": "Fields, waves, and light",
+      "name": "Electric potential and voltage",
+      "requires": [
+        "p-electricfield",
+        "p-work"
+      ],
+      "demonstration": "Calculate energy transfers from potential differences with dU = q dV, relate a potential difference to a uniform field with dV = E d, and state the zero reference used.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 12,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Calculate energy transfers from potential differences with dU = q dV, relate a potential difference to a uniform field with dV = E d, and state the zero reference used.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Electric potential and voltage",
+        "completion_evidence": "Calculate energy transfers from potential differences with dU = q dV, relate a potential difference to a uniform field with dV = E d, and state the zero reference used.",
+        "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "p-potentialelectric",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-ik-verification",
+      "branch": "Frames and kinematics foundations",
+      "name": "Verify an inverse-kinematic candidate by forward substitution and joint limits",
+      "requires": [
+        "sss-rob-planar-ik"
+      ],
+      "demonstration": "Verify stated inverse-kinematic candidates by forward substitution and joint limits with stated tolerances, reject each failing candidate with its reason, and report which checks were and were not performed.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 12,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Verify stated inverse-kinematic candidates by forward substitution and joint limits with stated tolerances, reject each failing candidate with its reason, and report which checks were and were not performed.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Verify an inverse-kinematic candidate by forward substitution and joint limits",
+        "completion_evidence": "Verify stated inverse-kinematic candidates by forward substitution and joint limits with stated tolerances, reject each failing candidate with its reason, and report which checks were and were not performed.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-ik-verification",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "m-transdiff",
+      "branch": "Calculus",
+      "name": "Trigonometric and exponential derivatives",
+      "requires": [
+        "m-chain",
+        "m-log",
+        "m-trigidentity"
+      ],
+      "demonstration": "Differentiate exponential, logarithmic and trigonometric functions, with the chain rule, keeping angles in radians, and explain the factor that appears when an angle is measured in degrees.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 14,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Differentiate exponential, logarithmic and trigonometric functions, with the chain rule, keeping angles in radians, and explain the factor that appears when an angle is measured in degrees.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Trigonometric and exponential derivatives",
+        "completion_evidence": "Differentiate exponential, logarithmic and trigonometric functions, with the chain rule, keeping angles in radians, and explain the factor that appears when an angle is measured in degrees.",
+        "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "m-transdiff",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-position-jacobian",
+      "branch": "Frames and kinematics foundations",
+      "name": "Derive the Cartesian position Jacobian of a planar two-link arm",
+      "requires": [
+        "sss-rob-planar-fk",
+        "m-partial",
+        "m-transdiff"
+      ],
+      "demonstration": "Derive the 2x2 position Jacobian of a planar two-link arm by partial differentiation of the forward-kinematics equations, and state what its rows and columns mean.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 15,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Derive the 2x2 position Jacobian of a planar two-link arm by partial differentiation of the forward-kinematics equations, and state what its rows and columns mean.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Derive the Cartesian position Jacobian of a planar two-link arm",
+        "completion_evidence": "Derive the 2x2 position Jacobian of a planar two-link arm by partial differentiation of the forward-kinematics equations, and state what its rows and columns mean.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-position-jacobian",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-joint-to-tip-rate",
+      "branch": "Frames and kinematics foundations",
+      "name": "Calculate instantaneous planar tip velocity from joint rates",
+      "requires": [
+        "sss-rob-position-jacobian",
+        "m-matrix"
+      ],
+      "demonstration": "Calculate the tip velocity from stated joint rates by evaluating the position Jacobian at the current configuration, and show that the same rates give a different velocity at another configuration.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 16,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Calculate the tip velocity from stated joint rates by evaluating the position Jacobian at the current configuration, and show that the same rates give a different velocity at another configuration.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Calculate instantaneous planar tip velocity from joint rates",
+        "completion_evidence": "Calculate the tip velocity from stated joint rates by evaluating the position Jacobian at the current configuration, and show that the same rates give a different velocity at another configuration.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-joint-to-tip-rate",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    },
+    {
+      "id": "sss-rob-planar-singularity",
+      "branch": "Frames and kinematics foundations",
+      "name": "Identify lost instantaneous motion directions at a planar arm singularity",
+      "requires": [
+        "sss-rob-joint-to-tip-rate"
+      ],
+      "demonstration": "Identify the singular configurations of a planar two-link arm from det J = L1 L2 sin(q2), and describe which instantaneous tip motion is lost there and which remains.",
+      "kind": "foundation",
+      "origin": "master skill on the I05 path, core lessons edition 08",
+      "tier": "core",
+      "existing_candidates": [],
+      "proficiency80": null,
+      "migration": "Existing master skill; its id, text and answer are unchanged.",
+      "dependency_depth": 17,
+      "path_role": "core endpoint path",
+      "feeds_milestones": [
+        "I02",
+        "I04",
+        "I05"
+      ],
+      "planning_only": true,
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Identify the singular configurations of a planar two-link arm from det J = L1 L2 sin(q2), and describe which instantaneous tip motion is lost there and which remains.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "scope_contract": {
+        "learning_target": "Identify lost instantaneous motion directions at a planar arm singularity",
+        "completion_evidence": "Identify the singular configurations of a planar two-link arm from det J = L1 L2 sin(q2), and describe which instantaneous tip motion is lost there and which remains.",
+        "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+      },
+      "review": {
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
+        "decision": "proposed",
+        "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
+      },
+      "runtime_identity": {
+        "proposed_id": "sss-rob-planar-singularity",
+        "source_candidate_id": null,
+        "approved_equivalent_to_source": false,
+        "family": "sss-robotics-foundations-2026-09",
+        "proficiency80": null,
+        "master_skill": true
+      },
+      "lesson_status": "scope and assessment specified; full lesson authoring pending"
+    }
+  ]
+}
