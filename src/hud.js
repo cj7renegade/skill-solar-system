@@ -61,7 +61,8 @@ export function renderHud(host, { graph, state, palette, reviewCount, el, action
   const byId = state.index.byId, targetNode = byId.get(target);
   const picker = el('select', { id: 'hud-target', ariaLabel: 'Active target milestone', title: 'The milestone you are working toward. Progress and Next up follow it.', onchange: e => actions.setTarget(e.target.value) },
     ...chain.map(m => el('option', { value: m.id, text: `${isProficient(m) ? '✓ ' : ''}${m.name}`, selected: m.id === target })));
-  host.append(el('div', { class: 'hud-label', text: 'Working toward' }), picker);
+  host.append(el('div', { class: 'hud-label', text: 'Working toward' }), el('div', { class: 'hud-target-row' }, picker,
+    el('button', { id: 'hud-path', class: 'hud-path', text: 'Path', title: `Show the path to ${targetNode.name}: what is left, in study order`, onclick: () => actions.pathTo(target) })));
 
   host.append(el('div', { class: 'hud-row' }, el('span', { class: 'hud-row-label', text: 'Progress to target' }), el('span', { class: 'hud-percent', text: `${progress.percent}%` })),
     bar(progress.percent, `Progress to ${targetNode.name}`),

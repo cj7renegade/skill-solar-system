@@ -55,7 +55,7 @@ try {
   const settled = () => app.waitFor(`!/saving/.test(document.getElementById('sync-state').textContent)`);
   const selectByName = async name => { await evaluate(`(()=>{const n=${JSON.stringify(name)};[...document.querySelectorAll('.node-item')].find(b=>b.textContent===n).click()})()`); await sleep(250); };
   const selectById = id => selectByName(byId.get(id).name);
-  const openCardNamed = async name => { await selectByName(name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.textContent==='Read subject details').click()`); await sleep(300); };
+  const openCardNamed = async name => { await selectByName(name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(300); };
   const openCard = id => openCardNamed(byId.get(id).name);
   const cardText = () => evaluate(`document.getElementById('details-body').innerText`);
   const sectionTitles = () => evaluate(`[...document.querySelectorAll('#details-body details.lesson-section>summary')].map(s=>s.textContent)`);

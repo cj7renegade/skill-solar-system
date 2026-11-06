@@ -154,7 +154,7 @@ try {
   await keep('03-reopened');
 
   // The card itself offers the same control, on the same chain.
-  await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.textContent==='Read subject details').click()`); await sleep(400);
+  await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(400);
   check('the subject card offers the same control', await evaluate(`!!document.querySelector('#details-body button.chain-open')`));
   await evaluate(`document.querySelector('#details-body button.chain-open').click()`); await sleep(400);
   check('opening it from the card shows the same chain', await chainOpen() && (await rows()).length === expectedChain.length);

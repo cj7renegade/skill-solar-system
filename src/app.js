@@ -17,6 +17,9 @@ import { createTour } from './tour.js';
 import { undoLimit, trimHistory } from './history.js';
 import { renderHud, learnerState, activeTarget, storeTarget, reviewLeft } from './hud.js';
 import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
+import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from './learner.js';
+import { planLayout, renderPlan } from './plan.js';
+import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -97,7 +100,7 @@ function commit(mutator,status,source='edit',{share=true}={}){
 }
 function replace(next,status){
   listActivation.reset();closeDetails();
-  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
+  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);pathTarget=null;planOpen=false;$('plan-view').hidden=true;const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
 }
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
@@ -105,9 +108,10 @@ function render(){
   $('dirty').textContent=dirty?'Local draft · save to file':'Saved to file';
   $('map-name').textContent=graph.title||'Untitled map';
   $('layout-help').textContent=isHelixMap(graph)?HELIX_LAYOUT_HELP:SPIRAL_LAYOUT_HELP;
-  $('layout-summary').textContent=isHelixMap(graph)?'Upward: helix level · Around: course · Proficiency is separate':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
-  viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
-  renderLearner();
+  $('layout-summary').title=isHelixMap(graph)?'Height is the helix level: 1 + 3 × the longest chain of prerequisites below a skill. It shows how much rests underneath, not how hard the skill is, and it is separate from your proficiency.':'';
+  $('layout-summary').textContent=isHelixMap(graph)?'Height: helix level (longest prerequisite chain, not difficulty) · Around: course':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
+  viewer?.path(pathState()?.remaining??null,false);viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
+  renderLearner();renderPathCard();if(planOpen)renderPlanView();
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
 }
@@ -119,20 +123,89 @@ function renderLearner(){
   const state=learner();
   renderHud($('hud'),{graph,state,palette:palette(),reviewCount:reviewLeft(safeStorage,graph),el,actions:{
     setTarget:id=>{storeTarget(safeStorage,graph,id);render();message(`Working toward ${graph.nodes.find(n=>n.id===id)?.name}.`);},
-    select:flyTo,openReview:()=>review.open()}});
-  viewer?.frontier(state.frontier);
+    select:flyTo,openReview:()=>review.open(),pathTo:id=>setPath(id)}});
+  viewer?.frontier(state.frontier);viewer?.target(state.target);viewer?.keep(state.next.slice(0,8).map(x=>x.node.id));
 }
+// --- Path mode ----------------------------------------------------------------------------------
+// "Path to…" any skill or milestone: the remaining path stays lit on the map, everything else dims,
+// and a card lists what is left in a valid study order. Display state only; Esc or Exit leaves it.
+let pathTarget=null,planOpen=false;
+const pathCache=new WeakMap();
+function pathState(){
+  if(!pathTarget||!graph.nodes.some(n=>n.id===pathTarget))return null;
+  let byTarget=pathCache.get(graph);if(!byTarget)pathCache.set(graph,byTarget=new Map());
+  if(!byTarget.has(pathTarget)){
+    const index=learner().index,remaining=remainingPath(graph,pathTarget,index);
+    byTarget.set(pathTarget,{target:index.byId.get(pathTarget),remaining,order:studyOrder(graph,remaining,index),hours:totalHours(graph,remaining,index),
+      courses:new Set([...remaining].map(id=>{const n=index.byId.get(id);return n.courseCode??n.domain;})).size});
+  }
+  return byTarget.get(pathTarget);
+}
+function setPath(id){
+  pathTarget=id;if(!id)closePlan();render();
+  const p=pathState();if(p&&p.remaining.size)viewer?.fit(false,new Set([...p.remaining,p.target.id]));
+  message(p?`Path mode: ${p.remaining.size} skills left to reach ${p.target.name}. Esc leaves path mode.`:'Path mode off.');
+}
+function renderPathCard(){
+  const card=$('path-card'),p=pathState();card.replaceChildren();card.hidden=!p;$('hud').classList.toggle('path-on',!!p);
+  if(!p)return;
+  const left=p.remaining.size;
+  card.append(el('div',{class:'hud-label',text:'Path mode'}),
+    el('p',{class:'path-summary',id:'path-summary',text:left?`To reach ${p.target.name}: ${left.toLocaleString('en')} skill${left===1?'':'s'} left · ${formatHours(p.hours)} · ${p.courses} course${p.courses===1?'':'s'}`:`${p.target.name} is already marked proficient.`}),
+    el('div',{class:'button-row'},el('button',{id:'plan-toggle',text:planOpen?'Hide 2D plan':'2D plan',ariaPressed:String(planOpen),disabled:!left,onclick:()=>planOpen?closePlan():openPlan()}),el('button',{id:'exit-path',text:'Exit path (Esc)',onclick:()=>setPath(null)})));
+  if(!left)return;
+  const steps=el('ol',{class:'path-steps',id:'path-steps'}),shown=p.order.slice(0,150),front=learner().frontier;
+  const byId=learner().index.byId;
+  for(const id of shown){const n=byId.get(id),b=el('button',{class:'path-step'+(id===selected?' selected':''),title:front.has(id)?`${n.name} · ready to study`:n.name,onclick:()=>flyTo(id)},el('span',{class:'hud-next-name',text:n.name}),el('span',{class:'hud-hours',text:formatHours(effortHours(graph,n))}));b.dataset.id=id;steps.append(el('li',{class:front.has(id)?'ready':''},b));}
+  card.append(el('div',{class:'hud-label',text:'Study order'}),steps);
+  if(p.order.length>shown.length)card.append(el('p',{class:'hud-detail',text:`…and ${(p.order.length-shown.length).toLocaleString('en')} more. The 2D plan shows them all.`}));
+}
+// The 2D plan: the current path, or the isolated course or family when there is no path.
+function planSet(){
+  const p=pathState();if(p)return {ids:p.remaining,title:`Path to ${p.target.name} · ${p.remaining.size} skills, columns = prerequisite depth, rows = course`};
+  if(isolation){const codes=isolation.kind==='family'?Object.keys(FAMILIES.find(f=>f.id===isolation.id).courses):[isolation.id];const ids=new Set(graph.nodes.filter(n=>codes.includes(n.courseCode)).map(n=>n.id));return {ids,title:`${isolation.kind==='family'?FAMILIES.find(f=>f.id===isolation.id).name:isolation.id} · ${ids.size} skills`};}
+  return null;
+}
+function openPlan(){if(!planSet())return;planOpen=true;renderPlanView();renderPathCard();$('plan-close').focus();}
+function closePlan(){if(!planOpen)return;planOpen=false;$('plan-view').hidden=true;renderPathCard();}
+function renderPlanView(){
+  const set=planSet();$('plan-view').hidden=!planOpen||!set;if(!planOpen||!set)return;
+  const index=learner().index,pal=palette(),front=learner().frontier;
+  $('plan-title').textContent=set.title;
+  renderPlan($('plan-body'),planLayout(graph,set.ids,index,helixCourses(graph).map(([code])=>code)),{title:set.title,frontier:front,selected,
+    colorOf:n=>nodeColor(n,proficiencyOn,pal),onSelect:id=>{selected=id;render();viewer?.fly(id);}});
+}
+$('plan-close').onclick=closePlan;
 function renderList(){
   const scrollTop=$('node-list').scrollTop;
   const query=$('search').value.trim().toLowerCase();$('node-list').replaceChildren();
-  const nodes=graph.nodes.filter(n=>n.name.toLowerCase().includes(query)).sort((a,b)=>a.name.localeCompare(b.name));
-  for(const n of nodes){const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn,palette());$('node-list').append(el('button',{class:'node-item'+(selected===n.id?' selected':''),onclick:event=>{const action=listActivation.click(n.id,event.clientX,event.clientY,performance.now());selected=n.id;render();viewer?.focus(n.id);if(action==='open'&&!editing)openDetails();}},dot,document.createTextNode(n.name)));}
-  if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No subjects found.'}));
+  // Ready to study first, then recently answered, then lowest level (panel.js); or A–Z.
+  const state=learner(),pal=palette();
+  const nodes=listOrder(graph.nodes.filter(n=>n.name.toLowerCase().includes(query)),{frontier:state.frontier,recent:recentAnswers(record,graph),mode:listSort});
+  for(const n of nodes){
+    const dot=el('span',{class:'dot'+(state.frontier.has(n.id)?' ready':'')});dot.style.background=nodeColor(n,proficiencyOn,pal);
+    const item=el('button',{class:'node-item'+(selected===n.id?' selected':''),title:state.frontier.has(n.id)?`${n.name} · ready to study`:n.name,onclick:event=>{const action=listActivation.click(n.id,event.clientX,event.clientY,performance.now());selected=n.id;render();viewer?.focus(n.id);if(action==='open'&&!editing)openDetails();}},dot,document.createTextNode(n.name));
+    item.dataset.name=n.name;$('node-list').append(item);
+  }
+  if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No skills found.'}));
   $('node-list').scrollTop=scrollTop;
+}
+// Facts about a selected skill as chips: course, level, stage, tier, effort and its state.
+function skillChips(n,state){
+  const pal=palette(),chips=el('div',{class:'skill-chips'});
+  const chip=(text,title,color)=>{const c=el('span',{class:'chip',text,title});if(color)c.style.setProperty('--chip',color);chips.append(c);};
+  if(n.courseCode)chip(n.course?`${n.courseCode} · ${n.course}`:n.courseCode,'Course',pal?.[n.courseCode]);else chip(n.domain,'Domain',DOMAINS[n.domain]);
+  if(isHelixMap(graph)&&n.helixLevel!=null)chip(`Helix level ${n.helixLevel}/${graph.layout.topLevel}`,'Height on the helix: 1 + 3 × the longest prerequisite chain below this skill');
+  else if(n.skillLevel!=null)chip(`Level ${n.skillLevel}/100`,LEVEL_NOTE);
+  if(n.buildStage!=null){const names=graph.metadata?.humanoidHelixImport?.buildStages||{};chip(`Stage ${n.buildStage}${names[n.buildStage]?` · ${names[n.buildStage]}`:''}`,'Build stage');}
+  const tier=tierOf(graph,n);if(tier)chip(tier,'Level of the skill on the path');
+  chip(formatHours(effortHours(graph,n)),'Rough study effort: an estimate from the skill\'s tier, doubled for hands-on practice');
+  if(n.proficiency80===true)chip('✓ Proficient','Your own answer',PROFICIENCY_COLORS.yes);else if(state.frontier.has(n.id))chip('Ready to study','Every prerequisite is marked proficient',FRONTIER_GLOW);
+  return chips;
 }
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
-  if(!n){panel.append(...[...emptyInspector.childNodes].map(n=>n.cloneNode(true)));return;}
+  if(!n){panel.classList.remove('collapsed');renderToday(panel,{graph,state:learner(),record,reviewCount:reviewLeft(safeStorage,graph),el,palette:palette(),actions:{select:flyTo,openReview:()=>review.open()}});return;}
   const cardToggle=el('button',{id:'inspector-toggle',text:panels.card?'▾':'▸',title:panels.card?'Collapse this subject card':'Expand this subject card',ariaLabel:panels.card?'Collapse this subject card':'Expand this subject card',onclick:()=>{panels.card=!panels.card;savePanels();inspect();}});
   cardToggle.setAttribute('aria-expanded',String(panels.card));
   const body=el('div',{class:'inspector-body'});
@@ -141,8 +214,15 @@ function inspect(){
   if(!editing){
     // A map that records one says whether this subject has an authored lesson, so the reader knows
     // what opening the card will show. It describes the content, never the reader's proficiency.
-    const status=contentStatusLine(n);
-    body.append(...[el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n)].filter(Boolean));
+    const status=contentStatusLine(n),state=learner(),taught=hasLesson(n);
+    body.append(...[skillChips(n,state),el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),
+      el('div',{class:'button-row skill-actions'},
+        el('button',{id:'open-details',text:taught?'Open lesson':'Read skill details',title:taught?'Open the lesson card':'Open the full description and connections',onclick:openDetails}),
+        el('button',{id:'path-to-selected',text:'Path to this',title:`Light up everything left to learn before ${n.name}`,onclick:()=>setPath(n.id)}),
+        el('button',{id:'fly-to-selected',text:'Fly to',title:`Fly the camera to ${n.name}`,onclick:()=>viewer?.fly(n.id)})),
+      el('h4',{class:'mini-title',text:'Prerequisites and what it unlocks'}),
+      miniGraph(n,{index:state.index,frontier:state.frontier,onSelect:flyTo}),
+      proficiencyControls(n)].filter(Boolean));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -155,7 +235,7 @@ function inspect(){
   const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes',selected:n.proficiency80===true}),el('option',{value:'no',text:'No',selected:n.proficiency80===false}));
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
-  body.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
+  body.append(field('Skill',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
   body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Subject updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its connections? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Subject deleted.');}})));
   body.append(el('h3',{text:'Connections'}));
   const links=graph.edges.filter(e=>e.source===n.id||e.target===n.id);
@@ -173,6 +253,11 @@ function inspect(){
 }
 $('edit-mode').onchange=e=>{listActivation.reset();closeDetails();editing=e.target.checked;render();message(editing?'Edit mode · Apply changes commits console edits.':'View mode · Select a subject to inspect.');};
 $('search').oninput=renderList;
+// The skill list's order: ready to study first (default) or A–Z, remembered on this computer.
+const LIST_SORT='skill-solar-system-list-sort';
+let listSort='suggested';try{listSort=localStorage.getItem(LIST_SORT)==='az'?'az':'suggested';}catch{}
+$('list-sort').value=listSort;
+$('list-sort').onchange=e=>{listSort=e.target.value==='az'?'az':'suggested';try{localStorage.setItem(LIST_SORT,listSort);}catch{}renderList();};
 // Find skill sits in the map tools, so searching still works when the console is hidden. It selects
 // and travels to a skill exactly as the console list does, and changes nothing in the map.
 let matches=[],activeMatch=-1;
@@ -279,10 +364,13 @@ function panStep(time){
 }
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();$('save').click();return;}
+  // Esc leaves the 2D plan, then path mode, even from a focused button; text fields and dialogs keep their own Esc.
+  if(e.key==='Escape'&&(planOpen||pathTarget)&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&!document.querySelector('dialog[open]')){e.preventDefault();if(planOpen)closePlan();else setPath(null);return;}
   if(typingOrReading())return;
   const direction=panDirection(e.key);
   if(direction&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();heldKeys.set(e.key.toLowerCase(),direction);if(panFrame===null){panClock=performance.now();panFrame=requestAnimationFrame(panStep);}}
-  if(e.key==='Escape'){selected=null;render();viewer?.fit();}
+  // Esc steps back one level: the 2D plan, then path mode, then the selection.
+  if(e.key==='Escape'){if(planOpen){closePlan();return;}if(pathTarget){setPath(null);return;}selected=null;render();viewer?.fit();}
 });
 document.addEventListener('keyup',e=>heldKeys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',stopPanning);

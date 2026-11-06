@@ -44,6 +44,25 @@ export function matchesHelixFilters(graph, node, filters = {}) {
 }
 export const activeFilters = filters => HELIX_FILTERS.filter(k => filters?.[k]);
 
+// Display only: wider gaps between the course bands. Each skill's angle is pulled toward the centre
+// of its course's sector at its height, so the bands read as separate ribbons. Saved positions never
+// change: the viewer applies this when drawing and inverts it when an edit-mode drag is stored.
+export const BAND_SQUEEZE = 0.7;
+function bandCentre(layout, courseCode, y) {
+  const order = layout?.courseOrder, index = order ? order.indexOf(courseCode) : -1;
+  if (index < 0 || !(layout.heightPerLevel > 0) || !(layout.topLevel > 1)) return null;
+  const t = Math.min(1, Math.max(0, y / layout.heightPerLevel / (layout.topLevel - 1)));
+  return index * 2 * Math.PI / order.length + t * (layout.turns ?? TURNS) * 2 * Math.PI;
+}
+export function bandView(graph, node, position = node.position, inverse = false, squeeze = BAND_SQUEEZE) {
+  if (!isHelixMap(graph) || node.nodeKind === 'milestone') return position;
+  const centre = bandCentre(graph.layout, node.courseCode, position[1]), radius = Math.hypot(position[0], position[2]);
+  if (centre === null || radius < 1e-6) return position;
+  const offset = ((Math.atan2(position[2], position[0]) - centre) % (2 * Math.PI) + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
+  const angle = centre + (inverse ? offset / squeeze : offset * squeeze);
+  return [Math.cos(angle) * radius, position[1], Math.sin(angle) * radius];
+}
+
 // The vertical range the vortex uses (100 levels x 64), kept for the helix so the camera, grid and
 // navigation scale exactly as on other maps: the top level sits at the same height as level 100.
 export const HELIX_HEIGHT = 99 * 64;

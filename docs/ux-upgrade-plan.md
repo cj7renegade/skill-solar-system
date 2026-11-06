@@ -57,6 +57,18 @@ in `Tasks/TASKS.md`.
   path (the Next up candidates), within the label budget. With nothing marked, the whole map has only
   5 frontier skills, but after some marking it can have hundreds.
 
+## Notes from the build
+
+- **Phases 3–6 share one commit.** Their viewer and app changes are interleaved (the draw loop, the
+  label pass and the inspector), so they could not be split into separate working states honestly.
+- **Level of detail only where it means something:** maps with at least 400 skills and at least 8
+  subjects, averaging 3 or more skills each. A map without subjects, such as the 625-sphere grid in
+  `tests/pan-e2e.mjs`, keeps every sphere.
+- **Off-screen nameplates** are positioned as before but are outside the label budget and the
+  overlap test, which govern only what is on screen. The pan test reads them.
+- **Esc** steps back one level at a time: from the 2D plan to path mode, then out of path mode, then
+  it clears the selection.
+
 ## Phases
 
 1. Learner HUD: compact card with the target selector, progress to target, overall progress, review,
@@ -87,6 +99,13 @@ of continuous drag, median fps (worst 5%).
 | 0 baseline | 0.85–0.89 s | 59.9 (59.5) | 59.9 (59.5) |
 | 1 HUD and frontier glow | 0.88–0.92 s | 59.9 (59.5) | not re-measured |
 | 2 colour system and course key | 0.92 s | 59.9 (59.5) | not re-measured |
+| 3 spine, rings, ruler, band labels | 1.04–1.12 s | 59.9 (59.5) | 59.9 (59.5) |
+| 4–5 level of detail, labels, path mode | 1.18–1.19 s | 59.9 (59.5) | 59.9 (59.5), opens in 0.62 s (0.49 s before) |
+| 6 right panel | 1.19–1.23 s | 59.9 (59.5) | not re-measured |
+
+Orbiting stays at the display's 60 Hz limit throughout, well above the 45 fps floor. Opening the helix
+map takes about 0.35 s longer than at baseline, because the HUD, clusters, structure and Today view are
+built when the map opens.
 
 ## Colour-blind check (phase 2)
 
