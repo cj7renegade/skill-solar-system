@@ -1,4 +1,4 @@
-# Creates (or refreshes) a "Skill Solar System" shortcut on the desktop with the app's icon.
+# Creates (or refreshes) a "HelixSkill" shortcut on the desktop with the app's icon.
 # It starts the app the same way Launch-Windows.cmd does (this project's Electron, this folder).
 # The shortcut carries the app's id (local.skillsolarsystem.atlas, set in desktop\main.cjs), so after
 # you pin it, the pinned icon and the running window share one taskbar button.
@@ -12,14 +12,17 @@ if (-not (Test-Path (Join-Path $project 'dist\app.js'))) { Write-Host 'The app i
 if (-not (Test-Path $icon)) { Write-Host "The icon is missing: $icon" -ForegroundColor Red; exit 1 }
 
 $desktop = [Environment]::GetFolderPath('Desktop')
-$link = Join-Path $desktop 'Skill Solar System.lnk'
+$link = Join-Path $desktop 'HelixSkill.lnk'
+# The shortcut from before the rename to HelixSkill points at the old project folder; remove it.
+$oldLink = Join-Path $desktop 'Skill Solar System.lnk'
+if (Test-Path $oldLink) { Remove-Item $oldLink }
 $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut($link)
 $shortcut.TargetPath = $electron
 $shortcut.Arguments = "`"$project`""
 $shortcut.WorkingDirectory = $project
 $shortcut.IconLocation = "$icon,0"
-$shortcut.Description = 'Skill Solar System: offline 3D skill atlas'
+$shortcut.Description = 'HelixSkill: offline 3D skill atlas'
 $shortcut.Save()
 
 # Stamp the shortcut with the app's id (System.AppUserModel.ID).
@@ -46,7 +49,7 @@ public static class ShortcutAppId {
 '@
 [ShortcutAppId]::Set($link, 'local.skillsolarsystem.atlas')
 
-$item = (New-Object -ComObject Shell.Application).NameSpace($desktop).ParseName('Skill Solar System.lnk')
+$item = (New-Object -ComObject Shell.Application).NameSpace($desktop).ParseName('HelixSkill.lnk')
 $id = $item.ExtendedProperty('System.AppUserModel.ID')
 Write-Host "Shortcut ready: $link"
 Write-Host "App id on shortcut: $id"

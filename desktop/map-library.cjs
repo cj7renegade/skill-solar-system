@@ -1,7 +1,7 @@
 // The maps offered in the "Your maps" dropdown: map files in the Maps folder and in its working
 // subfolders, one level down. Archive, backup and checkpoint folders are never listed: the copies
 // there carry stale answers, and opening one could copy those answers into the shared record.
-// Only files that start like a Skill Solar System map are listed, so reports and summaries are not.
+// Only files that start like a HelixSkill map are listed, so reports and summaries are not.
 const fs = require('node:fs/promises');
 const path = require('node:path');
 

@@ -85,7 +85,7 @@ test('records validate strictly and stay separate per atlas family', () => {
   const valid = validateRecord(good, 'test-family');
   assert.equal(valid.entries.m2.value, null);
   assert.throws(() => validateRecord(good, 'another-family'), /belongs to atlas family/);
-  assert.throws(() => validateRecord({ ...good, format: 'x' }), /not a Skill Solar System proficiency record/);
+  assert.throws(() => validateRecord({ ...good, format: 'x' }), /not a HelixSkill proficiency record/);
   assert.throws(() => validateRecord({ ...good, entries: { m1: { value: 'yes' } } }), /Yes, No, or Clear/);
   assert.throws(() => validateRecord({ ...good, family: '../x' }), /valid atlas family/);
   assert.throws(() => mergeImport(emptyRecord('test-family'), validateRecord({ ...good, family: 'other' })), /belongs to atlas family/);

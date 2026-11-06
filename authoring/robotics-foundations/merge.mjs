@@ -7,7 +7,7 @@ import { mergeBatch, batchSubmap } from '../batch.mjs';
 export { edgeKey, normalizeName, clearance } from '../batch.mjs';
 
 export const BATCH_FILE = new URL('./robotics-foundations-batch-01.json', import.meta.url);
-export const SUBMAP_TITLE = 'Skill Solar System / Robotics Foundations Batch 01 + prerequisites';
+export const SUBMAP_TITLE = 'HelixSkill / Robotics Foundations Batch 01 + prerequisites';
 export const EXPANSION = { edition: 'robotics-foundations-batch-01', version: '1.0', created: '2026-09-13', origin: 'sss-robotics-foundations-batch-01' };
 // Distinct from the atlas family id (sss-robotics-foundations-2026-09), which names the whole map
 // and its shared proficiency record. This key records only what this batch added.

@@ -4,7 +4,7 @@
 //
 //   SSS_V3_MAP=Maps/Robotics-v3/Robotics-v3-Lessons.json node tests/robotics-v3-e2e.mjs
 //
-// Set SSS_ATLAS to also confirm the original Skill Solar System map still opens, and SSS_SHOTS to
+// Set SSS_ATLAS to also confirm the original HelixSkill map still opens, and SSS_SHOTS to
 // a folder to keep screenshots.
 import { copyFileSync, readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
@@ -239,7 +239,7 @@ try {
     copyFileSync(process.env.SSS_ATLAS, atlas);
     const original = JSON.parse(readFileSync(atlas, 'utf8'));
     await open(atlas);
-    check('the original Skill Solar System map still opens', await nodeCount() === original.nodes.length, `${original.nodes.length} skills`);
+    check('the original HelixSkill map still opens', await nodeCount() === original.nodes.length, `${original.nodes.length} skills`);
     const plain = original.nodes.find(n => n.details && n.details.trim());
     await openCardNamed(plain.name);
     const plainCard = await cardText();

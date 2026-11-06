@@ -63,5 +63,5 @@ test('outside Electron the adapter keeps records in local storage and validates 
   await store.save('f', withAnswer('f', 'a', true));
   assert.equal((await store.load('f')).entries.a.value, true);
   data.set('skill-solar-system-proficiency:f', JSON.stringify({ format: 'wrong' }));
-  await assert.rejects(store.load('f'), /not a Skill Solar System proficiency record/);
+  await assert.rejects(store.load('f'), /not a HelixSkill proficiency record/);
 });

@@ -3,7 +3,7 @@
 #
 #   Copies   <project>\Maps\                    -> <backup>\Maps\
 #            %APPDATA%\skill-solar-system\      -> <backup>\skill-solar-system\
-#   Into     %OneDrive%\Skill Solar System Backups\<yyyy-MM-dd_HHmmss>\
+#   Into     %OneDrive%\HelixSkill Backups\<yyyy-MM-dd_HHmmss>\
 #
 # Every copied file is checked against its original by SHA-256. Only the 10 newest backup folders
 # are kept; older ones are removed, and only folders inside the backups folder whose names are a
@@ -19,8 +19,8 @@ function Fail($message) {
 }
 
 # The app writes to these folders while it is open, so a copy taken then could be half-written.
-$running = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -match '^(electron|Skill Solar System)' })
-if ($running.Count) { Fail 'the Skill Solar System app is open. Close it and run this again.' }
+$running = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -match '^(electron|HelixSkill|Skill Solar System)' })
+if ($running.Count) { Fail 'the HelixSkill app is open. Close it and run this again.' }
 
 if (-not $env:OneDrive) { Fail 'OneDrive is not set up on this account, so there is nowhere safe outside the project to put the backup.' }
 if (-not $env:APPDATA) { Fail 'the APPDATA folder could not be found.' }
@@ -32,7 +32,7 @@ $sources = @(
 )
 foreach ($source in $sources) { if (-not (Test-Path -LiteralPath $source.Path -PathType Container)) { Fail "the folder $($source.Path) does not exist." } }
 
-$root = Join-Path $env:OneDrive 'Skill Solar System Backups'
+$root = Join-Path $env:OneDrive 'HelixSkill Backups'
 $stamp = Get-Date -Format 'yyyy-MM-dd_HHmmss'
 $destination = Join-Path $root $stamp
 if (Test-Path -LiteralPath $destination) { Fail "$destination already exists. Wait a second and run this again." }

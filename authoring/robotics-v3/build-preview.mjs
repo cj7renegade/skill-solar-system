@@ -153,7 +153,7 @@ export function buildPreview(spec, { today = new Date().toISOString().slice(0, 1
       // existing shared proficiency record can never be read or written by this map.
       atlasFamily: FAMILY,
       created: today,
-      compatibleApp: 'Skill Solar System v0.4; schemaVersion 1',
+      compatibleApp: 'HelixSkill v0.4; schemaVersion 1',
       scope: 'Preview of the reviewed robotics curriculum specification v3. Planning content only: no lesson has been authored for any entry.',
       proficiencyPolicy: 'Every entry starts unmarked. No source equivalence is approved, so no answer is inherited from the existing atlas.',
       sourceSpecification: 'Robotics-Reviewed-Specification.json',

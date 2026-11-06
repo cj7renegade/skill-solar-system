@@ -7,7 +7,7 @@ import { mergeBatch, batchSubmap } from '../batch.mjs';
 export { edgeKey, normalizeName, clearance } from '../batch.mjs';
 
 export const BATCH_FILE = new URL('./physics-foundations-batch-01.json', import.meta.url);
-export const SUBMAP_TITLE = 'Skill Solar System / Physics Foundations Batch 01 + prerequisites';
+export const SUBMAP_TITLE = 'HelixSkill / Physics Foundations Batch 01 + prerequisites';
 export const EXPANSION = { edition: 'physics-foundations-batch-01', version: '1.0', created: '2026-09-13', origin: 'sss-physics-foundations-batch-01' };
 // The atlas already carries a physicsExpansion record for the original Physics strand; this batch
 // keeps its own key so neither record is overwritten.

@@ -1,4 +1,4 @@
-# Skill Solar System
+# HelixSkill
 
 An offline desktop reference atlas that shows skills as a navigable 3D "solar system". Subjects are spheres; connections show how subjects relate. It is built with [Three.js](https://threejs.org/) for rendering and [Electron](https://www.electronjs.org/) for the desktop shell.
 
@@ -6,7 +6,7 @@ Current version: **0.4.0** (see [UPDATE-v0.4.0.md](UPDATE-v0.4.0.md) for the rel
 
 ## About the content
 
-Skill levels and prerequisite relationships in Skill Solar System are **authored reference information**. They are editorial judgments recorded in a map. They are not a standardized curriculum, an assessment, or a measure of difficulty.
+Skill levels and prerequisite relationships in HelixSkill are **authored reference information**. They are editorial judgments recorded in a map. They are not a standardized curriculum, an assessment, or a measure of difficulty.
 
 - **Reference level (1–100)** is a provisional rank derived from recorded prerequisite depth or entered by hand. It controls height in the spiral layout.
 - **Connections** come in three types:
@@ -321,7 +321,7 @@ tests/      Node test suite, Electron end-to-end checks, and optional Playwright
 
 ## Project status
 
-Skill Solar System is a personal project in active development at v0.4.0. Current status:
+HelixSkill is a personal project in active development at v0.4.0. Current status:
 
 - `npm run build` succeeds.
 - `npm test`: all 181 tests pass. Six real-atlas tests are skipped unless `SSS_ATLAS` is set.

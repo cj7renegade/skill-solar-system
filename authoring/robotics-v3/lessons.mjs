@@ -65,7 +65,10 @@ export function reconcileLesson(lesson, { specNode, node, edition }) {
     if (contractHash(specNode) !== lesson.node_contract_sha256) problems.push('node contract fingerprint does not match the reviewed specification');
   }
   if (specNode && node) {
-    if (node.name !== specNode.name) problems.push(`the map node is named "${node.name}", the specification says "${specNode.name}"`);
+    // On the merged atlas an approved same-ability entry lives on a master skill that keeps its own
+    // name (scope/merge/crosswalk.json); the node records that with mergedFrom.
+    const approvedSameAbility = node.mergedFrom !== undefined && node.mergedFrom === lesson.proposed_runtime_id;
+    if (node.name !== specNode.name && !approvedSameAbility) problems.push(`the map node is named "${node.name}", the specification says "${specNode.name}"`);
     if (node.planningId !== lesson.id) problems.push(`the map node carries planning id ${node.planningId}, the lesson claims ${lesson.id}`);
   }
   if (lesson.proficiency_write !== false) problems.push('the lesson requests a proficiency write; this importer never writes answers');
@@ -104,15 +107,23 @@ export function evidenceFor(lesson, overrides = {}) {
 // Applies every lesson that reconciles cleanly. Returns a new graph; the input is not modified.
 // An entry that already carries an authored lesson is compared, never silently replaced: if the
 // supplied edition would change it, the existing record is kept and the difference is reported.
-export function applyLessons(graph, { spec, editions, evidenceOverrides = {} }) {
+//
+// Two targets: the V3 export (the default), and the merged Robotics Atlas (`merged: true`), where a
+// shared skill keeps its master id, so a lesson finds its node by planning id; skills without a
+// planning id are master skills outside V3 and are passed through untouched; and the atlas keeps
+// its own title, scope and datasetKey. On the V3 export every node has planningId = its id without
+// "rob3:", so both lookups find the same node.
+export function applyLessons(graph, { spec, editions, evidenceOverrides = {}, merged = false }) {
   const specNodes = new Map(spec.nodes.map(n => [n.id, n]));
   const byRuntimeId = new Map(graph.nodes.map(n => [n.id, n]));
+  const byPlanningId = new Map(graph.nodes.filter(n => n.planningId).map(n => [n.planningId, n]));
+  const nodeFor = lesson => merged ? byPlanningId.get(lesson.id) : byRuntimeId.get(lesson.proposed_runtime_id);
   const reconciled = [], apply = new Map(), seen = new Map();
   const superseded = [], evidence = { lesson: 0, overrides: 0, missing: [] };
 
   for (const { metadata, lessons } of editions) {
     for (const lesson of lessons) {
-      const specNode = specNodes.get(lesson.id), node = byRuntimeId.get(lesson.proposed_runtime_id);
+      const specNode = specNodes.get(lesson.id), node = nodeFor(lesson);
       const outcome = reconcileLesson(lesson, { specNode, node, edition: metadata.edition });
       const duplicate = seen.get(lesson.id);
       if (duplicate) outcome.problems.push(`planning id already supplied by edition ${duplicate}`);
@@ -135,6 +146,7 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {} }) 
 
   const changed = [], unchanged = [], relabelled = [];
   const nodes = graph.nodes.map(node => {
+    if (merged && !node.planningId) { unchanged.push(node.id); return node; }
     const match = apply.get(node.id);
     const specNode = specNodes.get(node.planningId);
     // An entry keeps its authored status when it already has a lesson no edition replaced.
@@ -153,11 +165,16 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {} }) 
     return next;
   });
 
-  const counted = kind => nodes.filter(n => n.contentStatus === kind).length;
+  const planned = nodes.filter(n => n.planningId);
+  const counted = kind => planned.filter(n => n.contentStatus === kind).length;
   // The title and three metadata keys are restated so an exported file says what it now contains.
   // atlasFamily is deliberately untouched: it is what keeps this map's answers separate from the
-  // original Skill Solar System record, and preservationDiff fails if the patch ever changes it.
-  const metadata = {
+  // original HelixSkill record, and preservationDiff fails if the patch ever changes it.
+  const metadata = merged ? {
+    ...graph.metadata,
+    contentEditions: [...new Set([...apply.values()].map(m => m.card.edition))],
+    contentStatusPolicy: 'Introductory content status is separate from proficiency. An authored lesson is not an answer, and opening a card, revealing an answer or finishing an exercise never marks a skill.'
+  } : {
     ...graph.metadata,
     // A stable review identity, so the counts below can be restated in the title without
     // discarding a review in progress. src/review.js migrates a session saved before this existed.
@@ -168,7 +185,7 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {} }) 
   };
 
   return {
-    graph: { ...graph, title: `Robotics curriculum v3 — ${counted(STATUS.authored)} introductory lessons, ${counted(STATUS.pending)} pending`, nodes, metadata },
+    graph: { ...graph, title: merged ? graph.title : `Robotics curriculum v3 — ${counted(STATUS.authored)} introductory lessons, ${counted(STATUS.pending)} pending`, nodes, metadata },
     report: {
       reconciled,
       applied: [...apply.keys()],
@@ -179,6 +196,7 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {} }) 
       changed, unchanged,
       counts: {
         mapNodes: graph.nodes.length,
+        plannedEntries: planned.length,
         lessonsSupplied: reconciled.length,
         imported: apply.size,
         skipped: reconciled.length - apply.size,

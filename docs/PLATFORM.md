@@ -1,4 +1,4 @@
-# Skill Solar System — platform documentation
+# HelixSkill — platform documentation
 
 Written for the owner of this project: someone who designed the system and knows why it exists, but
 who is still learning to read code. Every programming term is defined the first time it appears.
@@ -26,7 +26,7 @@ Contents:
 
 ## 1. Purpose
 
-### What the Skill Solar System is
+### What the HelixSkill is
 
 A desktop program that shows a body of knowledge as a three-dimensional map. Each skill is a sphere.
 Lines between spheres record which skills come before which. You fly a camera through it, click a
@@ -47,11 +47,11 @@ the code, and both are enforced rather than merely stated:
 
 ### What the Robotics V3 curriculum is within it
 
-The Skill Solar System can hold any number of maps. One of them — `Maps/Robotics-v3/` — is a
+The HelixSkill can hold any number of maps. One of them — `Maps/Robotics-v3/` — is a
 dedicated, deliberately separate map holding a reviewed robotics curriculum: **381 entries** joined
 by **894 connections**, aimed at building and verifying a working robot.
 
-It is kept apart from your main Skill Solar System map on purpose. They declare different *atlas
+It is kept apart from your main HelixSkill map on purpose. They declare different *atlas
 families* (§5), which is the mechanism that stops an answer in one map from ever appearing in the
 other.
 
@@ -112,7 +112,7 @@ that arrived from outside, never edited) and **generated artifacts** (files a to
 can be thrown away and rebuilt). Both are excluded from Git by `.gitignore`, so neither is published.
 
 ```
-Skill Solar System/
+HelixSkill/
 ├── src/              ← the program's source code (TRACKED)
 ├── desktop/          ← the Electron shell (TRACKED)
 ├── dist/             ← GENERATED build output, ignored
@@ -191,6 +191,14 @@ The robotics v3 work lives in `authoring/robotics-v3/`:
 | `I05-Audit.md` | record | The read-only structural audit of the I05 chain. |
 | `Edition06-Targets.json` | record | The six then-unwritten I05 entries, extracted verbatim. |
 
+The master + Robotics V3 merge lives in `authoring/merge/` (Tasks/TASKS.md, October 2026):
+
+| File | Kind | What it does |
+| --- | --- | --- |
+| `draft-crosswalk.mjs` | tool | Regenerates `scope/merge/crosswalk.json`, the skill-by-skill crosswalk JC approved, and checks it with a structure-only simulated merge. |
+| `merge.mjs` | tool | The merge logic and its gates, plus levels and layout. No file access. |
+| `build-merged.mjs` | tool | The command. Dry run by default; `--write` writes the merged map to `C:\sss-scratch\merge\` (never into `Maps/` before Checkpoint B). |
+
 ### 2.4 `packages/` — supplied source packages (ignored by Git)
 
 Content that arrived from outside. **Never edited.** Each edition package holds its lesson JSON, a
@@ -218,7 +226,9 @@ packages/
 | `Robotics-v3/Robotics-v3-Lessons.json` | **generated — the live export** | `apply-lessons.mjs --write` | the app, the tests, `apply-lessons.mjs` itself |
 | `Robotics-v3/Content-Import-Ledger.csv` | generated | `apply-lessons.mjs --write` | a person, in a spreadsheet |
 | `Robotics-v3/Integration-Summary.json` | generated | `apply-lessons.mjs --write` | a person, or the next edition's author |
-| `Skill-Solar-System.json` | **yours** | you, via Save map | the app |
+| `Robotics-Atlas.json` | **yours — the working map since 2026-11-05** | the merge (`build-merged.mjs`), then you via Save map and `apply-lessons.mjs --write` | the app, `apply-lessons.mjs` (default target) |
+| `Robotics-Atlas-import/` | generated | `apply-lessons.mjs --write` on the atlas | a person |
+| `Skill-Solar-System.json` | **yours** — the master before the merge, kept unchanged | you, via Save map | the app |
 | `Archived maps/*-with-prerequisites.json`, `Archived maps/Skill-Solar-System-Math-Academy-Marked.json` | yours, **superseded — never open** | earlier merges | nothing |
 
 The older preview files `Preview-Notes.md` and `Content-Completion-Ledger.csv` now live in
@@ -766,6 +776,15 @@ node authoring/robotics-v3/apply-lessons.mjs --write    # again: must change not
 
 A dry run exits non-zero if the checks fail, so it is safe to inspect first, always.
 
+`--target <map.json>` applies the editions to another map. On the merged Robotics Atlas
+(`datasetKey` `robotics-atlas-merged`), lessons find their skill by planning id, because shared skills
+keep their master ids. Master skills without a planning id are left untouched, the atlas keeps its
+own title and `datasetKey`, and the ledger and summary are written next to the target.
+
+Since JC accepted the merge (Checkpoint B, 2026-11-05) the default target is
+`Maps/Robotics-Atlas.json`, with its ledger and summary in `Maps/Robotics-Atlas-import/`. Add `--v3`
+to apply to the old V3 export instead. If the atlas file is missing, the V3 export is used as before.
+
 ---
 
 ## 7. Proficiency and review
@@ -953,6 +972,20 @@ Edition 06 was verified and committed on the `edition-06-integration` branch, th
 | `mobile-manipulation-05` | 10 | I04 |
 | `repeatable-work-system-06` | 6 | I05 |
 
+### 9.1a The merged Robotics Atlas (built, waiting for Checkpoint B)
+
+The master atlas and the V3 export merged as JC approved (`reports/merge/02-results.md`):
+
+| | |
+| --- | --- |
+| Map | 1,918 skills, 5,708 connections, `datasetKey` `robotics-atlas-merged`, family `sss-robotics-foundations-2026-09` (the master's, so its answers apply) |
+| Answers | the master's 309 carried by unchanged ids, except `c-variables`, which takes the shared record's Clear (JC, A1) |
+| Lessons | all 298 V3 cards: 150 on shared master skills, 2 on same-ability master skills (`e-current`, `e-voltage`), 146 on new `rob3:` entries |
+| Retired | 26 broad `r-*` overviews, replaced by the V3 outcomes they summarize; `r-singular` kept |
+| Levels | recalculated: 1–82 |
+
+Shared skills that took a V3 card keep their master text in `atlasDetails` and `atlasPlacementNote`.
+
 ### 9.2 Chain closure
 
 | Milestone | Chain | Closed? |
@@ -1051,7 +1084,7 @@ npm start
 Or double-click `Setup-Windows.cmd` once, then `Launch-Windows.cmd`.
 
 **Desktop icon and taskbar.** Double-click `Create-Desktop-Shortcut.cmd` once. It puts a
-"Skill Solar System" shortcut with the app's icon on the desktop. The shortcut starts this project's
+"HelixSkill" shortcut with the app's icon on the desktop. The shortcut starts this project's
 Electron on this folder, exactly as `Launch-Windows.cmd` does, and carries the app's id
 (`local.skillsolarsystem.atlas`, set in `desktop/main.cjs`), so the pinned icon and the running
 window share one taskbar button. Windows does not let a program pin itself: right-click the shortcut,
@@ -1120,7 +1153,7 @@ in the project folder. It runs `scripts/backup-user-data.ps1`, which:
 
 - refuses to run while the app is open;
 - copies `Maps\` and the whole `%APPDATA%\skill-solar-system\` folder into
-  `%OneDrive%\Skill Solar System Backups\<yyyy-MM-dd_HHmmss>\`, outside the project;
+  `%OneDrive%\HelixSkill Backups\<yyyy-MM-dd_HHmmss>\`, outside the project;
 - checks every copied file against its original by SHA-256 and prints the file count, the size, and
   PASSED or FAILED;
 - keeps the 10 newest backups and removes older ones, only inside that backups folder.
@@ -1181,7 +1214,7 @@ applier never writes them.
    subjects and returns nothing for any real map.
 4. **Whether the packaged app uses a different user-data folder.** In development it is
    `%APPDATA%\skill-solar-system`, confirmed on disk. `electron-builder` sets `productName` to
-   "Skill Solar System", which would normally give `%APPDATA%\Skill Solar System` — I could not
+   "HelixSkill", which would normally give `%APPDATA%\HelixSkill` — I could not
    verify this without building and running the packaged executable.
 5. **Whether the review-session migration has ever run against a real saved session.** Every check
    used a planted session in an isolated profile, and no session store for the robotics family
