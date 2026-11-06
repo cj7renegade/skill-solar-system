@@ -1,5 +1,17 @@
 {
-  "status": "draft for JC at Checkpoint A; nothing is built from this file until JC approves it",
+  "status": "APPROVED",
+  "approval": {
+    "by": "JC",
+    "date": "2026-11-05",
+    "quote": "E1–E5 as recommended",
+    "accepted": [
+      "E1: step 7 covers Groups A and B (44 lessons)",
+      "E2: Part 1 = Group A (Edition 08), Part 2 = Group B (Edition 09)",
+      "E3: Claude Code writes both editions",
+      "E4: hardware evidence decided per lesson from its demonstration",
+      "E5: fine-step lessons teach only their own step, with different numbers; Edition 07 cards unchanged"
+    ]
+  },
   "drafted": "2026-11-06",
   "baseMap": {
     "file": "Maps/Robotics-Atlas.json",
@@ -50,8 +62,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -110,8 +122,8 @@
         "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -169,8 +181,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -229,8 +241,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -289,8 +301,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -347,8 +359,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -406,8 +418,8 @@
         "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -465,8 +477,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -524,8 +536,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -583,8 +595,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -642,8 +654,8 @@
         "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -702,8 +714,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -762,8 +774,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -821,8 +833,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -882,8 +894,8 @@
         "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -942,8 +954,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1000,8 +1012,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1061,8 +1073,8 @@
         "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1119,8 +1131,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1179,8 +1191,8 @@
         "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1239,8 +1251,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1298,8 +1310,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {
@@ -1356,8 +1368,8 @@
         "boundary": "Right-handed frames, column vectors, ideal rigid links, and explicitly stated joint conventions. Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
       },
       "review": {
-        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; awaiting JC at Checkpoint A",
-        "decision": "proposed",
+        "scope_and_prerequisite_pass": "drafted in core lessons Task 2; approved by JC at Checkpoint A, 2026-11-05",
+        "decision": "approved",
         "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 08."
       },
       "runtime_identity": {

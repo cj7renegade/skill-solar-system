@@ -114,7 +114,8 @@ Also list the open questions, each with a recommendation:
 - **One question added, E5:** eight Group A skills are the fine steps under Edition 07's `K05`–`K07`.
   The recommendation is to keep each lesson to its own step, with different numbers.
 
-**Waiting for JC at Checkpoint A** (E1–E5).
+**Checkpoint A passed on 2026-11-05:** JC accepted E1–E5 as recommended. Recorded in
+`master-specifications.json` (`status: APPROVED`, each entry's review marked approved).
 
 ## [ ] Task 3 — Teach the importer master-skill lessons
 **Do:** Extend `authoring/robotics-v3/lessons.mjs` and `apply-lessons.mjs`:
@@ -132,6 +133,25 @@ Also list the open questions, each with a recommendation:
   `requires`, a planning id where none should be);
 - every existing target still behaves exactly as before: the V3 export, the completions map and the
   current working map (dry runs pass at their current counts).
+
+**Result:**
+- **Backup first:** `%OneDrive%\HelixSkill Backups\2026-11-05_204456` (every file verified; the app
+  was closed, so Claude Code ran the script).
+- **`lessons.mjs`:** an approved master-skill entry (`runtime_identity.master_skill`) is matched by the
+  skill's own id, and every other check is unchanged. A master entry that meets a skill with a planning
+  id is refused. The skill gains the lesson fields and a content status, keeps its own text in
+  `atlasDetails` and `atlasPlacementNote`, and gets no planning id. The summary counts
+  `masterSkillLessons` separately.
+- **`apply-lessons.mjs`:** Edition 08 and `scope/lessons/master-specifications.json` are optional
+  inputs. When both are present and approved, on a merged atlas holding `P11`:
+  - Edition 08 applies;
+  - the expected counts become 306 V3 lessons plus 23 master-skill lessons;
+  - the I05 chain counts master-only skills as entries (expected 328, all with a card);
+  - the baseline is Edition 08's own.
+- **Unchanged:** every existing target's dry run passes as before (V3 export 298, completions map 306,
+  working map 306, all touching nothing).
+- `tests/lessons.test.mjs`: 7 tests covering the matching and its refusals. All unit tests: 260 pass,
+  0 fail, 6 skipped.
 
 ## [ ] Task 4 — Write Edition 08
 **Do:** Write `authoring/lessons/edition-08/` in Edition 07's layout:
