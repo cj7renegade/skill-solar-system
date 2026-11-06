@@ -1,7 +1,7 @@
 # TASKS Ã¢â‚¬â€ HelixSkill Ã¢â‚¬â€ Robotics completions (Edition 07)
 
 Step 5 of `reports/scope/07-checkpoint.md` Ã‚Â§2 (package 3 of `reports/scope/06-wave-plan.md`). JC
-asked for it on 2026-11-05 ("Let's queue up step 5"). **Tasks 1–2 done; waiting at Checkpoint A.**
+asked for it on 2026-11-05 ("Let's queue up step 5"). **Tasks 1–7 done; waiting at Checkpoint B.**
 
 This queue is the first to change the working map, `Maps/Robotics-Atlas.json`. Everything is built
 in `C:\sss-scratch\completions\` first. The working map is replaced only after JC's go at
@@ -217,6 +217,20 @@ review-session note, and where to read the lessons. Update `docs/PLATFORM.md` Ã
 (R6, R12 coverage).
 **STOP (Checkpoint B):** JC reads the eight lessons, opens the finished map from scratch with the
 app's normal Open, and says go or no-go.
+**Result:** `reports/completions/02-results.md`.
+- **Unit tests:** 246 pass, 0 fail, 6 skipped.
+- **New e2e** `tests/completions-e2e.mjs`: 27 checks pass. Every answer matches JC's record (311
+  entries, `rob3:B-C01` included), the new skills are unmarked, all 8 cards render without a hardware
+  line, and an older flagged card still shows one.
+- **Full e2e suite** with all three maps supplied: 775 checks pass, 0 fail.
+- **One existing test changed:** in `tests/merged-atlas-e2e.mjs`, a V3 entry may now show an answer
+  that JC's record holds. JC's real `B-C01` answer had made the old wording fail.
+- **Docs:** `docs/PLATFORM.md` (§6.2, §9.1a, new §9.1b, §9.2), and `docs/SCOPE.md` with
+  `scope/branches.json` (R6 and R12 covered, R2 and R3 lessons complete, totals, change log).
+- **Review-session note:** a review saved on the working map will not resume on the finished map.
+- The working map, both old maps and JC's answer record are unchanged.
+
+**Waiting for JC at Checkpoint B.**
 
 ## [ ] Task 8 Ã¢â‚¬â€ Make it the working map, then merge
 **Do (only after JC's go):**

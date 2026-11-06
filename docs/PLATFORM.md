@@ -728,8 +728,10 @@ re-import.
 
 **5. Apply.** Set `details`, `placementNote`, `lessonCard` (a rendering summary) and `lesson` (the
 **entire** supplied record, verbatim). The card summary gains `requiresPhysicalEvidence` and
-`evidenceKind`, from the lesson or else from `evidence-overrides.json` (§3.5); the stored lesson is
-never edited, and any lesson with neither is listed in the summary's `evidence.missing`. Set `contentStatus` and `lessonStatus` for every node, not
+`evidenceKind`, from the lesson or, only with `--with-evidence-overrides`, from
+`evidence-overrides.json` (§3.5). The table is off by default until JC has reviewed it, and without
+it the importer refuses to change an existing card summary. The stored lesson is never edited, and
+any lesson with neither source is listed in the summary's `evidence.missing`. Set `contentStatus` and `lessonStatus` for every node, not
 just the new ones. Field order is fixed so re-running produces identical bytes.
 
 **6. Restate the title and four metadata keys** — `scope`, `contentEditions`,
@@ -972,7 +974,7 @@ Edition 06 was verified and committed on the `edition-06-integration` branch, th
 | `mobile-manipulation-05` | 10 | I04 |
 | `repeatable-work-system-06` | 6 | I05 |
 
-### 9.1a The merged Robotics Atlas (built, waiting for Checkpoint B)
+### 9.1a The merged Robotics Atlas (the working map since 2026-11-05)
 
 The master atlas and the V3 export merged as JC approved (`reports/merge/02-results.md`):
 
@@ -986,6 +988,22 @@ The master atlas and the V3 export merged as JC approved (`reports/merge/02-resu
 
 Shared skills that took a V3 card keep their master text in `atlasDetails` and `atlasPlacementNote`.
 
+### 9.1b Robotics completions, Edition 07 (built, waiting for Checkpoint B)
+
+Built in scratch from the working map (`reports/completions/02-results.md`):
+
+| | |
+| --- | --- |
+| New skills | `rob3:P11` *Detect an inconsistent measurement innovation* (required, `P08 → P11 → P09`); `rob3:A12` *Distinguish coupling misalignment from backlash* (optional, after `A09` and `D08`, supporting `V05`). Added by `authoring/completions/build-completions.mjs` |
+| Map | 1,920 skills, 5,714 connections; answers unchanged; 4 existing skills moved level |
+| Lessons | 306: Edition 07 (`robotics-completions-07`, written in this repository) adds 8 to `m-inverse`, `m-invtrig`, `p-work`, `K05`, `K06`, `K07`, `P11` and `A12` |
+| Pending / roadmap | 76 / 1 |
+| `feedsMilestones` | recalculated from the edges on every V3 entry (9 corrections) |
+
+Edition 07 is the first edition whose lessons state `requires_physical_evidence`. All eight say
+`false`. The importer applies it only to a merged atlas holding `P11`, and checks `P11` and `A12`
+against `scope/completions/new-skills.json`.
+
 ### 9.2 Chain closure
 
 | Milestone | Chain | Closed? |
@@ -995,6 +1013,11 @@ Shared skills that took a V3 card keep their master text in `atlasDetails` and `
 | I03 | 241 | yes |
 | I04 | 291 | yes |
 | I05 | 298 | yes, since Edition 06 (it was 6 entries short at `7c95db6`) |
+
+These are the V3 export's chains, from the specification's `requires`. On the merged atlas the map's
+own edges count, and decision 10 pulled more skills into I05. There the chain has 305 planned
+entries, 7 of them without a card until Edition 07 lands. It also has 23 master-only skills with no
+planned lesson yet, which are left for step 7 (`reports/completions/00-starting-state.md`).
 
 ### 9.3 The audit
 

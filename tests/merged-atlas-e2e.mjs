@@ -51,7 +51,8 @@ try {
     const wrong = data.nodes.filter(n => (shown.get(n.id) ?? null) !== (n.proficiency80 ?? null));
     check('every answer shown matches the file (no record supplied)', !wrong.length, `${shown.size} answers`);
   }
-  check('no new V3 entry arrives with an answer', ![...shown.keys()].some(id => id.startsWith('rob3:')));
+  // A V3 entry may show an answer JC gave it in the shared record (rob3:B-C01, 2026-11-05), never one from anywhere else.
+  check('no new V3 entry arrives with an answer the record does not hold', ![...shown.keys()].some(id => id.startsWith('rob3:') && !(record && id in record.entries)));
 
   for (const [label, node] of [['a shared master skill', shared], ['a new V3 outcome', fresh], ['a same-ability skill', sameAbility]]) {
     await openCard(node);
