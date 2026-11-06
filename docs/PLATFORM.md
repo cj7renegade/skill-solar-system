@@ -226,7 +226,9 @@ packages/
 | `Robotics-v3/Robotics-v3-Lessons.json` | **generated — the live export** | `apply-lessons.mjs --write` | the app, the tests, `apply-lessons.mjs` itself |
 | `Robotics-v3/Content-Import-Ledger.csv` | generated | `apply-lessons.mjs --write` | a person, in a spreadsheet |
 | `Robotics-v3/Integration-Summary.json` | generated | `apply-lessons.mjs --write` | a person, or the next edition's author |
-| `Skill-Solar-System.json` | **yours** | you, via Save map | the app |
+| `Robotics-Atlas.json` | **yours — the working map since 2026-11-05** | the merge (`build-merged.mjs`), then you via Save map and `apply-lessons.mjs --write` | the app, `apply-lessons.mjs` (default target) |
+| `Robotics-Atlas-import/` | generated | `apply-lessons.mjs --write` on the atlas | a person |
+| `Skill-Solar-System.json` | **yours** — the master before the merge, kept unchanged | you, via Save map | the app |
 | `Archived maps/*-with-prerequisites.json`, `Archived maps/Skill-Solar-System-Math-Academy-Marked.json` | yours, **superseded — never open** | earlier merges | nothing |
 
 The older preview files `Preview-Notes.md` and `Content-Completion-Ledger.csv` now live in
@@ -777,8 +779,11 @@ A dry run exits non-zero if the checks fail, so it is safe to inspect first, alw
 `--target <map.json>` applies the editions to another map. On the merged Robotics Atlas
 (`datasetKey` `robotics-atlas-merged`), lessons find their skill by planning id, because shared skills
 keep their master ids. Master skills without a planning id are left untouched, the atlas keeps its
-own title and `datasetKey`, and the ledger and summary are written next to the target. The V3
-export stays the default until the merge is accepted.
+own title and `datasetKey`, and the ledger and summary are written next to the target.
+
+Since JC accepted the merge (Checkpoint B, 2026-11-05) the default target is
+`Maps/Robotics-Atlas.json`, with its ledger and summary in `Maps/Robotics-Atlas-import/`. Add `--v3`
+to apply to the old V3 export instead. If the atlas file is missing, the V3 export is used as before.
 
 ---
 

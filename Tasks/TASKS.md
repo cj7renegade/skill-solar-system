@@ -1,8 +1,8 @@
 # TASKS — HelixSkill — The Robotics V3 merge
 
 Step 4 of `reports/scope/07-checkpoint.md` §2, following the decision brief §D
-(`reports/scope/05-decisions.md`). JC asked for it on 2026-10-05 ("Yes lets do step 4"). **Draft:
-waiting for JC's approval before any task runs.**
+(`reports/scope/05-decisions.md`). JC asked for it on 2026-10-05 ("Yes lets do step 4"). **Done:
+every task finished, Checkpoint B passed on 2026-11-05.**
 
 This is the first queue that produces a new real map. It never edits the two existing maps: the
 merged atlas is a **new file**, and the old master and the V3 export stay exactly as they are, so
@@ -201,15 +201,29 @@ Update `docs/PLATFORM.md` and `docs/SCOPE.md` coverage (the 9 "after the merge" 
 
 **STOP (Checkpoint B):** JC opens the merged map (a copy in scratch, through the app's normal Open)
 and says go or no-go.
-**Waiting for JC at Checkpoint B (2026-10-10).** The backup is also still owed before Task 7.
+**Passed:** JC opened the merged map and said **go** on 2026-11-05.
 
-## [ ] Task 7 — Make it the working map, then merge
+## [x] Task 7 — Make it the working map, then merge (2026-11-05)
 **Do (only after JC's go):**
 - Copy the merged map to `Maps/Robotics-Atlas.json`. Do not delete or overwrite the old master or
   the V3 export; move them to `Maps/Archived maps/` only if JC asks.
 - Make the merged map the importer's default target.
 - Open the pull request, merge it, and update local `main`.
 **Check:** both old maps' SHA-256 match Task 1; JC's shared answer record is unchanged.
+**Result:**
+- **Backup:** `%OneDrive%\HelixSkill Backups6-11-05_190224` (210 files, 103.7 MB, every file verified).
+- **Rebuilt before copying**, because the project was renamed to HelixSkill after the Checkpoint B
+  build. The only line that differs from the map JC reviewed is the title, now
+  `HelixSkill — Robotics Atlas (master + Robotics V3)`. Every gate passed and a second build gave identical bytes.
+- **Copied** to `Maps/Robotics-Atlas.json` (SHA-256 `f307121cfef98615c7588b88240364b3c293742d51a131c9519136bbb6db047c`).
+  It appears first in the app's "Your maps" list. The old master and the V3 export were not moved.
+- **Importer default:** `apply-lessons.mjs` now targets `Maps/Robotics-Atlas.json` and writes its
+  ledger and summary to `Maps/Robotics-Atlas-import/`; `--v3` targets the old V3 export. A dry run on
+  the default target passes.
+- **Check passed:** master `8e170740…2dba51` and V3 export `687f0916…6cefc11` match Task 1; the shared
+  answer record is still `4cda601b…edfee6d0`.
+- Unit tests pass (236 pass, 6 skipped). The end-to-end suite could not be run in this session: the
+  test window does not start here, including on the code before any of today's changes.
 
 ---
 

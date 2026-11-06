@@ -146,6 +146,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | 2026-10-05 | First draft of this document | Claude Code (scope queue Task 2) |
 | 2026-10-05 | All 14 decisions in `reports/scope/05-decisions.md` accepted as recommended: Q1 (a) now and (b) next; Q2 (a); Q3 (a); Q4 (a); Q5 (a); Q6 (a) now and (c) at the merge; X06 → extension outcome; `s-*` track optional; thermal → S7; K05–K07 → prerequisites; calculus case by case; B-D08 → S7; the two same-ability duplicates ruled; `requires_physical_evidence` adopted for Edition 07 onward | JC |
 | 2026-10-10 | V3 merge crosswalk approved (A1–A8 in `reports/merge/01-crosswalk.md`); the merged atlas covers the 9 "after the merge" branches, pending Checkpoint B | JC (approval); Claude Code (status update) |
+| 2026-11-05 | Checkpoint B passed: the merged atlas is the working map, `Maps/Robotics-Atlas.json` | JC (go); Claude Code (status update) |
 
 ## 7. Branch map
 
@@ -157,7 +158,7 @@ mapping of all 132 roadmap candidates are in `reports/scope/04-branch-map.md`.
 | Status | Branches |
 | --- | ---: |
 | Covered in the master today | 7 |
-| Covered once Robotics V3 is merged (covered in the merged atlas, waiting for Checkpoint B) | 9 |
+| Covered once Robotics V3 is merged (covered in the merged atlas, the working map since 2026-11-05) | 9 |
 | Covered by V3 entries the roadmap never listed (S8, R13, R14) | 3 |
 | Partial: at least one skill to split out or add | 24 |
 | Audit needed: the three mathematics branches, where the roadmap lists only review tasks | 3 |
