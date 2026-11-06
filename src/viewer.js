@@ -28,6 +28,8 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const milestoneShape = new THREE.OctahedronGeometry(15);
   const markerScale = (helix, n) => helix && n.nodeKind === 'checkpoint' ? 0.6 : 1;
   let helixFilters = {};
+  // Legend isolation (helix maps): course codes kept at full strength; every other skill fades to 15%.
+  let isolated = null;
   // Subject halos: a domain-coloured shell around each highlighted sphere (visible up close) and a
   // fixed-size ring (still visible at overview distance). They live outside the node group, so a
   // toggle never rebuilds the graph, and they are never raycast, so every sphere stays selectable.
@@ -60,11 +62,27 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     }
     labelHost.dataset.highlighted = String([...halos.values()].reduce((sum, h) => sum + h.count, 0));
   }
+  // Frontier skills (ready to study: every prerequisite proficient) get a soft glow: one fixed-size
+  // point sprite each, in a single draw call, never raycast, so it costs almost nothing per frame.
+  const glowTexture = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 6, 32, 32, 31); r.addColorStop(0, '#ffffffff'); r.addColorStop(.35, '#ffffff88'); r.addColorStop(1, '#ffffff00'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+  let frontierIds = new Set(), frontierGlow = null;
+  function refreshFrontier() {
+    if (frontierGlow) { haloGroup.remove(frontierGlow); frontierGlow.geometry.dispose(); frontierGlow.material.dispose(); frontierGlow = null; }
+    const nodes = (graph?.nodes || []).filter(n => frontierIds.has(n.id));
+    labelHost.dataset.frontier = String(nodes.length);
+    if (!nodes.length) return;
+    const points = new Float32Array(nodes.length * 3);
+    nodes.forEach((n, i) => points.set(displayPosition(n.position, spacing), i * 3));
+    frontierGlow = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(points, 3)),
+      new THREE.PointsMaterial({ color: 0xffe7a6, map: glowTexture, size: 30, sizeAttenuation: false, transparent: true, opacity: .85, depthWrite: false, blending: THREE.AdditiveBlending }));
+    frontierGlow.raycast = () => {};
+    haloGroup.add(frontierGlow);
+  }
   // Skills marked Yes pulse while proficiency colouring is on (see pulse.js). Only their glow changes,
   // so a pulse frame re-renders the scene without touching nameplates or map data.
   const reducedMotion = matchMedia?.('(prefers-reduced-motion: reduce)');
   let pulsing = [], pulseFrame = null, pulseStarted = 0;
-  // The colour travels with the glow, from the marked-Yes green to a pale tea green at the peak.
+  // The colour travels with the glow, from the marked-Yes gold to a pale cream at the peak.
   const pulseFrom = new THREE.Color(PULSE_COLORS.from), pulseTo = new THREE.Color(PULSE_COLORS.to), pulseTint = new THREE.Color();
   function stopPulse() { if (pulseFrame !== null) { cancelAnimationFrame(pulseFrame); pulseFrame = null; } }
   function syncPulse() {
@@ -149,10 +167,10 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     // Helix maps colour by course and can filter; a filtered-out skill is dimmed and unlabelled, never removed.
     const helix=isHelixMap(graph),palette=helix?courseColors(helixCourses(graph)):null,filtering=helix&&activeFilters(helixFilters).length>0;
     for(const n of graph.nodes) {
-      const color=nodeColor(n,proficiencyOn,palette),dimmed=filtering&&n.id!==selected&&!matchesHelixFilters(graph,n,helixFilters);
-      const mesh = new THREE.Mesh(helix&&n.nodeKind==='milestone'?milestoneShape:sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:dimmed?.05:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
+      const color=nodeColor(n,proficiencyOn,palette),dimmed=filtering&&n.id!==selected&&!matchesHelixFilters(graph,n,helixFilters),faded=!dimmed&&!!isolated&&n.id!==selected&&!isolated.has(n.courseCode);
+      const mesh = new THREE.Mesh(helix&&n.nodeKind==='milestone'?milestoneShape:sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:dimmed?.05:faded?.15:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
       mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;mesh.scale.setScalar(markerScale(helix,n)*(n.id===selected?1.35:1));group.add(mesh);objects.push(mesh);
-      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected,dimmed});
+      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected,dimmed:dimmed||faded});
     }
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
     for(const e of visibleConnections(graph.edges,selected,selectedConnectionsOnly)) {
@@ -191,6 +209,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       if(tip){tip.position.copy(end).addScaledVector(direction,-4);tip.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);}
     }
     if(subjects.size||halos.size)refreshHalos();
+    refreshFrontier();
   }
   function renderScene() {
     renderer.clear();
@@ -257,7 +276,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const shift=new THREE.Vector3(...spacingCameraShift(controls.target.toArray(),spacing,next));
     spacing=next;camera.position.add(shift);controls.target.add(shift);
     updatePositions();controls.update();draw();
-  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},filters(value){helixFilters={...value};rebuild();},pan(horizontal,vertical,seconds){
+  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},filters(value){helixFilters={...value};rebuild();},isolate(codes){isolated=codes&&codes.size?new Set(codes):null;rebuild();},frontier(ids){frontierIds=new Set(ids);refreshFrontier();draw();},fly(id){centerOnNode(id);},pan(horizontal,vertical,seconds){
     stopFlight(true);camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();

@@ -15,6 +15,7 @@ import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, va
 import { createRecordStore } from './proficiency-store.js';
 import { createTour } from './tour.js';
 import { undoLimit, trimHistory } from './history.js';
+import { renderHud, learnerState, activeTarget, storeTarget, reviewLeft } from './hud.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -105,8 +106,20 @@ function render(){
   $('layout-help').textContent=isHelixMap(graph)?HELIX_LAYOUT_HELP:SPIRAL_LAYOUT_HELP;
   $('layout-summary').textContent=isHelixMap(graph)?'Upward: helix level · Around: course · Proficiency is separate':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
   viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
+  renderLearner();
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
+}
+// The learner HUD and the frontier glow, from the map's own answers and prerequisite links. Both are
+// recomputed only when the map version or the target changes (hud.js caches by map object).
+function learner(){return learnerState(graph,activeTarget(graph,safeStorage));}
+function flyTo(id){selected=id;render();viewer?.fly(id);}
+function renderLearner(){
+  const state=learner();
+  renderHud($('hud'),{graph,state,palette:palette(),reviewCount:reviewLeft(safeStorage,graph),el,actions:{
+    setTarget:id=>{storeTarget(safeStorage,graph,id);render();message(`Working toward ${graph.nodes.find(n=>n.id===id)?.name}.`);},
+    select:flyTo,openReview:()=>review.open()}});
+  viewer?.frontier(state.frontier);
 }
 function renderList(){
   const scrollTop=$('node-list').scrollTop;

@@ -85,6 +85,7 @@ of continuous drag, median fps (worst 5%).
 | Phase | Helix: open | Helix: orbit | Robotics Atlas: orbit |
 | --- | --- | --- | --- |
 | 0 baseline | 0.85–0.89 s | 59.9 (59.5) | 59.9 (59.5) |
+| 1 HUD and frontier glow | 0.88–0.92 s | 59.9 (59.5) | not re-measured |
 
 Map files before (SHA-256): `Humanoid-Helix-Atlas.json` `4cdfc20d…`, `Robotics-Atlas.json`
 `1212ad46…`.
