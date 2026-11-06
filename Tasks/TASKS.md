@@ -1,4 +1,4 @@
-﻿# TASKS â€” HelixSkill â€” Robotics completions (Edition 07)
+# TASKS â€” HelixSkill â€” Robotics completions (Edition 07)
 
 Step 5 of `reports/scope/07-checkpoint.md` Â§2 (package 3 of `reports/scope/06-wave-plan.md`). JC
 asked for it on 2026-11-05 ("Let's queue up step 5"). **Not started.**
