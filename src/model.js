@@ -16,8 +16,9 @@ export const clone = value => JSON.parse(JSON.stringify(value));
 export const PROFICIENCY_COLORS = { yes:'#32CD32', no:'#ef9290' };
 // Short words only: the sphere colour and its pulse already say which state a skill is in.
 export function proficiencyLabel(value) { return value === true ? 'Yes' : value === false ? 'No' : 'Not marked'; }
-export function nodeColor(node, proficiency) {
-  return proficiency ? PROFICIENCY_COLORS[node.proficiency80 === true ? 'yes' : 'no'] : DOMAINS[node.domain];
+// palette: optional colours by course code (helix maps, src/helix.js); otherwise the domain colour.
+export function nodeColor(node, proficiency, palette) {
+  return proficiency ? PROFICIENCY_COLORS[node.proficiency80 === true ? 'yes' : 'no'] : palette?.[node.courseCode] ?? DOMAINS[node.domain];
 }
 export function normalize(graph) {
   validate(graph);
@@ -37,7 +38,8 @@ export function positionExplanation(graph, node) {
   const inputs = graph.edges.filter(e=>e.target===node.id && e.type==='prerequisite').map(e=>names.get(e.source));
   const depth = levels(graph).get(node.id);
   const coordinates = node.position.map(v=>Math.round(v*100)/100).join(', ');
-  const method = node.layoutMode === 'vortex' ? `Its saved spiral placement uses reference level ${node.skillLevel}/100 for height and domain ribbons for angle. Peers spread outward for spacing. Level is a provisional dependency rank, not measured difficulty. An edited level changes height only after arranging again.` : node.layoutMode === 'prerequisites' ? 'Its last placement used Arrange by prerequisites: domain columns and prerequisite depth set unpinned positions.' : node.layoutMode === 'manual' ? 'Its coordinates were placed manually.' : 'These are saved coordinates; their original placement method is not recorded.';
+  const helix = graph.layout?.type === 'helix';
+  const method = helix && node.layoutMode === 'vortex' ? `Its helix placement uses its helix level (1 + 3 × its longest prerequisite chain, here ${1 + 3 * depth} of ${graph.layout.topLevel}) for height and its course's band for angle. Peers spread outward for spacing. Level is a dependency rank, not measured difficulty.` : node.layoutMode === 'vortex' ? `Its saved spiral placement uses reference level ${node.skillLevel}/100 for height and domain ribbons for angle. Peers spread outward for spacing. Level is a provisional dependency rank, not measured difficulty. An edited level changes height only after arranging again.` : node.layoutMode === 'prerequisites' ? 'Its last placement used Arrange by prerequisites: domain columns and prerequisite depth set unpinned positions.' : node.layoutMode === 'manual' ? 'Its coordinates were placed manually.' : 'These are saved coordinates; their original placement method is not recorded.';
   const prerequisites = inputs.length ? `Its immediate prerequisites are ${inputs.join(', ')}. Its prerequisite depth is ${depth}.` : 'It has no recorded incoming prerequisite links, so its calculated prerequisite depth is zero. This does not prove that the subject needs no preparation.';
   return `Position (X, Y, Z): ${coordinates}. ${method} ${prerequisites} Supports and related links do not determine automatic height. ${node.pinned ? 'It is pinned against automatic arrangement.' : 'It is not pinned.'} Map height is not a proficiency score.`;
 }
@@ -49,7 +51,8 @@ export function placementSummary(graph, node) {
   const linked = (type, end) => graph.edges.filter(e => e.type === type && e[end] === node.id).map(e => names.get(end === 'target' ? e.source : e.target));
   const prerequisites = linked('prerequisite', 'target');
   const builds = prerequisites.length ? `builds on ${listNames(prerequisites)}` : 'has no recorded prerequisites';
-  const first = node.layoutMode === 'vortex' ? `In the ${node.domain} strand of the spiral, it ${builds}.`
+  const first = graph.layout?.type === 'helix' && node.layoutMode === 'vortex' ? `In the ${node.course ?? node.domain} band of the helix, it ${builds}.`
+    : node.layoutMode === 'vortex' ? `In the ${node.domain} strand of the spiral, it ${builds}.`
     : node.layoutMode === 'prerequisites' ? (prerequisites.length ? `In the ${node.domain} column, it sits above ${listNames(prerequisites)}.` : `It starts the ${node.domain} column because it has no recorded prerequisites.`)
     : node.layoutMode === 'manual' ? `It was positioned by hand and ${builds}.`
     : `It keeps a saved position from an earlier layout and ${builds}.`;
@@ -62,6 +65,8 @@ export function placementSummary(graph, node) {
 export function validate(graph) {
   if (!graph || graph.schemaVersion !== 1 || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) throw Error('Expected a version 1 HelixSkill map.');
   if (graph.nodes.length > LIMITS.nodes || graph.edges.length > LIMITS.edges) throw Error(`This version supports at most ${LIMITS.nodes.toLocaleString('en-US')} nodes and ${LIMITS.edges.toLocaleString('en-US')} connections.`);
+  // Reference levels run 1–100 unless the map declares a wider range (the helix map runs to its top level).
+  const declared = graph.levelModel?.range?.[1], maxLevel = Number.isInteger(declared) && declared > 100 ? declared : 100;
   const ids = new Set();
   for (const n of graph.nodes) {
     if (typeof n.id !== 'string' || !n.id.length || n.id.length > 100 || ids.has(n.id)) throw Error('Node IDs must be unique, nonempty strings.');
@@ -70,7 +75,7 @@ export function validate(graph) {
     if (!Object.hasOwn(DOMAINS, n.domain)) throw Error('Unknown domain.');
     if (typeof n.description !== 'string' || n.description.length > 5000) throw Error('Descriptions must be text under 5,001 characters.');
     if (typeof n.pinned !== 'boolean') throw Error('Pinned must be true or false.');
-    if(n.skillLevel !== undefined && n.skillLevel !== null && (!Number.isInteger(n.skillLevel)||n.skillLevel<1||n.skillLevel>100)) throw Error('Reference level must be a whole number from 1 to 100.');
+    if(n.skillLevel !== undefined && n.skillLevel !== null && (!Number.isInteger(n.skillLevel)||n.skillLevel<1||n.skillLevel>maxLevel)) throw Error(`Reference level must be a whole number from 1 to ${maxLevel}.`);
     if (n.proficiency80 !== undefined && n.proficiency80 !== null && typeof n.proficiency80 !== 'boolean') throw Error('Proficiency must be Yes, No, or unmarked.');
     for(const key of ['details','placementNote']) if(n[key] !== undefined && (typeof n[key] !== 'string' || n[key].length>12000)) throw Error(`${key} must be text of at most 12,000 characters.`);
     if(n.icon !== undefined && !Object.hasOwn(ICONS,n.icon)) throw Error('Unknown skill icon.');

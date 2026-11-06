@@ -2,6 +2,7 @@
 // dragging, and keys other than normal button activation never do. The host applies answers
 // through the map's normal update path (history, draft cache, dirty state).
 import { iconElement } from './icons.js';
+import { levelLine } from './helix.js';
 import { LEVEL_NOTE, proficiencyLabel } from './model.js';
 import { isUnmarked, startSession, currentId, answer, skip, back, reviewSkipped, isFinished, progress, createAnswerGate, storeSession, dropSession, findSession } from './review.js';
 
@@ -107,7 +108,7 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
         el('progress', { max: p.total, value: p.position - 1, 'aria-label': 'Review progress' })),
       el('div', { class: 'subject-heading' }, iconElement(node.icon), el('div', {},
         el('h2', { id: 'review-title', tabIndex: -1, text: node.name }),
-        el('p', { class: 'edge-note', title: LEVEL_NOTE, text: node.domain + (node.skillLevel != null ? ` · Reference level ${node.skillLevel}/100` : '') }))),
+        el('p', { class: 'edge-note', title: LEVEL_NOTE, text: levelLine(getGraph(), node, 'Reference level', '') }))),
       el('p', { class: 'review-question', text: `Do you have at least 80% proficiency in ${node.name}?` }),
       isUnmarked(value) ? null : el('p', { class: `review-existing ${value ? 'yes' : 'no'}`, text: `Current answer: ${proficiencyLabel(value)}. A new answer replaces it.` }),
       el('div', { id: 'review-text', class: 'review-text', tabIndex: 0, role: 'region', 'aria-label': `Description of ${node.name}` },
