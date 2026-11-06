@@ -98,8 +98,8 @@ test('the real helix map: valid, milestones on the axis, checkpoints and tiers i
   const milestones = map.nodes.filter(n => n.nodeKind === 'milestone');
   assert.deepEqual(milestones.map(n => n.id).sort(), ['hx-sys-ms-i06', 'hx-sys-ms-i07', 'hx-sys-ms-i08', 'hx-sys-ms-i09', 'rob3:I01', 'rob3:I02', 'rob3:I03', 'rob3:I04', 'rob3:I05']);
   assert.ok(milestones.every(n => Math.hypot(n.position[0], n.position[2]) < 100));
-  assert.equal(map.nodes.filter(n => n.nodeKind === 'checkpoint').length, 63);
-  assert.equal(map.layout.topLevel, 184);
+  assert.equal(map.nodes.filter(n => n.nodeKind === 'checkpoint').length, 67);
+  assert.equal(map.layout.topLevel, 244);
   assert.ok(map.nodes.every(n => tierOf(map, n)));
   assert.equal(Math.max(...map.nodes.map(n => n.position[1])), HELIX_HEIGHT);
 });

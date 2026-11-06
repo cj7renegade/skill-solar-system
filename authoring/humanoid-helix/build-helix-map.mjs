@@ -5,9 +5,9 @@
 //
 // Import only. No skill or prerequisite link is authored, renamed or deleted here: the Atlas's 1,955
 // nodes and its edges are copied unchanged, apart from five added fields and a new position; the
-// extension's 1,467 nodes and 5,498 edges are mapped into the Atlas schema as they are. Every mapping
-// decision is recorded in docs/humanoid-helix-import.md. Maps/Robotics-Atlas.json is only read, and
-// its SHA-256 is checked before and after.
+// extension's nodes and edges (edition 2: 1,741 and 6,355) are mapped into the Atlas schema as they
+// are. Every mapping decision is recorded in docs/humanoid-helix-import.md. Maps/Robotics-Atlas.json
+// is only read, and its SHA-256 is checked before and after.
 import { readFileSync, writeFileSync, renameSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
@@ -25,7 +25,10 @@ const IN = {
 const OUT = path.join(ROOT, 'Maps', 'Humanoid-Helix-Atlas.json');
 export const KEY = 'humanoid-helix-v1';
 const TITLE = 'HelixSkill — Humanoid Protocol Droid Helix';
-const DATE = '2026-11-05';
+const DATE = '2026-11-06';
+// Edition 2 keeps edition 1's key and answer family, so answers already given on the helix map stay:
+// it removes no skill, only adds them (docs/humanoid-helix-import.md, "Edition 2").
+const EDITION = { edition: 2, datasetVersion: '2.0', firstBuilt: '2026-11-05' };
 const AUTHORSHIP = 'Editorial humanoid taxonomy, Nov 2026';
 // Two courses have no Atlas skills to take a domain from (see docs/humanoid-helix-import.md).
 const DOMAIN_FALLBACK = { PWR: 'Electronics', HRI: 'Robotics' };
@@ -57,19 +60,33 @@ for (const [code] of courses) {
   if (!courseDomain[code]) throw Error(`No domain for course ${code}.`);
 }
 
+// Edges: the Atlas's unchanged, then every extension edge as a prerequisite.
+const edges = [...clone(atlas.edges), ...ext.newPrerequisiteEdges.map(e => ({ source: e.source, target: e.target, type: 'prerequisite', authorship: 'editorial',
+  rationale: `${e.origin}: added by the humanoid helix taxonomy (Nov 2026)` }))];
+
+// Helix levels over the merged graph. The sheet's Helix Level predates edition 2's physics feeds into
+// Atlas skills, so Atlas skills take the level from the graph, which is what their height shows.
+const depth = levels({ nodes: [...atlas.nodes, ...ext.newNodes.map(x => ({ id: x.id }))], edges, levelModel: { range: [1, 1000] } });
+const longest = Math.max(...depth.values()), top = 1 + 3 * longest;
+
 // Atlas nodes: every field unchanged; five fields added (position is recomputed by the layout).
 const atlasTiers = {};
 const atlasNodes = atlas.nodes.map(n => {
   const r = row(n.id), code = courseOfRow(r);
   atlasTiers[n.id] = r.Level;
-  return { ...clone(n), course: r.Course, courseCode: code, buildStage: stageNumber(r['Build Stage']), onHumanoidPath: yes(r['On Humanoid Path']), helixLevel: Number(r['Helix Level']) };
+  return { ...clone(n), course: r.Course, courseCode: code, buildStage: stageNumber(r['Build Stage']), onHumanoidPath: yes(r['On Humanoid Path']), helixLevel: 1 + 3 * depth.get(n.id) };
 });
+
+// On Humanoid Path for new skills: the sheet's value; skills added after the sheet was exported are
+// on the path, as every humanoid skill in the sheet is and as each one leads to I08 or I09 (validated).
+const notInSheet = ext.newNodes.filter(x => !tax.nodes[x.id]).map(x => x.id);
+const onPath = x => tax.nodes[x.id] ? yes(tax.nodes[x.id]['On Humanoid Path']) : true;
 
 // New nodes, mapped into the Atlas node schema (field order as a pending Atlas entry).
 const assessmentMode = (practice, type) => ({ written: type === 'QUANT' ? 'written calculation' : 'documented scenario', code: 'runnable code or trace',
   'hands-on': 'supervised demonstration', design: 'drawing, calculation or supervised fabrication' })[practice] ?? (() => { throw Error(`Unknown practice ${practice}.`); })();
 const newNodes = ext.newNodes.map(x => {
-  const name = Object.fromEntries(courses)[x.course], domain = courseDomain[x.course], r = row(x.id);
+  const name = Object.fromEntries(courses)[x.course], domain = courseDomain[x.course];
   if (!name) throw Error(`${x.id} has unknown course ${x.course}.`);
   return {
     id: x.id, name: x.name, domain, subdomain: x.subject, nodeKind: x.kind, description: x.description, details: x.description,
@@ -77,34 +94,31 @@ const newNodes = ext.newNodes.map(x => {
     assessmentMode: assessmentMode(x.practice, x.type), assessable: x.kind !== 'milestone',
     contentStatus: 'introductory lesson pending', lessonStatus: 'no lesson yet', contentAuthorship: AUTHORSHIP,
     skillLevel: x.helix, helixType: x.type, helixPractice: x.practice, helixTier: x.level,
-    course: name, courseCode: x.course, buildStage: x.stage, onHumanoidPath: yes(r['On Humanoid Path']), helixLevel: x.helix
+    course: name, courseCode: x.course, buildStage: x.stage, onHumanoidPath: onPath(x), helixLevel: x.helix
   };
 });
-
-// Edges: the Atlas's unchanged, then every extension edge as a prerequisite.
-const edges = [...clone(atlas.edges), ...ext.newPrerequisiteEdges.map(e => ({ source: e.source, target: e.target, type: 'prerequisite', authorship: 'editorial',
-  rationale: `${e.origin}: added by the humanoid helix taxonomy (Nov 2026)` }))];
 
 const counts = list => list.reduce((t, x) => (t[x] = (t[x] || 0) + 1, t), {});
 let graph = {};
 for (const key of Object.keys(atlas)) graph[key] = clone(atlas[key]);   // the Atlas's top-level schema and order
 Object.assign(graph, { title: TITLE, nodes: [...atlasNodes, ...newNodes], edges });
-const depth = levels({ ...graph, levelModel: { range: [1, 1000] } }), longest = Math.max(...depth.values()), top = 1 + 3 * longest;
 graph.levelModel = { ...clone(atlas.levelModel), method: '1 + 3 × longest recorded prerequisite depth, over the merged prerequisite graph.', range: [1, top], usedRange: [1, top],
   helixScaling: `The helix runs to level ${top} (longest chain ${longest}). The app scales height so level ${top} sits where level 100 sits on other maps (layout.heightPerLevel); maps without a declared range keep the 1–100 limit.` };
 graph.metadata = {
-  ...clone(atlas.metadata), datasetId: KEY, datasetVersion: '1.0', created: DATE, atlasFamily: KEY, datasetKey: KEY,
+  ...clone(atlas.metadata), datasetId: KEY, datasetVersion: EDITION.datasetVersion, created: EDITION.firstBuilt, updated: DATE, atlasFamily: KEY, datasetKey: KEY,
   scope: 'The Robotics Atlas merged with the humanoid protocol droid helix extension: Atlas skills, answers and lessons unchanged; humanoid skills, checkpoints, milestones I06–I09 and their prerequisites added.',
   proficiencyPolicy: 'Its own answer family (humanoid-helix-v1), so answers here never change the Robotics Atlas. The Atlas skills\' saved answers travel in the file and are adopted on first open: a copy, not a move. New skills start unmarked.',
   courses: clone(courses),
   humanoidHelixImport: {
-    date: DATE, mappingDecisions: 'docs/humanoid-helix-import.md',
+    date: DATE, edition: EDITION.edition, mappingDecisions: 'docs/humanoid-helix-import.md',
     sources: Object.fromEntries(Object.entries(IN).map(([k, f]) => [k, { file: path.relative(ROOT, f).split(path.sep).join('/'), sha256: before[k] }])),
     originalMap: { title: atlas.title, datasetKey: atlas.metadata.datasetKey, atlasFamily: atlas.metadata.atlasFamily, datasetId: atlas.metadata.datasetId },
     counts: { atlasNodes: atlasNodes.length, newNodes: newNodes.length, nodes: atlasNodes.length + newNodes.length, atlasEdges: atlas.edges.length,
       atlasPrerequisiteEdges: atlas.edges.filter(e => e.type === 'prerequisite').length, newPrerequisiteEdges: ext.newPrerequisiteEdges.length,
       newEdgesByOrigin: counts(ext.newPrerequisiteEdges.map(e => e.origin)), longestChain: longest, topLevel: top },
     courseDomains: courseDomain, buildStages, atlasTiers,
+    helixLevelSource: 'Atlas skills: 1 + 3 x depth over the merged graph. New skills: the extension\'s helix value.',
+    onPathNotInSheet: { count: notInSheet.length, value: true, reason: 'Added after the workbook was exported; every humanoid skill in the sheet is on the path, and each of these leads to I08 or I09.' },
     addedAtlasFields: ['course', 'courseCode', 'buildStage', 'onHumanoidPath', 'helixLevel']
   }
 };
