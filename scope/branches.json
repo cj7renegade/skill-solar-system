@@ -2,17 +2,17 @@
  "generated": "2026-10-05",
  "method": "Branches from the coverage roadmap plus three from Robotics V3. Master skills placed by subdomain, or by id where a subdomain spans branches; V3 entries not in the master placed by planning id. Candidate mappings are reviewed judgements (Task 4). Status: covered = every candidate maps to an existing skill; partial = at least one split or new skill; audit needed = only planning tasks; missing = no existing skills.",
  "totals": {
-  "low": 36,
-  "high": 108,
-  "existing": 88,
-  "split": 33,
-  "new": 3,
+  "low": 0,
+  "high": 0,
+  "existing": 124,
+  "split": 0,
+  "new": 0,
   "planning": 7,
   "deferred": 1,
   "coveredOnlyByV3": 29,
   "audit needed": 3,
-  "covered": 18,
-  "partial": 22,
+  "covered": 40,
+  "partial": 0,
   "covered by V3 (no roadmap candidates)": 3
  },
  "unassignedMasterSkills": [],
@@ -1485,21 +1485,22 @@
    "source": "roadmap",
    "boundary": "Motion description and graphs, frames of observation, Newtonian forces, free-body models, friction and contact.",
    "excludes": "Relativistic mechanics.",
-   "masterSkills": 67,
-   "masterInScope": 14,
+   "masterSkills": 68,
+   "masterInScope": 15,
    "masterContext": 53,
    "v3OnlyEntries": 3,
    "v3PendingLessons": 0,
-   "existingTotal": 70,
+   "existingTotal": 71,
    "candidates": [
     {
      "outcome": "Transform one-dimensional motion between observers",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-relative"
+      "sss-phys-observer-transform"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Choose a valid motion interval and initial conditions",
@@ -1522,18 +1523,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -1603,7 +1604,8 @@
     "sss-phys-one-axis-force-equation",
     "sss-phys-normal-balance",
     "sss-phys-contact-consistency",
-    "sss-phys-internal-force-cancellation"
+    "sss-phys-internal-force-cancellation",
+    "sss-phys-observer-transform"
    ],
    "v3EntryIds": [
     "rob3:B-P02",
@@ -1618,22 +1620,22 @@
    "source": "roadmap",
    "boundary": "Work, power, energy balances, dissipation, momentum and impulse.",
    "excludes": "",
-   "masterSkills": 10,
-   "masterInScope": 0,
+   "masterSkills": 12,
+   "masterInScope": 2,
    "masterContext": 10,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 11,
+   "existingTotal": 13,
    "candidates": [
     {
      "outcome": "Choose the system for an energy balance",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-energy",
-      "px-fbd-isolate"
+      "sss-phys-energy-system"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Distinguish internal dissipation from energy transfer",
@@ -1646,27 +1648,28 @@
     },
     {
      "outcome": "Test when momentum conservation applies",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-momentum"
+      "sss-phys-momentum-conditions"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -1679,7 +1682,9 @@
     "px-collision-inelastic",
     "px-collision-elastic",
     "px-com-discrete",
-    "px-escape"
+    "px-escape",
+    "sss-phys-energy-system",
+    "sss-phys-momentum-conditions"
    ],
    "v3EntryIds": [
     "rob3:B-P06"
@@ -1783,30 +1788,32 @@
    "source": "roadmap",
    "boundary": "Pressure, flow and losses, heat transfer basics, thermal energy balances.",
    "excludes": "Computational fluid dynamics.",
-   "masterSkills": 28,
-   "masterInScope": 5,
+   "masterSkills": 30,
+   "masterInScope": 7,
    "masterContext": 23,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 28,
+   "existingTotal": 30,
    "candidates": [
     {
      "outcome": "Check assumptions before a Bernoulli calculation",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-bernoulli"
+      "sss-phys-bernoulli-assumptions"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Track sign conventions in a thermal energy balance",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-firstlaw"
+      "sss-phys-thermal-sign"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Distinguish static pressure and flow losses",
@@ -1820,18 +1827,18 @@
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -1862,7 +1869,9 @@
     "px-carnot",
     "px-entropy-transfer",
     "px-conduction",
-    "px-radiation"
+    "px-radiation",
+    "sss-phys-bernoulli-assumptions",
+    "sss-phys-thermal-sign"
    ],
    "v3EntryIds": []
   },
@@ -1873,22 +1882,22 @@
    "source": "roadmap",
    "boundary": "Electric and magnetic fields, induction and back EMF, waves, phase and delay.",
    "excludes": "Field theory beyond lumped devices.",
-   "masterSkills": 36,
-   "masterInScope": 11,
+   "masterSkills": 38,
+   "masterInScope": 13,
    "masterContext": 25,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 36,
+   "existingTotal": 38,
    "candidates": [
     {
      "outcome": "Compare flux change mechanisms",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-induction",
-      "p-flux"
+      "sss-phys-flux-mechanisms"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Connect back EMF to actuator operating conditions",
@@ -1901,27 +1910,28 @@
     },
     {
      "outcome": "Interpret phase and propagation delay",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-wave"
+      "sss-phys-delay-phase"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -1960,7 +1970,9 @@
     "px-loop-torque",
     "px-lenz-direction",
     "px-motional-emf",
-    "px-back-emf"
+    "px-back-emf",
+    "sss-phys-flux-mechanisms",
+    "sss-phys-delay-phase"
    ],
    "v3EntryIds": []
   },
@@ -1971,12 +1983,12 @@
    "source": "roadmap",
    "boundary": "Image formation, resolution and sampling for cameras; modern physics only where a sensor needs it.",
    "excludes": "Modern physics with no stated robotics application.",
-   "masterSkills": 19,
-   "masterInScope": 0,
+   "masterSkills": 20,
+   "masterInScope": 1,
    "masterContext": 19,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 19,
+   "existingTotal": 20,
    "candidates": [
     {
      "outcome": "Audit image-formation prerequisites for camera models",
@@ -1990,13 +2002,13 @@
     },
     {
      "outcome": "Separate optical resolution and pixel sampling",
-     "mapping": "proposed new skill",
-     "code": "N",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "p-diffraction",
-      "e-sampling"
+      "sss-phys-resolution-vs-pixels"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (new)"
     },
     {
      "outcome": "Expand modern physics only for a stated application",
@@ -2007,18 +2019,18 @@
     }
    ],
    "counts": {
-    "existing": 0,
+    "existing": 1,
     "split": 0,
-    "new": 1,
+    "new": 0,
     "planning": 1,
     "deferred": 1,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2040,7 +2052,8 @@
     "px-length-contraction",
     "px-rest-energy",
     "px-half-life",
-    "px-binding-energy"
+    "px-binding-energy",
+    "sss-phys-resolution-vs-pixels"
    ],
    "v3EntryIds": []
   },
@@ -2051,54 +2064,57 @@
    "source": "roadmap",
    "boundary": "Circuits, sources, Ohm and Kirchhoff, networks and equivalents, dividers, DC power and measurement, DC diagnosis.",
    "excludes": "",
-   "masterSkills": 45,
-   "masterInScope": 12,
+   "masterSkills": 48,
+   "masterInScope": 15,
    "masterContext": 33,
    "v3OnlyEntries": 9,
    "v3PendingLessons": 0,
-   "existingTotal": 54,
+   "existingTotal": 57,
    "candidates": [
     {
      "outcome": "Handle dependent sources in an equivalent circuit",
-     "mapping": "proposed new skill",
-     "code": "N",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-thevenin"
+      "sss-elec-dependent-source-thevenin"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (new)"
     },
     {
      "outcome": "Check superposition limits for power calculations",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-superposition"
+      "sss-elec-superposition-power"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Verify a solution using independent circuit balances",
-     "mapping": "proposed new skill",
-     "code": "N",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-nodal"
+      "sss-elec-circuit-balance-check"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (new)"
     }
    ],
    "counts": {
-    "existing": 0,
-    "split": 1,
-    "new": 2,
+    "existing": 3,
+    "split": 0,
+    "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 3,
-    "high": 9,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2146,7 +2162,10 @@
     "sss-dc-ammeter-burden",
     "sss-dc-open-fault",
     "sss-dc-short-fault",
-    "sss-dc-test-point-choice"
+    "sss-dc-test-point-choice",
+    "sss-elec-dependent-source-thevenin",
+    "sss-elec-superposition-power",
+    "sss-elec-circuit-balance-check"
    ],
    "v3EntryIds": [
     "rob3:B-E01",
@@ -2167,21 +2186,22 @@
    "source": "roadmap",
    "boundary": "RC and RL transients, phasors, AC power, filters, resonance, inductive current paths.",
    "excludes": "Radio-frequency design.",
-   "masterSkills": 12,
-   "masterInScope": 1,
+   "masterSkills": 14,
+   "masterInScope": 3,
    "masterContext": 11,
    "v3OnlyEntries": 3,
    "v3PendingLessons": 1,
-   "existingTotal": 15,
+   "existingTotal": 17,
    "candidates": [
     {
      "outcome": "Determine capacitor initial and final voltage",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-rc"
+      "sss-elec-capacitor-initial-final"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Determine inductor initial and final current",
@@ -2194,27 +2214,28 @@
     },
     {
      "outcome": "Interpret poles damping and resonance from a stated model",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-resonant"
+      "sss-elec-poles-damping"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 1
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2229,7 +2250,9 @@
     "e-bandfilter",
     "e-db",
     "e-transformer",
-    "e-threephase"
+    "e-threephase",
+    "sss-elec-capacitor-initial-final",
+    "sss-elec-poles-damping"
    ],
    "v3EntryIds": [
     "rob3:B-E10",
@@ -2244,55 +2267,57 @@
    "source": "roadmap",
    "boundary": "Diodes, transistors as switches, device limits, conduction and switching loss.",
    "excludes": "Device physics and IC design.",
-   "masterSkills": 8,
-   "masterInScope": 2,
+   "masterSkills": 11,
+   "masterInScope": 5,
    "masterContext": 6,
    "v3OnlyEntries": 2,
    "v3PendingLessons": 0,
-   "existingTotal": 10,
+   "existingTotal": 13,
    "candidates": [
     {
      "outcome": "Choose a valid device approximation",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-diode"
+      "sss-elec-diode-approximation"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Check switch voltage and current limits",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-mosfet",
-      "rob3:B-E08"
+      "sss-elec-switch-ratings"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Distinguish conduction loss and switching loss",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-mosfet"
+      "sss-elec-switching-loss"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 0,
-    "split": 3,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 3,
-    "high": 9,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2303,7 +2328,10 @@
     "e-led",
     "e-bjt",
     "e-mosfet",
-    "e-bias"
+    "e-bias",
+    "sss-elec-diode-approximation",
+    "sss-elec-switch-ratings",
+    "sss-elec-switching-loss"
    ],
    "v3EntryIds": [
     "rob3:B-E07",
@@ -2317,21 +2345,22 @@
    "source": "roadmap",
    "boundary": "Op-amp circuits, gain and range, comparators and hysteresis, active filters, sensor signal conditioning.",
    "excludes": "",
-   "masterSkills": 8,
-   "masterInScope": 1,
+   "masterSkills": 9,
+   "masterInScope": 2,
    "masterContext": 7,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 1,
-   "existingTotal": 9,
+   "existingTotal": 10,
    "candidates": [
     {
      "outcome": "Check amplifier input and output range",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-opamp"
+      "sss-elec-opamp-range"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Select gain from a sensor signal range",
@@ -2353,18 +2382,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 1
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2375,7 +2404,8 @@
     "e-differential",
     "e-comparator",
     "e-piecewise",
-    "e-activefilter"
+    "e-activefilter",
+    "sss-elec-opamp-range"
    ],
    "v3EntryIds": [
     "rob3:E07"
@@ -2388,12 +2418,12 @@
    "source": "roadmap",
    "boundary": "Logic and timing, sampling and aliasing, ADC and DAC conversion, digital buses and interfaces.",
    "excludes": "Digital IC and FPGA design.",
-   "masterSkills": 11,
-   "masterInScope": 8,
+   "masterSkills": 12,
+   "masterInScope": 9,
    "masterContext": 3,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 12,
+   "existingTotal": 13,
    "candidates": [
     {
      "outcome": "Check setup and hold timing",
@@ -2406,12 +2436,13 @@
     },
     {
      "outcome": "Convert ADC codes with a stated reference",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-adc"
+      "sss-elec-adc-code-conversion"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Choose sample rate and anti-alias filtering for a signal band",
@@ -2425,18 +2456,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2450,7 +2481,8 @@
     "e-dac",
     "e-sampling",
     "e-antialias",
-    "e-bus"
+    "e-bus",
+    "sss-elec-adc-code-conversion"
    ],
    "v3EntryIds": [
     "rob3:R-E01"
@@ -2615,22 +2647,22 @@
    "source": "roadmap",
    "boundary": "Board layout, grounding and return paths, decoupling and shielding, test points and board diagnosis.",
    "excludes": "High-speed signal-integrity engineering.",
-   "masterSkills": 4,
-   "masterInScope": 1,
+   "masterSkills": 6,
+   "masterInScope": 3,
    "masterContext": 3,
    "v3OnlyEntries": 2,
    "v3PendingLessons": 1,
-   "existingTotal": 6,
+   "existingTotal": 8,
    "candidates": [
     {
      "outcome": "Trace high-current return loops",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "e-decoupling",
-      "e-grounding"
+      "sss-elec-return-loop"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Separate schematic correctness from layout effects",
@@ -2643,35 +2675,37 @@
     },
     {
      "outcome": "Plan test points for diagnosing a board",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "sss-dc-test-point-choice",
-      "rob3:E10"
+      "sss-elec-test-point-plan"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 1
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
     "e-decoupling",
     "e-grounding",
     "e-shielding",
-    "e-pcb"
+    "e-pcb",
+    "sss-elec-return-loop",
+    "sss-elec-test-point-plan"
    ],
    "v3EntryIds": [
     "rob3:E10",
@@ -2685,31 +2719,32 @@
    "source": "roadmap",
    "boundary": "Load paths, free-body diagrams of structures, distributed loads, joints and two-force members, trusses.",
    "excludes": "",
-   "masterSkills": 13,
-   "masterInScope": 2,
+   "masterSkills": 15,
+   "masterInScope": 4,
    "masterContext": 11,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 13,
+   "existingTotal": 15,
    "candidates": [
     {
      "outcome": "Replace a distributed load with an equivalent resultant",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-load"
+      "sss-mech-distributed-resultant"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Solve selected truss joints",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "sss-mech-two-force-member",
-      "sss-mech-joint-transfer"
+      "sss-mech-truss-joints"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Check a load path through separate component diagrams",
@@ -2722,18 +2757,18 @@
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2749,7 +2784,9 @@
     "sss-mech-static-indeterminacy",
     "sss-mech-two-force-member",
     "sss-mech-joint-transfer",
-    "sss-mech-section-resultants"
+    "sss-mech-section-resultants",
+    "sss-mech-distributed-resultant",
+    "sss-mech-truss-joints"
    ],
    "v3EntryIds": []
   },
@@ -2760,12 +2797,12 @@
    "source": "roadmap",
    "boundary": "Normal and shear stress and strain, elastic and plastic response, Poisson effects, tensile testing, creep.",
    "excludes": "",
-   "masterSkills": 20,
-   "masterInScope": 5,
+   "masterSkills": 21,
+   "masterInScope": 6,
    "masterContext": 15,
    "v3OnlyEntries": 2,
    "v3PendingLessons": 0,
-   "existingTotal": 22,
+   "existingTotal": 23,
    "candidates": [
     {
      "outcome": "Distinguish shear stress from normal stress on a selected plane",
@@ -2787,28 +2824,28 @@
     },
     {
      "outcome": "Identify the limits of a uniaxial material model",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-tensile",
-      "sss-mat-elastic-versus-linear"
+      "sss-mat-uniaxial-limits"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2831,7 +2868,8 @@
     "sss-mat-permanent-set",
     "sss-mat-engineering-uts",
     "sss-mat-current-area-stress",
-    "sss-mat-property-selection"
+    "sss-mat-property-selection",
+    "sss-mat-uniaxial-limits"
    ],
    "v3EntryIds": [
     "rob3:B-D03",
@@ -2845,12 +2883,12 @@
    "source": "roadmap",
    "boundary": "Torsion, bending, section properties, deflection, buckling, finite-element use and checks.",
    "excludes": "Writing finite-element solvers.",
-   "masterSkills": 7,
-   "masterInScope": 3,
+   "masterSkills": 8,
+   "masterInScope": 4,
    "masterContext": 4,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 8,
+   "existingTotal": 9,
    "candidates": [
     {
      "outcome": "Choose a bending axis and section property",
@@ -2875,27 +2913,28 @@
     },
     {
      "outcome": "Check effective-length assumptions in a buckling model",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-buckling"
+      "sss-mech-effective-length"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2905,7 +2944,8 @@
     "s-deflection",
     "s-buckling",
     "s-fea",
-    "s-mesh"
+    "s-mesh",
+    "sss-mech-effective-length"
    ],
    "v3EntryIds": [
     "rob3:B-D05"
@@ -2918,22 +2958,22 @@
    "source": "roadmap",
    "boundary": "Failure criteria, stress concentration, fracture, fatigue, wear, safety factors and design margins.",
    "excludes": "",
-   "masterSkills": 6,
-   "masterInScope": 3,
+   "masterSkills": 8,
+   "masterInScope": 5,
    "masterContext": 3,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 7,
+   "existingTotal": 9,
    "candidates": [
     {
      "outcome": "Distinguish nominal and peak stress",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-concentration",
-      "sss-mat-current-area-stress"
+      "sss-mat-nominal-peak"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Describe a fatigue load cycle",
@@ -2946,29 +2986,28 @@
     },
     {
      "outcome": "Distinguish yielding from crack-driven failure",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-plastic",
-      "s-fracture",
-      "s-failurecriterion"
+      "sss-mat-yield-vs-crack"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -2977,7 +3016,9 @@
     "s-fracture",
     "s-fatigue",
     "s-wear",
-    "s-safetyfactor"
+    "s-safetyfactor",
+    "sss-mat-nominal-peak",
+    "sss-mat-yield-vs-crack"
    ],
    "v3EntryIds": [
     "rob3:B-D06"
@@ -2990,12 +3031,12 @@
    "source": "roadmap",
    "boundary": "Metals, polymers, ceramics and composites, structure and bonding, processing routes and their effect on properties.",
    "excludes": "Materials research and alloy design.",
-   "masterSkills": 32,
-   "masterInScope": 7,
+   "masterSkills": 34,
+   "masterInScope": 9,
    "masterContext": 25,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 32,
+   "existingTotal": 34,
    "candidates": [
     {
      "outcome": "Tie a property claim to material condition",
@@ -3008,38 +3049,38 @@
     },
     {
      "outcome": "Distinguish fiber direction effects from isotropic response",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-composite"
+      "sss-mat-fiber-direction"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Relate processing choices to dimensional change",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-heattreat",
-      "s-additive",
-      "rob3:D10"
+      "sss-mat-process-dimensions"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3074,7 +3115,9 @@
     "s-additive",
     "s-finish",
     "s-coating",
-    "s-select"
+    "s-select",
+    "sss-mat-fiber-direction",
+    "sss-mat-process-dimensions"
    ],
    "v3EntryIds": []
   },
@@ -3085,12 +3128,12 @@
    "source": "roadmap",
    "boundary": "Fasteners and preload, welding and adhesives, fits, datums, tolerance stacks.",
    "excludes": "",
-   "masterSkills": 5,
-   "masterInScope": 1,
+   "masterSkills": 6,
+   "masterInScope": 2,
    "masterContext": 4,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 6,
+   "existingTotal": 7,
    "candidates": [
     {
      "outcome": "Separate preload and externally applied load",
@@ -3103,13 +3146,13 @@
     },
     {
      "outcome": "Build a functional datum scheme",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-fits",
-      "rob3:D03"
+      "sss-mech-datum-scheme"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Trace a worst-case dimensional stack",
@@ -3123,18 +3166,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3142,7 +3185,8 @@
     "s-adhesive",
     "s-fastener",
     "s-fits",
-    "s-stack"
+    "s-stack",
+    "sss-mech-datum-scheme"
    ],
    "v3EntryIds": [
     "rob3:D06"
@@ -3155,21 +3199,22 @@
    "source": "roadmap",
    "boundary": "Thermal expansion and resistance, lumped thermal models, conduction and convection, corrosion and coatings, materials thermodynamics.",
    "excludes": "",
-   "masterSkills": 12,
-   "masterInScope": 7,
+   "masterSkills": 13,
+   "masterInScope": 8,
    "masterContext": 5,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 13,
+   "existingTotal": 14,
    "candidates": [
     {
      "outcome": "Calculate differential expansion between joined parts",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "s-thermalexpand"
+      "sss-mat-differential-expansion"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Model a thermal contact path",
@@ -3191,18 +3236,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3217,7 +3262,8 @@
     "s-thermalexpand",
     "s-conductivity",
     "s-thermalresist",
-    "s-convection"
+    "s-convection",
+    "sss-mat-differential-expansion"
    ],
    "v3EntryIds": [
     "rob3:B-D08"
@@ -3278,30 +3324,32 @@
    "source": "roadmap",
    "boundary": "Files and text, first programs, algorithms, functions and contracts, testing, debugging, version control, reproducible builds.",
    "excludes": "",
-   "masterSkills": 27,
-   "masterInScope": 19,
+   "masterSkills": 29,
+   "masterInScope": 21,
    "masterContext": 8,
    "v3OnlyEntries": 5,
    "v3PendingLessons": 0,
-   "existingTotal": 32,
+   "existingTotal": 34,
    "candidates": [
     {
      "outcome": "Write a function with a clear input-output contract",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "c-functions"
+      "sss-comp-function-contract"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Design a boundary-case test",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "c-testing"
+      "sss-comp-boundary-test"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Reduce a failure to a reproducible example",
@@ -3315,18 +3363,18 @@
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3356,7 +3404,9 @@
     "c-git-branches",
     "c-git-remotes",
     "c-documentation",
-    "c-linux-admin"
+    "c-linux-admin",
+    "sss-comp-function-contract",
+    "sss-comp-boundary-test"
    ],
    "v3EntryIds": [
     "rob3:B-C01",
@@ -3373,12 +3423,12 @@
    "source": "roadmap",
    "boundary": "Data structures, graphs, cost and latency, floating point and numerical error.",
    "excludes": "Algorithm research.",
-   "masterSkills": 13,
-   "masterInScope": 5,
+   "masterSkills": 14,
+   "masterInScope": 6,
    "masterContext": 8,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 13,
+   "existingTotal": 14,
    "candidates": [
     {
      "outcome": "Choose a graph representation for a robot problem",
@@ -3391,13 +3441,13 @@
     },
     {
      "outcome": "Identify numerical cancellation",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "c-floats",
-      "m-numerror"
+      "sss-comp-cancellation"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Separate algorithm cost from measured latency",
@@ -3411,18 +3461,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3438,7 +3488,8 @@
     "c-searching",
     "c-sorting",
     "c-code-cost",
-    "c-numeric-arrays"
+    "c-numeric-arrays",
+    "sss-comp-cancellation"
    ],
    "v3EntryIds": []
   },
@@ -3449,21 +3500,22 @@
    "source": "roadmap",
    "boundary": "Computer architecture, memory and ownership, processes and threads, races and deadlock.",
    "excludes": "Operating-system kernel development.",
-   "masterSkills": 25,
-   "masterInScope": 13,
+   "masterSkills": 26,
+   "masterInScope": 14,
    "masterContext": 12,
    "v3OnlyEntries": 1,
    "v3PendingLessons": 0,
-   "existingTotal": 26,
+   "existingTotal": 27,
    "candidates": [
     {
      "outcome": "Explain object ownership across a task boundary",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "c-allocation"
+      "sss-comp-task-ownership"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Detect a shared-state race",
@@ -3485,18 +3537,18 @@
     }
    ],
    "counts": {
-    "existing": 2,
-    "split": 1,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 1,
-    "high": 3,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3524,7 +3576,8 @@
     "c-race-conditions",
     "c-synchronization",
     "c-deadlock",
-    "c-event-loops"
+    "c-event-loops",
+    "sss-comp-task-ownership"
    ],
    "v3EntryIds": [
     "rob3:B-C05"
@@ -3702,30 +3755,32 @@
    "source": "roadmap",
    "boundary": "Evaluation and leakage, metrics, overfitting, deploying models under robot constraints.",
    "excludes": "Training large models; ML research.",
-   "masterSkills": 10,
-   "masterInScope": 8,
+   "masterSkills": 11,
+   "masterInScope": 9,
    "masterContext": 2,
    "v3OnlyEntries": 0,
    "v3PendingLessons": 0,
-   "existingTotal": 10,
+   "existingTotal": 11,
    "candidates": [
     {
      "outcome": "Prevent train-test leakage",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "c-evaluation"
+      "sss-comp-train-test-leakage"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits, 2026-11-05 (split)"
     },
     {
      "outcome": "Choose a metric for an asymmetric error cost",
-     "mapping": "split a broad skill",
-     "code": "S",
+     "mapping": "existing skill",
+     "code": "E",
      "skills": [
-      "c-evaluation"
+      "c-classification"
      ],
-     "viaV3Only": false
+     "viaV3Only": false,
+     "resolvedBy": "foundation splits review, 2026-11-05: already covered (D2)"
     },
     {
      "outcome": "Check inference latency against a robot deadline",
@@ -3738,18 +3793,18 @@
     }
    ],
    "counts": {
-    "existing": 1,
-    "split": 2,
+    "existing": 3,
+    "split": 0,
     "new": 0,
     "planning": 0,
     "deferred": 0,
     "coveredOnlyByV3": 0
    },
-   "status": "partial",
+   "status": "covered",
    "coveredInMasterToday": null,
    "remainingEstimate": {
-    "low": 2,
-    "high": 6,
+    "low": 0,
+    "high": 0,
     "note": "Estimate: each split or new candidate is at least one skill; the roadmap calls its candidates examples, not a complete list, so the high end allows about three skills each."
    },
    "masterSkillIds": [
@@ -3762,7 +3817,8 @@
     "c-evaluation",
     "c-overfitting",
     "c-neural-networks",
-    "c-model-deployment"
+    "c-model-deployment",
+    "sss-comp-train-test-leakage"
    ],
    "v3EntryIds": []
   },

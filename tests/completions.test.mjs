@@ -172,10 +172,13 @@ test('an Edition 07 lesson is refused if it drifts from its approved record', { 
   assert.match(reconcileLesson(lesson, { specNode: { ...specNode, demonstration: 'Something else.' }, node, edition: 'e' }).problems.join(), /fingerprint/);
   assert.match(reconcileLesson({ ...lesson, proficiency_write: true }, { specNode, node, edition: 'e' }).problems.join(), /proficiency write/);
 });
-test('the working map is the finished completions map: the import is already applied', { skip: !(realAvailable && importAvailable) && 'needs the working map and the base map' }, () => {
+// Later steps (the foundation splits) add skills to the working map, so this checks that the
+// completions are contained in it rather than that it is exactly the completions map.
+test('the working map holds the finished completions: the import is already applied', { skip: !(realAvailable && importAvailable) && 'needs the working map and the base map' }, () => {
   const working = JSON.parse(readFileSync(ATLAS, 'utf8'));
   if (BASE === ATLAS) return;   // before Task 8 the working map is still the base
-  assert.equal(working.nodes.length, 1920);
+  assert.ok(working.nodes.length >= 1920);
+  assert.ok(working.nodes.some(n => n.id === 'rob3:A12'));
   assert.equal(working.nodes.filter(n => n.lesson).length, 306);
   assert.equal(working.nodes.filter(n => n.lessonCard?.edition === 'robotics-completions-07').length, 8);
   assert.equal(working.nodes.find(n => n.id === 'rob3:P11').proficiency80, null);
