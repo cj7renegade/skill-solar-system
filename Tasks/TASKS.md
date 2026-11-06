@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Core lessons (step 7)
 
 Step 7 of `reports/scope/07-checkpoint.md` §2: introductory lessons for every required skill. JC
-asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1, Tasks 1–6 done; waiting at Checkpoint B1.**
+asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1 done: Checkpoint B1 passed on 2026-11-05 and merged. Part 2 not started.**
 
 The queue has **two parts**, one edition each, and each part ends with its own Checkpoint B and pull
 request. JC reads about twenty lessons at a time rather than forty-four at once, and the working map
@@ -207,13 +207,23 @@ Each skill keeps its own text in `atlasDetails` and gains no planning id.
 - `src/lesson.js` names the edition, and `docs/PLATFORM.md` has a new §9.1d.
 - A review in progress resumes, because the skill set is unchanged.
 
-**Waiting for JC at Checkpoint B1.**
+**Passed:** JC opened the finished map and said **go** on 2026-11-05.
 
 ## [ ] Task 7 — Make it the working map, then merge Part 1
 **Do (only after JC's go):** back up `Maps/Robotics-Atlas.json` to `Maps/Backups/` with the date,
 replace it, keep the importer's default dry run passing, open the pull request, merge it, update
 local `main`.
 **Check:** the backup matches Task 1; the old maps and the answer record are unchanged.
+**Result (2026-11-05, after JC's "Go"):**
+- **Backed up:** `Maps/Backups/2026-11-05-before-edition08/Robotics-Atlas.json`, which matches Task 1
+  (`7c418655…`).
+- **Replaced:** `Maps/Robotics-Atlas.json` is now `e91a4292…772f81e`. The ledger and summary are in
+  `Maps/Robotics-Atlas-import/`.
+- **Check passed:** the old maps and the answer record (`23471d5c…`) are unchanged. The app was closed.
+- On the new working map, the importer's default dry run passes (306 V3 + 23 master-skill lessons,
+  nothing to change, I05 328/328), and the e2e checks pass (core lessons 11, splits 10, merged atlas 12).
+- **One test changed:** `tests/completions.test.mjs` expected exactly 306 lessons on the working map. It
+  now expects at least 306, because later editions add lessons. Unit tests: 260 pass, 0 fail, 6 skipped.
 
 ---
 

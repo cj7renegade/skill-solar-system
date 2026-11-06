@@ -179,7 +179,7 @@ test('the working map holds the finished completions: the import is already appl
   if (BASE === ATLAS) return;   // before Task 8 the working map is still the base
   assert.ok(working.nodes.length >= 1920);
   assert.ok(working.nodes.some(n => n.id === 'rob3:A12'));
-  assert.equal(working.nodes.filter(n => n.lesson).length, 306);
+  assert.ok(working.nodes.filter(n => n.lesson).length >= 306);   // later editions add lessons
   assert.equal(working.nodes.filter(n => n.lessonCard?.edition === 'robotics-completions-07').length, 8);
   assert.equal(working.nodes.find(n => n.id === 'rob3:P11').proficiency80, null);
 });

@@ -1015,9 +1015,9 @@ Built from the completions map and made the working map after JC's go at Checkpo
 | Required | none: the I05 chain is unchanged (327) |
 | Lessons | none yet. The new skills have no planning id, so the importer leaves them alone; their lessons are step 7 |
 
-### 9.1d Core lessons, Edition 08 (built, waiting for Checkpoint B1)
+### 9.1d Core lessons, Edition 08 (the working map since 2026-11-05)
 
-Built in scratch from the working map (`reports/lessons/02-edition08-results.md`):
+Built from the splits map and made the working map after JC's go at Checkpoint B1 (`reports/lessons/02-edition08-results.md`). The map it replaced is in `Maps/Backups/2026-11-05-before-edition08/`:
 
 | | |
 | --- | --- |

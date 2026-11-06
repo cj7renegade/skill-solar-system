@@ -1,14 +1,14 @@
 # Lessons 02 — Edition 08 results (Tasks 3–6)
 
 Edition 08, built on 2026-11-05 from the specifications JC approved at Checkpoint A (E1–E5 as
-recommended). **It is waiting for JC's go or no-go at Checkpoint B1.** Until then the result exists
-only as `C:\sss-scratch\lessons\Robotics-Atlas.json`. Nothing in `Maps/` was written. The working map
-(`7c418655…`), the old master, the V3 export and the shared answer record (`23471d5c…`) are unchanged;
-their SHA-256 was checked before and after every task.
+recommended). **JC said go at Checkpoint B1 on 2026-11-05**, and it is now the working map,
+`Maps/Robotics-Atlas.json`. The map it replaced is in `Maps/Backups/2026-11-05-before-edition08/` (Task 7).
+Before the go, nothing in `Maps/` was written. The old master, the V3 export and the shared answer
+record (`23471d5c…`) are unchanged; their SHA-256 was checked before and after every task.
 
 ## Before and after
 
-| | Working map now | **With Edition 08** |
+| | Previous working map | **With Edition 08 (working map now)** |
 | --- | ---: | ---: |
 | Skills / connections | 1,955 / 5,783 | **1,955 / 5,783**, unchanged |
 | Answers in the file | 308 | **308**, unchanged |
