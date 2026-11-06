@@ -1,0 +1,1231 @@
+{
+  "metadata": {
+    "artifact_type": "content_patch_not_map",
+    "edition": "core-lessons-08",
+    "authored": "2026-11-05",
+    "author": "Claude Code, at JC's request (step 7 Checkpoint A, E3)",
+    "baseline_spec_version": "3.0",
+    "master_specifications_sha256": "5043909c363ead55ccb7cb2f635d9973700d8d74acb3c82f77c9d40f045c89b7",
+    "confirmed_export_sha256": "7c4186556c58fe6549aed80aac5caedb1630d5371118768f4b0800598375892a",
+    "dataset_key": "robotics-atlas-merged",
+    "lesson_count": 23,
+    "expected_prior_lessons": 306,
+    "cumulative_unique_lessons": 329,
+    "milestone": "I05",
+    "selection": "Step 7 Group A (E1): the master-only skills on the I05 path without a lesson.",
+    "proficiency_write": false
+  },
+  "lessons": [
+    {
+      "id": "sss-rob-serial-dof",
+      "explanation": "In a fixed-base open chain whose joints are independent one-degree-of-freedom revolute or prismatic joints, the configuration needs exactly one coordinate per joint: an angle for each revolute joint and a length for each prismatic joint. Count joints, not motors and not task directions. One motor can drive two joints through a coupling, and a seven-joint arm still places its tool in a six-number pose. The rule stops applying when the chain closes into a loop, when joints are mechanically coupled, or when extra constraints tie coordinates together; those cases need a mobility analysis.",
+      "worked_example": "A pick-and-place arm has, in series from a fixed base, a revolute waist, a prismatic vertical slide, a revolute shoulder, a revolute elbow and a revolute wrist roll. It has 5 configuration coordinates: 4 angles (waist, shoulder, elbow, wrist) and 1 length (slide). A gripper whose two fingers move together on one lead screw adds 1 more coordinate, not 2.",
+      "practice": {
+        "question": "A gantry has three prismatic axes (x, y, z) in series and a revolute tool rotation at the end. How many configuration coordinates does it have, and of which kinds?",
+        "answer": "4: three lengths and one angle."
+      },
+      "boundary_case": {
+        "question": "A planar four-bar linkage has four revolute joints. Does it have four configuration coordinates?",
+        "answer": "No. Its links close into a loop, so the joints are not independent. Counting planar mobility as 3 * (4 - 1) - 2 * 4 = 1 shows it has one degree of freedom. The one-per-joint rule is for open chains only."
+      },
+      "name": "Count independent coordinates of an unconstrained serial joint chain",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-serial-dof",
+      "proposed_runtime_id": "sss-rob-serial-dof",
+      "requires": [],
+      "dependency_depth": 0,
+      "node_contract_sha256": "5bb43f50165a8dccb34bd63a2e2e13062137b7bd884f3c026ee9a838bce1cfe3",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Count the configuration coordinates of stated fixed-base open chains of revolute and prismatic joints, label each as an angle or a translation, and identify a stated case (a closed loop or a coupled joint) where the counting rule does not apply.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Count the configuration coordinates of stated fixed-base open chains of revolute and prismatic joints, label each as an angle or a translation, and identify a stated case (a closed loop or a coupled joint) where the counting rule does not apply.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written counting and classification, checked in the lab.",
+      "why_it_matters": "Prepares for Specify joint order, zero references, signs, and units for a configuration.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with coupled joints, passive joints and redundant arms; mobility analysis of closed chains.",
+      "references": [],
+      "details": "In a fixed-base open chain whose joints are independent one-degree-of-freedom revolute or prismatic joints, the configuration needs exactly one coordinate per joint: an angle for each revolute joint and a length for each prismatic joint. Count joints, not motors and not task directions. One motor can drive two joints through a coupling, and a seven-joint arm still places its tool in a six-number pose. The rule stops applying when the chain closes into a loop, when joints are mechanically coupled, or when extra constraints tie coordinates together; those cases need a mobility analysis.\n\nA pick-and-place arm has, in series from a fixed base, a revolute waist, a prismatic vertical slide, a revolute shoulder, a revolute elbow and a revolute wrist roll. It has 5 configuration coordinates: 4 angles (waist, shoulder, elbow, wrist) and 1 length (slide). A gripper whose two fingers move together on one lead screw adds 1 more coordinate, not 2.",
+      "placement_note": "A starting point on the I05 path. Prepares for Specify joint order, zero references, signs, and units for a configuration.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "p-charge",
+      "explanation": "Electric charge comes in two kinds, positive and negative, and in whole-number multiples of the elementary charge e = 1.602e-19 C. Like charges repel and opposite charges attract. Charge is conserved: the net charge of an isolated system never changes, and charge can only move from one place to another. In a circuit the same charge circulates around the loop. Current is the rate charge passes a point, so the current entering a lamp equals the current leaving it. What a battery supplies, and the lamp converts, is energy, not charge.",
+      "worked_example": "Rubbing moves 5.0e10 electrons from a cloth to a rod. The rod's charge is -5.0e10 * 1.602e-19 = -8.0e-9 C (-8.0 nC), the cloth's is +8.0 nC, and the total is still zero. A wire carrying 2.0 A passes 2.0 C every second at every point of the loop, so over 10 s, 20 C enters the lamp and 20 C leaves it.",
+      "practice": {
+        "question": "Two identical metal spheres carry +6 nC and -2 nC. They touch and then separate. What does each carry?",
+        "answer": "The total, +4 nC, is shared equally: +2 nC each. The total charge is unchanged."
+      },
+      "boundary_case": {
+        "question": "A phone battery is flat. Has it run out of charge?",
+        "answer": "Not in the physics sense: it holds as many electrons as ever. It has run out of stored chemical energy to push charge around a circuit. In everyday speech, charge means stored energy."
+      },
+      "name": "Electric charge and conservation",
+      "branch": "Fields, waves, and light",
+      "planning_id": "p-charge",
+      "proposed_runtime_id": "p-charge",
+      "requires": [
+        "p-model"
+      ],
+      "dependency_depth": 3,
+      "node_contract_sha256": "a7acc2ffb1986e01498137dfec2da13b074faa3b58ad07138366c9bc6e91f1df",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Track charge through stated transfers between objects and around a circuit using conservation and whole multiples of e, and explain why a circuit converts energy rather than consuming charge.",
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Track charge through stated transfers between objects and around a circuit using conservation and whole multiples of e, and explain why a circuit converts energy rather than consuming charge.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Calculation and explanation on labeled scenarios, checked in the lab.",
+      "why_it_matters": "Prepares for Electric force and field and Current and charge flow.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with induction and grounding; the link between charge, current and energy in circuits.",
+      "references": [],
+      "details": "Electric charge comes in two kinds, positive and negative, and in whole-number multiples of the elementary charge e = 1.602e-19 C. Like charges repel and opposite charges attract. Charge is conserved: the net charge of an isolated system never changes, and charge can only move from one place to another. In a circuit the same charge circulates around the loop. Current is the rate charge passes a point, so the current entering a lamp equals the current leaving it. What a battery supplies, and the lamp converts, is energy, not charge.\n\nRubbing moves 5.0e10 electrons from a cloth to a rod. The rod's charge is -5.0e10 * 1.602e-19 = -8.0e-9 C (-8.0 nC), the cloth's is +8.0 nC, and the total is still zero. A wire carrying 2.0 A passes 2.0 C every second at every point of the loop, so over 10 s, 20 C enters the lamp and 20 C leaves it.",
+      "placement_note": "Builds on Systems, assumptions, and models. Prepares for Electric force and field and Current and charge flow.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-frame-labels",
+      "explanation": "Every coordinate tuple belongs to a frame: an origin and a set of axis directions. Write the frame with the numbers, as in p_cam or p_base, and only add, subtract or compare tuples in the same frame. The same physical point has different coordinates in different frames, so different numbers in two frames do not mean the object moved, and equal numbers in two frames do not mean two things are in the same place.",
+      "worked_example": "A camera reports a box at p_cam = (0.10, 0.00, 0.60) m, and the robot reports its gripper at p_base = (0.10, 0.00, 0.60) m. The equal numbers say nothing, because the frames differ. Until the box is converted into the base frame with the camera's pose, the correct report is: p_cam and p_base cannot be compared.",
+      "practice": {
+        "question": "A lidar reports an obstacle at (2.0, 0.5) m in its own frame; the robot, carrying the lidar at its origin, is at (5.0, 3.0) m in the map frame. A student adds them to get (7.0, 3.5) m in the map. What is missing?",
+        "answer": "The lidar's orientation in the map. Adding works only if the lidar's axes are parallel to the map's. If the lidar faces the map's +y axis (rotated 90 deg), the obstacle is at (5.0 - 0.5, 3.0 + 2.0) = (4.5, 5.0) m."
+      },
+      "boundary_case": {
+        "question": "A robot stands still while its map frame is re-anchored, and its reported position changes from (1, 1) to (4, 2). Did it move?",
+        "answer": "No. The frame changed, not the robot. Different coordinates can describe the same unmoved object."
+      },
+      "name": "Label the reference frame of a robot position or direction",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-frame-labels",
+      "proposed_runtime_id": "sss-rob-frame-labels",
+      "requires": [
+        "m-vector"
+      ],
+      "dependency_depth": 7,
+      "node_contract_sha256": "88639be2ab7f23ba755acc8fca6ff43fc2b2d774d63a32dd9abf2d0573607155",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Label the frame of each coordinate tuple in a stated multi-sensor scenario, flag every comparison between tuples in different frames, and explain how different coordinates can describe the same unmoved object.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Label the frame of each coordinate tuple in a stated multi-sensor scenario, flag every comparison between tuples in different frames, and explain how different coordinates can describe the same unmoved object.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written labeling and frame-consistency checks, with the rotated case checked in the lab.",
+      "why_it_matters": "Prepares for Construct a rotation matrix from one frame’s axes expressed in another and Label frames and joint conventions.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with chains of sensors and moving frames; frame conventions in robot software.",
+      "references": [],
+      "details": "Every coordinate tuple belongs to a frame: an origin and a set of axis directions. Write the frame with the numbers, as in p_cam or p_base, and only add, subtract or compare tuples in the same frame. The same physical point has different coordinates in different frames, so different numbers in two frames do not mean the object moved, and equal numbers in two frames do not mean two things are in the same place.\n\nA camera reports a box at p_cam = (0.10, 0.00, 0.60) m, and the robot reports its gripper at p_base = (0.10, 0.00, 0.60) m. The equal numbers say nothing, because the frames differ. Until the box is converted into the base frame with the camera's pose, the correct report is: p_cam and p_base cannot be compared.",
+      "placement_note": "Builds on Vector components and arithmetic. Prepares for Construct a rotation matrix from one frame’s axes expressed in another and Label frames and joint conventions.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-joint-conventions",
+      "explanation": "A configuration vector q = (q1, q2, ...) means something only with four conventions: the order of the joints, the unit of each entry, its positive direction, and its zero reference, the pose where it reads 0. Angles can also be relative, each link measured from the previous link, or absolute, each link measured from the base x axis. For a planar arm, the absolute angle of link i is q1 + ... + qi, and the relative angle is the difference between neighbouring absolute angles.",
+      "worked_example": "A planar three-link arm reports relative angles q = (20, 30, -10) deg. Its absolute link angles are 20, 50 and 40 deg. A controller expecting absolute angles must be sent (20, 50, 40). Sending (20, 30, -10) would put link 3 at -10 deg instead of 40 deg.",
+      "practice": {
+        "question": "A planar arm's absolute link angles are (90, 45, 45) deg. What are its relative joint angles?",
+        "answer": "(90, -45, 0) deg: link 2 is 45 deg below link 1, and link 3 continues straight along link 2."
+      },
+      "boundary_case": {
+        "question": "Two teams both report q = (0.5, 1.0) rad for the same arm and draw different poses. How can both be right?",
+        "answer": "Their conventions differ. If one team means relative angles, link 2 points at 0.5 + 1.0 = 1.5 rad; if the other means absolute angles, it points at 1.0 rad. The numbers mean nothing until order, units, signs, zeros and relative or absolute are stated."
+      },
+      "name": "Specify joint order, zero references, signs, and units for a configuration",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-joint-conventions",
+      "proposed_runtime_id": "sss-rob-joint-conventions",
+      "requires": [
+        "sss-rob-serial-dof",
+        "m-radian"
+      ],
+      "dependency_depth": 7,
+      "node_contract_sha256": "1867264b65653d8abae228c50c3429cae3afe86272a3aced67ef4e41b765dbda",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Write a configuration vector with joint order, units, positive directions and zero references for a stated arm, and convert its joint angles between relative and absolute form.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Write a configuration vector with joint order, units, positive directions and zero references for a stated arm, and convert its joint angles between relative and absolute form.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written conversion between relative and absolute angles, checked in the lab.",
+      "why_it_matters": "Prepares for Distinguish joint configuration, task coordinates, and reachable workspace, Calculate position and orientation of an ideal two-revolute-link planar arm, and Label frames and joint conventions.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with prismatic joints, joint offsets and controller conventions.",
+      "references": [],
+      "details": "A configuration vector q = (q1, q2, ...) means something only with four conventions: the order of the joints, the unit of each entry, its positive direction, and its zero reference, the pose where it reads 0. Angles can also be relative, each link measured from the previous link, or absolute, each link measured from the base x axis. For a planar arm, the absolute angle of link i is q1 + ... + qi, and the relative angle is the difference between neighbouring absolute angles.\n\nA planar three-link arm reports relative angles q = (20, 30, -10) deg. Its absolute link angles are 20, 50 and 40 deg. A controller expecting absolute angles must be sent (20, 50, 40). Sending (20, 30, -10) would put link 3 at -10 deg instead of 40 deg.",
+      "placement_note": "Builds on Count independent coordinates of an unconstrained serial joint chain and Radians and arc length. Prepares for Distinguish joint configuration, task coordinates, and reachable workspace, Calculate position and orientation of an ideal two-revolute-link planar arm, and Label frames and joint conventions.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-rotation-columns",
+      "explanation": "The rotation matrix R_AB has frame B's three unit axes, written in frame A's components, as its columns. Then v_A = R_AB * v_B converts any vector given in B components into A components. Going the other way uses the transpose: R_BA = R_AB^T. Swapping the frame labels without transposing gives the wrong mapping.",
+      "worked_example": "Frame B is frame A rotated 90 deg about z. B's x axis points along A's y axis, x_B = (0, 1, 0); y_B = (-1, 0, 0); z_B = (0, 0, 1). So R_AB has these as columns: rows (0, -1, 0), (1, 0, 0), (0, 0, 1). A vector along B's x axis, v_B = (2, 0, 0), becomes v_A = (0, 2, 0): along A's y axis, as expected.",
+      "practice": {
+        "question": "Frame B is frame A rotated 180 deg about z. Write R_AB and convert v_B = (1, 2, 3).",
+        "answer": "x_B = (-1, 0, 0), y_B = (0, -1, 0), z_B = (0, 0, 1), so R_AB = diag(-1, -1, 1) and v_A = (-1, -2, 3)."
+      },
+      "boundary_case": {
+        "question": "Someone uses the worked R_AB to convert v_A = (0, 2, 0) into B components. What goes wrong?",
+        "answer": "R_AB * v_A = (-2, 0, 0), but the correct v_B = R_AB^T * v_A = (2, 0, 0). Converting from A to B needs the transpose."
+      },
+      "name": "Construct a rotation matrix from one frame’s axes expressed in another",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-rotation-columns",
+      "proposed_runtime_id": "sss-rob-rotation-columns",
+      "requires": [
+        "sss-rob-frame-labels",
+        "m-matrix"
+      ],
+      "dependency_depth": 8,
+      "node_contract_sha256": "f0544bdcd3f14f290179116aa7752114f212939b0263540db9c7f6b6496e4341",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Build R_AB from frame B's unit axes expressed in frame A, use it to convert stated B components into A components, and show that swapping the frame labels gives the transpose.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Build R_AB from frame B's unit axes expressed in frame A, use it to convert stated B components into A components, and show that swapping the frame labels gives the transpose.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written matrix construction and conversion, checked in the lab.",
+      "why_it_matters": "Prepares for Check whether a supplied matrix represents a proper 3D rotation and Apply translation to a point but not to a free displacement vector.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with rotations about x and y and with composed rotations.",
+      "references": [],
+      "details": "The rotation matrix R_AB has frame B's three unit axes, written in frame A's components, as its columns. Then v_A = R_AB * v_B converts any vector given in B components into A components. Going the other way uses the transpose: R_BA = R_AB^T. Swapping the frame labels without transposing gives the wrong mapping.\n\nFrame B is frame A rotated 90 deg about z. B's x axis points along A's y axis, x_B = (0, 1, 0); y_B = (-1, 0, 0); z_B = (0, 0, 1). So R_AB has these as columns: rows (0, -1, 0), (1, 0, 0), (0, 0, 1). A vector along B's x axis, v_B = (2, 0, 0), becomes v_A = (0, 2, 0): along A's y axis, as expected.",
+      "placement_note": "Builds on Label the reference frame of a robot position or direction and Matrix arithmetic. Prepares for Check whether a supplied matrix represents a proper 3D rotation and Apply translation to a point but not to a free displacement vector.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-task-coordinates",
+      "explanation": "Joint coordinates q describe how the robot is arranged; task coordinates describe what a job asks for: a position, an orientation, or both, a full pose. The workspace is the set of task outputs the robot can reach under stated limits. Several configurations can give the same task output, such as elbow up and elbow down. Reaching a point does not guarantee that every tool orientation is possible there.",
+      "worked_example": "A planar two-link arm with L1 = 0.5 m and L2 = 0.25 m is asked to put its tip at (0.6, 0.2) m. That is a position-only task: two numbers. Two configurations reach it, (-3.30, 69.51) deg and (40.17, -69.51) deg, and they point the tool at 66.2 deg and -29.3 deg. A request to also hold the tool at 0 deg cannot be met at that point: with the tip fixed, this arm offers only those two tool angles.",
+      "practice": {
+        "question": "A camera on a robot must point along +x at a height of 0.3 m, anywhere along a rail. Which task coordinates does the job specify?",
+        "answer": "The height and the pointing direction (an orientation). The position along the rail is free, so the task asks for less than a full pose."
+      },
+      "boundary_case": {
+        "question": "A target point lies inside the arm's workspace. Can the arm reach it with any tool orientation?",
+        "answer": "Not necessarily. The workspace counts positions. At a given point the possible orientations can be limited, as with the two-link arm, which offers only two tool angles at each tip point."
+      },
+      "name": "Distinguish joint configuration, task coordinates, and reachable workspace",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-task-coordinates",
+      "proposed_runtime_id": "sss-rob-task-coordinates",
+      "requires": [
+        "sss-rob-joint-conventions"
+      ],
+      "dependency_depth": 8,
+      "node_contract_sha256": "29e8d464ce040f8a6e88884c61544e8c861d6f2eee3195c16210c41aa21c6a3a",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "For stated targets, say whether each specifies position, orientation or both, distinguish it from a joint configuration, and explain why reaching a point does not guarantee every orientation there.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "For stated targets, say whether each specifies position, orientation or both, distinguish it from a joint configuration, and explain why reaching a point does not guarantee every orientation there.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written classification of task requirements, with the two branches computed in the lab.",
+      "why_it_matters": "Prepares for Check the geometric position reach of an unrestricted planar two-link arm and Distinguish configuration, workspace and constraints.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with three-dimensional tasks and redundant arms.",
+      "references": [],
+      "details": "Joint coordinates q describe how the robot is arranged; task coordinates describe what a job asks for: a position, an orientation, or both, a full pose. The workspace is the set of task outputs the robot can reach under stated limits. Several configurations can give the same task output, such as elbow up and elbow down. Reaching a point does not guarantee that every tool orientation is possible there.\n\nA planar two-link arm with L1 = 0.5 m and L2 = 0.25 m is asked to put its tip at (0.6, 0.2) m. That is a position-only task: two numbers. Two configurations reach it, (-3.30, 69.51) deg and (40.17, -69.51) deg, and they point the tool at 66.2 deg and -29.3 deg. A request to also hold the tool at 0 deg cannot be met at that point: with the tip fixed, this arm offers only those two tool angles.",
+      "placement_note": "Builds on Specify joint order, zero references, signs, and units for a configuration. Prepares for Check the geometric position reach of an unrestricted planar two-link arm and Distinguish configuration, workspace and constraints.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-point-direction",
+      "explanation": "A point is a location; a free vector is a displacement or direction, such as a velocity or the difference of two points. Converting from frame B to frame A with rotation R_AB and translation t_AB (B's origin in A): a point uses p_A = R_AB * p_B + t_AB, and a free vector uses d_A = R_AB * d_B, with no translation. The difference of two converted points cancels the translation, which is why a displacement never takes it.",
+      "worked_example": "Frame B is rotated 90 deg about z from frame A, with its origin at t_AB = (1.0, 2.0, 0) m. The point p_B = (0.5, 0, 0) becomes p_A = (0, 0.5, 0) + (1.0, 2.0, 0) = (1.0, 2.5, 0) m. The displacement d_B = (0.5, 0, 0) becomes d_A = (0, 0.5, 0) m. Check: B's origin converts to (1.0, 2.0, 0), and (1.0, 2.5, 0) - (1.0, 2.0, 0) = (0, 0.5, 0), equal to d_A.",
+      "practice": {
+        "question": "Same frames. A velocity measured in B is v_B = (0, 0.2, 0) m/s. What is v_A?",
+        "answer": "v_A = R_AB * v_B = (-0.2, 0, 0) m/s. A velocity is a free vector, so t_AB is not added."
+      },
+      "boundary_case": {
+        "question": "Someone converts the gravity direction d_B = (0, 0, -1) by also adding t_AB and gets (1, 2, -1). What went wrong?",
+        "answer": "A direction is a free vector, so the translation does not apply: d_A = (0, 0, -1). Adding t_AB turned a direction into a meaningless tilted vector."
+      },
+      "name": "Apply translation to a point but not to a free displacement vector",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-point-direction",
+      "proposed_runtime_id": "sss-rob-point-direction",
+      "requires": [
+        "sss-rob-rotation-columns"
+      ],
+      "dependency_depth": 9,
+      "node_contract_sha256": "b34bc264170737cc28fdd0c24b733f54d407b764596a03ad49e718ebf3e9934f",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Convert a point and a free displacement vector between frames with a stated rotation and translation, and show that the difference of two converted points rotates without the translation.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Convert a point and a free displacement vector between frames with a stated rotation and translation, and show that the difference of two converted points rotates without the translation.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written point and vector conversion, checked in the lab.",
+      "why_it_matters": "Prepares for Compose a chain of labeled rigid transforms in the correct order and Invert a rigid transform while rotating its translation correctly.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with chains of frames, and with velocities seen from moving frames, which need extra motion terms.",
+      "references": [],
+      "details": "A point is a location; a free vector is a displacement or direction, such as a velocity or the difference of two points. Converting from frame B to frame A with rotation R_AB and translation t_AB (B's origin in A): a point uses p_A = R_AB * p_B + t_AB, and a free vector uses d_A = R_AB * d_B, with no translation. The difference of two converted points cancels the translation, which is why a displacement never takes it.\n\nFrame B is rotated 90 deg about z from frame A, with its origin at t_AB = (1.0, 2.0, 0) m. The point p_B = (0.5, 0, 0) becomes p_A = (0, 0.5, 0) + (1.0, 2.0, 0) = (1.0, 2.5, 0) m. The displacement d_B = (0.5, 0, 0) becomes d_A = (0, 0.5, 0) m. Check: B's origin converts to (1.0, 2.0, 0), and (1.0, 2.5, 0) - (1.0, 2.0, 0) = (0, 0.5, 0), equal to d_A.",
+      "placement_note": "Builds on Construct a rotation matrix from one frame’s axes expressed in another. Prepares for Compose a chain of labeled rigid transforms in the correct order and Invert a rigid transform while rotating its translation correctly.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-rotation-check",
+      "explanation": "A proper rotation matrix satisfies two checks: R^T * R = I, so its columns are unit length and mutually perpendicular, and det(R) = +1. A matrix that passes the first check with det(R) = -1 is a reflection, a mirror image, not a rotation. Columns that are not unit length mean scaling. With rounded numbers, test against a stated tolerance, not exact equality, and reject a failing matrix rather than silently repairing it.",
+      "worked_example": "R1, with rows (0, -1, 0), (1, 0, 0), (0, 0, 1), gives R1^T * R1 = I and det = +1: a rotation (90 deg about z). R2 = diag(1, 1, -1) gives R2^T * R2 = I but det = -1: a reflection in the xy plane. R3 = 1.01 * I gives R3^T * R3 = 1.0201 * I, off by 0.0201, far beyond a 1e-6 tolerance: a scaled matrix, rejected.",
+      "practice": {
+        "question": "A sensor reports R with rows (0.6, -0.8, 0), (0.8, 0.6, 0), (0, 0, 1). Is it a rotation?",
+        "answer": "Yes. The columns (0.6, 0.8, 0) and (-0.8, 0.6, 0) have length 1 and are perpendicular, and det = 0.36 + 0.64 = 1. It is a rotation of about 53.13 deg about z."
+      },
+      "boundary_case": {
+        "question": "A rounded matrix has R^T * R off the identity by 3e-5, against a stated tolerance of 1e-6. Should you renormalize it and carry on?",
+        "answer": "Not silently. It fails the stated check, so reject or report it. Whether rounding of that size is acceptable is a decision to make and record, not an automatic repair."
+      },
+      "name": "Check whether a supplied matrix represents a proper 3D rotation",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-rotation-check",
+      "proposed_runtime_id": "sss-rob-rotation-check",
+      "requires": [
+        "sss-rob-rotation-columns"
+      ],
+      "dependency_depth": 9,
+      "node_contract_sha256": "5431bd5943a48db4eb35ec115eb6b210902cf5953bc593980c394f4e009d82c5",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Test stated 3x3 matrices for R^T R = I and det R = +1 within a stated tolerance, and classify each as a proper rotation, a reflection or a scaled matrix.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Test stated 3x3 matrices for R^T R = I and det R = +1 within a stated tolerance, and classify each as a proper rotation, a reflection or a scaled matrix.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written checks on stated matrices, checked in the lab.",
+      "why_it_matters": "Prepares for Invert a rigid transform while rotating its translation correctly and Construct and check rotation matrices.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with numerical drift in integrated orientations, and with quaternions.",
+      "references": [],
+      "details": "A proper rotation matrix satisfies two checks: R^T * R = I, so its columns are unit length and mutually perpendicular, and det(R) = +1. A matrix that passes the first check with det(R) = -1 is a reflection, a mirror image, not a rotation. Columns that are not unit length mean scaling. With rounded numbers, test against a stated tolerance, not exact equality, and reject a failing matrix rather than silently repairing it.\n\nR1, with rows (0, -1, 0), (1, 0, 0), (0, 0, 1), gives R1^T * R1 = I and det = +1: a rotation (90 deg about z). R2 = diag(1, 1, -1) gives R2^T * R2 = I but det = -1: a reflection in the xy plane. R3 = 1.01 * I gives R3^T * R3 = 1.0201 * I, off by 0.0201, far beyond a 1e-6 tolerance: a scaled matrix, rejected.",
+      "placement_note": "Builds on Construct a rotation matrix from one frame’s axes expressed in another. Prepares for Invert a rigid transform while rotating its translation correctly and Construct and check rotation matrices.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-log",
+      "explanation": "A logarithm answers: what exponent produces this number? log_b(x) = y means b^y = x. The base must be positive and not 1, and the argument must be positive. Three rules turn multiplication into addition: log(x*y) = log x + log y, log(x/y) = log x - log y and log(x^p) = p * log x. There is no rule for log(x + y). Change of base, log_b(x) = ln(x) / ln(b), lets a calculator handle any base.",
+      "worked_example": "To solve 2^x = 10, take x = log2(10) = ln(10) / ln(2) = 3.32. log10(200) - log10(2) = log10(100) = 2. A power ratio of 1000 is 10 * log10(1000) = 30 dB.",
+      "practice": {
+        "question": "Evaluate log3(81), and solve ln(x) = 2.",
+        "answer": "log3(81) = 4, because 3^4 = 81; and x = e^2 = 7.389."
+      },
+      "boundary_case": {
+        "question": "Is log(2 + 8) = log 2 + log 8?",
+        "answer": "No. log 2 + log 8 = log 16 = 1.204, but log 10 = 1. The product rule needs a product inside: log(2 * 8). The logarithm of zero or a negative number is undefined."
+      },
+      "name": "Logarithms",
+      "branch": "Algebra and functions",
+      "planning_id": "m-log",
+      "proposed_runtime_id": "m-log",
+      "requires": [
+        "m-expfunction",
+        "m-inverse"
+      ],
+      "dependency_depth": 9,
+      "node_contract_sha256": "b42c8072241a0227eb216f5fc9d1ebd32dbc8cdd80869913947633b88374ba34",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Evaluate and rearrange logarithms using the definition, the product, quotient and power rules and change of base; state the domain restrictions; and reject the invalid split of log(x + y).",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Evaluate and rearrange logarithms using the definition, the product, quotient and power rules and change of base; state the domain restrictions; and reject the invalid split of log(x + y).",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Trigonometric and exponential derivatives.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with exponential equations, logarithmic scales and log-log plots.",
+      "references": [],
+      "details": "A logarithm answers: what exponent produces this number? log_b(x) = y means b^y = x. The base must be positive and not 1, and the argument must be positive. Three rules turn multiplication into addition: log(x*y) = log x + log y, log(x/y) = log x - log y and log(x^p) = p * log x. There is no rule for log(x + y). Change of base, log_b(x) = ln(x) / ln(b), lets a calculator handle any base.\n\nTo solve 2^x = 10, take x = log2(10) = ln(10) / ln(2) = 3.32. log10(200) - log10(2) = log10(100) = 2. A power ratio of 1000 is 10 * log10(1000) = 30 dB.",
+      "placement_note": "Builds on Exponential models and Inverse functions. Prepares for Trigonometric and exponential derivatives.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-planar-reach",
+      "explanation": "For a planar two-link arm with positive link lengths L1 and L2 and unrestricted joints, a target at distance r = sqrt(x^2 + y^2) from the base is reachable in position exactly when abs(L1 - L2) <= r <= L1 + L2. The reachable set is a ring: the outer edge is full stretch, the inner edge full fold. The test ignores joint limits, obstacles and tool orientation, so a pass allows an ideal position solution but does not prove a usable motion.",
+      "worked_example": "With L1 = 0.5 m and L2 = 0.25 m the ring runs from 0.25 m to 0.75 m. The target (0.6, 0.2) has r = 0.632 m: reachable. (0.1, 0.1) has r = 0.141 m, inside the hole: unreachable. (0.7, 0.4) has r = 0.806 m: too far.",
+      "practice": {
+        "question": "Same arm. Are (0, -0.75) and (0.2, 0.15) reachable?",
+        "answer": "Both, just. (0, -0.75) has r = 0.75 m = L1 + L2, reachable only at full stretch; (0.2, 0.15) has r = 0.25 m = L1 - L2, reachable only fully folded."
+      },
+      "boundary_case": {
+        "question": "The arm's shoulder is limited to 0-180 deg. Does the ring test still say which targets are reachable?",
+        "answer": "No. The ring assumes unrestricted joints. With limits, parts of the ring can become unreachable, so the inverse-kinematics solutions must be checked against the limits (sss-rob-ik-verification)."
+      },
+      "name": "Check the geometric position reach of an unrestricted planar two-link arm",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-planar-reach",
+      "proposed_runtime_id": "sss-rob-planar-reach",
+      "requires": [
+        "sss-rob-task-coordinates",
+        "m-norm"
+      ],
+      "dependency_depth": 9,
+      "node_contract_sha256": "6b4d9b7dfe991993755437665fb3da001edfd8439c3c2e5d41dc1bdf8f9a54fc",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Test stated targets against |L1 - L2| <= r <= L1 + L2 for a planar two-link arm, and state what a passing test does not establish (joint limits, obstacles, tool orientation).",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Test stated targets against |L1 - L2| <= r <= L1 + L2 for a planar two-link arm, and state what a passing test does not establish (joint limits, obstacles, tool orientation).",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Calculate both regular inverse-kinematic branches of a planar two-link arm.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with joint limits, unequal links and three-link arms.",
+      "references": [],
+      "details": "For a planar two-link arm with positive link lengths L1 and L2 and unrestricted joints, a target at distance r = sqrt(x^2 + y^2) from the base is reachable in position exactly when abs(L1 - L2) <= r <= L1 + L2. The reachable set is a ring: the outer edge is full stretch, the inner edge full fold. The test ignores joint limits, obstacles and tool orientation, so a pass allows an ideal position solution but does not prove a usable motion.\n\nWith L1 = 0.5 m and L2 = 0.25 m the ring runs from 0.25 m to 0.75 m. The target (0.6, 0.2) has r = 0.632 m: reachable. (0.1, 0.1) has r = 0.141 m, inside the hole: unreachable. (0.7, 0.4) has r = 0.806 m: too far.",
+      "placement_note": "Builds on Distinguish joint configuration, task coordinates, and reachable workspace and Vector length and normalization. Prepares for Calculate both regular inverse-kinematic branches of a planar two-link arm.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-compose",
+      "explanation": "A transform T_AB maps coordinates in frame B into frame A. Chains compose as T_AC = T_AB * T_BC: the inner labels must match, and the rightmost transform acts first on a point. Rotations and translations do not commute, so order matters even when a particular example happens to work in either order. Check a composed chain with a point whose location you know.",
+      "worked_example": "In the plane, a shoulder frame B sits 0.3 m above the base A, with no rotation: T_AB is a translation (0, 0.3). A camera frame C is rotated 90 deg and offset 0.2 m along B's x axis: T_BC. Then T_AC = T_AB * T_BC has a 90 deg rotation and translation (0.2, 0.3). The point 0.1 m along the camera's x axis, p_C = (0.1, 0), is at (0.2, 0.4) in A. The reversed product T_BC * T_AB would put the camera at (-0.1, 0): wrong.",
+      "practice": {
+        "question": "Same chain. Where is p_C = (0, 0.1) in frame A?",
+        "answer": "In B it is the rotated (-0.1, 0) plus (0.2, 0), so (0.1, 0); in A it is (0.1, 0.3)."
+      },
+      "boundary_case": {
+        "question": "Two pure translations compose the same in either order. Does that show order does not matter?",
+        "answer": "No. Translations commute with each other, but not with rotations. In the worked chain, the reversed order puts the camera at (-0.1, 0) instead of (0.2, 0.3). Keep the labeled order."
+      },
+      "name": "Compose a chain of labeled rigid transforms in the correct order",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-compose",
+      "proposed_runtime_id": "sss-rob-compose",
+      "requires": [
+        "sss-rob-point-direction",
+        "m-matrix"
+      ],
+      "dependency_depth": 10,
+      "node_contract_sha256": "5da3fa6c5ab62e032b06b01e0600d591470448fa8a97cf923824f512e99b611e",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Compose a labeled chain of rigid transforms as T_AC = T_AB T_BC in the correct order, and check the result with a point of known location.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compose a labeled chain of rigid transforms as T_AC = T_AB T_BC in the correct order, and check the result with a point of known location.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written composition with a known-point check, computed in the lab.",
+      "why_it_matters": "Prepares for Include a fixed tool offset after the final link transform and Apply, compose and invert rigid transforms.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with three-dimensional chains and with frames that move.",
+      "references": [],
+      "details": "A transform T_AB maps coordinates in frame B into frame A. Chains compose as T_AC = T_AB * T_BC: the inner labels must match, and the rightmost transform acts first on a point. Rotations and translations do not commute, so order matters even when a particular example happens to work in either order. Check a composed chain with a point whose location you know.\n\nIn the plane, a shoulder frame B sits 0.3 m above the base A, with no rotation: T_AB is a translation (0, 0.3). A camera frame C is rotated 90 deg and offset 0.2 m along B's x axis: T_BC. Then T_AC = T_AB * T_BC has a 90 deg rotation and translation (0.2, 0.3). The point 0.1 m along the camera's x axis, p_C = (0.1, 0), is at (0.2, 0.4) in A. The reversed product T_BC * T_AB would put the camera at (-0.1, 0): wrong.",
+      "placement_note": "Builds on Apply translation to a point but not to a free displacement vector and Matrix arithmetic. Prepares for Include a fixed tool offset after the final link transform and Apply, compose and invert rigid transforms.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-inverse",
+      "explanation": "A rigid transform T_AB has rotation R and translation t. Its inverse T_BA has rotation R^T and translation -R^T * t. Simply negating t is right only when R is the identity; otherwise the translation must also be rotated into the other frame. Verify an inverse with a round trip: map a point forward and back and compare. The transpose is the inverse only for a proper rotation, so check R first (sss-rob-rotation-check).",
+      "worked_example": "T_AB has R = 90 deg about z and t = (1.0, 2.0, 0). Then R^T * t = (2.0, -1.0, 0), so T_BA has translation (-2.0, 1.0, 0). Round trip: p_B = (0.5, 0, 0) maps to p_A = (1.0, 2.5, 0) and back to (0.5, 0, 0). With the wrong translation -t = (-1.0, -2.0, 0), the trip ends at (1.5, -3.0, 0).",
+      "practice": {
+        "question": "T_AB has no rotation (R = I) and t = (0.3, -0.1, 0.2). What is T_BA?",
+        "answer": "R^T = I and -R^T * t = (-0.3, 0.1, -0.2). With no rotation, negating t is correct; it fails only when R is not the identity."
+      },
+      "boundary_case": {
+        "question": "A sensor's 'rotation' is really 1.01 * I. You invert the transform with the transpose. Does the round trip close?",
+        "answer": "No. The transpose is the inverse only for a proper rotation. Here the trip scales a point by 1.0201, a 2.01% error. Check the rotation before inverting."
+      },
+      "name": "Invert a rigid transform while rotating its translation correctly",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-inverse",
+      "proposed_runtime_id": "sss-rob-inverse",
+      "requires": [
+        "sss-rob-point-direction",
+        "sss-rob-rotation-check"
+      ],
+      "dependency_depth": 10,
+      "node_contract_sha256": "843903b59fb15d90937760c26690f7b3e0ead8f8a4c2e0cc688690442eebb663",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Invert a stated rigid transform as rotation R^T and translation -R^T t, and verify it with a point round trip within a stated tolerance.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Invert a stated rigid transform as rotation R^T and translation -R^T t, and verify it with a point round trip within a stated tolerance.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written inversion with a round-trip check, computed in the lab.",
+      "why_it_matters": "Prepares for Apply, compose and invert rigid transforms.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with chains of inverses and with transforms estimated from data.",
+      "references": [],
+      "details": "A rigid transform T_AB has rotation R and translation t. Its inverse T_BA has rotation R^T and translation -R^T * t. Simply negating t is right only when R is the identity; otherwise the translation must also be rotated into the other frame. Verify an inverse with a round trip: map a point forward and back and compare. The transpose is the inverse only for a proper rotation, so check R first (sss-rob-rotation-check).\n\nT_AB has R = 90 deg about z and t = (1.0, 2.0, 0). Then R^T * t = (2.0, -1.0, 0), so T_BA has translation (-2.0, 1.0, 0). Round trip: p_B = (0.5, 0, 0) maps to p_A = (1.0, 2.5, 0) and back to (0.5, 0, 0). With the wrong translation -t = (-1.0, -2.0, 0), the trip ends at (1.5, -3.0, 0).",
+      "placement_note": "Builds on Apply translation to a point but not to a free displacement vector and Check whether a supplied matrix represents a proper 3D rotation. Prepares for Apply, compose and invert rigid transforms.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-planar-fk",
+      "explanation": "For an ideal planar two-link arm with link lengths L1 and L2, shoulder angle q1 and elbow angle q2 measured from link 1, the tip is at x = L1*cos(q1) + L2*cos(q1 + q2) and y = L1*sin(q1) + L2*sin(q1 + q2), pointing at phi = q1 + q2. Check the method with configurations whose answer you know before trusting general angles. The result is nominal geometry: link-length error, joint offsets and flex are not in it.",
+      "worked_example": "With L1 = 0.5 m, L2 = 0.25 m and q = (60, -30) deg: x = 0.5*cos(60) + 0.25*cos(30) = 0.2500 + 0.2165 = 0.4665 m; y = 0.5*sin(60) + 0.25*sin(30) = 0.4330 + 0.1250 = 0.5580 m; and phi = 30 deg. Checks: q = (0, 0) gives (0.75, 0), straight out along x; q = (0, 90) gives (0.5, 0.25).",
+      "practice": {
+        "question": "Same arm at q = (90, 90) deg. Where is the tip and which way does it point?",
+        "answer": "phi = 180 deg, so x = 0 + 0.25*cos(180) = -0.25 m and y = 0.5 + 0 = 0.5 m. The tip is at (-0.25, 0.5) m, pointing along -x."
+      },
+      "boundary_case": {
+        "question": "A real arm's tip is measured 4 mm away from the computed (0.4665, 0.5580). Is the formula wrong?",
+        "answer": "Not necessarily. The formula gives the ideal geometry; length error, joint-zero offset, backlash and flex all move a real tip. A 4 mm difference calls for a calibration or a stated tolerance, not a new formula."
+      },
+      "name": "Calculate position and orientation of an ideal two-revolute-link planar arm",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-planar-fk",
+      "proposed_runtime_id": "sss-rob-planar-fk",
+      "requires": [
+        "sss-rob-joint-conventions",
+        "m-unitcircle"
+      ],
+      "dependency_depth": 10,
+      "node_contract_sha256": "685835536b08883f5315e4e5bc5279985b4b9a2391715ce7c0cc2de660595686",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Compute the tip position and orientation of an ideal planar two-link arm for stated joint angles, and check the method with the straight and right-angle configurations.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compute the tip position and orientation of an ideal planar two-link arm for stated joint angles, and check the method with the straight and right-angle configurations.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation with known-configuration checks, computed in the lab.",
+      "why_it_matters": "Prepares for Calculate both regular inverse-kinematic branches of a planar two-link arm, Derive the Cartesian position Jacobian of a planar two-link arm, and Solve planar two-link forward kinematics.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice; the integrated outcome card K05 combines this step with tool offsets.",
+      "references": [],
+      "details": "For an ideal planar two-link arm with link lengths L1 and L2, shoulder angle q1 and elbow angle q2 measured from link 1, the tip is at x = L1*cos(q1) + L2*cos(q1 + q2) and y = L1*sin(q1) + L2*sin(q1 + q2), pointing at phi = q1 + q2. Check the method with configurations whose answer you know before trusting general angles. The result is nominal geometry: link-length error, joint offsets and flex are not in it.\n\nWith L1 = 0.5 m, L2 = 0.25 m and q = (60, -30) deg: x = 0.5*cos(60) + 0.25*cos(30) = 0.2500 + 0.2165 = 0.4665 m; y = 0.5*sin(60) + 0.25*sin(30) = 0.4330 + 0.1250 = 0.5580 m; and phi = 30 deg. Checks: q = (0, 0) gives (0.75, 0), straight out along x; q = (0, 90) gives (0.5, 0.25).",
+      "placement_note": "Builds on Specify joint order, zero references, signs, and units for a configuration and Unit-circle trigonometry. Prepares for Calculate both regular inverse-kinematic branches of a planar two-link arm, Derive the Cartesian position Jacobian of a planar two-link arm, and Solve planar two-link forward kinematics.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-trigidentity",
+      "explanation": "A trigonometric identity holds for every angle where both sides are defined. The core ones: sin^2 x + cos^2 x = 1; tan x = sin x / cos x; sin(A + B) = sin A cos B + cos A sin B; cos(A + B) = cos A cos B - sin A sin B; and the double-angle forms sin 2x = 2 sin x cos x and cos 2x = 2cos^2 x - 1 = 1 - 2 sin^2 x. To prove an identity, transform one side until it matches the other, then check it numerically at a test angle.",
+      "worked_example": "sin(75 deg) = sin 45 cos 30 + cos 45 sin 30 = 0.7071*0.8660 + 0.7071*0.5000 = 0.6124 + 0.3536 = 0.9659, which a calculator confirms. sin(2x) / (2 cos x) = 2 sin x cos x / (2 cos x) = sin x, where cos x is not 0; at x = 0.3 rad both sides give 0.2955.",
+      "practice": {
+        "question": "Simplify cos^2 x - cos 2x.",
+        "answer": "cos 2x = 2cos^2 x - 1, so cos^2 x - cos 2x = 1 - cos^2 x = sin^2 x. Check at x = 1 rad: both sides give 0.7081."
+      },
+      "boundary_case": {
+        "question": "Is sin(A + B) = sin A + sin B?",
+        "answer": "No. At A = B = 30 deg, sin 60 = 0.866 but sin 30 + sin 30 = 1.0. Use the sum formula."
+      },
+      "name": "Trigonometric identities",
+      "branch": "Geometry and trigonometry",
+      "planning_id": "m-trigidentity",
+      "proposed_runtime_id": "m-trigidentity",
+      "requires": [
+        "m-unitcircle",
+        "m-like"
+      ],
+      "dependency_depth": 10,
+      "node_contract_sha256": "cc31be82bf690f06b32494c423bdfeb97c6944adb2b65936f3e86b2a48ff5265",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Simplify stated trigonometric expressions and prove stated identities using the Pythagorean, quotient, sum and double-angle identities, and check each result numerically at a test angle.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Simplify stated trigonometric expressions and prove stated identities using the Pythagorean, quotient, sum and double-angle identities, and check each result numerically at a test angle.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written proof with a numerical check, computed in the lab.",
+      "why_it_matters": "Prepares for Trigonometric and exponential derivatives.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with product-to-sum forms and amplitude-phase form.",
+      "references": [],
+      "details": "A trigonometric identity holds for every angle where both sides are defined. The core ones: sin^2 x + cos^2 x = 1; tan x = sin x / cos x; sin(A + B) = sin A cos B + cos A sin B; cos(A + B) = cos A cos B - sin A sin B; and the double-angle forms sin 2x = 2 sin x cos x and cos 2x = 2cos^2 x - 1 = 1 - 2 sin^2 x. To prove an identity, transform one side until it matches the other, then check it numerically at a test angle.\n\nsin(75 deg) = sin 45 cos 30 + cos 45 sin 30 = 0.7071*0.8660 + 0.7071*0.5000 = 0.6124 + 0.3536 = 0.9659, which a calculator confirms. sin(2x) / (2 cos x) = 2 sin x cos x / (2 cos x) = sin x, where cos x is not 0; at x = 0.3 rad both sides give 0.2955.",
+      "placement_note": "Builds on Unit-circle trigonometry and Collecting terms and distribution. Prepares for Trigonometric and exponential derivatives.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "p-electricfield",
+      "explanation": "Coulomb's law gives the force between two point charges: F = k*|q1*q2| / r^2, with k = 8.99e9 N*m^2/C^2; like charges repel and opposite charges attract. The electric field is the force per unit positive charge, E = F / q, so a charge q placed in a field feels F = q*E: along the field if q is positive, against it if q is negative. A point charge's field has magnitude k*|q| / r^2 and points away from a positive charge. Fields from several charges add as vectors.",
+      "worked_example": "Charges of +2 uC and -3 uC 0.10 m apart attract with F = 8.99e9 * 2e-6 * 3e-6 / 0.10^2 = 5.39 N. The +2 uC charge's field at 0.20 m is 8.99e9 * 2e-6 / 0.20^2 = 4.5e5 N/C, pointing away from it. An electron there feels 1.602e-19 * 4.5e5 = 7.2e-14 N, toward the charge.",
+      "practice": {
+        "question": "What is the field at the midpoint between two +1 uC charges 0.20 m apart?",
+        "answer": "Zero. Each charge's field there is 8.99e9 * 1e-6 / 0.10^2 = 9.0e5 N/C, in opposite directions, so they cancel."
+      },
+      "boundary_case": {
+        "question": "A charge is placed in a 1000 N/C field pointing east. Is it pushed east?",
+        "answer": "Only if it is positive. A negative charge is pushed west: F = q*E carries the sign of q. And a force sets acceleration, not direction of motion: a charge already moving west may keep moving west for a while."
+      },
+      "name": "Electric force and field",
+      "branch": "Fields, waves, and light",
+      "planning_id": "p-electricfield",
+      "proposed_runtime_id": "p-electricfield",
+      "requires": [
+        "p-charge",
+        "p-newton"
+      ],
+      "dependency_depth": 11,
+      "node_contract_sha256": "0b6d823ec290cd219145a0e4cc3164e0aeddad7826f9930dd774757101d2bf80",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Calculate the force between two point charges and the field of one or two point charges with its direction, and state the force on a charge of either sign placed in a given field.",
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Calculate the force between two point charges and the field of one or two point charges with its direction, and state the force on a charge of either sign placed in a given field.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Calculation and explanation on labeled scenarios, checked in the lab.",
+      "why_it_matters": "Prepares for Electric potential and voltage.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with fields of charge distributions and with capacitors.",
+      "references": [],
+      "details": "Coulomb's law gives the force between two point charges: F = k*|q1*q2| / r^2, with k = 8.99e9 N*m^2/C^2; like charges repel and opposite charges attract. The electric field is the force per unit positive charge, E = F / q, so a charge q placed in a field feels F = q*E: along the field if q is positive, against it if q is negative. A point charge's field has magnitude k*|q| / r^2 and points away from a positive charge. Fields from several charges add as vectors.\n\nCharges of +2 uC and -3 uC 0.10 m apart attract with F = 8.99e9 * 2e-6 * 3e-6 / 0.10^2 = 5.39 N. The +2 uC charge's field at 0.20 m is 8.99e9 * 2e-6 / 0.20^2 = 4.5e5 N/C, pointing away from it. An electron there feels 1.602e-19 * 4.5e5 = 7.2e-14 N, toward the charge.",
+      "placement_note": "Builds on Electric charge and conservation and Newton's second law in components. Prepares for Electric potential and voltage.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-planar-ik",
+      "explanation": "For a reachable target (x, y) of a planar two-link arm, cos(q2) = (x^2 + y^2 - L1^2 - L2^2) / (2*L1*L2) gives two regular elbow branches, q2 = +acos(...) and q2 = -acos(...). For each, q1 = atan2(y, x) - atan2(L2*sin(q2), L1 + L2*cos(q2)), using the same angle conventions as the forward model. Keep both branches before choosing one. At full stretch or full fold the branches coincide in one solution, and with equal links a target at the base leaves q1 free. A value of cos(q2) a rounding error above 1 is that boundary, not an unreachable target.",
+      "worked_example": "With L1 = 0.5 m and L2 = 0.25 m, the target (0.6, 0.2) gives cos(q2) = (0.40 - 0.25 - 0.0625) / 0.25 = 0.35, so q2 = +69.51 deg or -69.51 deg. The two solutions are (-3.30, 69.51) deg and (40.17, -69.51) deg, and forward kinematics returns (0.6, 0.2) m for both.",
+      "practice": {
+        "question": "Same arm, target (0.5, 0.25) m. Find both solutions.",
+        "answer": "cos(q2) = (0.3125 - 0.3125) / 0.25 = 0, so q2 = +90 or -90 deg. With q2 = +90, q1 = atan2(0.25, 0.5) - atan2(0.25, 0.5) = 0, giving (0, 90). With q2 = -90, q1 = 26.57 + 26.57 = 53.13 deg, giving (53.13, -90)."
+      },
+      "boundary_case": {
+        "question": "Target (0.75, 0): a program reports the two solutions (0, 0) and (0, 0). Is that right?",
+        "answer": "There is one solution, not two: cos(q2) = 1, the arm is at full stretch, and the branches coincide. Report one solution. If rounding makes cos(q2) slightly above 1, treat it as this boundary within a tolerance, not as out of reach."
+      },
+      "name": "Calculate both regular inverse-kinematic branches of a planar two-link arm",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-planar-ik",
+      "proposed_runtime_id": "sss-rob-planar-ik",
+      "requires": [
+        "sss-rob-planar-reach",
+        "m-invtrig",
+        "sss-rob-planar-fk"
+      ],
+      "dependency_depth": 11,
+      "node_contract_sha256": "e05b28462bffdcd07263da0425f7600ebb61efaf81f1bfa5280e23a508de5854",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Compute both regular inverse-kinematic branches for a reachable planar two-link target, and identify the boundary and degenerate cases where the formula needs special handling.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compute both regular inverse-kinematic branches for a reachable planar two-link target, and identify the boundary and degenerate cases where the formula needs special handling.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation of both branches, checked by forward kinematics in the lab.",
+      "why_it_matters": "Prepares for Verify an inverse-kinematic candidate by forward substitution and joint limits.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice; the integrated outcome card K06 combines this step with reach and verification.",
+      "references": [],
+      "details": "For a reachable target (x, y) of a planar two-link arm, cos(q2) = (x^2 + y^2 - L1^2 - L2^2) / (2*L1*L2) gives two regular elbow branches, q2 = +acos(...) and q2 = -acos(...). For each, q1 = atan2(y, x) - atan2(L2*sin(q2), L1 + L2*cos(q2)), using the same angle conventions as the forward model. Keep both branches before choosing one. At full stretch or full fold the branches coincide in one solution, and with equal links a target at the base leaves q1 free. A value of cos(q2) a rounding error above 1 is that boundary, not an unreachable target.\n\nWith L1 = 0.5 m and L2 = 0.25 m, the target (0.6, 0.2) gives cos(q2) = (0.40 - 0.25 - 0.0625) / 0.25 = 0.35, so q2 = +69.51 deg or -69.51 deg. The two solutions are (-3.30, 69.51) deg and (40.17, -69.51) deg, and forward kinematics returns (0.6, 0.2) m for both.",
+      "placement_note": "Builds on Check the geometric position reach of an unrestricted planar two-link arm, Inverse trigonometry and quadrants, and Calculate position and orientation of an ideal two-revolute-link planar arm. Prepares for Verify an inverse-kinematic candidate by forward substitution and joint limits.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-tool-offset",
+      "explanation": "A tool fixed to the last link has a constant offset in that link's frame: a along the link and b perpendicular to it. Append that fixed transform to the chain: T_base_tool = T_base_link2 * T_link2_tool. In the plane this adds a*cos(phi) - b*sin(phi) to x and a*sin(phi) + b*cos(phi) to y, where phi is the last link's angle. Adding the local offset directly to base coordinates is right only when the link happens to be parallel to the base axes.",
+      "worked_example": "At q = (60, -30) deg (sss-rob-planar-fk) the flange is at (0.4665, 0.5580) m with phi = 30 deg. A gripper tip sits a = 0.08 m along link 2 and b = 0.02 m to its left. Tool tip: x = 0.4665 + 0.08*cos(30) - 0.02*sin(30) = 0.5258 m and y = 0.5580 + 0.08*sin(30) + 0.02*cos(30) = 0.6153 m. Adding (0.08, 0.02) directly gives (0.5465, 0.5780), 0.0427 m away.",
+      "practice": {
+        "question": "Same arm and gripper at q = (0, 0). Where is the tool tip?",
+        "answer": "phi = 0, so the link frame is parallel to the base: the tip is at (0.75 + 0.08, 0 + 0.02) = (0.83, 0.02) m. Adding the offset directly works here only because phi = 0."
+      },
+      "boundary_case": {
+        "question": "The offset was measured in base coordinates with the arm at q = (0, 0). Can (0.08, 0.02) be added in base coordinates at other poses?",
+        "answer": "No. The offset is fixed in the link frame, so it must be rotated by phi at every pose. At q = (60, -30) reusing it in base coordinates misses by 0.0427 m."
+      },
+      "name": "Include a fixed tool offset after the final link transform",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-tool-offset",
+      "proposed_runtime_id": "sss-rob-tool-offset",
+      "requires": [
+        "sss-rob-compose"
+      ],
+      "dependency_depth": 11,
+      "node_contract_sha256": "730bd5393abb81264d7389931ad66daec23477f79db44e24a6f7e71e4cc1f890",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Append a fixed link-to-tool transform to a chain and compute the tool point in the base frame, rotating a locally expressed offset before adding it.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Append a fixed link-to-tool transform to a chain and compute the tool point in the base frame, rotating a locally expressed offset before adding it.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Solve planar two-link forward kinematics.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice in three dimensions and with tool orientation; the integrated outcome card K05 uses this step.",
+      "references": [],
+      "details": "A tool fixed to the last link has a constant offset in that link's frame: a along the link and b perpendicular to it. Append that fixed transform to the chain: T_base_tool = T_base_link2 * T_link2_tool. In the plane this adds a*cos(phi) - b*sin(phi) to x and a*sin(phi) + b*cos(phi) to y, where phi is the last link's angle. Adding the local offset directly to base coordinates is right only when the link happens to be parallel to the base axes.\n\nAt q = (60, -30) deg (sss-rob-planar-fk) the flange is at (0.4665, 0.5580) m with phi = 30 deg. A gripper tip sits a = 0.08 m along link 2 and b = 0.02 m to its left. Tool tip: x = 0.4665 + 0.08*cos(30) - 0.02*sin(30) = 0.5258 m and y = 0.5580 + 0.08*sin(30) + 0.02*cos(30) = 0.6153 m. Adding (0.08, 0.02) directly gives (0.5465, 0.5780), 0.0427 m away.",
+      "placement_note": "Builds on Compose a chain of labeled rigid transforms in the correct order. Prepares for Solve planar two-link forward kinematics.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "p-potentialelectric",
+      "explanation": "Electric potential is potential energy per unit charge. A potential difference, or voltage, between two points says how much energy each coulomb gains or loses between them: dU = q*dV, and 1 V = 1 J/C. Only differences matter, so a voltage always compares two points, and ground is just the point chosen as zero. In a uniform field the potential difference across a distance d along the field is dV = E*d. Positive charges tend toward lower potential, negative charges toward higher.",
+      "worked_example": "A 12 V battery moving 0.5 C transfers 12 * 0.5 = 6 J. An electron accelerated through 5 V gains 5 eV = 5 * 1.602e-19 = 8.0e-19 J. Plates 2 mm apart at 10 V have a field of 10 / 0.002 = 5000 V/m between them.",
+      "practice": {
+        "question": "How much energy does 0.02 C gain crossing 9 V, and what is the field when 9 V is across a 4 mm gap?",
+        "answer": "0.02 * 9 = 0.18 J, and 9 / 0.004 = 2250 V/m."
+      },
+      "boundary_case": {
+        "question": "A pin reads 3.3 V against one ground point and 3.1 V against another. Which is the pin's voltage?",
+        "answer": "Both: a voltage is always between two points. The two ground points differ by 0.2 V, for example through a return-path drop. State the reference with every reading."
+      },
+      "name": "Electric potential and voltage",
+      "branch": "Fields, waves, and light",
+      "planning_id": "p-potentialelectric",
+      "proposed_runtime_id": "p-potentialelectric",
+      "requires": [
+        "p-electricfield",
+        "p-work"
+      ],
+      "dependency_depth": 12,
+      "node_contract_sha256": "5d301a2c0c571b2f83a0b79c3bbb88e8c0ba5c2d4069df747fdc8b630e6cfdd1",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Calculate energy transfers from potential differences with dU = q dV, relate a potential difference to a uniform field with dV = E d, and state the zero reference used.",
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Calculate energy transfers from potential differences with dU = q dV, relate a potential difference to a uniform field with dV = E d, and state the zero reference used.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Calculation and explanation on labeled scenarios, checked in the lab.",
+      "why_it_matters": "Prepares for Voltage references and ground.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with potential maps, capacitors and ground references in circuits.",
+      "references": [],
+      "details": "Electric potential is potential energy per unit charge. A potential difference, or voltage, between two points says how much energy each coulomb gains or loses between them: dU = q*dV, and 1 V = 1 J/C. Only differences matter, so a voltage always compares two points, and ground is just the point chosen as zero. In a uniform field the potential difference across a distance d along the field is dV = E*d. Positive charges tend toward lower potential, negative charges toward higher.\n\nA 12 V battery moving 0.5 C transfers 12 * 0.5 = 6 J. An electron accelerated through 5 V gains 5 eV = 5 * 1.602e-19 = 8.0e-19 J. Plates 2 mm apart at 10 V have a field of 10 / 0.002 = 5000 V/m between them.",
+      "placement_note": "Builds on Electric force and field and Work by a constant force. Prepares for Voltage references and ground.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-ik-verification",
+      "explanation": "Treat any inverse-kinematics candidate as a claim to check. Substitute it into the forward model and compare the result with the target against a stated tolerance. Wrap each angle into the joint's own convention, then check it against that joint's allowed range. Reject each failing candidate with its reason. A passing position check says nothing about tool orientation, collisions or the path from the current pose, so report which checks were done and which were not.",
+      "worked_example": "Target (0.6, 0.2) m with L1 = 0.5 m and L2 = 0.25 m, a 1 mm tolerance, and limits q1 in [-90, 90] deg and q2 in [0, 150] deg. Candidate (-3.30, 69.51): residual 0 mm, within limits, accepted. Candidate (40.17, -69.51): residual 0 mm, but q2 is outside [0, 150], rejected. A rounded candidate (-3, 70) misses the target by 5.0 mm, rejected.",
+      "practice": {
+        "question": "A solver returns (356.70, 69.51) deg, and the shoulder's range is [-90, 90] deg. Accept?",
+        "answer": "Wrap 356.70 deg to -3.30 deg first: it is the same joint direction, and it then passes, with a residual of 0 mm. Sending 356.70 literally to a joint with range [-90, 90] would be rejected, or could wind the joint almost a full turn."
+      },
+      "boundary_case": {
+        "question": "A candidate has zero position residual and is within limits. Is it safe to send to the robot?",
+        "answer": "Not shown. The checks say nothing about tool orientation, collisions or the motion from the current pose. Report the checks done, and treat the candidate as verified only for those."
+      },
+      "name": "Verify an inverse-kinematic candidate by forward substitution and joint limits",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-ik-verification",
+      "proposed_runtime_id": "sss-rob-ik-verification",
+      "requires": [
+        "sss-rob-planar-ik"
+      ],
+      "dependency_depth": 12,
+      "node_contract_sha256": "52f95b6b6862f529bb0fb2f2e891226fdf594a9f6c83b9326b935c4fa5f0095d",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Verify stated inverse-kinematic candidates by forward substitution and joint limits with stated tolerances, reject each failing candidate with its reason, and report which checks were and were not performed.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Verify stated inverse-kinematic candidates by forward substitution and joint limits with stated tolerances, reject each failing candidate with its reason, and report which checks were and were not performed.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written checks on stated candidates, computed in the lab.",
+      "why_it_matters": "Prepares for Solve and verify planar inverse kinematics.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with orientation residuals and multi-turn joints; the integrated outcome card K06 uses this step.",
+      "references": [],
+      "details": "Treat any inverse-kinematics candidate as a claim to check. Substitute it into the forward model and compare the result with the target against a stated tolerance. Wrap each angle into the joint's own convention, then check it against that joint's allowed range. Reject each failing candidate with its reason. A passing position check says nothing about tool orientation, collisions or the path from the current pose, so report which checks were done and which were not.\n\nTarget (0.6, 0.2) m with L1 = 0.5 m and L2 = 0.25 m, a 1 mm tolerance, and limits q1 in [-90, 90] deg and q2 in [0, 150] deg. Candidate (-3.30, 69.51): residual 0 mm, within limits, accepted. Candidate (40.17, -69.51): residual 0 mm, but q2 is outside [0, 150], rejected. A rounded candidate (-3, 70) misses the target by 5.0 mm, rejected.",
+      "placement_note": "Builds on Calculate both regular inverse-kinematic branches of a planar two-link arm. Prepares for Solve and verify planar inverse kinematics.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-transdiff",
+      "explanation": "The core derivatives beyond polynomials: d/dx e^x = e^x, d/dx a^x = a^x * ln a, d/dx ln x = 1/x, d/dx sin x = cos x, d/dx cos x = -sin x and d/dx tan x = sec^2 x. With the chain rule, d/dt e^(k*t) = k*e^(k*t) and d/dt sin(w*t) = w*cos(w*t). The trigonometric results hold only with angles in radians; in degrees, d/dx sin x = (pi/180) * cos x.",
+      "worked_example": "d/dt [3*e^(-2t)] = -6*e^(-2t), which at t = 0.5 s is -6*e^(-1) = -2.207. d/dx ln(5x) = 1/x. d/dt [0.2*sin(4t)] = 0.8*cos(4t). With x in degrees, the slope of sin x at 30 deg is (pi/180)*cos(30) = 0.01511 per degree.",
+      "practice": {
+        "question": "Differentiate f(t) = 5*cos(3t) + ln(t^2).",
+        "answer": "f'(t) = -15*sin(3t) + 2/t."
+      },
+      "boundary_case": {
+        "question": "A student working in degrees uses d/dx sin x = cos x and reports a slope of 0.5 at 60 deg. What is wrong?",
+        "answer": "The formula assumes radians. In degrees the slope is 0.5 * pi/180 = 0.00873 per degree; the student's value is off by a factor of 57.3. Keep angles in radians when differentiating."
+      },
+      "name": "Trigonometric and exponential derivatives",
+      "branch": "Calculus",
+      "planning_id": "m-transdiff",
+      "proposed_runtime_id": "m-transdiff",
+      "requires": [
+        "m-chain",
+        "m-log",
+        "m-trigidentity"
+      ],
+      "dependency_depth": 14,
+      "node_contract_sha256": "ace74f7a2005e69eee428940b075e8b874c09ee22ea4ae1832fed5739716a1a4",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Differentiate exponential, logarithmic and trigonometric functions, with the chain rule, keeping angles in radians, and explain the factor that appears when an angle is measured in degrees.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Differentiate exponential, logarithmic and trigonometric functions, with the chain rule, keeping angles in radians, and explain the factor that appears when an angle is measured in degrees.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Derive the Cartesian position Jacobian of a planar two-link arm.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with products, quotients and second derivatives.",
+      "references": [],
+      "details": "The core derivatives beyond polynomials: d/dx e^x = e^x, d/dx a^x = a^x * ln a, d/dx ln x = 1/x, d/dx sin x = cos x, d/dx cos x = -sin x and d/dx tan x = sec^2 x. With the chain rule, d/dt e^(k*t) = k*e^(k*t) and d/dt sin(w*t) = w*cos(w*t). The trigonometric results hold only with angles in radians; in degrees, d/dx sin x = (pi/180) * cos x.\n\nd/dt [3*e^(-2t)] = -6*e^(-2t), which at t = 0.5 s is -6*e^(-1) = -2.207. d/dx ln(5x) = 1/x. d/dt [0.2*sin(4t)] = 0.8*cos(4t). With x in degrees, the slope of sin x at 30 deg is (pi/180)*cos(30) = 0.01511 per degree.",
+      "placement_note": "Builds on Chain rule, Logarithms, and Trigonometric identities. Prepares for Derive the Cartesian position Jacobian of a planar two-link arm.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-position-jacobian",
+      "explanation": "The position Jacobian collects the partial derivatives of the tip position with respect to each joint. For the planar two-link arm, differentiating x and y gives J = [[-L1*sin(q1) - L2*sin(q1 + q2), -L2*sin(q1 + q2)], [L1*cos(q1) + L2*cos(q1 + q2), L2*cos(q1 + q2)]]. The rows are x and y; the columns are the joints. Column j is the tip velocity per unit rate of joint j alone. Angles are in radians, so the entries are in metres per radian.",
+      "worked_example": "With L1 = 0.5 m and L2 = 0.25 m at q = (60, -30) deg: J = [[-0.5580, -0.1250], [0.4665, 0.2165]]. Column 1, (-0.5580, 0.4665), is the tip position (0.4665, 0.5580) turned 90 deg, as a rotation about the base should give. Column 2 has length 0.25 m per radian and is perpendicular to link 2, as a rotation about the elbow should give.",
+      "practice": {
+        "question": "Write J for the same arm at q = (0, 90) deg.",
+        "answer": "sin(q1) = 0, cos(q1) = 1, sin(q1 + q2) = 1 and cos(q1 + q2) = 0, so J = [[-0.25, -0.25], [0.5, 0]]."
+      },
+      "boundary_case": {
+        "question": "Someone differentiates with q in degrees and uses the entries as metres per radian. How far off are they?",
+        "answer": "By a factor of 57.3 (180/pi). Differentiate with angles in radians, or convert."
+      },
+      "name": "Derive the Cartesian position Jacobian of a planar two-link arm",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-position-jacobian",
+      "proposed_runtime_id": "sss-rob-position-jacobian",
+      "requires": [
+        "sss-rob-planar-fk",
+        "m-partial",
+        "m-transdiff"
+      ],
+      "dependency_depth": 15,
+      "node_contract_sha256": "fb1d2373c9b22322be26a1044cd55568a06194c69e12ad157625f9b9e6310f9a",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Derive the 2x2 position Jacobian of a planar two-link arm by partial differentiation of the forward-kinematics equations, and state what its rows and columns mean.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Derive the 2x2 position Jacobian of a planar two-link arm by partial differentiation of the forward-kinematics equations, and state what its rows and columns mean.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written derivation and evaluation, checked in the lab.",
+      "why_it_matters": "Prepares for Calculate instantaneous planar tip velocity from joint rates.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with orientation rows and three-link arms; the integrated outcome card K07 uses this step.",
+      "references": [],
+      "details": "The position Jacobian collects the partial derivatives of the tip position with respect to each joint. For the planar two-link arm, differentiating x and y gives J = [[-L1*sin(q1) - L2*sin(q1 + q2), -L2*sin(q1 + q2)], [L1*cos(q1) + L2*cos(q1 + q2), L2*cos(q1 + q2)]]. The rows are x and y; the columns are the joints. Column j is the tip velocity per unit rate of joint j alone. Angles are in radians, so the entries are in metres per radian.\n\nWith L1 = 0.5 m and L2 = 0.25 m at q = (60, -30) deg: J = [[-0.5580, -0.1250], [0.4665, 0.2165]]. Column 1, (-0.5580, 0.4665), is the tip position (0.4665, 0.5580) turned 90 deg, as a rotation about the base should give. Column 2 has length 0.25 m per radian and is perpendicular to link 2, as a rotation about the elbow should give.",
+      "placement_note": "Builds on Calculate position and orientation of an ideal two-revolute-link planar arm, Partial derivatives, and Trigonometric and exponential derivatives. Prepares for Calculate instantaneous planar tip velocity from joint rates.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-joint-to-tip-rate",
+      "explanation": "The tip's instantaneous velocity is the position Jacobian evaluated at the current configuration, times the joint-rate vector: v = J(q) * qdot. Rates must be in radians per second to match the radian-based derivatives. Because J depends on q, the same joint rates give different tip velocities at different poses. The Jacobian is a local map: it predicts the velocity now, not the result of a large joint motion.",
+      "worked_example": "At q = (60, -30) deg with qdot = (0.2, 0.5) rad/s: v = (-0.5580*0.2 - 0.1250*0.5, 0.4665*0.2 + 0.2165*0.5) = (-0.1741, 0.2016) m/s. The same rates at q = (0, 90) deg give (-0.175, 0.1) m/s.",
+      "practice": {
+        "question": "At q = (60, -30) deg only the shoulder turns, at 0.4 rad/s. What are the tip velocity and speed?",
+        "answer": "v = 0.4 * column 1 = (-0.2232, 0.1866) m/s, a speed of 0.2909 m/s. That equals 0.4 rad/s times the tip's distance from the base, 0.7273 m, as a rotation about the base should."
+      },
+      "boundary_case": {
+        "question": "Can J at the start pose predict where the tip ends after the shoulder swings 90 deg?",
+        "answer": "No. The Jacobian gives the instantaneous velocity; over a large motion J changes and the tip follows an arc. Use forward kinematics at the end pose."
+      },
+      "name": "Calculate instantaneous planar tip velocity from joint rates",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-joint-to-tip-rate",
+      "proposed_runtime_id": "sss-rob-joint-to-tip-rate",
+      "requires": [
+        "sss-rob-position-jacobian",
+        "m-matrix"
+      ],
+      "dependency_depth": 16,
+      "node_contract_sha256": "9d2540dbc8c3eb6a2e38afb532d8b46bb82d30d0b8707c0d1e5a2540a0b118af",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Calculate the tip velocity from stated joint rates by evaluating the position Jacobian at the current configuration, and show that the same rates give a different velocity at another configuration.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Calculate the tip velocity from stated joint rates by evaluating the position Jacobian at the current configuration, and show that the same rates give a different velocity at another configuration.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Identify lost instantaneous motion directions at a planar arm singularity.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with velocity limits and the inverse rate problem; the integrated outcome card K07 uses this step.",
+      "references": [],
+      "details": "The tip's instantaneous velocity is the position Jacobian evaluated at the current configuration, times the joint-rate vector: v = J(q) * qdot. Rates must be in radians per second to match the radian-based derivatives. Because J depends on q, the same joint rates give different tip velocities at different poses. The Jacobian is a local map: it predicts the velocity now, not the result of a large joint motion.\n\nAt q = (60, -30) deg with qdot = (0.2, 0.5) rad/s: v = (-0.5580*0.2 - 0.1250*0.5, 0.4665*0.2 + 0.2165*0.5) = (-0.1741, 0.2016) m/s. The same rates at q = (0, 90) deg give (-0.175, 0.1) m/s.",
+      "placement_note": "Builds on Derive the Cartesian position Jacobian of a planar two-link arm and Matrix arithmetic. Prepares for Identify lost instantaneous motion directions at a planar arm singularity.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "sss-rob-planar-singularity",
+      "explanation": "For the planar two-link position task, det(J) = L1*L2*sin(q2). With positive link lengths it is zero exactly when q2 = 0 deg or 180 deg, fully stretched or fully folded, whatever q1 is. There the Jacobian's two columns are parallel, and the tip can move only along one line: the direction along the arm is lost to first order. The robot can still move, and a finite elbow motion still pulls the tip inward, but no joint rates give an instantaneous radial velocity.",
+      "worked_example": "With L1 = 0.5 m and L2 = 0.25 m, det(J) = 0.125*sin(q2) m^2, which is -0.0625 at q2 = -30 deg: not singular. At q = (30, 0), J = [[-0.375, -0.125], [0.6495, 0.2165]]. Column 1 is exactly 3 times column 2, det(J) = 0, and both columns are perpendicular to the arm's direction (cos 30, sin 30), so radial tip velocity is unavailable.",
+      "practice": {
+        "question": "Which configurations of this arm are singular, and what is det(J) at q2 = 90 deg?",
+        "answer": "q2 = 0 or 180 deg, for any q1. At q2 = 90 deg, det(J) = 0.125 m^2, its largest value."
+      },
+      "boundary_case": {
+        "question": "At full stretch, can the tip never move inward?",
+        "answer": "It can, through a finite elbow motion: bending the elbow pulls the tip in. What is lost is the instantaneous radial velocity, to first order. 'Cannot move at all' is wrong."
+      },
+      "name": "Identify lost instantaneous motion directions at a planar arm singularity",
+      "branch": "Frames and kinematics foundations",
+      "planning_id": "sss-rob-planar-singularity",
+      "proposed_runtime_id": "sss-rob-planar-singularity",
+      "requires": [
+        "sss-rob-joint-to-tip-rate"
+      ],
+      "dependency_depth": 17,
+      "node_contract_sha256": "db5cfb9483a33eb392ff916bca74d8492b70e9001c2e97f3a4f55af6ff1e5615",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Identify the singular configurations of a planar two-link arm from det J = L1 L2 sin(q2), and describe which instantaneous tip motion is lost there and which remains.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Identify the singular configurations of a planar two-link arm from det J = L1 L2 sin(q2), and describe which instantaneous tip motion is lost there and which remains.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation and explanation, checked in the lab.",
+      "why_it_matters": "Prepares for Calculate and test a planar Jacobian.",
+      "evidence_policy": "A calculation or a synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice near singularities and with damped inverses; the integrated outcome card K07 uses this step.",
+      "references": [],
+      "details": "For the planar two-link position task, det(J) = L1*L2*sin(q2). With positive link lengths it is zero exactly when q2 = 0 deg or 180 deg, fully stretched or fully folded, whatever q1 is. There the Jacobian's two columns are parallel, and the tip can move only along one line: the direction along the arm is lost to first order. The robot can still move, and a finite elbow motion still pulls the tip inward, but no joint rates give an instantaneous radial velocity.\n\nWith L1 = 0.5 m and L2 = 0.25 m, det(J) = 0.125*sin(q2) m^2, which is -0.0625 at q2 = -30 deg: not singular. At q = (30, 0), J = [[-0.375, -0.125], [0.6495, 0.2165]]. Column 1 is exactly 3 times column 2, det(J) = 0, and both columns are perpendicular to the arm's direction (cos 30, sin 30), so radial tip velocity is unavailable.",
+      "placement_note": "Builds on Calculate instantaneous planar tip velocity from joint rates. Prepares for Calculate and test a planar Jacobian.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    }
+  ]
+}

@@ -162,6 +162,18 @@ Also list the open questions, each with a recommendation:
 
 23 introductory lessons, one per Group A skill, each with 27 fields and its evidence statement.
 **Check:** `check_package.py` passes; the lab results are recorded.
+**Result:** written by Claude Code (E3). The sources are tracked in `authoring/lessons/edition-08/`.
+`authoring/lessons/build-edition08.mjs` copies every specification-decided field from the approved
+entries and the map, and assembles `packages/core-lessons-learning-edition-08/` with its `baseline/`.
+- **23 lessons, all saying no real-hardware evidence is needed** (E4).
+- The planar-arm steps use a 0.5 m / 0.25 m arm, unlike K05–K07's 0.4 m / 0.3 m, and each teaches
+  only its own step (E5).
+- "Prepares for" names the next skills on the I05 path.
+- **`core_lab.py`** (standard-library Python) recomputes every number.
+- **`check_package.py`: 79 checks passed** under Python 3.13.13. They cover fingerprints, counts,
+  field order, evidence fields, contracts against the approved entries, `requires` against the map's
+  own prerequisites, the I05 chain (328, missing exactly the 23) and every number in the text.
+- **For JC to read at Checkpoint B1:** `authoring/lessons/edition-08/Core-Learning-Edition-08.md`.
 
 ## [ ] Task 5 — Import Edition 08
 **Do:** Import into a scratch copy of the working map. Expected:
