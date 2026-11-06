@@ -44,32 +44,42 @@ level is 244. It adds 274 physics skills and 857 links and removes nothing. It k
   Nothing from them was started. The roadmap and `docs/SCOPE.md` record the change.
 - **The supporting subjects are authored outside this repository**, by JC with Claude in the desktop
   app, and integrated here batch by batch.
+- **Re-scoped on 2026-11-06 to the humanoid milestones I06–I09** on the helix map. Batches change
+  only `Maps/Humanoid-Helix-Atlas.json`, and the Robotics Atlas stays as it is unless JC asks.
 
 ## What is ready
 
 - `campaigns/subject-buildout/AUTHORING-BRIEF.md`, for Claude in the desktop app. It covers the
-  goal, the scope, the atlas's rules (inclusion through dependencies, granularity, reuse before
-  adding, never touch existing skills, no answers), the id policy, the exact batch JSON format, the
-  checks to run before delivery, and what happens on import.
+  goal (I06–I09 on the helix map), the scope, the rules (inclusion: every skill leads to I08 or I09;
+  close each branch; granularity; reuse before adding; never touch existing skills; no answers), the
+  id policy (`sss-<course>-<slug>`), the batch JSON format (version 2, with course, stage, tier, type
+  and practice), the checks to run before delivery, and what happens on import.
+- `campaigns/subject-buildout/handoff/Helix-Reference.json`: the reference for batches, exported from
+  the helix map (edition 2, 3,696 skills, 9 milestones) with
+  `node authoring/campaign/export-reference.mjs --helix`.
 - `campaigns/subject-buildout/handoff/Atlas-Reference.json`: a read-only export of the working atlas
   (`1212ad46…`), with 1,955 skills, 46 branches and 5 milestones. It has ids, names, subjects,
   branches, descriptions, prerequisites and coverage flags, and no answers, positions or lesson text.
-  Regenerate it with `node authoring/campaign/export-reference.mjs`. It describes the Robotics Atlas,
-  not the helix map.
+  Regenerate it with `node authoring/campaign/export-reference.mjs`. It describes the Robotics Atlas
+  and is kept only in case a batch targets that map.
 - `campaigns/subject-buildout/intake/`, where returned batches go.
 
 ## Intake, per batch (to be queued when a batch arrives)
 
 1. **Starting state:** fingerprints, a backup, and the batch read in full.
-2. **Reconcile:** each new skill against the live atlas, by id and by meaning; every edge endpoint;
-   loops; inclusion (does each skill lead to the core?); and every `intoExisting` link.
+2. **Reconcile:** each new skill against the live helix map, by id and by meaning; every edge
+   endpoint; loops; inclusion (does each skill lead to I08 or I09?); stage order; and every
+   `intoExisting` link.
 3. **Checkpoint A:** JC approves the skills, any duplicates found, and each `intoExisting` link.
-4. **Gated build in scratch**, reusing the splits tool (`authoring/splits/`). No answer, existing
-  skill, connection or lesson may change; only approved edges are added; levels are recalculated.
+4. **Gated build in scratch.** No answer, existing skill, connection or lesson may change; only
+  approved edges are added; helix levels and the layout are recalculated. **To build before the first
+  batch:** the splits tool (`authoring/splits/`) targets the Robotics Atlas, so a helix batch needs
+  its own step. That could be an extra input to `authoring/humanoid-helix/build-helix-map.mjs`, so a
+  rebuild from the extension keeps the batches, plus a validator check per batch.
 5. **Tests**, unit and end-to-end, plus a check that opens the map with the batch's skills.
 6. **Checkpoint B:** JC opens the result and says go.
 7. **Working map**, with a dated backup, then a pull request.
-8. **Refresh `Atlas-Reference.json`**, so the next batch sees the new skills.
+8. **Refresh `Helix-Reference.json`** (`--helix`), so the next batch sees the new skills.
 
 ## Still open (unchanged)
 
