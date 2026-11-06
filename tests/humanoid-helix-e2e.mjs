@@ -15,7 +15,8 @@ const SHOTS = path.join(ROOT, 'docs', 'screenshots', 'humanoid-helix');
 mkdirSync(SHOTS, { recursive: true });
 const helixData = JSON.parse(readFileSync(process.env.SSS_HELIX_MAP, 'utf8'));
 const byId = new Map(helixData.nodes.map(n => [n.id, n]));
-const ATLAS_SKILL = 'rob3:K05', NEW_SKILL = 'hx-act-harmonic-drive';
+const ATLAS_SKILL = 'rob3:K05', NEW_SKILL = 'hx-act-harmonic-drive', PHYSICS_SKILL = 'hx-em-field-lines';
+const SKILLS = helixData.nodes.length, TOP = helixData.layout.topLevel;
 
 const app = await launchApp('sss-helix-');
 try {
@@ -35,7 +36,7 @@ try {
   const t0 = Date.now();
   await open(helixMap);
   console.log(`  opened in ${((Date.now() - t0) / 1000).toFixed(1)} s (including the harness's wait)`);
-  check('the helix map opens with every skill', await fromDraft('g.nodes.length') === 3422, '3422 skills');
+  check('the helix map opens with every skill', await fromDraft('g.nodes.length') === SKILLS, `${SKILLS} skills`);
   check('and every connection', await fromDraft('g.edges.length') === helixData.edges.length, `${helixData.edges.length} connections`);
   check('it is its own map, with its own answer family', await fromDraft('g.metadata.datasetKey') === 'humanoid-helix-v1' && await fromDraft('g.metadata.atlasFamily') === 'humanoid-helix-v1');
   check('the title and layout summary say helix', (await evaluate(`document.getElementById('map-name').textContent`)) === helixData.title
@@ -49,30 +50,30 @@ try {
   // Filters: each one narrows the count to the matching skills, and clearing restores everything.
   const expect = test => helixData.nodes.filter(test).length;
   await setFilter('course', 'ACT');
-  check('the course filter narrows to the course', (await filterCount()) === `Showing ${expect(n => n.courseCode === 'ACT')} of 3422 skills`, await filterCount());
+  check('the course filter narrows to the course', (await filterCount()) === `Showing ${expect(n => n.courseCode === 'ACT')} of ${SKILLS} skills`, await filterCount());
   await shot('02-filter-course-actuation.png');
   await setFilter('stage', '2');
-  check('filters combine (course and build stage)', (await filterCount()) === `Showing ${expect(n => n.courseCode === 'ACT' && n.buildStage === 2)} of 3422 skills`, await filterCount());
+  check('filters combine (course and build stage)', (await filterCount()) === `Showing ${expect(n => n.courseCode === 'ACT' && n.buildStage === 2)} of ${SKILLS} skills`, await filterCount());
   await evaluate(`document.getElementById('clear-helix-filters').click()`); await sleep(400);
   check('clearing the filters shows every skill again', !(await filterCount()));
   await setFilter('path', 'false');
-  check('the On Humanoid Path filter works', (await filterCount()) === `Showing ${expect(n => n.onHumanoidPath === false)} of 3422 skills`, await filterCount());
+  check('the On Humanoid Path filter works', (await filterCount()) === `Showing ${expect(n => n.onHumanoidPath === false)} of ${SKILLS} skills`, await filterCount());
   await setFilter('path', '');
   const tiers = helixData.metadata.humanoidHelixImport.atlasTiers, tierOf = n => n.helixTier ?? tiers[n.id];
   await setFilter('tier', 'Enrichment');
-  check('the level filter works (Enrichment)', (await filterCount()) === `Showing ${expect(n => tierOf(n) === 'Enrichment')} of 3422 skills`, await filterCount());
+  check('the level filter works (Enrichment)', (await filterCount()) === `Showing ${expect(n => tierOf(n) === 'Enrichment')} of ${SKILLS} skills`, await filterCount());
   await setFilter('tier', 'Milestone');
   await shot('03-filter-milestones.png');
   await setFilter('tier', '');
 
   // Cards: one Atlas skill with its lesson, one new skill with none.
-  for (const [id, label] of [[ATLAS_SKILL, 'an Atlas skill'], [NEW_SKILL, 'a new humanoid skill']]) {
+  for (const [id, label] of [[ATLAS_SKILL, 'an Atlas skill'], [NEW_SKILL, 'a new humanoid skill'], [PHYSICS_SKILL, 'a physics skill added in edition 2']]) {
     const n = byId.get(id);
     await openCard(n);
     const text = await cardText(), titles = await sectionTitles();
-    const ok = text.includes(n.description.slice(0, 60)) && text.includes(`Helix level ${n.helixLevel}/184`) && JSON.stringify(titles) === JSON.stringify(lessonSections(n).map(s => s.title));
+    const ok = text.includes(n.description.slice(0, 60)) && text.includes(`Helix level ${n.helixLevel}/${TOP}`) && JSON.stringify(titles) === JSON.stringify(lessonSections(n).map(s => s.title));
     check(`a card opens for ${label} (${id})`, ok, `${titles.length} lesson sections`);
-    await shot(`${id === NEW_SKILL ? '05' : '04'}-card-${id.replace(/[^a-z0-9]+/gi, '-')}.png`);
+    await shot(`${({ [ATLAS_SKILL]: '04', [NEW_SKILL]: '05', [PHYSICS_SKILL]: '07' })[id]}-card-${id.replace(/[^a-z0-9]+/gi, '-')}.png`);
     await closeCard();
   }
   check('the new skill has no lesson and is unmarked', !byId.get(NEW_SKILL).lesson && (await fromDraft(`g.nodes.find(n=>n.id==='${NEW_SKILL}').proficiency80`)) === null);
