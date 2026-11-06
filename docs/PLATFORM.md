@@ -1004,9 +1004,9 @@ Edition 07 is the first edition whose lessons state `requires_physical_evidence`
 `false`. The importer applies it only to a merged atlas holding `P11`, and checks `P11` and `A12`
 against `scope/completions/new-skills.json`.
 
-### 9.1c Foundation splits, step 6 (built, waiting for Checkpoint B)
+### 9.1c Foundation splits, step 6 (the working map since 2026-11-05)
 
-Built in scratch from the working map (`reports/splits/02-results.md`):
+Built from the completions map and made the working map after JC's go at Checkpoint B (`reports/splits/02-results.md`). The map it replaced is in `Maps/Backups/2026-11-05-before-splits/`:
 
 | | |
 | --- | --- |

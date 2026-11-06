@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Foundation splits (step 6)
 
 Step 6 of `reports/scope/07-checkpoint.md` §2 (packages 4–7 of `reports/scope/06-wave-plan.md`). JC
-asked for it on 2026-11-05 ("Let's queue up step 6"). **Tasks 1–4 done; waiting at Checkpoint B.**
+asked for it on 2026-11-05 ("Let's queue up step 6"). **Done: every task finished, Checkpoint B passed on 2026-11-05.**
 
 This queue adds new skills to the working map, `Maps/Robotics-Atlas.json`, and writes **no
 lessons**. Lessons for the new skills belong to step 7 ("plus one per new skill"). Everything is
@@ -173,7 +173,7 @@ says go or no-go.
 - **Review-session note:** a review saved on the working map will not resume on the finished map.
 - The working map, both old maps and JC's answer record are unchanged.
 
-**Waiting for JC at Checkpoint B.**
+**Passed:** JC opened the finished map and said **go** on 2026-11-05.
 
 ## [ ] Task 5 — Make it the working map, then merge
 **Do (only after JC's go):**
@@ -184,6 +184,17 @@ says go or no-go.
 
 **Check:** the backup copy matches Task 1's SHA-256; the old master, the V3 export and the shared
 answer record are unchanged.
+**Result (2026-11-05, after JC's "Go"):**
+- **Backed up:** `Maps/Backups/2026-11-05-before-splits/Robotics-Atlas.json`, which matches Task 1
+  (`ba823b0d…`).
+- **Replaced:** `Maps/Robotics-Atlas.json` is now the finished map (`7c418655…375892a`).
+- **Check passed:** the old master, the V3 export and the answer record (`23471d5c…`) are unchanged.
+  The app was closed.
+- On the new working map, the importer's default dry run passes (306/76, nothing to change, I05
+  305/305), and the end-to-end checks pass (splits 10, merged atlas 12).
+- **One test changed:** in `tests/completions.test.mjs`, the check that the working map was exactly
+  the 1,920-skill completions map now checks that it contains the completions. The splits added
+  skills to it. Unit tests: 253 pass, 0 fail, 6 skipped.
 
 ---
 

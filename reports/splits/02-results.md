@@ -1,14 +1,14 @@
 # Splits 02 — Results (Tasks 3–4)
 
 The foundation splits, built on 2026-11-05 from the working map and the drafts JC approved at
-Checkpoint A (`01-new-skills.md`, D1–D5 as recommended). **It is waiting for JC's go or no-go at
-Checkpoint B.** Until then it exists only as `C:\sss-scratch\splits\Robotics-Atlas.json`. Nothing in
-`Maps/` was written. The working map (`ba823b0d…`), the old master, the V3 export and the shared answer
+Checkpoint A (`01-new-skills.md`, D1–D5 as recommended). **JC said go at Checkpoint B on 2026-11-05**, and it is now the working map,
+`Maps/Robotics-Atlas.json`. The map it replaced is in `Maps/Backups/2026-11-05-before-splits/` (Task 5).
+Before the go, nothing in `Maps/` was written. The old master, the V3 export and the shared answer
 record (`23471d5c…`) are unchanged; their SHA-256 was checked before and after every task.
 
 ## Before and after
 
-| | Working map now | **Finished map** |
+| | Previous working map | **Finished map (working map now)** |
 | --- | ---: | ---: |
 | Skills | 1,920 | **1,955** (+35) |
 | Connections | 5,714 | **5,783** (4,386 prerequisite, 187 supports, 1,210 related) |

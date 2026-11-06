@@ -148,7 +148,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | 2026-10-10 | V3 merge crosswalk approved (A1–A8 in `reports/merge/01-crosswalk.md`); the merged atlas covers the 9 "after the merge" branches, pending Checkpoint B | JC (approval); Claude Code (status update) |
 | 2026-11-05 | Checkpoint B passed: the merged atlas is the working map, `Maps/Robotics-Atlas.json` | JC (go); Claude Code (status update) |
 | 2026-11-05 | Robotics completions: R6 gains `P11` (the innovation-check split) and R12 gains `A12` (coupling misalignment versus backlash), both approved at the completions' Checkpoint A; Edition 07 gives the six lessonless V3 entries in the I05 chain their cards. Checkpoint B passed: the finished map is the working map | JC (approval and go); Claude Code (status update) |
-| 2026-11-05 | Foundation splits (step 6): 35 new skills cover every split and new-skill candidate in physics, electronics, mechanics and computing; C6's asymmetric-cost candidate is recorded as already covered by `c-classification`. All 35 are optional (D1–D5 in `reports/splits/01-new-skills.md`). In the working map once JC passes Checkpoint B | JC (approval); Claude Code (status update) |
+| 2026-11-05 | Foundation splits (step 6): 35 new skills cover every split and new-skill candidate in physics, electronics, mechanics and computing; C6's asymmetric-cost candidate is recorded as already covered by `c-classification`. All 35 are optional (D1–D5 in `reports/splits/01-new-skills.md`). Checkpoint B passed: the finished map is the working map | JC (approval and go); Claude Code (status update) |
 
 ## 7. Branch map
 
@@ -163,7 +163,7 @@ mapping of all 132 roadmap candidates are in `reports/scope/04-branch-map.md`.
 | Covered once Robotics V3 is merged (covered in the merged atlas, the working map since 2026-11-05) | 9 |
 | Covered by V3 entries the roadmap never listed (S8, R13, R14) | 3 |
 | Covered by the robotics completions, Edition 07 (R6, R12; in the working map since 2026-11-05) | 2 |
-| Covered by the foundation splits, step 6 (the 22 physics, electronics, mechanics and computing branches that were partial; in the working map once JC passes Checkpoint B) | 22 |
+| Covered by the foundation splits, step 6 (the 22 physics, electronics, mechanics and computing branches that were partial; in the working map since 2026-11-05) | 22 |
 | Partial: at least one skill to split out or add | 0 |
 | Audit needed: the three mathematics branches, where the roadmap lists only review tasks | 3 |
 | Missing: no existing skill at all | 0 |
