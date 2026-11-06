@@ -61,7 +61,8 @@ export const EDITION_NAMES = {
   'wheeled-robot-04': 'wheeled robot, edition 04',
   'mobile-manipulation-05': 'mobile manipulation, edition 05',
   'repeatable-work-system-06': 'repeatable work system, edition 06',
-  'robotics-completions-07': 'robotics completions, edition 07'
+  'robotics-completions-07': 'robotics completions, edition 07',
+  'core-lessons-08': 'core lessons, edition 08'
 };
 // What the card says about its own content, for the top of the card. This describes the content
 // only: it is never a statement about the reader's proficiency, and "available" means an

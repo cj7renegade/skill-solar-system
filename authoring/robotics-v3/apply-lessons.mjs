@@ -53,14 +53,21 @@ const CANDIDATES = {
   // Edition 07 is written in this repository, so its tracked copy is a fallback for the package.
   edition07: ['packages/robotics-completions-learning-edition-07/Robotics-Completions-Lessons-07.json', 'authoring/completions/edition-07/Robotics-Completions-Lessons-07.json'],
   // The specification records of the skills JC approved at the completions' Checkpoint A (P11, A12).
-  extension: ['scope/completions/new-skills.json']
+  extension: ['scope/completions/new-skills.json'],
+  // Optional until written: Edition 08 (core lessons on master skills) and the master-skill
+  // specifications JC approved for it (step 7, Checkpoint A).
+  edition08: ['packages/core-lessons-learning-edition-08/Core-Lessons-08.json', 'authoring/lessons/edition-08/Core-Lessons-08.json'],
+  masterSpec: ['scope/lessons/master-specifications.json']
 };
+const OPTIONAL = new Set(['edition08', 'masterSpec']);
 // The export the latest edition was reconciled against, shipped inside its package. Optional: it
 // only exists once an edition has been supplied with one. It is never written, only compared, so
 // the summary can still show what the newest edition added after the import has been re-run.
 // Newest first: the comparison is against the export the latest edition was built from.
 // Edition 07 has its own baseline: the merged atlas after the completions structure step.
 const BASELINE_07 = ['packages/robotics-completions-learning-edition-07/baseline/Confirmed-Structure-Map.json'];
+// Edition 08's baseline: the working map it was written against.
+const BASELINE_08 = ['packages/core-lessons-learning-edition-08/baseline/Confirmed-Working-Map.json'];
 const BASELINE = [
   'packages/repeatable-work-system-learning-edition-06/baseline/Confirmed-Edition05-Export.json',
   'packages/wheeled-robot-learning-edition-04/baseline/Robotics-v3-Lessons.json',
@@ -78,10 +85,11 @@ const sha256 = file => createHash('sha256').update(readFileSync(file)).digest('h
 const rel = file => path.relative(ROOT, file).split(path.sep).join('/');
 
 export function loadInputs() {
-  const found = Object.fromEntries(Object.keys(CANDIDATES).map(name => [name, resolveInput(name)]));
-  const read = name => ({ ...found[name], sha256: sha256(found[name].file), data: JSON.parse(readFileSync(found[name].file, 'utf8')) });
+  const present = name => !OPTIONAL.has(name) || CANDIDATES[name].some(r => existsSync(path.join(ROOT, r)));
+  const found = Object.fromEntries(Object.keys(CANDIDATES).filter(present).map(name => [name, resolveInput(name)]));
+  const read = name => found[name] ? { ...found[name], sha256: sha256(found[name].file), data: JSON.parse(readFileSync(found[name].file, 'utf8')) } : undefined;
   return { spec: read('spec'), edition01: read('edition01'), edition02: read('edition02'), edition03: read('edition03'), edition04: read('edition04'), edition05: read('edition05'), edition06: read('edition06'),
-    edition07: read('edition07'), extension: read('extension') };
+    edition07: read('edition07'), extension: read('extension'), edition08: read('edition08'), masterSpec: read('masterSpec') };
 }
 
 function ledger(graph) {
@@ -112,13 +120,19 @@ const MERGED = before.metadata?.datasetKey === 'robotics-atlas-merged';
 // Edition 07 applies only to a merged atlas that holds the completions' new skills
 // (authoring/completions/); its P11 and A12 lessons are checked against their approved records.
 const COMPLETIONS = MERGED && before.nodes.some(n => n.planningId === 'P11');
-const spec = COMPLETIONS ? { ...inputs.spec.data, nodes: [...inputs.spec.data.nodes, ...inputs.extension.data.skills.map(s => s.specification)] } : inputs.spec.data;
-const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06, ...(COMPLETIONS ? [inputs.edition07] : [])]
+// Edition 08 applies to the same atlas once it exists; its lessons are on master skills, checked against
+// the master-skill specifications JC approved (scope/lessons/), and matched by the skill's own id.
+const CORE08 = COMPLETIONS && !!inputs.edition08 && inputs.masterSpec?.data.status === 'APPROVED';
+const spec = COMPLETIONS ? { ...inputs.spec.data, nodes: [...inputs.spec.data.nodes, ...inputs.extension.data.skills.map(s => s.specification), ...(CORE08 ? inputs.masterSpec.data.entries : [])] } : inputs.spec.data;
+const editions = [inputs.edition01, inputs.edition02, inputs.edition03, inputs.edition04, inputs.edition05, inputs.edition06, ...(COMPLETIONS ? [inputs.edition07] : []), ...(CORE08 ? [inputs.edition08] : [])]
   .map(i => ({ metadata: i.data.metadata, lessons: i.data.lessons }));
 // What a passing import produces, per target.
-const EXPECT = COMPLETIONS
-  ? { authored: 306, pending: 76, roadmap: 1, planned: 383, i05: 305, delta: { edition: 'robotics-completions-07', newLessons: 8, unchangedPriorLessons: 298, skipped: 0, conflicting: 0 } }
-  : { authored: 298, pending: 82, roadmap: 1, planned: 381, i05: 298, delta: { edition: 'repeatable-work-system-06', newLessons: 6, unchangedPriorLessons: 292, skipped: 0, conflicting: 0 } };
+// authored, pending and roadmap count V3 entries; master counts lessons on master skills.
+const EXPECT = CORE08
+  ? { authored: 306, pending: 76, roadmap: 1, planned: 383, master: 23, i05: 328, delta: { edition: 'core-lessons-08', newLessons: 23, unchangedPriorLessons: 306, skipped: 0, conflicting: 0 } }
+  : COMPLETIONS
+  ? { authored: 306, pending: 76, roadmap: 1, planned: 383, master: 0, i05: 305, delta: { edition: 'robotics-completions-07', newLessons: 8, unchangedPriorLessons: 298, skipped: 0, conflicting: 0 } }
+  : { authored: 298, pending: 82, roadmap: 1, planned: 381, master: 0, i05: 298, delta: { edition: 'repeatable-work-system-06', newLessons: 6, unchangedPriorLessons: 292, skipped: 0, conflicting: 0 } };
 
 // Evidence statements for lessons written before editions carried requires_physical_evidence
 // (decision 14 in reports/scope/05-decisions.md). Never written into a stored lesson.
@@ -202,15 +216,16 @@ function runDelta() {
 // that copy shows what this integration added, and proves the lessons that were already there came
 // through untouched, using the package's own bytes rather than a claim in a summary.
 function baselineDiff() {
-  const file = (COMPLETIONS ? BASELINE_07 : BASELINE).map(r => path.join(ROOT, r)).find(existsSync);
+  const file = (CORE08 ? BASELINE_08 : COMPLETIONS ? BASELINE_07 : BASELINE).map(r => path.join(ROOT, r)).find(existsSync);
   if (!file) return { compared: false, reason: 'no supplied baseline export found' };
   const base = JSON.parse(readFileSync(file, 'utf8'));
-  // On the merged atlas the V3 entries are matched by planning id, and only their lessons are
-  // compared: names, positions and levels there are the atlas's own, by design.
-  const was = new Map(base.nodes.map(n => [MERGED ? n.planningId : n.id, n]));
+  // On the merged atlas the V3 entries are matched by planning id, master skills by their own id, and only
+  // their lessons are compared: names, positions and levels there are the atlas's own, by design.
+  const key = n => MERGED ? n.planningId ?? n.id : n.id;
+  const was = new Map(base.nodes.map(n => [key(n), n]));
   const gained = [], lessonChanged = [], otherFieldsChanged = [];
   for (const node of graph.nodes) {
-    const old = was.get(MERGED ? node.planningId : node.id);
+    const old = was.get(key(node));
     if (!old) continue;
     if (!old.lesson && node.lesson) gained.push(node.id);
     else if (old.lesson && JSON.stringify(old.lesson) !== JSON.stringify(node.lesson)) lessonChanged.push(node.id);
@@ -241,24 +256,25 @@ function milestoneClosure(milestone) {
     for (const e of graph.edges) if (e.type === 'prerequisite') (parents.get(e.target) || parents.set(e.target, []).get(e.target)).push(e.source);
     const seen = new Set(), stack = [`rob3:${milestone}`];
     while (stack.length) { const id = stack.pop(); if (seen.has(id)) continue; seen.add(id); stack.push(...(parents.get(id) ?? [])); }
-    for (const id of seen) { const planningId = byId.get(id).planningId; if (planningId) closure.add(planningId); else masterOnly++; }
+    // From Edition 08 on, master-only skills on the path have lessons too, and are counted as entries.
+    for (const id of seen) { const planningId = byId.get(id).planningId; if (planningId) closure.add(planningId); else if (CORE08) closure.add(id); else masterOnly++; }
   } else {
     const nodes = new Map(spec.nodes.map(node => [node.id, node]));
     (function visit(id) { if (closure.has(id)) return; closure.add(id); for (const prerequisite of nodes.get(id)?.requires ?? []) visit(prerequisite); })(milestone);
   }
-  const missing = [...closure].filter(id => !graph.nodes.find(node => node.planningId === id)?.lesson).sort();
-  return { milestone, entries: closure.size, missingCards: missing, closed: missing.length === 0, ...(COMPLETIONS ? { masterOnlySkillsWithoutPlannedLesson: masterOnly } : {}) };
+  const missing = [...closure].filter(id => !graph.nodes.find(node => (node.planningId ?? (CORE08 ? node.id : undefined)) === id)?.lesson).sort();
+  return { milestone, entries: closure.size, missingCards: missing, closed: missing.length === 0, ...(COMPLETIONS && !CORE08 ? { masterOnlySkillsWithoutPlannedLesson: masterOnly } : {}) };
 }
 
 const summary = {
   generated: new Date().toISOString().slice(0, 10),
   sourceRevision: gitRevision(),
-  inputs: Object.fromEntries(Object.entries(inputs).map(([name, i]) => [name, { file: i.relative, sha256: i.sha256 }])),
+  inputs: Object.fromEntries(Object.entries(inputs).filter(([, i]) => i).map(([name, i]) => [name, { file: i.relative, sha256: i.sha256 }])),
   map: { input: rel(MAP), output: rel(OUT_MAP), target: MERGED ? 'merged Robotics Atlas' : 'Robotics V3 export', atlasFamilyBefore: atlasFamily(before), atlasFamilyAfter: atlasFamily(graph), title: graph.title },
   editions: editions.map(e => ({ edition: e.metadata.edition, authored: e.metadata.authored, supplied: e.lessons.length, selection: e.metadata.selection })),
   titleChange: { before: before.title, after: graph.title, reviewSessionsKeptBy: `metadata.datasetKey = ${JSON.stringify(datasetKey(graph))}` },
   counts: report.counts,
-  expected: { uniqueAuthoredCards: EXPECT.authored, pendingAssessable: EXPECT.pending, roadmapEntries: EXPECT.roadmap, plannedEntries: EXPECT.planned, mapEntries: MERGED ? before.nodes.length : 381, i05Closure: EXPECT.i05 },
+  expected: { uniqueAuthoredCards: EXPECT.authored, pendingAssessable: EXPECT.pending, roadmapEntries: EXPECT.roadmap, plannedEntries: EXPECT.planned, masterSkillLessons: EXPECT.master, mapEntries: MERGED ? before.nodes.length : 381, i05Closure: EXPECT.i05 },
   expectedEditionDelta: EXPECT.delta,
   reconciliation: {
     imported: report.counts.imported,
@@ -316,7 +332,8 @@ const ok = summary.preservation.reviewOrderUnchanged && summary.preservation.rev
   && sig.before.nodeOrder === sig.after.nodeOrder && sig.before.edges === sig.after.edges
   && sig.before.layout === sig.after.layout && sig.before.proficiency === sig.after.proficiency
   && (!baseline.compared || (!baseline.existingLessonsChanged.length && !baseline.preservedFieldsChanged.length))
-  && report.counts.imported === expected.uniqueAuthoredCards && report.counts.authored === expected.uniqueAuthoredCards
+  && report.counts.imported === expected.uniqueAuthoredCards + expected.masterSkillLessons && report.counts.authored === expected.uniqueAuthoredCards
+  && report.counts.masterSkillLessons === expected.masterSkillLessons
   && report.counts.pending === expected.pendingAssessable && report.counts.roadmap === expected.roadmapEntries
   && report.counts.mapNodes === expected.mapEntries && report.counts.plannedEntries === expected.plannedEntries && answersBefore === answersAfter && atlasFamily(before) === atlasFamily(graph);
 summary.result = ok ? 'passed' : 'review required';

@@ -69,7 +69,12 @@ export function reconcileLesson(lesson, { specNode, node, edition }) {
     // name (scope/merge/crosswalk.json); the node records that with mergedFrom.
     const approvedSameAbility = node.mergedFrom !== undefined && node.mergedFrom === lesson.proposed_runtime_id;
     if (node.name !== specNode.name && !approvedSameAbility) problems.push(`the map node is named "${node.name}", the specification says "${specNode.name}"`);
-    if (node.planningId !== lesson.id) problems.push(`the map node carries planning id ${node.planningId}, the lesson claims ${lesson.id}`);
+    // A master skill approved for a lesson (scope/lessons/master-specifications.json) has no planning
+    // id and is matched by its own id; anything else must carry the lesson's planning id.
+    if (specNode.runtime_identity?.master_skill) {
+      if (node.planningId !== undefined) problems.push(`the master-skill entry ${lesson.id} matched a node with planning id ${node.planningId}`);
+      if (node.id !== lesson.id) problems.push(`the master-skill entry ${lesson.id} matched node ${node.id}`);
+    } else if (node.planningId !== lesson.id) problems.push(`the map node carries planning id ${node.planningId}, the lesson claims ${lesson.id}`);
   }
   if (lesson.proficiency_write !== false) problems.push('the lesson requests a proficiency write; this importer never writes answers');
   return { planningId: lesson.id, runtimeId: lesson.proposed_runtime_id, edition, problems };
@@ -117,7 +122,9 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {}, me
   const specNodes = new Map(spec.nodes.map(n => [n.id, n]));
   const byRuntimeId = new Map(graph.nodes.map(n => [n.id, n]));
   const byPlanningId = new Map(graph.nodes.filter(n => n.planningId).map(n => [n.planningId, n]));
-  const nodeFor = lesson => merged ? byPlanningId.get(lesson.id) : byRuntimeId.get(lesson.proposed_runtime_id);
+  // On the merged atlas an approved master-skill entry is found by the skill's own id.
+  const nodeFor = lesson => !merged ? byRuntimeId.get(lesson.proposed_runtime_id)
+    : byPlanningId.get(lesson.id) ?? (specNodes.get(lesson.id)?.runtime_identity?.master_skill ? byRuntimeId.get(lesson.id) : undefined);
   const reconciled = [], apply = new Map(), seen = new Map();
   const superseded = [], evidence = { lesson: 0, overrides: 0, missing: [] };
 
@@ -146,7 +153,23 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {}, me
 
   const changed = [], unchanged = [], relabelled = [];
   const nodes = graph.nodes.map(node => {
-    if (merged && !node.planningId) { unchanged.push(node.id); return node; }
+    if (merged && !node.planningId) {
+      // A master skill outside V3 is passed through untouched, unless an approved master-skill lesson
+      // applies to it. Then it gains the lesson fields, and its own details and placement note are
+      // kept under atlasDetails and atlasPlacementNote, as the merge did for shared skills.
+      const master = apply.get(node.id);
+      if (!master) { unchanged.push(node.id); return node; }
+      const next = { ...node, lessonStatus: LESSON_STATUS.authored, contentStatus: STATUS.authored };
+      if (next.atlasDetails === undefined && node.details !== undefined && node.details !== master.lesson.details) next.atlasDetails = node.details;
+      if (next.atlasPlacementNote === undefined && node.placementNote !== undefined && node.placementNote !== master.lesson.placement_note) next.atlasPlacementNote = node.placementNote;
+      next.details = master.lesson.details;
+      next.placementNote = master.lesson.placement_note;
+      next.lessonCard = master.card;
+      next.lesson = master.lesson;
+      if (node.lessonStatus !== next.lessonStatus) relabelled.push(node.id);
+      (same(node, next) ? unchanged : changed).push(node.id);
+      return next;
+    }
     const match = apply.get(node.id);
     const specNode = specNodes.get(node.planningId);
     // An entry keeps its authored status when it already has a lesson no edition replaced.
@@ -203,7 +226,9 @@ export function applyLessons(graph, { spec, editions, evidenceOverrides = {}, me
         keptExistingOverEdition: superseded.length,
         authored: counted(STATUS.authored),
         pending: counted(STATUS.pending),
-        roadmap: counted(STATUS.roadmap)
+        roadmap: counted(STATUS.roadmap),
+        // Lessons on master skills outside V3 (approved master-skill entries), counted apart from V3's.
+        masterSkillLessons: nodes.filter(n => !n.planningId && n.lesson).length
       }
     }
   };

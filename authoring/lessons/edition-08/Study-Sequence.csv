@@ -1,0 +1,24 @@
+Order,Skill,Name,Requires
+1,sss-rob-serial-dof,Count independent coordinates of an unconstrained serial joint chain,
+2,p-charge,Electric charge and conservation,p-model
+3,sss-rob-frame-labels,Label the reference frame of a robot position or direction,m-vector
+4,sss-rob-joint-conventions,"Specify joint order, zero references, signs, and units for a configuration",sss-rob-serial-dof m-radian
+5,sss-rob-rotation-columns,Construct a rotation matrix from one frame’s axes expressed in another,sss-rob-frame-labels m-matrix
+6,sss-rob-task-coordinates,"Distinguish joint configuration, task coordinates, and reachable workspace",sss-rob-joint-conventions
+7,sss-rob-point-direction,Apply translation to a point but not to a free displacement vector,sss-rob-rotation-columns
+8,sss-rob-rotation-check,Check whether a supplied matrix represents a proper 3D rotation,sss-rob-rotation-columns
+9,m-log,Logarithms,m-expfunction m-inverse
+10,sss-rob-planar-reach,Check the geometric position reach of an unrestricted planar two-link arm,sss-rob-task-coordinates m-norm
+11,sss-rob-compose,Compose a chain of labeled rigid transforms in the correct order,sss-rob-point-direction m-matrix
+12,sss-rob-inverse,Invert a rigid transform while rotating its translation correctly,sss-rob-point-direction sss-rob-rotation-check
+13,sss-rob-planar-fk,Calculate position and orientation of an ideal two-revolute-link planar arm,sss-rob-joint-conventions m-unitcircle
+14,m-trigidentity,Trigonometric identities,m-unitcircle m-like
+15,p-electricfield,Electric force and field,p-charge p-newton
+16,sss-rob-planar-ik,Calculate both regular inverse-kinematic branches of a planar two-link arm,sss-rob-planar-reach m-invtrig sss-rob-planar-fk
+17,sss-rob-tool-offset,Include a fixed tool offset after the final link transform,sss-rob-compose
+18,p-potentialelectric,Electric potential and voltage,p-electricfield p-work
+19,sss-rob-ik-verification,Verify an inverse-kinematic candidate by forward substitution and joint limits,sss-rob-planar-ik
+20,m-transdiff,Trigonometric and exponential derivatives,m-chain m-log m-trigidentity
+21,sss-rob-position-jacobian,Derive the Cartesian position Jacobian of a planar two-link arm,sss-rob-planar-fk m-partial m-transdiff
+22,sss-rob-joint-to-tip-rate,Calculate instantaneous planar tip velocity from joint rates,sss-rob-position-jacobian m-matrix
+23,sss-rob-planar-singularity,Identify lost instantaneous motion directions at a planar arm singularity,sss-rob-joint-to-tip-rate

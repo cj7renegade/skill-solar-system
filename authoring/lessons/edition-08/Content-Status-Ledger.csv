@@ -1,0 +1,24 @@
+Skill,Name,Authoring status
+sss-rob-serial-dof,Count independent coordinates of an unconstrained serial joint chain,introductory card authored; integration pending
+p-charge,Electric charge and conservation,introductory card authored; integration pending
+sss-rob-frame-labels,Label the reference frame of a robot position or direction,introductory card authored; integration pending
+sss-rob-joint-conventions,"Specify joint order, zero references, signs, and units for a configuration",introductory card authored; integration pending
+sss-rob-rotation-columns,Construct a rotation matrix from one frame’s axes expressed in another,introductory card authored; integration pending
+sss-rob-task-coordinates,"Distinguish joint configuration, task coordinates, and reachable workspace",introductory card authored; integration pending
+sss-rob-point-direction,Apply translation to a point but not to a free displacement vector,introductory card authored; integration pending
+sss-rob-rotation-check,Check whether a supplied matrix represents a proper 3D rotation,introductory card authored; integration pending
+m-log,Logarithms,introductory card authored; integration pending
+sss-rob-planar-reach,Check the geometric position reach of an unrestricted planar two-link arm,introductory card authored; integration pending
+sss-rob-compose,Compose a chain of labeled rigid transforms in the correct order,introductory card authored; integration pending
+sss-rob-inverse,Invert a rigid transform while rotating its translation correctly,introductory card authored; integration pending
+sss-rob-planar-fk,Calculate position and orientation of an ideal two-revolute-link planar arm,introductory card authored; integration pending
+m-trigidentity,Trigonometric identities,introductory card authored; integration pending
+p-electricfield,Electric force and field,introductory card authored; integration pending
+sss-rob-planar-ik,Calculate both regular inverse-kinematic branches of a planar two-link arm,introductory card authored; integration pending
+sss-rob-tool-offset,Include a fixed tool offset after the final link transform,introductory card authored; integration pending
+p-potentialelectric,Electric potential and voltage,introductory card authored; integration pending
+sss-rob-ik-verification,Verify an inverse-kinematic candidate by forward substitution and joint limits,introductory card authored; integration pending
+m-transdiff,Trigonometric and exponential derivatives,introductory card authored; integration pending
+sss-rob-position-jacobian,Derive the Cartesian position Jacobian of a planar two-link arm,introductory card authored; integration pending
+sss-rob-joint-to-tip-rate,Calculate instantaneous planar tip velocity from joint rates,introductory card authored; integration pending
+sss-rob-planar-singularity,Identify lost instantaneous motion directions at a planar arm singularity,introductory card authored; integration pending

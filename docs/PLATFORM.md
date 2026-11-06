@@ -1015,6 +1015,21 @@ Built from the completions map and made the working map after JC's go at Checkpo
 | Required | none: the I05 chain is unchanged (327) |
 | Lessons | none yet. The new skills have no planning id, so the importer leaves them alone; their lessons are step 7 |
 
+### 9.1d Core lessons, Edition 08 (the working map since 2026-11-05)
+
+Built from the splits map and made the working map after JC's go at Checkpoint B1 (`reports/lessons/02-edition08-results.md`). The map it replaced is in `Maps/Backups/2026-11-05-before-edition08/`:
+
+| | |
+| --- | --- |
+| Lessons | 329: Edition 08 (`core-lessons-08`, written in this repository) adds 23 on the master-only skills of the I05 path: 17 `sss-rob-*`, `p-charge`, `p-electricfield`, `p-potentialelectric`, `m-log`, `m-trigidentity`, `m-transdiff` |
+| I05 path | 328 of 328 skills with a card |
+| Map | skills, connections, layout and answers unchanged |
+
+Master-skill lessons are checked against `scope/lessons/master-specifications.json`, which JC approved,
+and matched by the skill's own id (`runtime_identity.master_skill`), because these skills have no
+planning id. A skill that gains one keeps its own text in `atlasDetails` and `atlasPlacementNote`.
+The importer counts them as `masterSkillLessons`, apart from V3's.
+
 ### 9.2 Chain closure
 
 | Milestone | Chain | Closed? |
