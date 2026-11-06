@@ -234,11 +234,31 @@ local `main`.
 their specification records and contract fingerprints, and their prerequisites' lessons. Write
 `Edition09-Targets.json`.
 **STOP if:** a Group B prerequisite outside the 21 has no lesson.
+**Result:**
+- Working map `e91a4292…` (the Edition 08 map). The answer record is unchanged.
+- Group B is the 21 entries, none answered, all with V3 specification records.
+- **Every prerequisite outside the 21 has a lesson**, so there is no STOP. Eight entries depend on others
+  in the group, so the lessons run in dependency order.
+- `authoring/lessons/edition-09/Edition09-Targets.json` is written by the build (Task 9). It holds each
+  entry's map record, specification, contract fingerprint and prerequisites.
 
 ## [ ] Task 9 — Write Edition 09
 **Do:** The same package layout and checks as Edition 08, for the 21 Group B entries, against V3's
 reviewed specification. Backup first.
 **Check:** `check_package.py` passes; the lab results are recorded.
+**Result:**
+- **Backup:** `%OneDrive%\HelixSkill Backups\2026-11-05_211412` (every file verified; the app was closed).
+- **Package:** sources in `authoring/lessons/edition-09/`. `authoring/lessons/build-edition09.mjs`
+  copies every specification-decided field from V3's reviewed specification, and assembles
+  `packages/core-lessons-learning-edition-09/`.
+- **21 lessons, all saying no real-hardware evidence is needed** (E4). The four entries assessed as
+  *circuit analysis or supervised measurement* (`e-sampling`, `e-adc`, `e-calibration`, `e-imu`) follow
+  24 of the 30 earlier cards in that mode. The five runnable-code entries (`C06`–`C09`, `N09`) are taught
+  through small simulations that the lab runs.
+- **`check_package.py`: 68 checks passed.** They cover fingerprints, counts, field order, evidence
+  fields, contracts, the core (351 skills; without a card, exactly the 21 and `r-singular`) and every
+  number and simulation in the text.
+- **For JC to read at Checkpoint B2:** `authoring/lessons/edition-09/Core-Learning-Edition-09.md`.
 
 ## [ ] Task 10 — Import, measure and report Part 2
 **Do:**

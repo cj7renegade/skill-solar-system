@@ -1,0 +1,22 @@
+Planning ID,Name,Authoring status
+m-random,Random variables and distributions,introductory card authored; integration pending
+p-wave,"Wave speed, frequency, and wavelength",introductory card authored; integration pending
+m-sampling,Sampling and bias,introductory card authored; integration pending
+e-sampling,Sampling and aliasing,introductory card authored; integration pending
+m-complex,Complex-number arithmetic,introductory card authored; integration pending
+m-defintegral,Definite integrals and accumulation,introductory card authored; integration pending
+m-regression,Regression and residual analysis,introductory card authored; integration pending
+m-antiderivative,Antiderivatives,introductory card authored; integration pending
+m-ftc,Fundamental theorem of calculus,introductory card authored; integration pending
+m-improper,Improper integrals,introductory card authored; integration pending
+e-adc,Analog-to-digital conversion,introductory card authored; integration pending
+m-laplace,Laplace transforms,introductory card authored; integration pending
+e-calibration,Sensor calibration curves,introductory card authored; integration pending
+C07,Analyze a linear control model,introductory card authored; integration pending
+e-imu,Inertial measurement units,introductory card authored; integration pending
+C08,"Evaluate sampling, delay and noise",introductory card authored; integration pending
+P07,Estimate orientation from inertial data,introductory card authored; integration pending
+A11,Identify a simple actuator model,introductory card authored; integration pending
+C09,Design state feedback and an observer,introductory card authored; integration pending
+C06,Add model-based feedforward,introductory card authored; integration pending
+N09,Evaluate a SLAM pipeline,introductory card authored; integration pending
