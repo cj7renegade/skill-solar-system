@@ -84,7 +84,7 @@ export function arrangeHelix(graph) {
   const used = new Map();
   for (const n of axis.sort((a, b) => level.get(a.id) - level.get(b.id) || a.id.localeCompare(b.id))) {
     const lv = level.get(n.id), k = used.get(lv) || 0; used.set(lv, k + 1);
-    n.position = [k * 40, (lv - 1) * perLevel, 0];
+    n.position = [k * 40, (lv - 1) * perLevel, 0].map(v => Math.round(v * 1000) / 1000);
   }
   result.layout = { type: 'helix', version: 1, turns: TURNS, heightPerLevel: Math.round(perLevel * 1e6) / 1e6, topLevel: top,
     courseOrder: courses,
