@@ -10,6 +10,13 @@ Attach `handoff/Atlas-Reference.json` to the conversation. It is a read-only exp
 atlas, with every skill's id, name, subject, branch, description and prerequisites. It contains no
 answers, positions or lesson text.
 
+**Building on the helix map instead?** Attach `handoff/Helix-Reference.json`. It covers the Humanoid
+Protocol Droid Helix map: the atlas plus the humanoid skills, checkpoints and milestones I06–I09,
+3,696 skills in all. Each skill also has its course code, build stage, helix level, tier and an
+`onHelixGoalPath` flag. Use ids exactly as that file gives them, including `hx-*` ids. Sections 1–2
+below still describe the Robotics Atlas goal (I01–I05, humanoids out of scope); JC sets the scope for
+a helix batch.
+
 ## 1. What HelixSkill is
 
 An offline 3D map of skills. Each skill is a sphere that a learner marks Yes, No or unmarked, and
