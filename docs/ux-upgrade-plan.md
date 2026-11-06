@@ -86,6 +86,24 @@ of continuous drag, median fps (worst 5%).
 | --- | --- | --- | --- |
 | 0 baseline | 0.85–0.89 s | 59.9 (59.5) | 59.9 (59.5) |
 | 1 HUD and frontier glow | 0.88–0.92 s | 59.9 (59.5) | not re-measured |
+| 2 colour system and course key | 0.92 s | 59.9 (59.5) | not re-measured |
+
+## Colour-blind check (phase 2)
+
+`node scripts/check-palette.mjs` simulates deuteranopia and protanopia (Machado 2009, severity 1.0)
+and measures CIEDE2000 (ΔE00) for:
+- every pair of courses next to each other around the helix, with a floor of 10;
+- every pair inside a legend family, with a floor of 6;
+- the three proficiency states, with a floor of 10.
+
+Every pair meets its floor under all three kinds of vision. Lowest values:
+- around the helix: ACT–ELX at 12.1, protanopia;
+- inside a family: LOC–AIL at 8.2;
+- proficiency states: No against Not marked at 23.1.
+
+Four first-draft shades failed: MEC–ACT at 8.1, LOC–MAN at 6.9, MAN–PER at 5.8 and MAN–AIL at 3.6.
+They were re-chosen, the Mind & behaviour family by a constrained search over purple and magenta
+shades. The full table is printed by the script.
 
 Map files before (SHA-256): `Humanoid-Helix-Atlas.json` `4cdfc20d…`, `Robotics-Atlas.json`
 `1212ad46…`.

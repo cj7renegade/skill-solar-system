@@ -1,6 +1,7 @@
 // End-to-end check in the real Electron app: with proficiency colouring on, skills marked Yes are
-// green and pulse in brightness and colour, while every other skill is a steady red. Brightness and
-// colour are measured from screenshots of each sphere over one pulse period.
+// gold and pulse in brightness and colour, while every other skill is a steady grey (No a darker
+// slate than Not marked), so no state depends on telling red from green. Brightness and colour are
+// measured from screenshots of each sphere over one pulse period.
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { launchApp, checker, sleep } from './e2e-harness.mjs';
@@ -37,8 +38,10 @@ try {
     frames.sort((a, b) => a.level - b.level);
     return { swing: frames.at(-1).level - frames[0].level, dim: frames[0].colour, bright: frames.at(-1).colour };
   }
+  const goldish = c => c[0] > c[2] * 1.4 && c[1] > c[2] * 1.15;
   const greenish = c => c[1] > c[0] * 1.2 && c[1] > c[2] * 1.05;
   const reddish = c => c[0] > c[1] * 1.2 && c[0] > c[2] * 1.05;
+  const brightness = c => c[0] + c[1] + c[2];
 
   const before = await sample('Marked yes');
   check('nothing pulses while proficiency colouring is off', before.swing < 3, `swing ${before.swing.toFixed(2)}`);
@@ -47,14 +50,14 @@ try {
   check('a skill marked Yes pulses with proficiency colouring on', yes.swing > 8, `swing ${yes.swing.toFixed(2)}`);
   check('a skill marked No stays steady', no.swing < 3, `swing ${no.swing.toFixed(2)}`);
   check('an unmarked skill stays steady', unmarked.swing < 3, `swing ${unmarked.swing.toFixed(2)}`);
-  check('a skill marked Yes is green', greenish(yes.dim), `rgb ${yes.dim}`);
-  check('a skill marked No is red', reddish(no.dim), `rgb ${no.dim}`);
-  check('an unanswered skill is red too, not grey', reddish(unmarked.dim), `rgb ${unmarked.dim}`);
-  check('the pulsing colour travels from green towards pale tea green', yes.bright[0] > yes.dim[0] + 10 && yes.bright[2] > yes.dim[2] + 10, `${yes.dim} -> ${yes.bright}`);
+  check('a skill marked Yes is gold', goldish(yes.dim), `rgb ${yes.dim}`);
+  check('no state is drawn red or green', ![yes.dim, no.dim, unmarked.dim].some(c => reddish(c) || greenish(c)), `${yes.dim} / ${no.dim} / ${unmarked.dim}`);
+  check('a skill marked No is darker than an unmarked one, so the two greys differ by lightness', brightness(no.dim) < brightness(unmarked.dim) - 30, `${no.dim} vs ${unmarked.dim}`);
+  check('the pulsing colour travels from gold towards pale cream', yes.bright[2] > yes.dim[2] + 10, `${yes.dim} -> ${yes.bright}`);
   check('the pulse is a glow on the sphere, not a growing halo', await evaluate(`Number(document.getElementById('labels').dataset.highlighted||0)`) === 0);
   // The colour carries the state, so the answer is not repeated as text anywhere.
   check('nameplates show the skill name only, with no proficiency wording', await evaluate(`[...document.querySelectorAll('#labels .node-label')].map(e=>e.textContent).sort().join('|')`) === 'Marked no|Marked yes|Unmarked');
-  check('the legend lists the two proficiency colours in use', await evaluate(`[...document.querySelectorAll('#legend div.legend-item')].map(e=>e.textContent).join('|')`) === 'Yes|No or unanswered');
+  check('the legend names the proficiency colours in use and the ready-to-study glow', await evaluate(`[...document.querySelectorAll('#legend div.legend-item')].map(e=>e.textContent).join('|')`) === 'Proficient (Yes)|Not marked|Marked No (darker)|Glow · ready to study');
   await evaluate(`[...document.querySelectorAll('.node-item')].find(b=>b.textContent==='Marked yes').click()`); await sleep(400);
   check('the console shows the answer through the pressed button, not a status line', await evaluate(`!document.querySelector('.proficiency-state') && document.querySelector('#inspector .proficiency-controls button.chosen')?.textContent === 'Yes'`));
   await click('#show-proficiency', 400);

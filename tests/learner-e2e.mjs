@@ -38,6 +38,24 @@ try {
   check('and Next up and the glow move on', !after.includes(first[0]) && await frontierCount() !== entry.size, after.slice(0, 3).join(' | '));
   await evaluate(`(()=>{const s=document.getElementById('hud-target');s.value='hx-sys-ms-i08';s.dispatchEvent(new Event('change'));})()`); await sleep(500);
   check('the target can be changed, and the choice holds across renders', await evaluate(`document.getElementById('hud-target').value`) === 'hx-sys-ms-i08');
+  // Phase 2: the course key isolates a course or a family; a second click clears it.
+  const faded = () => evaluate(`Number(document.getElementById('labels').dataset.faded)`);
+  const isolate = key => evaluate(`document.querySelector('#legend [data-isolate="${key}"]').click()`).then(() => sleep(500));
+  const total = helix.nodes.length, act = helix.nodes.filter(n => n.courseCode === 'ACT').length;
+  const body = helix.nodes.filter(n => ['MEC', 'ACT', 'PWR'].includes(n.courseCode)).length;
+  await evaluate(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}))`); await sleep(400);
+  await isolate('course:ACT');
+  check('clicking a course isolates it: every other skill fades', await faded() === total - act, `${await faded()} faded`);
+  check('the course row shows its skill count and % proficient', /^ACT · .*128 · \d+%$/.test(await evaluate(`document.querySelector('#legend [data-isolate="course:ACT"]').textContent`)));
+  await isolate('course:ACT');
+  check('clicking it again clears the isolation', await faded() === 0);
+  await isolate('family:body');
+  check('clicking a family header isolates the whole family', await faded() === total - body, `${await faded()} faded`);
+  await isolate('family:body');
+  await evaluate(`(()=>{const e=document.getElementById('show-proficiency');e.checked=true;e.dispatchEvent(new Event('change'));})()`); await sleep(400);
+  const states = await evaluate(`[...document.querySelectorAll('#legend .legend-item')].map(e=>e.textContent).filter(t=>/Proficient|Not marked|Marked No|ready to study/.test(t))`);
+  check('the proficiency key names gold, grey, slate and the glow, with no red/green pair', states.length === 4, states.join(' | '));
+  await evaluate(`(()=>{const e=document.getElementById('show-proficiency');e.checked=false;e.dispatchEvent(new Event('change'));})()`);
   check('no page errors on the helix map', !pageErrors.length, pageErrors.slice(0, 2).join(' | '));
 
   if (process.env.SSS_ATLAS_MAP) {

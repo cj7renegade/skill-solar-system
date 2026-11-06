@@ -12,19 +12,8 @@ export const isHelixMap = graph => graph?.layout?.type === 'helix';
 // The map's courses in order, as [code, name] pairs (metadata.courses).
 export const helixCourses = graph => graph?.metadata?.courses ?? [];
 
-// One colour per course: hues evenly spaced around the colour wheel, in course order, at the
-// lightness the six domain colours use, so 16 bands stay distinguishable on the dark background.
-export function courseColors(courses) {
-  const out = {};
-  courses.forEach(([code], i) => { out[code] = hsl(i * 360 / courses.length + 20, 68, 66); });
-  return out;
-}
-function hsl(h, s, l) {
-  s /= 100; l /= 100;
-  const k = n => (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
-  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-  return '#' + [f(0), f(8), f(4)].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
-}
+// One colour per course, from the five course families in src/palette.js.
+export { courseColors } from './palette.js';
 
 // A skill's tier (Core, Working, Specialist, Enrichment, Checkpoint, Milestone): new skills carry it
 // as helixTier; Atlas skills, whose fields stay unchanged, have it in the import's lookup table.

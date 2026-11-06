@@ -16,6 +16,7 @@ import { createRecordStore } from './proficiency-store.js';
 import { createTour } from './tour.js';
 import { undoLimit, trimHistory } from './history.js';
 import { renderHud, learnerState, activeTarget, storeTarget, reviewLeft } from './hud.js';
+import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -301,30 +302,63 @@ function palette(){return isHelixMap(graph)?courseColors(helixCourses(graph)):nu
 // change the map, the selection or any answer. They reset when another map is opened.
 let helixFilters={},helixFilterMap=null;
 function setHelixFilter(key,value){helixFilters={...helixFilters,[key]:value};viewer?.filters(helixFilters);renderLegend();}
+// Legend isolation: a course or a whole family stays at full strength and every other skill fades.
+// Display state only, like the filters; a second click on the same row clears it.
+let isolation=null;
+function setIsolation(next){
+  isolation=next&&isolation&&next.kind===isolation.kind&&next.id===isolation.id?null:next;
+  const codes=!isolation?null:isolation.kind==='family'?Object.keys(FAMILIES.find(f=>f.id===isolation.id).courses):[isolation.id];
+  viewer?.isolate(codes&&new Set(codes));renderLegend();
+  const focus=isolation?$('legend').querySelector(`[data-isolate="${isolation.kind}:${isolation.id}"]`):null;focus?.focus();
+}
 function renderHelixLegend(legend){
-  if(helixFilterMap!==graph.title){helixFilters={};helixFilterMap=graph.title;viewer?.filters(helixFilters);}
+  if(helixFilterMap!==graph.title){helixFilters={};helixFilterMap=graph.title;viewer?.filters(helixFilters);isolation=null;viewer?.isolate(null);}
   const courses=helixCourses(graph),colors=courseColors(courses),count=test=>graph.nodes.filter(test).length;
+  // Courses by family: the family header isolates the family, a course row isolates the course. Each
+  // row shows its skill count and the share you have marked proficient (your own answers).
+  const stats=new Map(courses.map(([code])=>[code,{total:0,yes:0}]));
+  for(const n of graph.nodes){const s=stats.get(n.courseCode);if(s){s.total++;if(n.proficiency80===true)s.yes++;}}
+  const pct=s=>s.total?Math.round(100*s.yes/s.total):0;
+  const isolateButton=(kind,id,label,s,swatch,extra='')=>{
+    const on=isolation?.kind===kind&&isolation?.id===id,dot=el('span',{class:kind==='family'?'swatch':'dot'});dot.style.background=swatch;
+    const b=el('button',{class:`legend-item isolate ${kind}${on?' active':''}${extra}`,title:on?`Show every course again`:`Show only ${label}; other skills fade`,onclick:()=>setIsolation({kind,id})},dot,el('span',{class:'legend-name',text:label}),el('span',{class:'legend-count',text:`${s.total} · ${pct(s)}%`}));
+    b.dataset.isolate=`${kind}:${id}`;b.setAttribute('aria-pressed',String(on));return b;
+  };
+  legend.append(el('div',{class:'legend-heading',text:'Courses · click to isolate · skills · % proficient'}));
+  const names=Object.fromEntries(courses);
+  for(const family of FAMILIES){
+    const codes=Object.keys(family.courses).filter(code=>code in names);if(!codes.length)continue;
+    const total=codes.reduce((t,c)=>({total:t.total+stats.get(c).total,yes:t.yes+stats.get(c).yes}),{total:0,yes:0});
+    legend.append(isolateButton('family',family.id,family.name,total,`linear-gradient(90deg,${codes.map(c=>colors[c]).join(',')})`));
+    for(const code of codes)legend.append(isolateButton('course',code,`${code} · ${names[code]}`,stats.get(code),colors[code],' course'));
+  }
+  const other=courses.filter(([code])=>!familyOf(code));
+  for(const [code,name] of other)legend.append(isolateButton('course',code,`${code} · ${name}`,stats.get(code),colors[code],' course'));
+  if(isolation)legend.append(el('button',{class:'legend-clear',id:'clear-isolation',text:'Show all courses',onclick:()=>setIsolation(null)}));
+  legend.append(el('div',{class:'edge-note',text:'Octahedron = milestone (on the axis) · small sphere = checkpoint'}));
+  // The filters stay available, folded away under the key.
+  const filters=el('details',{class:'legend-filters',open:activeFilters(helixFilters).length>0},el('summary',{text:'Filters · dim other skills'}));
+  legend.append(filters);legend=filters;
   const select=(key,label,choices)=>{const s=el('select',{id:`helix-filter-${key}`,ariaLabel:label,title:label,onchange:e=>setHelixFilter(key,e.target.value)},el('option',{value:'',text:`Any ${label.toLowerCase()}`}),...choices.map(([value,text])=>el('option',{value,text})));s.value=helixFilters[key]||'';return el('label',{class:'helix-filter'},document.createTextNode(label),s);};
-  legend.append(el('div',{class:'legend-heading',text:'Filter · dims other skills'}));
   legend.append(select('course','Course',courses.map(([code,name])=>[code,`${name} (${count(n=>n.courseCode===code)})`])));
   const stages=[...new Set(graph.nodes.map(n=>n.buildStage).filter(v=>v!=null))].sort((a,b)=>a-b),stageNames=graph.metadata?.humanoidHelixImport?.buildStages||{};
   legend.append(select('stage','Build stage',[...stages.map(s=>[String(s),`${s} ${stageNames[s]||''}`.trim()]),['none','No stage (enrichment)']]));
   legend.append(select('path','On humanoid path',[['true','Yes'],['false','No']]));
   const tiers=[...new Set(graph.nodes.map(n=>tierOf(graph,n)).filter(Boolean))];
   legend.append(select('tier','Level',tiers.map(tier=>[tier,`${tier} (${count(n=>tierOf(graph,n)===tier)})`])));
+  helixExtras=legend;
   if(activeFilters(helixFilters).length){
     const shown=count(n=>matchesHelixFilters(graph,n,helixFilters));
     legend.append(el('div',{class:'edge-note',id:'helix-filter-count',text:`Showing ${shown} of ${graph.nodes.length} skills`}),el('button',{class:'legend-clear',id:'clear-helix-filters',text:'Clear filters',onclick:()=>{helixFilters={};viewer?.filters(helixFilters);renderLegend();}}));
   }
-  legend.append(el('div',{class:'legend-heading',text:'Sphere colour · course'}));
-  for(const [code,name] of courses){const dot=el('span',{class:'dot'});dot.style.background=colors[code];legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(`${code} · ${name}`)));}
-  legend.append(el('div',{class:'edge-note',text:'Octahedron = milestone (on the axis) · small sphere = checkpoint'}));
 }
+let helixExtras=null;
 function renderLegend(){
-  const legend=$('legend');legend.replaceChildren();
+  let legend=$('legend');legend.replaceChildren();
   legend.classList.toggle('helix-legend',isHelixMap(graph));
-  if(isHelixMap(graph))renderHelixLegend(legend);
-  const counts=domainCounts(graph);
+  helixExtras=null;if(isHelixMap(graph))renderHelixLegend(legend);
+  // On helix maps the six-subject highlight sits with the filters, under the course key.
+  const counts=domainCounts(graph),key=legend;legend=helixExtras||legend;
   legend.append(el('div',{class:'legend-heading',text:'Subjects · click to highlight'}));
   for(const [name,color]of Object.entries(DOMAINS)){
     const on=subjects.has(name),dot=el('span',{class:'dot'});dot.style.background=color;
@@ -332,9 +366,11 @@ function renderLegend(){
     button.dataset.subject=name;button.setAttribute('aria-pressed',String(on));legend.append(button);
   }
   if(subjects.size)legend.append(el('button',{class:'legend-clear',id:'clear-highlights',text:'Clear highlights',onclick:()=>setSubjects(new Set())}));
+  legend=key;
   if(proficiencyOn){
     legend.append(el('div',{class:'legend-heading',text:'Sphere colour · proficiency'}));
-    for(const [name,color]of [['Yes',PROFICIENCY_COLORS.yes],['No or unanswered',PROFICIENCY_COLORS.no]]){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
+    for(const [name,color]of [['Proficient (Yes)',PROFICIENCY_COLORS.yes],['Not marked',PROFICIENCY_COLORS.unset],['Marked No (darker)',PROFICIENCY_COLORS.no]]){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
+    const glow=el('span',{class:'dot glow'});glow.style.background=PROFICIENCY_COLORS.unset;glow.style.boxShadow=`0 0 5px 3px ${FRONTIER_GLOW}`;legend.append(el('div',{class:'legend-item'},glow,document.createTextNode('Glow · ready to study')));
     legend.append(el('div',{class:'edge-note',text:'Manual self-report'}));
   }
   legend.append(el('div',{class:'edge-note',text:'Gold → prerequisite'}),el('div',{class:'edge-note',text:'Dashed → supports'}),el('div',{class:'edge-note',text:'Violet — related'}));

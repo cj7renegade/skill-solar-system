@@ -9,6 +9,7 @@ import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
 import { pulseIntensity, pulseWave, steadyIntensity, pulsingIds, PULSE_COLORS } from './pulse.js';
 import { isHelixMap, helixCourses, courseColors, matchesHelixFilters, activeFilters } from './helix.js';
+import { FRONTIER_GLOW } from './palette.js';
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -74,7 +75,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const points = new Float32Array(nodes.length * 3);
     nodes.forEach((n, i) => points.set(displayPosition(n.position, spacing), i * 3));
     frontierGlow = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(points, 3)),
-      new THREE.PointsMaterial({ color: 0xffe7a6, map: glowTexture, size: 30, sizeAttenuation: false, transparent: true, opacity: .85, depthWrite: false, blending: THREE.AdditiveBlending }));
+      new THREE.PointsMaterial({ color: new THREE.Color(FRONTIER_GLOW), map: glowTexture, size: 30, sizeAttenuation: false, transparent: true, opacity: .85, depthWrite: false, blending: THREE.AdditiveBlending }));
     frontierGlow.raycast = () => {};
     haloGroup.add(frontierGlow);
   }
@@ -172,6 +173,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;mesh.scale.setScalar(markerScale(helix,n)*(n.id===selected?1.35:1));group.add(mesh);objects.push(mesh);
       const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected,dimmed:dimmed||faded});
     }
+    labelHost.dataset.faded=String(labels.filter(l=>l.dimmed).length);
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
     for(const e of visibleConnections(graph.edges,selected,selectedConnectionsOnly)) {
       const a=positions.get(e.source),b=positions.get(e.target),delta=b.clone().sub(a),length=delta.length();

@@ -17,7 +17,7 @@ changes; proficiency stays manual. Commit per phase.
 
 - [x] Phase 0: read the code, plan, baseline fps (59.9) and before screenshots
 - [x] Phase 1: learner HUD and frontier glow
-- [ ] Phase 2: colour system, palette check and interactive legend
+- [x] Phase 2: colour system, palette check and interactive legend
 - [ ] Phase 3: milestone spine, stage rings, height ruler and course band labels
 - [ ] Phase 4: level of detail and label budget
 - [ ] Phase 5: path mode and 2D plan view
