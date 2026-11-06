@@ -23,11 +23,11 @@ campaign set-up is on the unmerged branch `subject-buildout` (`741a317`).
 - [x] Validate (`scripts/validate-humanoid-helix.mjs`): 17 checks pass.
 - [x] Record every mapping decision in `docs/humanoid-helix-import.md`.
 - [x] Unit tests for the helix module and the level range (`tests/helix.test.mjs`, 9 tests). All unit tests: 269 pass, 0 fail, 6 skipped.
-- [x] End-to-end check (`tests/humanoid-helix-e2e.mjs`, 18 checks): the map opens and renders; filters work; the`
-  `rob3:K05` and `hx-act-harmonic-drive` cards open; the Robotics Atlas still opens. Six screenshots are in`
+- [x] End-to-end check (`tests/humanoid-helix-e2e.mjs`, 18 checks): the map opens and renders; filters work; the
+  `rob3:K05` and `hx-act-harmonic-drive` cards open; the Robotics Atlas still opens. Six screenshots are in
   `docs/screenshots/humanoid-helix/`.
-- [x] Profile the map in the app: the same 56.8 fps as the Robotics Atlas; it opens in 0.8 s. Drawing all 11,281`
+- [x] Profile the map in the app: the same 56.8 fps as the Robotics Atlas; it opens in 0.8 s. Drawing all 11,281
   connections at once stutters. See the notes.
-- [x] Full test suite: unit 269 pass; end-to-end 807 pass, 0 fail, the same as before. No linter is configured`
+- [x] Full test suite: unit 269 pass; end-to-end 807 pass, 0 fail, the same as before. No linter is configured
   (no lint script in `package.json`).
 - [x] Final report.
