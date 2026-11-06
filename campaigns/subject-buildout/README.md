@@ -4,9 +4,10 @@ Started 2026-11-05 at JC's request. The robotics core is finished: every core sk
 (steps 1–7 of `reports/scope/07-checkpoint.md`). Steps 8 (the mathematics audit) and 9 (the extension
 pathways) are **dropped from the plan**.
 
-The new campaign builds out the skills of the supporting subjects that the robotics goals need:
-Mathematics, Physics, Electronics, Mechanics and materials, and Computing. **JC authors the
-hierarchies with Claude in the desktop app** and brings each one back here as a batch for integration.
+The new campaign builds out the skills that the humanoid milestones I06–I09 need, on the Humanoid
+Protocol Droid Helix map (`Maps/Humanoid-Helix-Atlas.json`), course by course. It was re-scoped
+from the Robotics Atlas's I01–I05 on 2026-11-06. **JC authors the hierarchies with Claude in the
+desktop app** and brings each one back here as a batch for integration.
 
 ## In this folder
 
