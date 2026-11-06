@@ -135,9 +135,14 @@ the checkpoints feeding `rob3:I01`–`rob3:I04`, and bridges such as those into 
   Atlas.
   - The 308 answers saved in the Atlas skills' fields travel in the file. On first open the app adopts
     them into the new family's record: a copy.
-  - One answer exists only in the Robotics Atlas's shared record, not in any file: `rob3:B-C01` = Yes
-    (2026-11-05). It is not copied, because copying it means writing to your real profile. *Your
-    decision:* mark it Yes again on the new map, or ask for a one-off copy.
+  - One answer existed only in the Robotics Atlas's shared record, not in any file: `rob3:B-C01` = Yes
+    (2026-11-05). **At JC's request it was copied on 2026-11-05** with
+    `authoring/humanoid-helix/copy-answers.mjs --write`:
+    - a backup was taken first (`HelixSkill Backups\2026-11-05_231624`);
+    - the helix family's record (`humanoid-helix-v1-066fb7ce10c8.json`) was created as the app's first
+      open would create it (308 answers adopted from the file), plus the copy, for 309 entries;
+    - the Robotics Atlas record is unchanged (`23471d5c…`);
+    - opening the map in an isolated profile with that record shows `rob3:B-C01` as Yes.
 - **Review history.** Review sessions are keyed by the map's key and skill set, so none carries over;
   a review on the new map starts fresh.
 
