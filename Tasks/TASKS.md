@@ -12,8 +12,19 @@ queue file at `63426b9`.
 ## Done since the campaign started: the Humanoid Protocol Droid Helix map
 
 A new map, `Maps/Humanoid-Helix-Atlas.json`, was built on 2026-11-05 from a hierarchy JC authored in
-the desktop app. It merges the Robotics Atlas with the humanoid helix taxonomy: 3,422 skills and
-11,281 connections. It was merged in PR #26; its queue file is at `f272516`.
+the desktop app. It merges the Robotics Atlas with the humanoid helix taxonomy. Edition 1 (3,422
+skills, 11,281 connections) was merged in PR #26; its queue file is at `f272516`.
+
+**Edition 2** was built on 2026-11-06 on branch `humanoid-helix-map`, not pushed or merged. It has
+3,696 skills and 12,138 connections (10,741 prerequisites), the longest chain is 81, and the top
+level is 244. It adds 274 physics skills and 857 links and removes nothing. It keeps the
+`humanoid-helix-v1` key, so answers already given on the helix map stay. All 18 validation checks pass.
+
+- [x] Rebuild from `Humanoid-Helix-Extension 2.json`, then validate.
+- [x] Unit tests (269 pass) and the helix end-to-end test (19 checks), with screenshots retaken.
+- [x] Performance measured; import notes updated.
+- [ ] JC: re-export the taxonomy workbook (it still has edition 1's 3,422 rows), then rebuild.
+- [ ] JC: review the branch, then decide whether to push and merge it.
 
 - Mapping decisions, validation, performance and the open decisions: `docs/humanoid-helix-import.md`.
 - Rebuild: `node authoring/humanoid-helix/build-helix-map.mjs`. Validate:
