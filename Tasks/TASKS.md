@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Foundation splits (step 6)
 
 Step 6 of `reports/scope/07-checkpoint.md` §2 (packages 4–7 of `reports/scope/06-wave-plan.md`). JC
-asked for it on 2026-11-05 ("Let's queue up step 6"). **Tasks 1–2 done; waiting at Checkpoint A.**
+asked for it on 2026-11-05 ("Let's queue up step 6"). **Tasks 1–4 done; waiting at Checkpoint B.**
 
 This queue adds new skills to the working map, `Maps/Robotics-Atlas.json`, and writes **no
 lessons**. Lessons for the new skills belong to step 7 ("plus one per new skill"). Everything is
@@ -161,6 +161,19 @@ planning id.
 
 **STOP (Checkpoint B):** JC opens the finished map from scratch with the app's normal Open and
 says go or no-go.
+**Result:** `reports/splits/02-results.md`.
+- **Unit tests:** 253 pass, 0 fail, 6 skipped.
+- **New e2e** `tests/splits-e2e.mjs`: 10 checks pass. Every answer matches JC's record, the 35 new
+  skills are unmarked, and each card shows its details and no lesson.
+- **Full e2e suite** with every map supplied: 785 checks pass, 0 fail.
+- **Performance:** unchanged (open 0.44 s, 59.9 fps, arrange 0.34 s, save 0.19 s).
+- **Scope:** `scope/branches.json` and `docs/SCOPE.md` now show 40 branches covered, 0 partial, and
+  124 of 132 candidates covered. The remaining 8 are planning tasks and one deferred item.
+  `docs/PLATFORM.md` has a new §9.1c.
+- **Review-session note:** a review saved on the working map will not resume on the finished map.
+- The working map, both old maps and JC's answer record are unchanged.
+
+**Waiting for JC at Checkpoint B.**
 
 ## [ ] Task 5 — Make it the working map, then merge
 **Do (only after JC's go):**

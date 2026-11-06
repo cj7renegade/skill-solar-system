@@ -148,6 +148,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | 2026-10-10 | V3 merge crosswalk approved (A1–A8 in `reports/merge/01-crosswalk.md`); the merged atlas covers the 9 "after the merge" branches, pending Checkpoint B | JC (approval); Claude Code (status update) |
 | 2026-11-05 | Checkpoint B passed: the merged atlas is the working map, `Maps/Robotics-Atlas.json` | JC (go); Claude Code (status update) |
 | 2026-11-05 | Robotics completions: R6 gains `P11` (the innovation-check split) and R12 gains `A12` (coupling misalignment versus backlash), both approved at the completions' Checkpoint A; Edition 07 gives the six lessonless V3 entries in the I05 chain their cards. Checkpoint B passed: the finished map is the working map | JC (approval and go); Claude Code (status update) |
+| 2026-11-05 | Foundation splits (step 6): 35 new skills cover every split and new-skill candidate in physics, electronics, mechanics and computing; C6's asymmetric-cost candidate is recorded as already covered by `c-classification`. All 35 are optional (D1–D5 in `reports/splits/01-new-skills.md`). In the working map once JC passes Checkpoint B | JC (approval); Claude Code (status update) |
 
 ## 7. Branch map
 
@@ -162,14 +163,16 @@ mapping of all 132 roadmap candidates are in `reports/scope/04-branch-map.md`.
 | Covered once Robotics V3 is merged (covered in the merged atlas, the working map since 2026-11-05) | 9 |
 | Covered by V3 entries the roadmap never listed (S8, R13, R14) | 3 |
 | Covered by the robotics completions, Edition 07 (R6, R12; in the working map since 2026-11-05) | 2 |
-| Partial: at least one skill to split out or add | 22 |
+| Covered by the foundation splits, step 6 (the 22 physics, electronics, mechanics and computing branches that were partial; in the working map once JC passes Checkpoint B) | 22 |
+| Partial: at least one skill to split out or add | 0 |
 | Audit needed: the three mathematics branches, where the roadmap lists only review tasks | 3 |
 | Missing: no existing skill at all | 0 |
 
-Of the roadmap's 132 candidate outcomes, **88 are already covered** by an existing skill
-(29 of them only by a Robotics V3 entry, including the completions' P11 and A12), **33 need a
-distinct skill split out of a broad one**, **3 need a new skill**, 7 are planning tasks rather than
-skills, and 1 is deferred.
+Of the roadmap's 132 candidate outcomes, **124 are covered** by an existing skill (29 of them only by
+a Robotics V3 entry, including the completions' P11 and A12; 35 by the foundation splits; and one,
+C6's asymmetric error cost, by `c-classification`, which already covered it). **None still needs a
+split or a new skill.** 7 are planning tasks rather than skills (6 in mathematics, step 8, and one in
+P7), and 1 is deferred.
 
 | Id | Branch | Status | Master skills (in scope) | V3-only entries (lessons pending) | Roadmap candidates: existing / split / new / planning | Remaining work (estimate) |
 | --- | --- | --- | ---: | ---: | --- | ---: |
@@ -177,34 +180,34 @@ skills, and 1 is deferred.
 | M2 | Calculus and linear algebra | audit needed | 332 (44) | 4 | 0 / 0 / 0 / 2 | 0 |
 | M3 | Geometry, trigonometry, probability and statistics | audit needed | 283 (23) | 5 | 0 / 0 / 0 / 2 | 0 |
 | P1 | Measurement and uncertainty | **covered** | 15 (6) | 1 | 3 / 0 / 0 / 0 | 0 |
-| P2 | Kinematics and forces | partial | 67 (14) | 3 | 2 / 1 / 0 / 0 | 1–3 |
-| P3 | Work, energy and momentum | partial | 10 (0) | 1 | 1 / 2 / 0 / 0 | 2–6 |
+| P2 | Kinematics and forces | **covered by the splits** | 68 (15) | 3 | 3 / 0 / 0 / 0 | 0 |
+| P3 | Work, energy and momentum | **covered by the splits** | 12 (2) | 1 | 3 / 0 / 0 / 0 | 0 |
 | P4 | Rotation and vibration | **covered** | 25 (10) | 3 | 3 / 0 / 0 / 0 | 0 |
-| P5 | Fluids and thermal systems | partial | 28 (5) | 0 | 1 / 2 / 0 / 0 | 2–6 |
-| P6 | Fields, induction and waves | partial | 36 (11) | 0 | 1 / 2 / 0 / 0 | 2–6 |
-| P7 | Optics and modern physics | partial | 19 (0) | 0 | 0 / 0 / 1 / 1 (+1 deferred) | 1–3 |
-| E1 | DC circuit analysis | partial | 45 (12) | 9 | 0 / 1 / 2 / 0 | 3–9 |
-| E2 | Transient and AC response | partial | 12 (1) | 3 (1) | 1 / 2 / 0 / 0 | 2–6 |
-| E3 | Semiconductors and switching | partial | 8 (2) | 2 | 0 / 3 / 0 / 0 | 3–9 |
-| E4 | Analog sensing and amplification | partial | 8 (1) | 1 (1) | 2 / 1 / 0 / 0 | 1–3 |
-| E5 | Digital timing and conversion | partial | 11 (8) | 1 | 2 / 1 / 0 / 0 | 1–3 |
+| P5 | Fluids and thermal systems | **covered by the splits** | 30 (7) | 0 | 3 / 0 / 0 / 0 | 0 |
+| P6 | Fields, induction and waves | **covered by the splits** | 38 (13) | 0 | 3 / 0 / 0 / 0 | 0 |
+| P7 | Optics and modern physics | **covered by the splits** (a planning task and a deferred item remain) | 20 (1) | 0 | 1 / 0 / 0 / 1 (+1 deferred) | 0 |
+| E1 | DC circuit analysis | **covered by the splits** | 48 (15) | 9 | 3 / 0 / 0 / 0 | 0 |
+| E2 | Transient and AC response | **covered by the splits** | 14 (3) | 3 (1) | 3 / 0 / 0 / 0 | 0 |
+| E3 | Semiconductors and switching | **covered by the splits** | 11 (5) | 2 | 3 / 0 / 0 / 0 | 0 |
+| E4 | Analog sensing and amplification | **covered by the splits** | 9 (2) | 1 (1) | 3 / 0 / 0 / 0 | 0 |
+| E5 | Digital timing and conversion | **covered by the splits** | 12 (9) | 1 | 3 / 0 / 0 / 0 | 0 |
 | E6 | Power and motor drives | **covered** | 9 (4) | 6 | 3 / 0 / 0 / 0 | 0 |
 | E7 | Instrumentation and sensor interfaces | **covered in the merged atlas** | 8 (3) | 2 | 3 / 0 / 0 / 0 | 0 |
-| E8 | PCB layout and interference | partial | 4 (1) | 2 (1) | 1 / 2 / 0 / 0 | 2–6 |
-| S1 | Statics and load transfer | partial | 13 (2) | 0 | 1 / 2 / 0 / 0 | 2–6 |
-| S2 | Stress, strain and material response | partial | 20 (5) | 2 | 2 / 1 / 0 / 0 | 1–3 |
-| S3 | Members, deformation and stability | partial | 7 (3) | 1 | 2 / 1 / 0 / 0 | 1–3 |
-| S4 | Failure and durability | partial | 6 (3) | 1 | 1 / 2 / 0 / 0 | 2–6 |
-| S5 | Material families and processing | partial | 32 (7) | 0 | 1 / 2 / 0 / 0 | 2–6 |
-| S6 | Joints, manufacturing and tolerances | partial | 5 (1) | 1 | 2 / 1 / 0 / 0 | 1–3 |
-| S7 | Thermal and environmental behavior | partial | 12 (7) | 1 | 2 / 1 / 0 / 0 | 1–3 |
+| E8 | PCB layout and interference | **covered by the splits** | 6 (3) | 2 (1) | 3 / 0 / 0 / 0 | 0 |
+| S1 | Statics and load transfer | **covered by the splits** | 15 (4) | 0 | 3 / 0 / 0 / 0 | 0 |
+| S2 | Stress, strain and material response | **covered by the splits** | 21 (6) | 2 | 3 / 0 / 0 / 0 | 0 |
+| S3 | Members, deformation and stability | **covered by the splits** | 8 (4) | 1 | 3 / 0 / 0 / 0 | 0 |
+| S4 | Failure and durability | **covered by the splits** | 8 (5) | 1 | 3 / 0 / 0 / 0 | 0 |
+| S5 | Material families and processing | **covered by the splits** | 34 (9) | 0 | 3 / 0 / 0 / 0 | 0 |
+| S6 | Joints, manufacturing and tolerances | **covered by the splits** | 6 (2) | 1 | 3 / 0 / 0 / 0 | 0 |
+| S7 | Thermal and environmental behavior | **covered by the splits** | 13 (8) | 1 | 3 / 0 / 0 / 0 | 0 |
 | S8 | Mechanical design, CAD and fabrication | covered by V3 (not in the roadmap) | 1 (1) | 13 (1) | — | 0 |
-| C1 | Programming and development practice | partial | 27 (19) | 5 | 1 / 2 / 0 / 0 | 2–6 |
-| C2 | Algorithms and numerical computing | partial | 13 (5) | 0 | 2 / 1 / 0 / 0 | 1–3 |
-| C3 | Systems, memory and concurrency | partial | 25 (13) | 1 | 2 / 1 / 0 / 0 | 1–3 |
+| C1 | Programming and development practice | **covered by the splits** | 29 (21) | 5 | 3 / 0 / 0 / 0 | 0 |
+| C2 | Algorithms and numerical computing | **covered by the splits** | 14 (6) | 0 | 3 / 0 / 0 / 0 | 0 |
+| C3 | Systems, memory and concurrency | **covered by the splits** | 26 (14) | 1 | 3 / 0 / 0 / 0 | 0 |
 | C4 | Networking, embedded and real time | **covered** | 19 (11) | 5 (1) | 3 / 0 / 0 / 0 | 0 |
 | C5 | Robot software and integration | **covered** | 10 (7) | 5 (1) | 3 / 0 / 0 / 0 | 0 |
-| C6 | Machine learning for robots | partial | 10 (8) | 0 | 1 / 2 / 0 / 0 | 2–6 |
+| C6 | Machine learning for robots | **covered by the splits** (one candidate was already covered) | 11 (9) | 0 | 3 / 0 / 0 / 0 | 0 |
 | R1 | Frames and rigid motion | **covered in the merged atlas** | 8 (8) | 4 | 4 / 0 / 0 / 0 | 0 |
 | R2 | Configuration and kinematics | **covered** | 12 (12) | 6 | 4 / 0 / 0 / 0 | 0 |
 | R3 | Jacobians, statics and dynamics | **covered** | 7 (7) | 3 | 4 / 0 / 0 / 0 | 0 |

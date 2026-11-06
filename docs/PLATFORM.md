@@ -1004,6 +1004,17 @@ Edition 07 is the first edition whose lessons state `requires_physical_evidence`
 `false`. The importer applies it only to a merged atlas holding `P11`, and checks `P11` and `A12`
 against `scope/completions/new-skills.json`.
 
+### 9.1c Foundation splits, step 6 (built, waiting for Checkpoint B)
+
+Built in scratch from the working map (`reports/splits/02-results.md`):
+
+| | |
+| --- | --- |
+| New skills | 35 master-style `sss-phys-`, `sss-elec-`, `sss-mech-`, `sss-mat-` and `sss-comp-` skills, one per scope candidate (8 physics, 12 electronics, 10 mechanics, 5 computing). Added by `authoring/splits/build-splits.mjs`, which reuses the completions gates |
+| Map | 1,955 skills, 5,783 connections; answers and lessons unchanged; 68 existing skills moved up a level, by at most 6 |
+| Required | none: the I05 chain is unchanged (327) |
+| Lessons | none yet. The new skills have no planning id, so the importer leaves them alone; their lessons are step 7 |
+
 ### 9.2 Chain closure
 
 | Milestone | Chain | Closed? |
