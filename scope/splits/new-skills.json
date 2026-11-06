@@ -1,0 +1,403 @@
+{
+  "status": "draft for JC at Checkpoint A; nothing is built from this file until JC approves it",
+  "drafted": "2026-11-05",
+  "baseMap": { "file": "Maps/Robotics-Atlas.json", "sha256": "ba823b0db109eedb3e0620d6d68587b9dbc9e7cebe76b997a8e532afa4719f8c" },
+  "idPolicy": "sss-<area>-<slug>, as the earlier content batches: sss-phys-, sss-elec-, sss-mech-, sss-mat-, sss-comp-. Master-style records with no planning id, so the lesson importer leaves them alone.",
+  "shared": {
+    "nodeKind": "skill",
+    "contentAuthorship": "Original editorial content drafted by Claude Code for the foundation splits (step 6); not an official prerequisite graph.",
+    "authoringOrigin": "sss-splits-step6",
+    "sourceAlignment": "Scope from the coverage roadmap's candidate outcome and the broad skill it splits (scope/branches.json); no external source text used, and no public reference checked yet.",
+    "descriptionStatus": "Original editorial text drafted 2026-11-05 for step 6; no source text was imported."
+  },
+  "notAdded": [
+    { "branch": "C6", "candidate": "Choose a metric for an asymmetric error cost", "coveredBy": "c-classification",
+      "reason": "c-classification already says: choose a decision threshold by the cost of each kind of mistake. A learner would mark the two the same way, so a new skill would fail the granularity test." }
+  ],
+  "skills": [
+    { "id": "sss-phys-observer-transform", "branch": "P2", "candidate": "Transform one-dimensional motion between observers", "from": ["p-relative"], "required": false,
+      "name": "Transform one-dimensional motion between observers",
+      "description": "Re-express a position and velocity measured by one observer for a second observer moving at constant velocity along the same line.",
+      "details": "Two observers on one line with a constant relative velocity u measure different positions and velocities for the same object. If observer B moves at +u relative to A and their origins coincide at t = 0, then x_B = x_A - u*t and v_B = v_A - u, both using the same positive direction. Fix the axis direction and each observer's origin before transforming, and carry the signs through.\n\nExample: a cart moves at +2.0 m/s along a track while a robot drives beside it at +0.5 m/s. In the robot's frame the cart moves at +1.5 m/s, and a cart 3.0 m ahead at t = 0 is 3.0 + 1.5*4 = 9.0 m ahead after 4 s. If the robot drives at -0.5 m/s instead, the cart moves at +2.5 m/s in its frame.",
+      "proficiencyReference": "I can rewrite a one-dimensional position and velocity for a second observer moving at a stated constant velocity, keeping the signs consistent.",
+      "scopeNote": "Constant relative velocity along one line; no rotating frames and no relativistic speeds.",
+      "granularity": "p-relative adds velocity vectors in general. Transforming positions as well as velocities on one line, with a fixed sign convention, is the simpler step a learner can do, or miss (by dropping the position offset), separately.",
+      "edges": [
+        { "source": "sss-phys-coordinate-convention", "target": "sss-phys-observer-transform", "type": "prerequisite", "rationale": "Both observers need one stated positive direction." },
+        { "source": "sss-phys-observer-transform", "target": "p-relative", "type": "prerequisite", "rationale": "The one-dimensional transform is the simplest case of relative motion.", "flag": "adds a prerequisite to an existing skill (p-relative, not in the I05 chain)" }
+      ] },
+    { "id": "sss-phys-energy-system", "branch": "P3", "candidate": "Choose the system for an energy balance", "from": ["p-energy", "px-fbd-isolate"], "required": false,
+      "name": "Choose the system for an energy balance",
+      "description": "Decide which objects are inside the system before an energy balance, so each interaction is counted once, either as work or as stored potential energy.",
+      "details": "The same event can be balanced with different systems, but the choice decides which terms appear. Gravity is either an external force doing work on a ball (system: the ball) or an interaction stored as potential energy (system: ball and Earth), never both. A spring is a store of potential energy only when it is inside the system. State the system first, then list energy crossing the boundary as work or heat and the stores inside it.\n\nExample: a 2 kg box slides down a frictionless slope, dropping 0.9 m. With the box alone, gravity does 2 * 9.81 * 0.9 = 17.7 J of work, which becomes kinetic energy. With box and Earth, the same 17.7 J is a drop in potential energy and no external work is done. Counting both gives 35.3 J, a double count.",
+      "proficiencyReference": "I can state the system before an energy balance and count each interaction once, as work or as potential energy.",
+      "scopeNote": "Mechanical energy with gravity, springs and friction; heat appears only as energy leaving the system.",
+      "granularity": "p-energy applies the balance to a given system; px-fbd-isolate chooses a boundary for forces. Choosing the system for energy, and so avoiding the double count, is a separate decision learners get wrong on its own.",
+      "edges": [
+        { "source": "px-fbd-isolate", "target": "sss-phys-energy-system", "type": "prerequisite", "rationale": "The same boundary decision, made first for forces." },
+        { "source": "p-potential", "target": "sss-phys-energy-system", "type": "prerequisite", "rationale": "Potential energy is the store that moves inside or outside the boundary." },
+        { "source": "sss-phys-energy-system", "target": "p-energy", "type": "prerequisite", "rationale": "Energy accounting starts from a chosen system.", "flag": "adds a prerequisite to an existing skill (p-energy, not in the I05 chain)" }
+      ] },
+    { "id": "sss-phys-momentum-conditions", "branch": "P3", "candidate": "Test when momentum conservation applies", "from": ["p-momentum"], "required": false,
+      "name": "Test when momentum conservation applies",
+      "description": "Decide whether a system's total momentum, or one component of it, is conserved during an event by checking the net external impulse.",
+      "details": "A system's total momentum is conserved only when the net external force on it is zero, or when the external impulse during the event is negligible compared with the momentum exchanged. The test is per component: one component can be conserved while another is not. Short collisions often qualify even with friction present, because friction's impulse F*dt is small over a few milliseconds.\n\nExample: two carts collide in 0.01 s, with 0.5 N of rolling friction on each. The friction impulse is about 0.5 * 2 * 0.01 = 0.01 N*s against a momentum of 3 kg*m/s, so conservation is a good approximation for the collision, but not for the 5 s of rolling afterwards. A ball bouncing off a floor keeps its horizontal momentum but not its vertical momentum, because the floor's normal force is external.",
+      "proficiencyReference": "I can say whether momentum, or one component of it, is conserved during an event by comparing the external impulse with the momentum exchanged.",
+      "scopeNote": "Linear momentum in one or two dimensions; no rockets or variable-mass systems.",
+      "granularity": "Solving a collision with conservation (px-collision-*) is a different ability from deciding whether conservation may be used at all.",
+      "edges": [
+        { "source": "p-momentum", "target": "sss-phys-momentum-conditions", "type": "prerequisite", "rationale": "The quantity whose conservation is tested." },
+        { "source": "p-impulse", "target": "sss-phys-momentum-conditions", "type": "prerequisite", "rationale": "The test compares an external impulse with the momentum exchanged." },
+        { "source": "px-fbd-isolate", "target": "sss-phys-momentum-conditions", "type": "prerequisite", "rationale": "Which forces are external depends on the chosen system." },
+        { "source": "sss-phys-momentum-conditions", "target": "px-collision-inelastic", "type": "prerequisite", "rationale": "Use conservation only after checking that it applies.", "flag": "adds a prerequisite to an existing skill (not in the I05 chain)" },
+        { "source": "sss-phys-momentum-conditions", "target": "px-collision-elastic", "type": "prerequisite", "rationale": "Use conservation only after checking that it applies.", "flag": "adds a prerequisite to an existing skill (not in the I05 chain)" }
+      ] },
+    { "id": "sss-phys-bernoulli-assumptions", "branch": "P5", "candidate": "Check assumptions before a Bernoulli calculation", "from": ["p-bernoulli"], "required": false,
+      "name": "Check assumptions before a Bernoulli calculation",
+      "description": "Decide whether a flow is steady, incompressible, effectively frictionless and free of pumps or turbines along the chosen streamline before using Bernoulli's equation.",
+      "details": "Bernoulli's equation holds along a streamline in steady flow of an incompressible fluid with negligible viscous losses, with no pump, fan or turbine adding or removing energy between the two points. Check each condition against the case. Air can be treated as incompressible below about Mach 0.3, roughly 100 m/s at room temperature. Friction is negligible through a short, smooth constriction, but not along tens of metres of narrow tubing, where a head-loss term is needed.\n\nExample: plain Bernoulli predicts no pressure drop along 50 m of 4 mm pneumatic tubing of constant diameter, which is wrong: the viscous loss dominates. A short venturi in the same line is a reasonable Bernoulli case.",
+      "proficiencyReference": "I can check each of Bernoulli's conditions against a flow before using the equation, and say which one fails.",
+      "scopeNote": "Liquids and low-speed gases; head-loss calculations themselves are outside this skill.",
+      "granularity": "Applying the equation (p-bernoulli) and judging whether it applies are marked differently: learners often compute correctly in a case where the equation does not hold.",
+      "edges": [
+        { "source": "p-bernoulli", "target": "sss-phys-bernoulli-assumptions", "type": "prerequisite", "rationale": "The assumptions belong to the stated equation." }
+      ] },
+    { "id": "sss-phys-thermal-sign", "branch": "P5", "candidate": "Track sign conventions in a thermal energy balance", "from": ["p-firstlaw"], "required": false,
+      "name": "Track sign conventions in a thermal energy balance",
+      "description": "Carry one stated heat and work sign convention through a multi-step thermal balance, and convert results between the two common conventions.",
+      "details": "Two conventions are in use: dU = Q - W, where W is work done by the system, and dU = Q + W, where W is work done on it. Either is correct if it is stated and kept. Errors come from mixing them between steps or between sources, and from forgetting that heat lost is a negative Q.\n\nExample: a motor housing gains 300 J from its windings and loses 120 J to the air, with no work done, so Q = +180 J and dU = +180 J in either convention. A gas that absorbs 500 J and does 200 J of work on a piston has dU = 500 - 200 = 300 J. A text that writes W = -200 J (work done on the gas) gets the same 300 J from dU = Q + W.",
+      "proficiencyReference": "I can keep one stated sign convention through a balance with several heat and work flows, and translate a result from the other convention.",
+      "scopeNote": "Closed systems with stated heat and work flows; no enthalpy or flow work.",
+      "granularity": "p-firstlaw states the law under one convention. Keeping it through several flows of mixed direction, and translating between sources, is the step learners fail on its own. Overlap with p-firstlaw is real; the scope branch map judged it a split.",
+      "edges": [
+        { "source": "p-firstlaw", "target": "sss-phys-thermal-sign", "type": "prerequisite", "rationale": "The law whose sign convention is tracked." }
+      ] },
+    { "id": "sss-phys-flux-mechanisms", "branch": "P6", "candidate": "Compare flux change mechanisms", "from": ["p-induction", "p-flux"], "required": false,
+      "name": "Compare flux change mechanisms",
+      "description": "Identify whether an induced emf comes from a changing field, a changing area or a changing orientation, and estimate each contribution.",
+      "details": "Flux Phi = B*A*cos(theta) can change through any of its three factors, and one setup can involve more than one. A changing field, such as an electromagnet ramping up, induces emf in a stationary loop. A changing area is motional emf, emf = B*L*v for a rod sliding on rails. A changing angle is the generator case: a coil of N turns rotating at omega in a uniform field gives a peak emf of N*B*A*omega.\n\nExample: a 50-turn, 0.01 m^2 coil in a 0.2 T field rotating at 10 rad/s has a peak emf of 50 * 0.2 * 0.01 * 10 = 1.0 V. If the field also ramps, both terms add. Naming the mechanism tells you which quantity to measure or control.",
+      "proficiencyReference": "I can say which of field, area and orientation is changing in an induction setup, and estimate the emf from each.",
+      "scopeNote": "Uniform fields and simple geometries; no distributed eddy currents.",
+      "granularity": "p-induction relates any flux change to emf, and px-motional-emf covers one mechanism. Telling the mechanisms apart in a mixed setup is a separate ability.",
+      "edges": [
+        { "source": "p-induction", "target": "sss-phys-flux-mechanisms", "type": "prerequisite", "rationale": "Faraday's law gives the emf for any flux change." },
+        { "source": "px-motional-emf", "target": "sss-phys-flux-mechanisms", "type": "prerequisite", "rationale": "The changing-area mechanism, met first on its own." }
+      ] },
+    { "id": "sss-phys-delay-phase", "branch": "P6", "candidate": "Interpret phase and propagation delay", "from": ["p-wave"], "required": false,
+      "name": "Convert between time delay and phase shift",
+      "description": "Convert a time delay into a phase shift at a given frequency, and recognize that a fixed delay gives a phase shift that grows with frequency.",
+      "details": "A signal delayed by tau seconds lags by a phase phi = 360 deg * f * tau at frequency f. A pure delay therefore shifts low frequencies a little and high frequencies a lot, which is why a fixed sensor or communication latency hurts fast control loops most. Phase repeats every 360 deg, so a phase measurement cannot tell a delay from that delay plus whole periods: the same ambiguity as in px-wave-phase, now in time.\n\nExample: a 2 ms sensor latency is a 7.2 deg lag at 10 Hz but a 72 deg lag at 100 Hz. At 500 Hz it is 360 deg: the delayed signal lines up with the original, and the delay is invisible to a phase measurement.",
+      "proficiencyReference": "I can convert a time delay into a phase shift at a stated frequency and explain why a fixed delay matters more at higher frequencies.",
+      "scopeNote": "Pure delays and sinusoids; no group delay or dispersion.",
+      "granularity": "px-wave-phase finds phase from distance along a wave. Converting a time delay to a frequency-dependent phase, as latency does in a control loop, is a different ability.",
+      "edges": [
+        { "source": "px-wave-phase", "target": "sss-phys-delay-phase", "type": "prerequisite", "rationale": "Phase difference along a wave, the spatial version of the same idea." },
+        { "source": "e-sine", "target": "sss-phys-delay-phase", "type": "supports", "rationale": "Phase of a sinusoid in time." }
+      ] },
+    { "id": "sss-phys-resolution-vs-pixels", "branch": "P7", "candidate": "Separate optical resolution and pixel sampling", "from": ["p-diffraction", "e-sampling"], "required": false,
+      "name": "Separate optical resolution and pixel sampling",
+      "description": "Decide whether a camera's smallest resolvable detail is set by its optics (diffraction blur) or by its pixel spacing.",
+      "details": "Two separate limits apply. The lens blurs a point into a spot about 2.44 * lambda * N across (the Airy disk, with N the f-number). The sensor samples the image at the pixel pitch p and, by the sampling rule, needs about two pixels per smallest detail. The coarser limit wins.\n\nExample: green light (lambda = 0.55 um) at f/8 gives a spot about 2.44 * 0.55 * 8 = 10.7 um across. On a sensor with 3.45 um pixels, two pixels span 6.9 um, finer than the blur, so the optics limit detail and smaller pixels would not help. At f/2 the spot shrinks to about 2.7 um and the pixels become the limit. Neither figure includes focus error, motion blur or lens aberrations, which can be larger still.",
+      "proficiencyReference": "I can compare a lens's diffraction spot with a sensor's pixel pitch and say which one limits the detail a camera can resolve.",
+      "scopeNote": "Diffraction and pixel pitch only; aberrations, noise and demosaicing are named but not modelled.",
+      "granularity": "p-diffraction and e-sampling each cover one limit. Deciding which of the two governs a given camera is a new, separately markable ability.",
+      "edges": [
+        { "source": "p-diffraction", "target": "sss-phys-resolution-vs-pixels", "type": "prerequisite", "rationale": "The optical limit." },
+        { "source": "e-sampling", "target": "sss-phys-resolution-vs-pixels", "type": "prerequisite", "rationale": "The sampling limit." },
+        { "source": "sss-phys-resolution-vs-pixels", "target": "rob3:P04", "type": "supports", "rationale": "A camera model is more useful when the image's detail limit is known." }
+      ] },
+    { "id": "sss-elec-dependent-source-thevenin", "branch": "E1", "candidate": "Handle dependent sources in an equivalent circuit", "from": ["e-thevenin"], "required": false,
+      "name": "Find a Thevenin equivalent with a dependent source",
+      "description": "Find Vth and Rth when the network contains a dependent source, which cannot be switched off.",
+      "details": "Switching sources off to find Rth works only for independent sources. A dependent source, whose value is set by a voltage or current elsewhere in the circuit, stays in place, because it is part of how the network responds. Find Rth instead by applying a test source at the terminals (Rth = v_test / i_test), or from the open-circuit voltage and short-circuit current (Rth = Voc / Isc).\n\nExample: a 10 V source drives the terminal node through 1 kOhm, and a dependent current source injects 2*i into the same node, where i is the current through the 1 kOhm. With the terminals open, i + 2i = 0, so i = 0 and Voc = 10 V. Shorted, i = 10 mA and Isc = 3i = 30 mA. So Rth = 10 / 0.03 = 333 Ohm, not the 1 kOhm that switching everything off would wrongly give.",
+      "proficiencyReference": "I can find a Thevenin equivalent of a linear circuit that contains a dependent source, using a test source or Voc and Isc.",
+      "scopeNote": "Linear DC circuits with one dependent source.",
+      "granularity": "e-thevenin covers equivalents with independent sources. Keeping a dependent source active is a different method that a learner can lack while knowing the first.",
+      "edges": [
+        { "source": "e-thevenin", "target": "sss-elec-dependent-source-thevenin", "type": "prerequisite", "rationale": "The equivalent being found." }
+      ] },
+    { "id": "sss-elec-superposition-power", "branch": "E1", "candidate": "Check superposition limits for power calculations", "from": ["e-superposition"], "required": false,
+      "name": "Check superposition limits for power calculations",
+      "description": "Recognize that power cannot be found by adding the power from each source acting alone, and add currents or voltages first.",
+      "details": "Superposition adds voltages and currents, because they depend linearly on the sources. Power does not: P = I^2 * R grows with the square of the current, so adding the powers from each source alone gives the wrong answer. Find the total current or voltage by superposition, then compute the power once.\n\nExample: in a 2 Ohm resistor, source A alone drives 2 A and source B alone drives 3 A in the same direction. The real current is 5 A, so P = 5^2 * 2 = 50 W. Adding the separate powers, 8 W + 18 W = 26 W, misses nearly half. If B's 3 A ran the other way, the current would be 1 A and P = 2 W.",
+      "proficiencyReference": "I can explain why powers do not superpose, and find a power correctly in a circuit with several sources.",
+      "scopeNote": "Linear resistive DC circuits.",
+      "granularity": "e-superposition is the method; knowing where it stops working is a separate check learners miss.",
+      "edges": [
+        { "source": "e-superposition", "target": "sss-elec-superposition-power", "type": "prerequisite", "rationale": "The method whose limit is checked." },
+        { "source": "e-power", "target": "sss-elec-superposition-power", "type": "prerequisite", "rationale": "P = I^2 * R is what makes power nonlinear in the sources." }
+      ] },
+    { "id": "sss-elec-circuit-balance-check", "branch": "E1", "candidate": "Verify a solution using independent circuit balances", "from": ["e-nodal"], "required": false,
+      "name": "Verify a circuit solution using independent balances",
+      "description": "Check a solved circuit with a balance not used to solve it: a loop's voltages, another node's currents, or the power supplied against the power absorbed.",
+      "details": "A solution that satisfies the equations used to find it can still be wrong if one of those equations was written wrongly. Check it with something independent: Kirchhoff's voltage law around a loop not used, current law at another node, or a power balance, where the power delivered by the sources equals the power absorbed by the resistors.\n\nExample: a 12 V source feeds node A through 4 kOhm, and A connects to ground through 12 kOhm and 6 kOhm. Nodal analysis gives VA = 6 V. Check: the source current is (12 - 6)/4 = 1.5 mA, so it delivers 18 mW, and the resistors absorb 9 + 3 + 6 = 18 mW. A mistaken VA = 4 V fails the same check: the source would deliver 24 mW while the resistors absorb only 20 mW.",
+      "proficiencyReference": "I can check a circuit solution with a loop, node or power balance that was not used to find it.",
+      "scopeNote": "DC resistive circuits.",
+      "granularity": "e-nodal solves a circuit. Verifying a solution independently is a habit a learner can have or lack whatever method they solve with.",
+      "edges": [
+        { "source": "e-nodal", "target": "sss-elec-circuit-balance-check", "type": "prerequisite", "rationale": "A solution to check." },
+        { "source": "e-kvl", "target": "sss-elec-circuit-balance-check", "type": "prerequisite", "rationale": "One of the independent balances." },
+        { "source": "e-power", "target": "sss-elec-circuit-balance-check", "type": "prerequisite", "rationale": "The power balance." }
+      ] },
+    { "id": "sss-elec-capacitor-initial-final", "branch": "E2", "candidate": "Determine capacitor initial and final voltage", "from": ["e-rc"], "required": false,
+      "name": "Determine a capacitor's initial and final voltage",
+      "description": "Find a capacitor's voltage just after a switching event and once the circuit has settled, before solving the transient between them.",
+      "details": "A capacitor's voltage cannot jump, because that would need infinite current, so just after a switch changes, v_C(0+) equals v_C(0-). Long after the change, in a DC circuit, no current flows into the capacitor, so it acts as an open circuit, and the final voltage comes from the resistive circuit alone. The transient then runs from the initial to the final value.\n\nExample: a capacitor charged to 5 V is switched across the lower resistor of a divider from 12 V, with 10 kOhm on top and 30 kOhm below. Just after switching it is still at 5 V; finally it reaches 12 * 30 / (10 + 30) = 9 V. The current may jump at the switching instant; only the capacitor's voltage is continuous.",
+      "proficiencyReference": "I can find a capacitor's voltage just after a switch changes and its final DC value.",
+      "scopeNote": "DC sources and single-capacitor circuits.",
+      "granularity": "e-rc describes the exponential between two values. Finding those two values from the circuit is a separate step, and the usual source of a wrong transient.",
+      "edges": [
+        { "source": "e-capacitor", "target": "sss-elec-capacitor-initial-final", "type": "prerequisite", "rationale": "Why the voltage cannot jump, and why the capacitor blocks DC." },
+        { "source": "e-kvl", "target": "sss-elec-capacitor-initial-final", "type": "prerequisite", "rationale": "The final value comes from the resistive circuit." },
+        { "source": "sss-elec-capacitor-initial-final", "target": "e-rc", "type": "prerequisite", "rationale": "The exponential transient runs between these two values.", "flag": "adds a prerequisite to an existing skill (e-rc, not in the I05 chain)" }
+      ] },
+    { "id": "sss-elec-poles-damping", "branch": "E2", "candidate": "Interpret poles damping and resonance from a stated model", "from": ["e-resonant"], "required": false,
+      "name": "Interpret poles, damping and resonance from a second-order model",
+      "description": "Read the natural frequency, damping ratio and response type from a second-order model, and relate them to an RLC circuit's components.",
+      "details": "A second-order system can be written s^2 + 2*zeta*w0*s + w0^2 = 0. w0 is the natural frequency, and the damping ratio zeta says how the response settles: below 1 it rings (underdamped), at 1 it settles fastest without overshoot (critically damped), above 1 it creeps (overdamped). The roots, or poles, are complex when zeta < 1. For a series RLC circuit, w0 = 1/sqrt(L*C) and zeta = (R/2) * sqrt(C/L), and the quality factor of e-resonant is Q = 1/(2*zeta).\n\nExample: L = 10 mH, C = 1 uF and R = 20 Ohm give w0 = 10,000 rad/s (about 1.59 kHz) and zeta = 10 * sqrt(1e-6 / 0.01) = 0.1. A step therefore rings strongly, and Q = 5.",
+      "proficiencyReference": "I can find the natural frequency and damping ratio of a stated second-order model, say how it responds to a step, and relate them to R, L and C.",
+      "scopeNote": "Linear second-order models; no higher-order systems.",
+      "granularity": "e-resonant finds f0 and Q in the frequency domain. Reading damping and step behaviour from the poles of a stated model is a different view a learner can lack.",
+      "edges": [
+        { "source": "e-resonant", "target": "sss-elec-poles-damping", "type": "prerequisite", "rationale": "The circuit whose model is read." },
+        { "source": "px-damping-regimes", "target": "sss-elec-poles-damping", "type": "prerequisite", "rationale": "The same three regimes, met in a mechanical oscillator." }
+      ] },
+    { "id": "sss-elec-diode-approximation", "branch": "E3", "candidate": "Choose a valid device approximation", "from": ["e-diode"], "required": false,
+      "name": "Choose a valid diode approximation",
+      "description": "Pick the simplest diode model, ideal switch, constant drop, drop plus resistance, or exponential, that is accurate enough for the circuit at hand.",
+      "details": "Each diode model trades accuracy for effort. The ideal model (0 V when on) is fine when the other voltages are tens of volts. The constant-drop model (about 0.7 V for silicon) suits most logic and supply work. A small series resistance matters at high current, and the exponential model is needed when the diode sets a small signal's operating point or when temperature matters. Choose by comparing the drop with the voltages that decide the answer, then check the result: a diode the model calls on must carry forward current.\n\nExample: from a 24 V supply through 2.4 kOhm, ignoring a 0.7 V drop gives 10.0 mA instead of 9.7 mA, a 3% error. In a 1.8 V logic circuit the same 0.7 V is nearly 40% of the supply, and the ideal model is useless.",
+      "proficiencyReference": "I can choose a diode model accurate enough for a stated circuit and check that its on/off assumption holds.",
+      "scopeNote": "Silicon, Schottky and LED diodes in DC circuits.",
+      "granularity": "e-diode describes the device and its models. Choosing between them for a given accuracy is a separate judgement.",
+      "edges": [
+        { "source": "e-diode", "target": "sss-elec-diode-approximation", "type": "prerequisite", "rationale": "The models chosen between." }
+      ] },
+    { "id": "sss-elec-switch-ratings", "branch": "E3", "candidate": "Check switch voltage and current limits", "from": ["e-mosfet", "rob3:B-E08"], "required": false,
+      "name": "Check a switch's voltage and current limits",
+      "description": "Compare the worst-case voltage across and current through a transistor switch with its ratings, with margin, including spikes and temperature.",
+      "details": "A switch fails when its voltage or current exceeds a rating, even briefly. Use the worst case, not the nominal one: the highest supply voltage plus any spike when an inductive load turns off, against the maximum drain-source voltage; the peak and continuous current at the expected temperature, against current ratings that fall as the device heats. Keep a margin, commonly 20% or more on voltage.\n\nExample: a MOSFET switching a motor from a 12 V battery that reaches 14.4 V while charging, with a 10 V turn-off spike, sees up to 24.4 V. A 30 V part with a 20% margin allows only 24 V, so it is too close; a 40 V part is comfortable. A current rating quoted at 25 deg C case temperature can be much lower at 100 deg C, so read the derating curve.",
+      "proficiencyReference": "I can find a switch's worst-case voltage and current and check them against its ratings with a stated margin.",
+      "scopeNote": "Low-voltage DC motor and load switching; no mains.",
+      "granularity": "e-mosfet and B-E08 cover how a switch conducts and its losses. Checking ratings against the worst case is a separate safety check.",
+      "edges": [
+        { "source": "e-mosfet", "target": "sss-elec-switch-ratings", "type": "prerequisite", "rationale": "The device and its ratings." },
+        { "source": "rob3:B-E08", "target": "sss-elec-switch-ratings", "type": "supports", "rationale": "Using a transistor as a switch, where the ratings apply." }
+      ] },
+    { "id": "sss-elec-switching-loss", "branch": "E3", "candidate": "Distinguish conduction loss and switching loss", "from": ["e-mosfet"], "required": false,
+      "name": "Distinguish conduction loss and switching loss",
+      "description": "Separate the loss a switch dissipates while fully on from the loss during each transition, and see which dominates as frequency rises.",
+      "details": "A transistor switch heats in two ways. Conduction loss occurs while it is on: about I^2 * R_on * D, with D the fraction of time on. Switching loss occurs during each turn-on and turn-off, when voltage and current overlap; a common estimate is 0.5 * V * I * (t_rise + t_fall) * f. Conduction loss does not depend on the switching frequency f; switching loss grows in proportion to it.\n\nExample: 10 A at 24 V through a switch with R_on = 10 mOhm, on half the time, gives a conduction loss of 10^2 * 0.01 * 0.5 = 0.5 W. With 50 ns rise and fall, switching at 20 kHz adds 0.5 * 24 * 10 * 100 ns * 20,000 = 0.24 W; at 200 kHz it adds 2.4 W and dominates, and a lower R_on would barely help.",
+      "proficiencyReference": "I can estimate a switch's conduction and switching losses separately and say which dominates at a stated frequency.",
+      "scopeNote": "Hard-switched MOSFETs with resistive or inductive loads; first-order estimates only.",
+      "granularity": "e-mosfet covers on-resistance heating. Switching loss, and when it dominates, is a different calculation a learner can lack.",
+      "edges": [
+        { "source": "e-mosfet", "target": "sss-elec-switching-loss", "type": "prerequisite", "rationale": "The device and its on-resistance." }
+      ] },
+    { "id": "sss-elec-opamp-range", "branch": "E4", "candidate": "Check amplifier input and output range", "from": ["e-opamp"], "required": false,
+      "name": "Check an op-amp's input and output range",
+      "description": "Confirm that a circuit's input voltages stay within the op-amp's common-mode range and that its required output stays within the achievable swing.",
+      "details": "The ideal op-amp rules hold only while the amplifier is in its linear range. Each part specifies an input common-mode range, the voltages its inputs may sit at, and an output swing, how close to each supply rail its output can get under load. Many parts cannot take inputs near the negative rail or drive their output within a volt of either rail unless they are rail-to-rail.\n\nExample: a non-inverting gain of 2 on a single 5 V supply turns a 0.1-2.0 V sensor into 0.2-4.0 V. An op-amp whose output swings only from 1.5 V to 3.5 V on that supply clips both ends, so a 0.1 V input reads as 1.5 V instead of 0.2 V. A rail-to-rail part reaching within 0.05 V of each rail covers the whole range.",
+      "proficiencyReference": "I can check a circuit's op-amp input and output voltages against the part's common-mode range and output swing.",
+      "scopeNote": "Single and dual-supply voltage-feedback op-amps.",
+      "granularity": "e-opamp uses the ideal rules. Checking that the circuit stays inside the range where those rules hold is a separate check learners skip.",
+      "edges": [
+        { "source": "e-opamp", "target": "sss-elec-opamp-range", "type": "prerequisite", "rationale": "The model whose range is checked." }
+      ] },
+    { "id": "sss-elec-adc-code-conversion", "branch": "E5", "candidate": "Convert ADC codes with a stated reference", "from": ["e-adc"], "required": false,
+      "name": "Convert ADC codes with a stated reference",
+      "description": "Convert between an ADC code and the input voltage using the converter's stated reference and code convention, and estimate the effect of reference error.",
+      "details": "An N-bit converter maps 0 to Vref onto 2^N codes, so V = code * Vref / 2^N; some datasheets use 2^N - 1 instead, which matters at full scale. Use the convention the datasheet states, and the actual reference rather than the nominal one. A reference error scales every reading by the same proportion.\n\nExample: a 12-bit ADC with a 3.3 V reference reads code 1241, so V = 1241 * 3.3 / 4096 = 1.000 V. If the reference is really 3.25 V, the true input is 1241 * 3.25 / 4096 = 0.985 V: a 15 mV error, far larger than the 0.8 mV step size.",
+      "proficiencyReference": "I can convert an ADC code to a voltage with a stated reference and code convention, and estimate the error from an inaccurate reference.",
+      "scopeNote": "Unipolar, single-ended successive-approximation converters.",
+      "granularity": "e-adc covers how a converter works and resolution versus accuracy. Doing the conversion both ways, with the stated convention and reference, is the practical step a learner can get wrong on its own.",
+      "edges": [
+        { "source": "e-adc", "target": "sss-elec-adc-code-conversion", "type": "prerequisite", "rationale": "The converter whose codes are read." }
+      ] },
+    { "id": "sss-elec-return-loop", "branch": "E8", "candidate": "Trace high-current return loops", "from": ["e-decoupling", "e-grounding"], "required": false,
+      "name": "Trace a high-current return loop",
+      "description": "Follow the path a high or fast current takes back to its source, and find the loop's area and which other circuits share it.",
+      "details": "Current always returns to its source, and at high frequency it follows the path of least loop area, usually directly beneath its outgoing trace on a solid ground plane. A large loop radiates and picks up noise; a return path shared with a sensor shifts the sensor's reference by I * Z of the shared section. Trace the loop from the source, through the load and back, marking every conductor and where it is shared.\n\nExample: a motor driver pulling 5 A returns through a 0.01 Ohm ground strip that an analog sensor also uses as its reference, so the sensor's reference moves by 50 mV whenever the motor runs. Giving the motor return its own path back to the supply, joined to the sensor ground at one point, removes the shared section.",
+      "proficiencyReference": "I can trace a high-current loop on a board, find where it shares a return with a sensitive circuit, and estimate the resulting reference shift.",
+      "scopeNote": "Low-voltage boards; qualitative loop-area reasoning plus I*R shifts.",
+      "granularity": "e-decoupling and e-grounding explain shared returns. Tracing one specific high-current loop on a real layout is the separate practical skill.",
+      "edges": [
+        { "source": "e-grounding", "target": "sss-elec-return-loop", "type": "prerequisite", "rationale": "Shared return impedance, the effect being traced." },
+        { "source": "sss-elec-return-loop", "target": "e-pcb", "type": "supports", "rationale": "Layout decisions follow from the traced loops." }
+      ] },
+    { "id": "sss-elec-test-point-plan", "branch": "E8", "candidate": "Plan test points for diagnosing a board", "from": ["sss-dc-test-point-choice", "rob3:E10"], "required": false,
+      "name": "Plan test points for diagnosing a board",
+      "description": "Choose and place a board's test points so the supplies, references and key signals needed to separate likely faults can be measured safely.",
+      "details": "A test point is useful only if it answers a question you expect to ask. List the likely faults first, such as a sagging supply, a moving reference or a missing clock, and place a labelled, reachable point on each signal that would separate them, with a ground point close by so the probe's loop stays small. Include each supply rail at its load, not only at the regulator, and keep test points away from high-voltage or high-current hazards.\n\nExample: a board resets when the motor starts. Test points on the logic supply at the microcontroller, on its local ground and on the motor supply let a start-up measurement separate a real supply sag from a ground shift.",
+      "proficiencyReference": "I can plan a board's test points from its likely faults, so that each fault can be told apart with a safe measurement.",
+      "scopeNote": "Low-voltage robot boards.",
+      "granularity": "sss-dc-test-point-choice picks one reading for two stated faults; E10 diagnoses a fault. Designing a board's test points in advance is a different ability.",
+      "edges": [
+        { "source": "sss-dc-test-point-choice", "target": "sss-elec-test-point-plan", "type": "prerequisite", "rationale": "Choosing one discriminating reading, scaled up to a plan." },
+        { "source": "e-pcb", "target": "sss-elec-test-point-plan", "type": "prerequisite", "rationale": "Test points are part of the physical layout." },
+        { "source": "rob3:E10", "target": "sss-elec-test-point-plan", "type": "supports", "rationale": "The diagnoses the test points are meant to serve." }
+      ] },
+    { "id": "sss-mech-distributed-resultant", "branch": "S1", "candidate": "Replace a distributed load with an equivalent resultant", "from": ["s-load"], "required": false,
+      "name": "Replace a distributed load with an equivalent resultant",
+      "description": "Replace a load spread along a beam with a single force equal to its total, acting at its centroid, for use in external equilibrium.",
+      "details": "A distributed load w(x), in newtons per metre, has a resultant equal to the area under the load curve, acting at the centroid of that area. A uniform load w over length L gives w*L at the middle; a triangular load rising from 0 to w gives 0.5*w*L at two-thirds of the way toward the high end. The resultant gives the right support reactions, but not the internal shear and bending along the beam, which still depend on how the load is spread.\n\nExample: a 2 m shelf carries 300 N/m uniformly plus a triangular load rising from 0 to 600 N/m. The resultants are 600 N at 1.0 m and 600 N at 1.33 m, a total of 1200 N at 1.17 m from the low end.",
+      "proficiencyReference": "I can replace a uniform or triangular distributed load with its resultant force and location, and say what the resultant cannot be used for.",
+      "scopeNote": "Uniform, triangular and combined loads on straight members.",
+      "granularity": "s-load idealizes how loads travel. Computing the resultant of a distributed load is a separate calculation a learner can do or not.",
+      "edges": [
+        { "source": "s-load", "target": "sss-mech-distributed-resultant", "type": "prerequisite", "rationale": "The idealized load being replaced." },
+        { "source": "p-equilibrium", "target": "sss-mech-distributed-resultant", "type": "prerequisite", "rationale": "The resultant is used for equilibrium." },
+        { "source": "sss-mech-distributed-resultant", "target": "s-beamforces", "type": "supports", "rationale": "Beam reactions often start from these resultants." }
+      ] },
+    { "id": "sss-mech-truss-joints", "branch": "S1", "candidate": "Solve selected truss joints", "from": ["sss-mech-two-force-member", "sss-mech-joint-transfer"], "required": false,
+      "name": "Solve selected truss joints",
+      "description": "Find the forces in the members meeting at a truss joint by applying equilibrium at a joint with no more than two unknown member forces.",
+      "details": "In an ideal truss each member is a two-force member, pushing or pulling along its own line, and each joint is a point where those forces and any external load balance: sum Fx = 0 and sum Fy = 0. Start at a joint with at most two unknown members, assume each unknown is in tension (pulling away from the joint), and solve; a negative answer means compression. Carry each found force to the next joint as equal and opposite.\n\nExample: a wall bracket's outer joint carries 1000 N downward. Member B runs back up to the wall at 30 deg above horizontal; member A runs horizontally back to the wall. Sum Fy gives F_B * sin(30) = 1000 N, so F_B = 2000 N in tension. Sum Fx gives -F_A - F_B * cos(30) = 0, so F_A = -1732 N: member A is in compression.",
+      "proficiencyReference": "I can solve a truss joint with up to two unknown member forces and say which members are in tension and which in compression.",
+      "scopeNote": "Ideal pin-jointed planar trusses with loads at joints.",
+      "granularity": "The two prerequisites recognize two-force members and transfer joint forces. Solving a joint's equilibrium and reading tension or compression is the next, separately markable step.",
+      "edges": [
+        { "source": "sss-mech-two-force-member", "target": "sss-mech-truss-joints", "type": "prerequisite", "rationale": "Truss members are two-force members." },
+        { "source": "sss-mech-joint-transfer", "target": "sss-mech-truss-joints", "type": "prerequisite", "rationale": "Forces pass from joint to joint as equal and opposite." }
+      ] },
+    { "id": "sss-mat-uniaxial-limits", "branch": "S2", "candidate": "Identify the limits of a uniaxial material model", "from": ["s-tensile", "sss-mat-elastic-versus-linear"], "required": false,
+      "name": "Identify the limits of a uniaxial material model",
+      "description": "Decide whether properties from a uniaxial tensile test apply to a part, given its stress state, loading rate, temperature and material direction.",
+      "details": "A tensile-test curve describes one sample pulled slowly in one direction at one temperature. It transfers to a part only as far as those conditions match. Combined stresses need a failure criterion; impact loading, high or low temperature, creep under sustained load and direction-dependent materials, such as 3D-printed or fibre parts, can all behave differently.\n\nExample: a PLA bracket printed flat is loaded across its layers. The datasheet's tensile strength was measured along the filament; across the layers the strength can be half that or less, and it falls further as PLA softens near 55-60 deg C. The uniaxial value is the wrong number for this part.",
+      "proficiencyReference": "I can say whether a tensile-test property applies to a stated part and loading, and name the condition that breaks it.",
+      "scopeNote": "Qualitative applicability; no rate- or temperature-dependent models.",
+      "granularity": "s-tensile reads the curve. Judging whether the curve applies to a part is a separate judgement learners get wrong while reading curves correctly.",
+      "edges": [
+        { "source": "s-tensile", "target": "sss-mat-uniaxial-limits", "type": "prerequisite", "rationale": "The test whose limits are checked." },
+        { "source": "sss-mat-elastic-versus-linear", "target": "sss-mat-uniaxial-limits", "type": "prerequisite", "rationale": "Reading what a curve does and does not show." }
+      ] },
+    { "id": "sss-mech-effective-length", "branch": "S3", "candidate": "Check effective-length assumptions in a buckling model", "from": ["s-buckling"], "required": false,
+      "name": "Check effective-length assumptions in a buckling model",
+      "description": "Choose the effective-length factor from how a column's ends are really held, and check how much the buckling load depends on that choice.",
+      "details": "Euler's critical load P_cr = pi^2 * E * I / (K*L)^2 depends on the square of the effective length K*L, so the end-restraint factor K matters as much as stiffness. Ideal values are K = 1 for pinned-pinned, 0.5 for fixed-fixed, 0.7 for fixed-pinned and 2 for fixed-free. Real joints are rarely perfectly fixed, so design guidance recommends larger values: about 0.65 instead of 0.5, 0.8 instead of 0.7 and 2.1 instead of 2.\n\nExample: a strut assumed fixed at both ends (K = 0.5) that is really closer to pinned (K = 1) buckles at a quarter of the predicted load. When the restraint is uncertain, use the larger K.",
+      "proficiencyReference": "I can choose an effective-length factor from a column's real end conditions and show how sensitive the buckling load is to that choice.",
+      "scopeNote": "Elastic Euler buckling of straight columns.",
+      "granularity": "s-buckling applies Euler's formula. Choosing and defending K from real end conditions is a separate judgement with a large effect on the answer.",
+      "edges": [
+        { "source": "s-buckling", "target": "sss-mech-effective-length", "type": "prerequisite", "rationale": "The model whose assumption is checked." }
+      ] },
+    { "id": "sss-mat-nominal-peak", "branch": "S4", "candidate": "Distinguish nominal and peak stress", "from": ["s-concentration", "sss-mat-current-area-stress"], "required": false,
+      "name": "Distinguish nominal and peak stress",
+      "description": "Compute both the nominal stress on a net section and the peak stress at a notch, and decide which one a given check should use.",
+      "details": "Nominal stress is load over the net section, ignoring the notch's shape. Peak stress is the local maximum at the notch, Kt times the nominal stress. Which one governs depends on the failure mode: peak stress matters for brittle materials, for fatigue and for crack starts, while a ductile metal under one static load yields locally and redistributes, so its net-section nominal stress is the usual static check.\n\nExample: a 40 mm wide, 5 mm thick steel strap with a 10 mm hole carries 15 kN. The net section is (40 - 10) * 5 = 150 mm^2, so the nominal stress is 100 MPa. With Kt of about 2.5 at the hole, the peak is about 250 MPa. Check static yield against 100 MPa, but fatigue against 250 MPa.",
+      "proficiencyReference": "I can compute nominal and peak stress at a notch and choose the right one for a static, fatigue or brittle check.",
+      "scopeNote": "Holes, notches and fillets with charted Kt.",
+      "granularity": "s-concentration estimates Kt. Deciding which stress a given check needs is a separate decision learners get wrong after computing both correctly.",
+      "edges": [
+        { "source": "s-concentration", "target": "sss-mat-nominal-peak", "type": "prerequisite", "rationale": "Peak stress comes from Kt." },
+        { "source": "sss-mat-current-area-stress", "target": "sss-mat-nominal-peak", "type": "prerequisite", "rationale": "Nominal stress on a stated section." }
+      ] },
+    { "id": "sss-mat-yield-vs-crack", "branch": "S4", "candidate": "Distinguish yielding from crack-driven failure", "from": ["s-plastic", "s-fracture", "s-failurecriterion"], "required": false,
+      "name": "Distinguish yielding from crack-driven failure",
+      "description": "For a part with a known crack, compare the stress that would cause yielding with the stress that would cause fast fracture, and say which comes first.",
+      "details": "A cracked part can fail by yielding of the remaining section or by the crack running. Fracture mechanics gives the fracture stress sigma_f = K_Ic / (Y * sqrt(pi * a)); yielding happens at the yield strength sigma_y. Whichever is lower is the expected failure. Tough metals with small cracks yield first; brittle materials, or tougher ones with long cracks, fracture first, often with little warning.\n\nExample: an aluminium alloy with sigma_y = 300 MPa and K_Ic = 25 MPa*sqrt(m), with Y = 1, has a fracture stress of 25 / sqrt(pi * 0.002) = 315 MPa for a 2 mm crack, so yielding comes first, just. For a 10 mm crack the fracture stress is 141 MPa, and the part fractures well below yield.",
+      "proficiencyReference": "I can compare the yield and fracture stresses of a cracked part and say which failure comes first.",
+      "scopeNote": "Linear-elastic fracture mechanics with a stated geometry factor.",
+      "granularity": "s-plastic and s-fracture each treat one mode. Comparing them for one part to predict which happens first is the separate ability.",
+      "edges": [
+        { "source": "s-plastic", "target": "sss-mat-yield-vs-crack", "type": "prerequisite", "rationale": "The yielding mode." },
+        { "source": "s-fracture", "target": "sss-mat-yield-vs-crack", "type": "prerequisite", "rationale": "The crack-driven mode." },
+        { "source": "s-failurecriterion", "target": "sss-mat-yield-vs-crack", "type": "supports", "rationale": "Ductile and brittle criteria, the same distinction under combined stress." }
+      ] },
+    { "id": "sss-mat-fiber-direction", "branch": "S5", "candidate": "Distinguish fiber direction effects from isotropic response", "from": ["s-composite"], "required": false,
+      "name": "Distinguish fibre-direction effects from isotropic response",
+      "description": "Compute a fibre composite's stiffness along and across its fibres and recognize when an isotropic formula would mislead.",
+      "details": "An isotropic material has the same stiffness in every direction, so one modulus E describes it. A unidirectional fibre composite does not. Along the fibres the rule of mixtures gives E1 = Vf*Ef + Vm*Em; across them 1/E2 = Vf/Ef + Vm/Em, which is far lower. Using one datasheet modulus for a part loaded across its fibres can overestimate its stiffness many times over.\n\nExample: carbon fibres (Ef = 230 GPa) in epoxy (Em = 3.5 GPa) at Vf = 0.6 give E1 = 0.6 * 230 + 0.4 * 3.5 = 139 GPa along the fibres, but E2 = 1 / (0.6/230 + 0.4/3.5), about 8.6 GPa, across them: about sixteen times softer.",
+      "proficiencyReference": "I can estimate a unidirectional composite's stiffness along and across its fibres and say when an isotropic model would mislead.",
+      "scopeNote": "Unidirectional composites; laminates belong to s-laminate.",
+      "granularity": "s-composite covers load sharing. Recognizing when a single isotropic modulus is wrong for a loaded direction is the separate design check.",
+      "edges": [
+        { "source": "s-composite", "target": "sss-mat-fiber-direction", "type": "prerequisite", "rationale": "Fibre and matrix load sharing." }
+      ] },
+    { "id": "sss-mat-process-dimensions", "branch": "S5", "candidate": "Relate processing choices to dimensional change", "from": ["s-heattreat", "s-additive", "rob3:D10"], "required": false,
+      "name": "Relate processing choices to dimensional change",
+      "description": "Predict how a manufacturing process will change a part's dimensions, such as shrinkage, warping, quench distortion or stress-relief movement, and plan an allowance for it.",
+      "details": "Most processes leave a part a little different from its drawing. Molten or printed plastics shrink as they cool, and unevenly where thick and thin sections meet, which warps them; printed parts also shrink differently by build direction. Quenching distorts steel, and machining away stressed material lets the rest move. So the process belongs in the plan: add a shrink allowance, orient the part, or leave stock for finish machining after heat treatment.\n\nExample: ABS shrinks about 0.5-0.7% as it cools, so a 120 mm printed rail can come out 0.6-0.8 mm short. That would spoil a 0.2 mm clearance unless the model is scaled or the mating holes are drilled after printing.",
+      "proficiencyReference": "I can predict the main dimensional change a stated process causes and plan an allowance or a finishing step for it.",
+      "scopeNote": "Printing, moulding, heat treatment and machining at a qualitative-to-first-estimate level.",
+      "granularity": "s-additive and s-heattreat describe processes and properties; D10 selects materials and processes. Predicting the dimensional effect and planning for it is a separate ability.",
+      "edges": [
+        { "source": "s-additive", "target": "sss-mat-process-dimensions", "type": "prerequisite", "rationale": "Build direction and printed-part shrinkage." },
+        { "source": "s-heattreat", "target": "sss-mat-process-dimensions", "type": "supports", "rationale": "Quench distortion and stress relief; supports rather than requires, so the skill does not wait on phase diagrams." },
+        { "source": "rob3:D10", "target": "sss-mat-process-dimensions", "type": "supports", "rationale": "Process selection, where the dimensional effect is weighed." }
+      ] },
+    { "id": "sss-mech-datum-scheme", "branch": "S6", "candidate": "Build a functional datum scheme", "from": ["s-fits", "rob3:D03"], "required": false,
+      "name": "Build a functional datum scheme",
+      "description": "Choose a part's primary, secondary and tertiary datums from how it mounts and works, and dimension its critical features from them.",
+      "details": "Datums are the reference surfaces a part is measured from. A functional scheme picks them to match how the part is located in its assembly: the primary datum is usually the largest mounting face, which removes three degrees of freedom; the secondary, an edge or locating pin, removes two more; the tertiary removes the last. Critical features are then dimensioned from these datums, so the drawing controls what matters for fit rather than what is convenient to draw.\n\nExample: a motor bracket bolts flat to a frame plate and is located by two dowel pins. Make the mounting face datum A, one dowel hole datum B and the other datum C, and locate the motor shaft hole from A, B and C, so its position relative to the frame is controlled directly.",
+      "proficiencyReference": "I can choose primary, secondary and tertiary datums from how a part mounts, and dimension its critical features from them.",
+      "scopeNote": "Datum selection for simple robot parts; full geometric dimensioning and tolerancing symbology is outside this skill.",
+      "granularity": "s-fits covers tolerances and datum references, and D03 produces a drawing. Choosing the datums from the part's function is the separate design decision.",
+      "edges": [
+        { "source": "s-fits", "target": "sss-mech-datum-scheme", "type": "prerequisite", "rationale": "Datum references and tolerances." },
+        { "source": "rob3:D03", "target": "sss-mech-datum-scheme", "type": "prerequisite", "rationale": "The drawing the scheme is applied to." }
+      ] },
+    { "id": "sss-mat-differential-expansion", "branch": "S7", "candidate": "Calculate differential expansion between joined parts", "from": ["s-thermalexpand"], "required": false,
+      "name": "Calculate differential expansion between joined parts",
+      "description": "Calculate how much two joined parts of different materials change length relative to each other over a temperature range, and its effect on a fit or a fastened joint.",
+      "details": "When two materials are joined, what matters is the difference in their expansion: dL = (alpha1 - alpha2) * L * dT. If they can slide, it changes a gap or clearance; if they are clamped, it becomes strain and stress in both.\n\nExample: an aluminium plate (alpha = 23e-6 /deg C) is bolted to a steel frame (alpha = 12e-6 /deg C) with bolts 300 mm apart. From 20 deg C to 60 deg C the aluminium grows 0.276 mm and the steel 0.144 mm between the bolts, a difference of 0.13 mm. Clearance holes 0.2 mm oversize can absorb it; tightly fitted dowels cannot, and would load the plate and frame.",
+      "proficiencyReference": "I can calculate the differential expansion of two joined materials and say whether a stated fit or joint can absorb it.",
+      "scopeNote": "Linear expansion of joined parts; no thermal-stress analysis beyond the strain estimate.",
+      "granularity": "s-thermalexpand covers expansion of one material and the idea of mismatch. Calculating the mismatch for a real joint and judging its effect is the separate applied step.",
+      "edges": [
+        { "source": "s-thermalexpand", "target": "sss-mat-differential-expansion", "type": "prerequisite", "rationale": "Expansion of each material." }
+      ] },
+    { "id": "sss-comp-function-contract", "branch": "C1", "candidate": "Write a function with a clear input-output contract", "from": ["c-functions"], "required": false,
+      "name": "Write a function with a clear input-output contract",
+      "description": "State what a function accepts, what it returns, its units and what it does with invalid input, and make the code keep that promise.",
+      "details": "A contract tells the caller what to expect: the types and ranges of the inputs (preconditions), what is returned and in which units (postconditions), and what happens when inputs are invalid, such as raising an error instead of returning a meaningless value. Writing it first, as a docstring, makes the function testable and safe to reuse.\n\nExample: def wheel_speed(rpm, diameter_m): \"Return linear speed in m/s for a wheel turning at rpm revolutions per minute. diameter_m must be positive; raises ValueError otherwise.\" The body checks diameter_m > 0 and returns rpm * pi * diameter_m / 60. A caller about to pass millimetres sees the units in the contract, and a negative diameter fails loudly instead of returning a wrong speed.",
+      "proficiencyReference": "I can write a function whose inputs, outputs, units and invalid-input behaviour are stated, and make the code enforce them.",
+      "scopeNote": "Single functions in one language; no formal verification.",
+      "granularity": "c-functions defines and calls functions. Stating and enforcing a contract is a separate practice a learner can lack while writing working functions.",
+      "edges": [
+        { "source": "c-functions", "target": "sss-comp-function-contract", "type": "prerequisite", "rationale": "The function being specified." },
+        { "source": "c-errors", "target": "sss-comp-function-contract", "type": "prerequisite", "rationale": "Invalid input is reported by raising an error." }
+      ] },
+    { "id": "sss-comp-boundary-test", "branch": "C1", "candidate": "Design a boundary-case test", "from": ["c-testing"], "required": false,
+      "name": "Design a boundary-case test",
+      "description": "Pick test inputs at, just inside and just outside each boundary a function's specification states, and derive the expected results independently.",
+      "details": "Errors cluster at boundaries: off-by-one comparisons, empty inputs, zero, the largest value and the point where behaviour changes. From the specification, list each boundary, then test the value on it, the nearest values on either side, and special cases such as an empty list. Work out each expected result from the specification, not by running the code.\n\nExample: a battery check returns \"low\" below 11.0 V, \"ok\" from 11.0 V to 12.6 V and \"high\" above 12.6 V. Boundary tests: 10.99 V is low, 11.0 V ok, 11.01 V ok, 12.6 V ok, 12.61 V high, plus a non-numeric reading, which the specification should say how to handle. A bug that writes <= for < at 11.0 V fails the 11.0 V test and no other.",
+      "proficiencyReference": "I can derive a set of boundary tests from a specification, with expected results worked out independently of the code.",
+      "scopeNote": "Unit-level tests of numeric and collection inputs.",
+      "granularity": "c-testing writes and runs tests. Designing the boundary set systematically from a specification is a separate skill that decides whether tests find real bugs.",
+      "edges": [
+        { "source": "c-testing", "target": "sss-comp-boundary-test", "type": "prerequisite", "rationale": "The tests being designed." }
+      ] },
+    { "id": "sss-comp-cancellation", "branch": "C2", "candidate": "Identify numerical cancellation", "from": ["c-floats", "m-numerror"], "required": false,
+      "name": "Identify numerical cancellation",
+      "description": "Recognize when subtracting nearly equal floating-point numbers destroys significant digits, and rewrite the calculation to avoid it.",
+      "details": "A double-precision number keeps about 16 significant decimal digits. When two nearly equal numbers are subtracted, the leading digits cancel and only the few that differed remain, so the result's relative error can be enormous even though each input was accurate. Spot it by looking for a difference of large, close quantities, then rearrange the formula.\n\nExample: for x = 1e-8, computing 1 - cos(x) in double precision returns exactly 0, because cos(x) rounds to 1. The equivalent 2 * sin(x/2)^2 returns 5.0e-17, the correct value. At x = 1e-4 the direct form keeps only about eight correct digits.",
+      "proficiencyReference": "I can spot a calculation that loses digits to cancellation and rewrite it in an equivalent, stable form.",
+      "scopeNote": "Double-precision arithmetic in ordinary formulas; no interval arithmetic.",
+      "granularity": "c-floats covers rounding and tolerances; m-numerror covers error in numerical methods. Spotting and fixing cancellation in a formula is a distinct ability.",
+      "edges": [
+        { "source": "c-floats", "target": "sss-comp-cancellation", "type": "prerequisite", "rationale": "Finite precision, where cancellation comes from." },
+        { "source": "m-numerror", "target": "sss-comp-cancellation", "type": "supports", "rationale": "Roundoff growth in numerical methods, a related effect." }
+      ] },
+    { "id": "sss-comp-task-ownership", "branch": "C3", "candidate": "Explain object ownership across a task boundary", "from": ["c-allocation"], "required": false,
+      "name": "Explain object ownership across a task boundary",
+      "description": "Decide which task owns data passed between threads or tasks, and whether it is copied, handed over or shared under a lock, so it is never freed or changed while another task uses it.",
+      "details": "When data passes from one thread or task to another, exactly one of them must be responsible for it at each moment. Three patterns are safe: copy the data, so each side has its own; hand it over, so the sender stops using it once it is queued; or share it under a lock with a clear rule for who frees it. Bugs come from mixing these, such as reusing a buffer after queueing a pointer to it.\n\nExample: a sensor task fills a buffer and queues a pointer to it for the logging task. If the sensor task then reuses the buffer for the next reading, the logger may write a half-updated sample. Either queue a copy of the sample, or hand the buffer over and have the logger return it to a free pool when it is done.",
+      "proficiencyReference": "I can say who owns data passed between tasks and choose copying, handing over or locking so it is never used after it is freed or changed.",
+      "scopeNote": "Threads or RTOS tasks exchanging data through queues.",
+      "granularity": "c-allocation covers ownership within one flow of control. Ownership across concurrent tasks is a separate ability with its own failure modes.",
+      "edges": [
+        { "source": "c-allocation", "target": "sss-comp-task-ownership", "type": "prerequisite", "rationale": "Ownership of allocated memory." },
+        { "source": "c-threads", "target": "sss-comp-task-ownership", "type": "prerequisite", "rationale": "Tasks that share a process's memory." }
+      ] },
+    { "id": "sss-comp-train-test-leakage", "branch": "C6", "candidate": "Prevent train-test leakage", "from": ["c-evaluation"], "required": false,
+      "name": "Prevent train-test leakage",
+      "description": "Split data so no information from the test set reaches training, including through preprocessing, related samples or time order.",
+      "details": "A held-out test set measures performance on new data only if nothing about it reached training. Leakage happens when preprocessing, such as normalization or feature selection, is fitted on all the data before splitting; when near-duplicate samples, such as frames from the same robot run, land on both sides; or when a random split lets the model see the future of a time series. Split first, fit every preprocessing step on the training set only, and split by run or by time when samples are related.\n\nExample (illustrative numbers): 10,000 camera frames from 20 runs are split at random. Neighbouring frames are nearly identical, so test accuracy reads 98%. Split by run instead, 16 for training and 4 for testing, and accuracy may fall to 85%, which is closer to what a new run will see.",
+      "proficiencyReference": "I can split a data set so the test result is not inflated by leakage through preprocessing, related samples or time order.",
+      "scopeNote": "Supervised learning on logged robot data.",
+      "granularity": "c-evaluation measures a model on held-out data. Making sure the held-out data really is unseen is a separate ability that decides whether the measurement means anything.",
+      "edges": [
+        { "source": "c-evaluation", "target": "sss-comp-train-test-leakage", "type": "prerequisite", "rationale": "Held-out evaluation, which leakage undermines." }
+      ] }
+  ]
+}

@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Foundation splits (step 6)
 
 Step 6 of `reports/scope/07-checkpoint.md` §2 (packages 4–7 of `reports/scope/06-wave-plan.md`). JC
-asked for it on 2026-11-05 ("Let's queue up step 6"). **Not started.**
+asked for it on 2026-11-05 ("Let's queue up step 6"). **Tasks 1–2 done; waiting at Checkpoint A.**
 
 This queue adds new skills to the working map, `Maps/Robotics-Atlas.json`, and writes **no
 lessons**. Lessons for the new skills belong to step 7 ("plus one per new skill"). Everything is
@@ -80,6 +80,14 @@ records. JC opens the finished map (**Checkpoint B**). Only then does it replace
 
 **STOP if:** a source skill is missing, or now has an answer.
 **Check:** the working map and answer record unchanged.
+**Result:** `reports/splits/00-starting-state.md`.
+- **Backup:** `%OneDrive%\HelixSkill Backups\2026-11-05_195851` (214 files, every file verified). The app
+  was closed, so Claude Code ran the script.
+- The working map is the completions map (`ba823b0d…`). The answer record is unchanged (`23471d5c…`,
+  311 entries).
+- Every source skill exists and none has an answer, so there is no STOP.
+- The 8 source skills with lessons are exactly the 8 in the I05 chain.
+- Every map and the record are unchanged.
 
 ## [ ] Task 2 — Draft the new skills (draft for JC)
 **Do:** Write `scope/splits/new-skills.json` and a readable `reports/splits/01-new-skills.md`,
@@ -96,6 +104,18 @@ grouped by domain. For each candidate:
 Also propose an **id policy** for the new skills (recommended: the batches' `sss-<area>-<slug>`
 form), and list any existing skill a draft might duplicate.
 **STOP (Checkpoint A):** JC approves or changes each skill. Nothing is built until then.
+**Result:** `scope/splits/new-skills.json` and `reports/splits/01-new-skills.md`.
+- **35 new skills** (8 physics, 12 electronics, 10 mechanics, 5 computing) with 69 connections
+  (59 prerequisite, 10 supports).
+- **One candidate not added:** C6 *asymmetric error cost* is already covered by `c-classification`.
+- **None is required:** the I05 chain stays at 327, so step 7 does not grow.
+- **Five existing skills gain a prerequisite:** `p-relative`, `p-energy`, `px-collision-inelastic`,
+  `px-collision-elastic` and `e-rc`, none of them in the I05 chain.
+- **Checks on the drafts:** no loop, every endpoint exists, no id reused. Every example number was
+  checked.
+- **Five decisions, D1–D5,** each with a recommendation.
+
+**Waiting for JC at Checkpoint A.**
 
 ## [ ] Task 3 — The structure tool
 **Do:** Write `authoring/splits/add-splits.mjs` (logic only) and `build-splits.mjs` (the command,
