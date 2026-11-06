@@ -1,7 +1,7 @@
 # TASKS Ã¢â‚¬â€ HelixSkill Ã¢â‚¬â€ Robotics completions (Edition 07)
 
 Step 5 of `reports/scope/07-checkpoint.md` Ã‚Â§2 (package 3 of `reports/scope/06-wave-plan.md`). JC
-asked for it on 2026-11-05 ("Let's queue up step 5"). **Tasks 1–7 done; waiting at Checkpoint B.**
+asked for it on 2026-11-05 ("Let's queue up step 5"). **Done: every task finished, Checkpoint B passed on 2026-11-05.**
 
 This queue is the first to change the working map, `Maps/Robotics-Atlas.json`. Everything is built
 in `C:\sss-scratch\completions\` first. The working map is replaced only after JC's go at
@@ -230,7 +230,7 @@ app's normal Open, and says go or no-go.
 - **Review-session note:** a review saved on the working map will not resume on the finished map.
 - The working map, both old maps and JC's answer record are unchanged.
 
-**Waiting for JC at Checkpoint B.**
+**Passed:** JC opened the finished map and said **go** on 2026-11-05.
 
 ## [ ] Task 8 Ã¢â‚¬â€ Make it the working map, then merge
 **Do (only after JC's go):**
@@ -239,6 +239,19 @@ app's normal Open, and says go or no-go.
 - Open the pull request, merge it, and update local `main`.
 **Check:** the backup copy matches Task 1's SHA-256; the old master, the V3 export and the shared
 answer record are unchanged.
+**Result (2026-11-05, after JC's "Go"):**
+- **Backed up:** `Maps/Backups/2026-11-05-before-completions/Robotics-Atlas.json`, which matches
+  Task 1 (`f307121c…`).
+- **Replaced:** `Maps/Robotics-Atlas.json` is now the finished map (`ba823b0d…4719f8c`). The import
+  ledger and summary are in `Maps/Robotics-Atlas-import/`.
+- **Check passed:** the old master (`8e170740…`), the V3 export (`687f0916…`) and the answer record
+  (`23471d5c…`) are unchanged. The app was open, and Claude Code did not close it.
+- On the new working map, the importer's default dry run passes (306/76, nothing to change, I05
+  305/305), and the end-to-end checks pass (completions 27, merged atlas 12).
+- **One test changed:** two tests in `tests/completions.test.mjs` built the new skills onto the
+  working map, which now already has them. They now start from the map the skills were approved
+  against, found by its fingerprint (the backup above), and a new test checks the working map
+  itself. Unit tests: 247 pass, 0 fail, 6 skipped.
 
 ---
 

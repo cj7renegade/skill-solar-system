@@ -5,6 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { addSkills, gates, arrange, plan, nodeFor, pendingDetails, placementNote, milestonesFed, specificationExtension } from '../authoring/completions/add-skills.mjs';
 import { validate } from '../src/model.js';
 import { applyLessons, reconcileLesson, contractHash } from '../authoring/robotics-v3/lessons.mjs';
@@ -99,6 +100,10 @@ const ATLAS = path.join(ROOT, 'Maps', 'Robotics-Atlas.json');
 const APPROVED = path.join(ROOT, 'scope', 'completions', 'new-skills.json');
 const SPEC = path.join(ROOT, 'packages', 'robotics-curriculum-v3', 'Robotics-Reviewed-Specification.json');
 const realAvailable = existsSync(ATLAS) && existsSync(APPROVED);
+// The map the new skills were approved against: the working map until Task 8 replaced it, then its
+// dated backup. Found by the fingerprint the approval records.
+const BASE = realAvailable && [ATLAS, path.join(ROOT, 'Maps', 'Backups', '2026-11-05-before-completions', 'Robotics-Atlas.json')]
+  .find(f => existsSync(f) && createHash('sha256').update(readFileSync(f)).digest('hex') === JSON.parse(readFileSync(APPROVED, 'utf8')).baseMap.sha256);
 
 test('a new skill is worded like the existing pending V3 entries', { skip: !(realAvailable && existsSync(SPEC)) && 'needs the working map and the V3 specification' }, () => {
   const atlas = JSON.parse(readFileSync(ATLAS, 'utf8')), v3spec = JSON.parse(readFileSync(SPEC, 'utf8'));
@@ -114,8 +119,8 @@ test('a new skill is worded like the existing pending V3 entries', { skip: !(rea
   }
 });
 
-test('the real working map: every gate passes and a rebuild gives identical bytes', { skip: !realAvailable && 'needs Maps/Robotics-Atlas.json' }, () => {
-  const atlas = JSON.parse(readFileSync(ATLAS, 'utf8')), a = JSON.parse(readFileSync(APPROVED, 'utf8'));
+test('the real base map: every gate passes and a rebuild gives identical bytes', { skip: !BASE && 'needs the map the new skills were approved against' }, () => {
+  const atlas = JSON.parse(readFileSync(BASE, 'utf8')), a = JSON.parse(readFileSync(APPROVED, 'utf8'));
   const out = build(atlas, a);
   assert.deepEqual(gates(atlas, out, a), []);
   assert.equal(out.nodes.length, 1920);
@@ -128,10 +133,10 @@ test('the real working map: every gate passes and a rebuild gives identical byte
 });
 
 const EDITION07 = path.join(ROOT, 'authoring', 'completions', 'edition-07', 'Robotics-Completions-Lessons-07.json');
-const importAvailable = realAvailable && existsSync(SPEC) && existsSync(EDITION07);
+const importAvailable = BASE && existsSync(SPEC) && existsSync(EDITION07);
 
-test('Edition 07 imports onto the structure map: 8 lessons, nothing else changed, evidence from the lessons', { skip: !importAvailable && 'needs the working map, the V3 specification and Edition 07' }, () => {
-  const atlas = JSON.parse(readFileSync(ATLAS, 'utf8')), a = JSON.parse(readFileSync(APPROVED, 'utf8'));
+test('Edition 07 imports onto the structure map: 8 lessons, nothing else changed, evidence from the lessons', { skip: !importAvailable && 'needs the base map, the V3 specification and Edition 07' }, () => {
+  const atlas = JSON.parse(readFileSync(BASE, 'utf8')), a = JSON.parse(readFileSync(APPROVED, 'utf8'));
   const v3spec = JSON.parse(readFileSync(SPEC, 'utf8')), edition = JSON.parse(readFileSync(EDITION07, 'utf8'));
   const structure = build(atlas, a);
   const spec = { ...v3spec, nodes: [...v3spec.nodes, ...specificationExtension(a)] };
@@ -157,7 +162,7 @@ test('Edition 07 imports onto the structure map: 8 lessons, nothing else changed
   assert.equal(JSON.stringify(applyLessons(graph, { spec, editions: [edition], merged: true }).graph), JSON.stringify(graph));
 });
 
-test('an Edition 07 lesson is refused if it drifts from its approved record', { skip: !importAvailable && 'needs the working map, the V3 specification and Edition 07' }, () => {
+test('an Edition 07 lesson is refused if it drifts from its approved record', { skip: !importAvailable && 'needs the base map, the V3 specification and Edition 07' }, () => {
   const a = JSON.parse(readFileSync(APPROVED, 'utf8')), edition = JSON.parse(readFileSync(EDITION07, 'utf8'));
   const specNode = specificationExtension(a).find(s => s.id === 'P11'), lesson = edition.lessons.find(l => l.id === 'P11');
   const node = { id: 'rob3:P11', name: specNode.name, planningId: 'P11' };
@@ -166,4 +171,12 @@ test('an Edition 07 lesson is refused if it drifts from its approved record', { 
   assert.match(reconcileLesson({ ...lesson, requires: ['P08', 'P09'] }, { specNode, node, edition: 'e' }).problems.join(), /prerequisites differ/);
   assert.match(reconcileLesson(lesson, { specNode: { ...specNode, demonstration: 'Something else.' }, node, edition: 'e' }).problems.join(), /fingerprint/);
   assert.match(reconcileLesson({ ...lesson, proficiency_write: true }, { specNode, node, edition: 'e' }).problems.join(), /proficiency write/);
+});
+test('the working map is the finished completions map: the import is already applied', { skip: !(realAvailable && importAvailable) && 'needs the working map and the base map' }, () => {
+  const working = JSON.parse(readFileSync(ATLAS, 'utf8'));
+  if (BASE === ATLAS) return;   // before Task 8 the working map is still the base
+  assert.equal(working.nodes.length, 1920);
+  assert.equal(working.nodes.filter(n => n.lesson).length, 306);
+  assert.equal(working.nodes.filter(n => n.lessonCard?.edition === 'robotics-completions-07').length, 8);
+  assert.equal(working.nodes.find(n => n.id === 'rob3:P11').proficiency80, null);
 });

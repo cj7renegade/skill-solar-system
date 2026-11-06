@@ -147,7 +147,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | 2026-10-05 | All 14 decisions in `reports/scope/05-decisions.md` accepted as recommended: Q1 (a) now and (b) next; Q2 (a); Q3 (a); Q4 (a); Q5 (a); Q6 (a) now and (c) at the merge; X06 → extension outcome; `s-*` track optional; thermal → S7; K05–K07 → prerequisites; calculus case by case; B-D08 → S7; the two same-ability duplicates ruled; `requires_physical_evidence` adopted for Edition 07 onward | JC |
 | 2026-10-10 | V3 merge crosswalk approved (A1–A8 in `reports/merge/01-crosswalk.md`); the merged atlas covers the 9 "after the merge" branches, pending Checkpoint B | JC (approval); Claude Code (status update) |
 | 2026-11-05 | Checkpoint B passed: the merged atlas is the working map, `Maps/Robotics-Atlas.json` | JC (go); Claude Code (status update) |
-| 2026-11-05 | Robotics completions: R6 gains `P11` (the innovation-check split) and R12 gains `A12` (coupling misalignment versus backlash), both approved at the completions' Checkpoint A; Edition 07 gives the six lessonless V3 entries in the I05 chain their cards. In the working map once JC passes Checkpoint B | JC (approval); Claude Code (status update) |
+| 2026-11-05 | Robotics completions: R6 gains `P11` (the innovation-check split) and R12 gains `A12` (coupling misalignment versus backlash), both approved at the completions' Checkpoint A; Edition 07 gives the six lessonless V3 entries in the I05 chain their cards. Checkpoint B passed: the finished map is the working map | JC (approval and go); Claude Code (status update) |
 
 ## 7. Branch map
 
@@ -161,7 +161,7 @@ mapping of all 132 roadmap candidates are in `reports/scope/04-branch-map.md`.
 | Covered in the master today | 7 |
 | Covered once Robotics V3 is merged (covered in the merged atlas, the working map since 2026-11-05) | 9 |
 | Covered by V3 entries the roadmap never listed (S8, R13, R14) | 3 |
-| Covered by the robotics completions, Edition 07 (R6, R12; in the working map once JC passes Checkpoint B) | 2 |
+| Covered by the robotics completions, Edition 07 (R6, R12; in the working map since 2026-11-05) | 2 |
 | Partial: at least one skill to split out or add | 22 |
 | Audit needed: the three mathematics branches, where the roadmap lists only review tasks | 3 |
 | Missing: no existing skill at all | 0 |

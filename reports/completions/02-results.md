@@ -2,14 +2,13 @@
 
 The robotics completions, built on 2026-11-05 from the working map and the items JC approved at
 Checkpoint A (`01-new-skills.md`: C1 (a), C2 required, C3 optional, C4 yes, C5 Claude Code).
-**It is waiting for JC's go or no-go at Checkpoint B.** Until then it exists only as
-`C:\sss-scratch\completions\Robotics-Atlas.json`. Nothing in `Maps/` was written. The working map
-(`f307121c…`), the old master, the V3 export and the shared answer record (`23471d5c…`) are
-unchanged; their SHA-256 was checked before and after every task.
+**JC said go at Checkpoint B on 2026-11-05**, and it is now the working map, `Maps/Robotics-Atlas.json`. The map it replaced is in `Maps/Backups/2026-11-05-before-completions/` (Task 8). Before the go, nothing in `Maps/` was written, and the working map (`f307121c…`) was unchanged.
+The old master, the V3 export and the shared answer record (`23471d5c…`) are still unchanged;
+their SHA-256 was checked before and after every task.
 
 ## Before and after
 
-| | Working map now | **Finished map** |
+| | Previous working map | **Finished map (working map now)** |
 | --- | ---: | ---: |
 | Skills | 1,918 | **1,920** (+ `P11`, `A12`) |
 | Connections | 5,708 | **5,714** (4,327 prerequisite, 177 supports, 1,210 related) |

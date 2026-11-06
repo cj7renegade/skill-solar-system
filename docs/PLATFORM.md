@@ -988,9 +988,9 @@ The master atlas and the V3 export merged as JC approved (`reports/merge/02-resu
 
 Shared skills that took a V3 card keep their master text in `atlasDetails` and `atlasPlacementNote`.
 
-### 9.1b Robotics completions, Edition 07 (built, waiting for Checkpoint B)
+### 9.1b Robotics completions, Edition 07 (the working map since 2026-11-05)
 
-Built in scratch from the working map (`reports/completions/02-results.md`):
+Built from the merged atlas and made the working map after JC's go at Checkpoint B (`reports/completions/02-results.md`). The map it replaced is in `Maps/Backups/2026-11-05-before-completions/`:
 
 | | |
 | --- | --- |
