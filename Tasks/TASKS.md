@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Core lessons (step 7)
 
 Step 7 of `reports/scope/07-checkpoint.md` §2: introductory lessons for every required skill. JC
-asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1 done and merged. Part 2: Tasks 8–10 done; waiting at Checkpoint B2.**
+asked for it on 2026-11-05 ("Let's queue up step 7"). **Done: both parts finished, Checkpoints B1 and B2 passed on 2026-11-05.**
 
 The queue has **two parts**, one edition each, and each part ends with its own Checkpoint B and pull
 request. JC reads about twenty lessons at a time rather than forty-four at once, and the working map
@@ -282,10 +282,21 @@ reviewed specification. Backup first.
 - **Display issue noted, not changed:** the "Physical work" demonstration line for the
   supervised-measurement mode. It goes with JC's evidence-card review.
 
-**Waiting for JC at Checkpoint B2.**
+**Passed:** JC opened the finished map and said **go** on 2026-11-05.
 
 ## [ ] Task 11 — Make it the working map, then merge Part 2
 **Do (only after JC's go):** as Task 7.
+**Result (2026-11-05, after JC's "Go"):**
+- **Backed up:** `Maps/Backups/2026-11-05-before-edition09/Robotics-Atlas.json`, which matches the Edition
+  08 map (`e91a4292…`).
+- **Replaced:** `Maps/Robotics-Atlas.json` is now `1212ad46…714b452`.
+- **Check passed:** the old maps and the answer record are unchanged. The app was closed.
+- The importer's default dry run passes (327 V3 + 23 master-skill lessons, nothing to change, I05
+  328/328). The e2e checks pass on the new working map: Edition 09 11, Edition 08 11, splits 10,
+  merged atlas 12.
+- **One test changed:** in `tests/completions.test.mjs`, the wording check used `P07` and `A11` as
+  pending entries, and both now have lessons. It now reads them from the map the step-5 skills were
+  approved against. Unit tests: 260 pass, 0 fail, 6 skipped.
 
 ---
 

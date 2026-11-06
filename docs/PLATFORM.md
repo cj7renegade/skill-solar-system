@@ -1030,9 +1030,9 @@ and matched by the skill's own id (`runtime_identity.master_skill`), because the
 planning id. A skill that gains one keeps its own text in `atlasDetails` and `atlasPlacementNote`.
 The importer counts them as `masterSkillLessons`, apart from V3's.
 
-### 9.1e Core lessons, Edition 09 (built, waiting for Checkpoint B2)
+### 9.1e Core lessons, Edition 09 (the working map since 2026-11-05)
 
-Built in scratch from the working map (`reports/lessons/03-edition09-results.md`):
+Built from the Edition 08 map and made the working map after JC's go at Checkpoint B2 (`reports/lessons/03-edition09-results.md`). The map it replaced is in `Maps/Backups/2026-11-05-before-edition09/`:
 
 | | |
 | --- | --- |
