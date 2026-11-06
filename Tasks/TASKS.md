@@ -23,7 +23,7 @@ level is 244. It adds 274 physics skills and 857 links and removes nothing. It k
 - [x] Rebuild from `Humanoid-Helix-Extension 2.json`, then validate.
 - [x] Unit tests (269 pass) and the helix end-to-end test (19 checks), with screenshots retaken.
 - [x] Performance measured; import notes updated.
-- [ ] JC: re-export the taxonomy workbook (it still has edition 1's 3,422 rows), then rebuild.
+- [x] Rebuilt with JC's re-exported workbook (3,696 rows): 63 Atlas skills move onto the path, 410 stages change, and 9 tiers go from Enrichment to Core. The sheet now matches the graph exactly.
 - [ ] JC: review the branch, then decide whether to push and merge it.
 
 - Mapping decisions, validation, performance and the open decisions: `docs/humanoid-helix-import.md`.

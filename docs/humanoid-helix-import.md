@@ -32,23 +32,25 @@ Decisions for edition 2:
   is now edition 2's file, byte-identical to `Humanoid-Helix-Extension 2.json` at the root. Edition
   1's file stays in Git history, and its SHA-256 is in the Inputs table. Edition 1's built map was
   saved to `C:\sss-scratch\humanoid\edition1\` (`31f64afc…`).
-- **The workbook was not re-exported.** The root `Humanoid-Skill-Helix-Taxonomy.xlsx` is still
-  edition 1's: the same size, dated 2026-11-05, open in Excel, and it has 3,422 rows, not the 3,696
-  the brief describes. The import copy is unchanged (`89968c1e…`). So:
-  - **Decision: Atlas skills' `helixLevel` comes from the merged graph**, 1 + 3 × depth, not from the
-    sheet. Twelve physics feeds now point into Atlas skills, so 611 sheet rows (Atlas and humanoid)
-    no longer match the graph: for example, `p-lagrangian` 46 → 52 and `s-bending` 43 → 49. The
-    graph's value is what the height shows, and validation now checks every skill's `helixLevel`
-    against it. New skills keep the extension's `helix`, which matches the graph for all 1,741.
-  - **Decision: On Humanoid Path is `true` for the 274 skills that are not in the sheet.** Every one
-    of the 1,467 humanoid skills in the sheet is on the path, and each of the 274 leads to I08 or I09
-    (check 13). This is recorded in `metadata.humanoidHelixImport.onPathNotInSheet`.
-  - The course, build stage and tier of Atlas skills still come from the sheet. All 1,955 rows are
-    present, and the extension changes no Atlas skill's stage.
-  - *Your call:* re-export the workbook from the desktop app and re-run `extract_taxonomy.py` (after
-    closing Excel). The build will then use the new sheet, and the validator's sheet note should drop
-    to 0.
-- **The prerequisites check (check 12)** now allows the "physics feeds" and "checkpoint" edges into a
+- **The workbook: JC's re-export of 2026-11-06.** The first edition 2 build ran against edition 1's
+  workbook (3,422 rows). JC then re-exported it: `d22cf734…`, 3,696 rows, every Node ID matching the
+  map, with none missing or extra. It was copied to `imports/humanoid-helix/` and extracted again. With it:
+  - every sheet Helix Level and Prereq Depth equals the merged graph (0 differences);
+  - every new skill is in the sheet, and all are on the humanoid path.
+
+  Against the stop-gap build on edition 1's sheet, the new sheet changes only sheet-driven fields:
+  - **On Humanoid Path:** 63 Atlas skills move onto the path, mostly mathematics such as
+    `m-substitution`, `m-vectorfield` and `m-lineint`. 235 skills are now off the path (298 before).
+  - **Build stage:** 410 skills, mostly to an earlier stage. For example, 147 move from 2 to 1 and 162
+    from 3 to 1, and 63 that had no stage ("Enrichment") now have one.
+  - **Tier:** 9 Atlas skills move from Enrichment to Core.
+  - No course, helix level, skill or edge changes.
+- **Decision: `helixLevel` is still computed from the merged graph** for Atlas skills (1 + 3 × depth),
+  so a future sheet that lags the graph cannot misplace a skill. It now equals the sheet everywhere.
+  New skills keep the extension's `helix`, which also matches.
+- **Kept as a fallback:** a new skill missing from the sheet would get On Humanoid Path `true`
+  (`metadata.humanoidHelixImport.onPathNotInSheet`, now with a count of 0). The validator reports
+  any such skill.- **The prerequisites check (check 12)** now allows the "physics feeds" and "checkpoint" edges into a
   skill on top of its `prereqs`, as the brief says. In this file every such edge is already listed in `prereqs`
   (0 extras), so the check is as strict as before.
 - **Validation check 18 (new):** every skill's `helixLevel` equals 1 + 3 × its depth in the merged
@@ -66,11 +68,11 @@ Decisions for edition 2:
 - **Decision: copies in `imports/humanoid-helix/`.** The files were at the repository root, not in
   `imports/humanoid-helix/`. They were copied there, and the originals were left untouched and
   uncommitted.
-- **Decision: the workbook copy.** The root workbook was locked by Excel, which had it open. The
-  copy was taken earlier in the session, when the file could still be read. The build checks
-  `Full-Taxonomy.json` against that copy's fingerprint.
-- **The Skill Code column is never used as an identifier.** Every join is on Node ID. All 3,422 sheet
-  rows match a skill in the map; the 274 skills added in edition 2 are not in the sheet (see Edition 2).
+- **The workbook copy.** In edition 1 the root workbook was locked by Excel, so the copy was taken
+  earlier in that session. Edition 2's copy is JC's re-export, `d22cf734…`. The build checks
+  `Full-Taxonomy.json` against the copy's fingerprint.
+- **The Skill Code column is never used as an identifier.** Every join is on Node ID. All 3,696 sheet
+  rows match a skill in the map, with none missing and none extra.
 
 ## How to rebuild and check
 
@@ -90,7 +92,7 @@ is recomputed, and five fields are added from the Full Taxonomy sheet:
 | --- | --- | --- |
 | `course` | Course | the course name |
 | `courseCode` | Course → code | from the extension's 16 `courses` pairs |
-| `buildStage` | Build Stage | the stage number 1–7. **Decision:** the 298 Atlas skills whose stage reads "Enrichment" (exactly the 298 off the humanoid path) get `null`; the stage names are in `metadata.humanoidHelixImport.buildStages` |
+| `buildStage` | Build Stage | the stage number 1–7. **Decision:** the 235 Atlas skills whose stage reads "Enrichment" (exactly the 235 off the humanoid path; 298 in edition 1) get `null`; the stage names are in `metadata.humanoidHelixImport.buildStages` |
 | `onHumanoidPath` | On Humanoid Path | Yes → `true`, No → `false` |
 | `helixLevel` | 1 + 3 × depth in the merged graph | edition 1 took the sheet's Helix Level, which then matched the graph; edition 2 computes it, because the sheet predates the physics feeds |
 
@@ -254,13 +256,13 @@ PASS new nodes start unmarked and with no lesson
 PASS every skill's helixLevel equals 1 + 3 x its depth in the merged graph (top level 244)
 
 NOTE extension helix/depth values that differ from the merged graph: 0
-NOTE spreadsheet Helix Level / Prereq Depth values that differ from the merged graph: 611 (e.g. p-lagrangian 46 vs 52; s-beamforces 40 vs 46; s-bending 43 vs 49)
-NOTE new skills not in the spreadsheet (On Humanoid Path set to true): 274, all true
+NOTE spreadsheet Helix Level / Prereq Depth values that differ from the merged graph: 0
+NOTE new skills not in the spreadsheet (On Humanoid Path set to true): 0
 
 All 18 checks passed.
 ```
 
-The built map: 12,370,505 bytes, SHA-256 `cf4d051ccd96ed500ac220840e4bc1739133aecb56fbe6a4e18a332c7c1d138d`.
+The built map: 12,370,197 bytes, SHA-256 `4cdfc20d31d13288fbcf658e7528bb282ca068ac5f1dcf3bfb7dc95f0c6c239f`.
 
 ## Performance
 
