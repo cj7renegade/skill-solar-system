@@ -7,6 +7,8 @@ import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { addSkills, gates, arrange, plan, nodeFor, pendingDetails, placementNote, milestonesFed, specificationExtension } from '../authoring/completions/add-skills.mjs';
 import { validate } from '../src/model.js';
+import { applyLessons, reconcileLesson, contractHash } from '../authoring/robotics-v3/lessons.mjs';
+import { needsRealEvidence, EDITION_NAMES } from '../src/lesson.js';
 import { arrangeVortex } from '../src/vortex.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -123,4 +125,45 @@ test('the real working map: every gate passes and a rebuild gives identical byte
   assert.equal(JSON.stringify(build(atlas, a)), JSON.stringify(out));
   assert.deepEqual(out.nodes.find(n => n.id === 'rob3:P11').feedsMilestones, ['I03', 'I04', 'I05']);
   assert.deepEqual(out.nodes.find(n => n.id === 'rob3:K05').feedsMilestones, ['I02', 'I04', 'I05']);
+});
+
+const EDITION07 = path.join(ROOT, 'authoring', 'completions', 'edition-07', 'Robotics-Completions-Lessons-07.json');
+const importAvailable = realAvailable && existsSync(SPEC) && existsSync(EDITION07);
+
+test('Edition 07 imports onto the structure map: 8 lessons, nothing else changed, evidence from the lessons', { skip: !importAvailable && 'needs the working map, the V3 specification and Edition 07' }, () => {
+  const atlas = JSON.parse(readFileSync(ATLAS, 'utf8')), a = JSON.parse(readFileSync(APPROVED, 'utf8'));
+  const v3spec = JSON.parse(readFileSync(SPEC, 'utf8')), edition = JSON.parse(readFileSync(EDITION07, 'utf8'));
+  const structure = build(atlas, a);
+  const spec = { ...v3spec, nodes: [...v3spec.nodes, ...specificationExtension(a)] };
+  const { graph, report } = applyLessons(structure, { spec, editions: [edition], merged: true });
+  assert.deepEqual(report.conflicted, []);
+  assert.deepEqual(report.applied, ['m-inverse', 'm-invtrig', 'p-work', 'rob3:K05', 'rob3:K06', 'rob3:K07', 'rob3:P11', 'rob3:A12']);
+  assert.equal(report.counts.authored, 306);
+  assert.equal(report.counts.pending, 76);
+  assert.deepEqual(report.evidence, { lesson: 8, overrides: 0, missing: [] });
+  const before = new Map(structure.nodes.map(n => [n.id, n]));
+  const changed = graph.nodes.filter(n => JSON.stringify(n) !== JSON.stringify(before.get(n.id))).map(n => n.id);
+  assert.deepEqual(changed.sort(), [...report.applied].sort());
+  assert.deepEqual(graph.edges, structure.edges);
+  for (const id of report.applied) {
+    const n = graph.nodes.find(x => x.id === id);
+    assert.equal(n.proficiency80, null);
+    assert.equal(n.lessonCard.edition, 'robotics-completions-07');
+    assert.equal(n.lessonCard.requiresPhysicalEvidence, false);
+    assert.equal(needsRealEvidence(n), false);
+  }
+  assert.ok(EDITION_NAMES['robotics-completions-07']);
+  // Re-applying changes nothing.
+  assert.equal(JSON.stringify(applyLessons(graph, { spec, editions: [edition], merged: true }).graph), JSON.stringify(graph));
+});
+
+test('an Edition 07 lesson is refused if it drifts from its approved record', { skip: !importAvailable && 'needs the working map, the V3 specification and Edition 07' }, () => {
+  const a = JSON.parse(readFileSync(APPROVED, 'utf8')), edition = JSON.parse(readFileSync(EDITION07, 'utf8'));
+  const specNode = specificationExtension(a).find(s => s.id === 'P11'), lesson = edition.lessons.find(l => l.id === 'P11');
+  const node = { id: 'rob3:P11', name: specNode.name, planningId: 'P11' };
+  assert.equal(lesson.node_contract_sha256, contractHash(specNode));
+  assert.deepEqual(reconcileLesson(lesson, { specNode, node, edition: 'e' }).problems, []);
+  assert.match(reconcileLesson({ ...lesson, requires: ['P08', 'P09'] }, { specNode, node, edition: 'e' }).problems.join(), /prerequisites differ/);
+  assert.match(reconcileLesson(lesson, { specNode: { ...specNode, demonstration: 'Something else.' }, node, edition: 'e' }).problems.join(), /fingerprint/);
+  assert.match(reconcileLesson({ ...lesson, proficiency_write: true }, { specNode, node, edition: 'e' }).problems.join(), /proficiency write/);
 });

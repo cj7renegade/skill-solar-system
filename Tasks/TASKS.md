@@ -189,6 +189,24 @@ the map is 7.8 MB.
 **Do:** Register Edition 07 with `apply-lessons.mjs` and import it into the Task 3 map in scratch.
 Expected: 8 gained, 298 unchanged, 0 conflicts; 306 lessons; I05 chain fully covered.
 **Check:** every importer gate passes; re-applying changes nothing; importer tests pass.
+**Result:** `apply-lessons.mjs` now takes Edition 07, but only on a merged atlas that holds `P11`.
+There it checks `P11` and `A12` against their approved records, and follows the map's edges for the
+I05 chain. The V3 export and the current working map behave exactly as before: their dry runs still
+pass at 298/82.
+- **Import into `C:\sss-scratch\completions\Robotics-Atlas.json` passed:**
+  - 8 gained, 298 unchanged, 0 skipped, 0 conflicts;
+  - 306 authored, 76 pending, 1 roadmap;
+  - I05 chain 305/305 with a card (23 master-only skills counted separately, as approved);
+  - node order, edges, layout and answers identical; a review session survives;
+  - a re-run touches nothing. SHA-256 `ba823b0d…4719f8c`.
+- **One change beyond the queue, to keep a promise:** the first dry run would also have written the
+  evidence-overrides table onto the 298 existing cards. That is the table still waiting for JC's
+  review of 44 cards, which the merge deliberately left off the cards. The importer now applies it
+  only with `--with-evidence-overrides`, and refuses to write if an existing card summary changes
+  without it. This run: 8 statements from the lessons, 0 from the table, 0 existing cards changed.
+- `src/lesson.js` names the edition on its cards ("robotics completions, edition 07").
+- Unit tests: 246 pass, 0 fail, 6 skipped (the long-standing skips). That includes 2 new import
+  tests in `tests/completions.test.mjs`.
 
 ## [ ] Task 7 Ã¢â‚¬â€ Measure and report
 **Do:** Run all unit and end-to-end tests, plus a new e2e check that opens the finished map and
