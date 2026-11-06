@@ -163,7 +163,8 @@ export function gates(before, after, approved) {
 }
 
 // Levels and layout, recalculated as the merge did, with the change measured against the base.
-export function arrange(graph, before) {
+// `record` names the block the report is kept under (the splits tool reuses this).
+export function arrange(graph, before, { record = 'roboticsCompletions' } = {}) {
   const arranged = arrangeVortex(graph, { recalculate: true });
   const used = arranged.nodes.map(n => n.skillLevel);
   if (arranged.levelModel) arranged.levelModel = { ...arranged.levelModel, usedRange: [Math.min(...used), Math.max(...used)] };
@@ -181,8 +182,8 @@ export function arrange(graph, before) {
     levelRangeBefore: [Math.min(...before.nodes.map(n => n.skillLevel)), Math.max(...before.nodes.map(n => n.skillLevel))],
     pinned: arranged.nodes.filter(n => n.pinned).length,
     existingSkills: { levelSame: same, levelUp: up, levelDown: down, largestLevelChange: biggest, positionChanged: moved },
-    newSkills: Object.fromEntries(arranged.roboticsCompletions.addedSkills.map(s => [s.runtimeId, arranged.nodes.find(n => n.id === s.runtimeId).skillLevel]))
+    newSkills: Object.fromEntries(arranged.nodes.filter(n => !was.has(n.id)).map(n => [n.id, n.skillLevel]))
   };
-  arranged.roboticsCompletions = { ...arranged.roboticsCompletions, levels: report };
+  arranged[record] = { ...arranged[record], levels: report };
   return { graph: arranged, report };
 }

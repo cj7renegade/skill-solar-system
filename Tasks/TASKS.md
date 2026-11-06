@@ -115,7 +115,8 @@ form), and list any existing skill a draft might duplicate.
   checked.
 - **Five decisions, D1–D5,** each with a recommendation.
 
-**Waiting for JC at Checkpoint A.**
+**Checkpoint A passed on 2026-11-05:** JC accepted D1–D5 as recommended. Recorded in
+`new-skills.json` (`status: APPROVED`).
 
 ## [ ] Task 3 — The structure tool
 **Do:** Write `authoring/splits/add-splits.mjs` (logic only) and `build-splits.mjs` (the command,
@@ -131,6 +132,21 @@ rather than copying them. The tool:
 
 **Check:** unit tests for each rule and gate (`tests/splits.test.mjs`). Write the result to
 `C:\sss-scratch\splits\`. Record how many skills changed level.
+**Result:** `authoring/splits/add-splits.mjs` and `build-splits.mjs`. They reuse the completions tool's
+gates, milestone recalculation and layout, plus one gate of their own: no new skill may have a
+planning id.
+- **Shared code:** the completions layout step now takes the name of the record it writes to. A
+  rebuild of the step-5 map from its base still gives identical bytes (`0c0619e9…`), and the
+  completions tests pass.
+- **The build PASSED every gate.** It has 1,955 skills and 5,783 connections (4,386 prerequisite, 187
+  supports, 1,210 related). The 308 answers and 306 lessons are unchanged, a rebuild gives identical
+  bytes, 0 skills are required, and no milestone list changed. The result is
+  `C:\sss-scratch\splits\Robotics-Atlas.json` (SHA-256 `7c418655…375892a`, 7.97 MB).
+- **Levels:** the new skills sit at levels 22–64. 1,852 existing skills kept their level and 68 moved
+  up, by at most 6; these are the skills after the 5 new prerequisites. 234 positions changed, and
+  the highest level is still 82.
+- `tests/splits.test.mjs`: 6 tests, all passing. All unit tests: 253 pass, 0 fail, 6 skipped. The
+  working map and the answer record are unchanged.
 
 ## [ ] Task 4 — Measure and report
 **Do:**
