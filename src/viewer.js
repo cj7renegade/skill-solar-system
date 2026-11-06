@@ -8,6 +8,7 @@ import { nameplateProjection, nameplateReadable } from './nameplates.js';
 import { createEnvironment } from './environment.js';
 import { spacingValue, displayPosition, storedPosition, spacingCameraShift } from './spacing.js';
 import { pulseIntensity, pulseWave, steadyIntensity, pulsingIds, PULSE_COLORS } from './pulse.js';
+import { isHelixMap, helixCourses, courseColors, matchesHelixFilters, activeFilters } from './helix.js';
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -23,6 +24,10 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const activation=createActivationTracker();
   const group = new THREE.Group(); scene.add(group);
   const sphere = new THREE.SphereGeometry(8,24,16);
+  // Helix maps only: milestones are larger octahedra on the axis, checkpoints smaller spheres.
+  const milestoneShape = new THREE.OctahedronGeometry(15);
+  const markerScale = (helix, n) => helix && n.nodeKind === 'checkpoint' ? 0.6 : 1;
+  let helixFilters = {};
   // Subject halos: a domain-coloured shell around each highlighted sphere (visible up close) and a
   // fixed-size ring (still visible at overview distance). They live outside the node group, so a
   // toggle never rebuilds the graph, and they are never raycast, so every sphere stays selectable.
@@ -133,7 +138,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   }, { passive:false });
   const getRay = event => { const r=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(pointer,camera);return ray; };
   function clear() {
-    for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
+    for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere && o.geometry!==milestoneShape)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
     stopPulse(); pulsing=[];
     labelHost.replaceChildren(); objects=[];labels=[];connections=[];reach=1000;navigationPoints=[];
   }
@@ -141,11 +146,13 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     clear(); if(!graph)return;
     const linked = new Set([selected]);
     for(const e of graph.edges)if(e.source===selected||e.target===selected){linked.add(e.source);linked.add(e.target);}
+    // Helix maps colour by course and can filter; a filtered-out skill is dimmed and unlabelled, never removed.
+    const helix=isHelixMap(graph),palette=helix?courseColors(helixCourses(graph)):null,filtering=helix&&activeFilters(helixFilters).length>0;
     for(const n of graph.nodes) {
-      const color=nodeColor(n,proficiencyOn);
-      const mesh = new THREE.Mesh(sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
-      mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;if(n.id===selected)mesh.scale.setScalar(1.35);group.add(mesh);objects.push(mesh);
-      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected});
+      const color=nodeColor(n,proficiencyOn,palette),dimmed=filtering&&n.id!==selected&&!matchesHelixFilters(graph,n,helixFilters);
+      const mesh = new THREE.Mesh(helix&&n.nodeKind==='milestone'?milestoneShape:sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:dimmed?.05:proficiencyOn||!selected||linked.has(n.id)?1:.23}));
+      mesh.position.fromArray(displayPosition(n.position,spacing));mesh.userData.id=n.id;mesh.scale.setScalar(markerScale(helix,n)*(n.id===selected?1.35:1));group.add(mesh);objects.push(mesh);
+      const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected,dimmed});
     }
     const positions=new Map(graph.nodes.map(n=>[n.id,new THREE.Vector3(...displayPosition(n.position,spacing))]));
     for(const e of visibleConnections(graph.edges,selected,selectedConnectionsOnly)) {
@@ -200,8 +207,8 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const cameraSpace=new THREE.Vector3();
     // Write the hidden flag only when it changes, so unchanged nameplates cost no DOM work.
     const hide=(el,value)=>{if(el.hidden!==value)el.hidden=value;};
-    for(const {el,mesh,isSelected}of labels){
-      if(!labelsOn){hide(el,true);continue;}
+    for(const {el,mesh,isSelected,dimmed}of labels){
+      if(!labelsOn||dimmed){hide(el,true);continue;}
       const depth=-cameraSpace.copy(mesh.position).applyMatrix4(camera.matrixWorldInverse).z;
       const plate=nameplateProjection(size.height,camera.projectionMatrix.elements[5],depth,mesh.scale.x);
       // Too small to read: hidden before any projection or style work (see nameplates.js).
@@ -250,7 +257,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const shift=new THREE.Vector3(...spacingCameraShift(controls.target.toArray(),spacing,next));
     spacing=next;camera.position.add(shift);controls.target.add(shift);
     updatePositions();controls.update();draw();
-  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},pan(horizontal,vertical,seconds){
+  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},filters(value){helixFilters={...value};rebuild();},pan(horizontal,vertical,seconds){
     stopFlight(true);camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();

@@ -1,4 +1,5 @@
 import { arrangeVortex } from './vortex.js';
+import { isHelixMap, helixCourses, courseColors, arrangeHelix, tierOf, matchesHelixFilters, activeFilters, levelLine } from './helix.js';
 import { DOMAINS, TYPES, LIMITS, clone, validate, normalize, arrange, removeNode, editedPosition, positionExplanation, placementSummary, LEVEL_NOTE, proficiencyLabel, nodeColor, PROFICIENCY_COLORS } from './model.js';
 import { spacingValue } from './spacing.js';
 import { findSkills } from './find.js';
@@ -101,7 +102,8 @@ function render(){
   $('counts').textContent=`${graph.nodes.length} subjects / ${graph.edges.length} connections`;
   $('dirty').textContent=dirty?'Local draft · save to file':'Saved to file';
   $('map-name').textContent=graph.title||'Untitled map';
-  $('layout-summary').textContent=graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
+  $('layout-help').textContent=isHelixMap(graph)?HELIX_LAYOUT_HELP:SPIRAL_LAYOUT_HELP;
+  $('layout-summary').textContent=isHelixMap(graph)?'Upward: helix level · Around: course · Proficiency is separate':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
   viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
@@ -110,7 +112,7 @@ function renderList(){
   const scrollTop=$('node-list').scrollTop;
   const query=$('search').value.trim().toLowerCase();$('node-list').replaceChildren();
   const nodes=graph.nodes.filter(n=>n.name.toLowerCase().includes(query)).sort((a,b)=>a.name.localeCompare(b.name));
-  for(const n of nodes){const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn);$('node-list').append(el('button',{class:'node-item'+(selected===n.id?' selected':''),onclick:event=>{const action=listActivation.click(n.id,event.clientX,event.clientY,performance.now());selected=n.id;render();viewer?.focus(n.id);if(action==='open'&&!editing)openDetails();}},dot,document.createTextNode(n.name)));}
+  for(const n of nodes){const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn,palette());$('node-list').append(el('button',{class:'node-item'+(selected===n.id?' selected':''),onclick:event=>{const action=listActivation.click(n.id,event.clientX,event.clientY,performance.now());selected=n.id;render();viewer?.focus(n.id);if(action==='open'&&!editing)openDetails();}},dot,document.createTextNode(n.name)));}
   if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No subjects found.'}));
   $('node-list').scrollTop=scrollTop;
 }
@@ -121,7 +123,7 @@ function inspect(){
   cardToggle.setAttribute('aria-expanded',String(panels.card));
   const body=el('div',{class:'inspector-body'});
   panel.classList.toggle('collapsed',!panels.card);
-  panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:n.domain+(n.skillLevel!=null?` · Level ${n.skillLevel}/100`:' · Level unassigned')}))),cardToggle),body);
+  panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,n,'Level',' · Level unassigned')}))),cardToggle),body);
   if(!editing){
     // A map that records one says whether this subject has an authored lesson, so the reader knows
     // what opening the card will show. It describes the content, never the reader's proficiency.
@@ -167,7 +169,7 @@ function renderFind(){
   matches=findSkills(graph.nodes,$('find-skill').value);
   if(!matches.length)results.append(el('p',{class:'caption',text:'No skills found.'}));
   matches.forEach((n,i)=>{
-    const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn);
+    const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn,palette());
     const option=el('button',{id:`find-option-${i}`,class:i===activeMatch?'active':'',onclick:()=>chooseMatch(i)},dot,document.createTextNode(n.name),el('span',{class:'find-domain',text:n.domain}));
     option.setAttribute('role','option');option.setAttribute('aria-selected',String(i===activeMatch));
     results.append(option);
@@ -228,8 +230,11 @@ async function travel(from,to,source){
 }
 $('undo').onclick=()=>travel(history,redo,'undo');
 $('redo').onclick=()=>travel(redo,history,'redo');
-$('vortex').onclick=()=>{if(confirm('Arrange an upward spiral? Unassigned levels are estimated from prerequisites; existing levels are raised if needed to stay above their prerequisites. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeVortex(next)),'Spiral arranged. Reference levels reconciled; pinned positions retained.');viewer?.fit();}};
-$('recalculate-vortex').onclick=()=>{if(confirm('Recalculate ALL reference levels from the recorded prerequisite graph and arrange a spiral? This replaces edited levels but keeps proficiency and pinned positions. Undo is available.')){change(next=>Object.assign(next,arrangeVortex(next,{recalculate:true})),'Reference levels recalculated and spiral arranged.');viewer?.fit();}};
+// On a helix map both arrange buttons rebuild the helix (src/helix.js) instead of the six-domain spiral,
+// whose 100-level scale cannot hold the helix's levels. Skill levels are not changed.
+const helixArrange=()=>{if(confirm('Arrange the helix again? Height comes from each skill\'s helix level (1 + 3 × its longest prerequisite chain) and angle from its course. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeHelix(next)),'Helix arranged. Pinned positions retained.');viewer?.fit();}};
+$('vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Arrange an upward spiral? Unassigned levels are estimated from prerequisites; existing levels are raised if needed to stay above their prerequisites. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeVortex(next)),'Spiral arranged. Reference levels reconciled; pinned positions retained.');viewer?.fit();}};
+$('recalculate-vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Recalculate ALL reference levels from the recorded prerequisite graph and arrange a spiral? This replaces edited levels but keeps proficiency and pinned positions. Undo is available.')){change(next=>Object.assign(next,arrangeVortex(next,{recalculate:true})),'Reference levels recalculated and spiral arranged.');viewer?.fit();}};
 $('arrange').onclick=()=>{if(confirm('Arrange unpinned nodes using strict prerequisites only? Supports links do not affect height. Undo restores your layout.'))change(next=>Object.assign(next,arrange(next)),'Dependency layout applied. Pinned nodes kept their positions.');};
 $('blank').onclick=()=>{if(editing&&confirm('Start an empty map? Save your current map first if you need a separate copy. Undo is available.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
 $('reset').onclick=()=>{if(editing&&confirm('Restore the starter map? Undo is available.')){replace(starter,'Starter restored.');loadRecord(graph);}};
@@ -274,8 +279,38 @@ function setSubjects(next){
   subjects=pruneSubjects(next,graph);viewer?.highlight(subjects);renderLegend();
   if(focused)$('legend').querySelector(`[data-subject="${focused}"]`)?.focus();
 }
+// The Map layout help: the page's own wording for the spiral, and the helix's on helix maps.
+const SPIRAL_LAYOUT_HELP=document.getElementById('layout-help').textContent;
+const HELIX_LAYOUT_HELP='Helix: each skill\'s height is its helix level (1 + 3 × its longest prerequisite chain), scaled so the top level sits where level 100 does on other maps. Each of the 16 courses winds upward in its own band; milestones sit on the axis. Levels are independent of proficiency. Pins keep their positions. Both arrange buttons rebuild the helix.';
+// Course colours on helix maps (src/helix.js); null elsewhere, so other maps keep their domain colours.
+function palette(){return isHelixMap(graph)?courseColors(helixCourses(graph)):null;}
+// Helix filters are display state only, like subject highlights: they dim non-matching skills and never
+// change the map, the selection or any answer. They reset when another map is opened.
+let helixFilters={},helixFilterMap=null;
+function setHelixFilter(key,value){helixFilters={...helixFilters,[key]:value};viewer?.filters(helixFilters);renderLegend();}
+function renderHelixLegend(legend){
+  if(helixFilterMap!==graph.title){helixFilters={};helixFilterMap=graph.title;viewer?.filters(helixFilters);}
+  const courses=helixCourses(graph),colors=courseColors(courses),count=test=>graph.nodes.filter(test).length;
+  const select=(key,label,choices)=>{const s=el('select',{id:`helix-filter-${key}`,ariaLabel:label,title:label,onchange:e=>setHelixFilter(key,e.target.value)},el('option',{value:'',text:`Any ${label.toLowerCase()}`}),...choices.map(([value,text])=>el('option',{value,text})));s.value=helixFilters[key]||'';return el('label',{class:'helix-filter'},document.createTextNode(label),s);};
+  legend.append(el('div',{class:'legend-heading',text:'Filter · dims other skills'}));
+  legend.append(select('course','Course',courses.map(([code,name])=>[code,`${name} (${count(n=>n.courseCode===code)})`])));
+  const stages=[...new Set(graph.nodes.map(n=>n.buildStage).filter(v=>v!=null))].sort((a,b)=>a-b),stageNames=graph.metadata?.humanoidHelixImport?.buildStages||{};
+  legend.append(select('stage','Build stage',[...stages.map(s=>[String(s),`${s} ${stageNames[s]||''}`.trim()]),['none','No stage (enrichment)']]));
+  legend.append(select('path','On humanoid path',[['true','Yes'],['false','No']]));
+  const tiers=[...new Set(graph.nodes.map(n=>tierOf(graph,n)).filter(Boolean))];
+  legend.append(select('tier','Level',tiers.map(tier=>[tier,`${tier} (${count(n=>tierOf(graph,n)===tier)})`])));
+  if(activeFilters(helixFilters).length){
+    const shown=count(n=>matchesHelixFilters(graph,n,helixFilters));
+    legend.append(el('div',{class:'edge-note',id:'helix-filter-count',text:`Showing ${shown} of ${graph.nodes.length} skills`}),el('button',{class:'legend-clear',id:'clear-helix-filters',text:'Clear filters',onclick:()=>{helixFilters={};viewer?.filters(helixFilters);renderLegend();}}));
+  }
+  legend.append(el('div',{class:'legend-heading',text:'Sphere colour · course'}));
+  for(const [code,name] of courses){const dot=el('span',{class:'dot'});dot.style.background=colors[code];legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(`${code} · ${name}`)));}
+  legend.append(el('div',{class:'edge-note',text:'Octahedron = milestone (on the axis) · small sphere = checkpoint'}));
+}
 function renderLegend(){
   const legend=$('legend');legend.replaceChildren();
+  legend.classList.toggle('helix-legend',isHelixMap(graph));
+  if(isHelixMap(graph))renderHelixLegend(legend);
   const counts=domainCounts(graph);
   legend.append(el('div',{class:'legend-heading',text:'Subjects · click to highlight'}));
   for(const [name,color]of Object.entries(DOMAINS)){
@@ -499,7 +534,7 @@ function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
-  body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:node.domain+(node.skillLevel!=null?` · Reference level ${node.skillLevel}/100`:' · Reference level unassigned')})));
+  body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,node,'Reference level',' · Reference level unassigned')})));
   // What content this entry has, then what is still missing even where a card exists. Both describe
   // the content only; neither says anything about the reader's proficiency.
   const status=contentStatusLine(node),pending=contentPendingLine(node);
