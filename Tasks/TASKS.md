@@ -148,6 +148,13 @@ lessons are 8: `K05`, `K06`, `K07`, `m-invtrig`, `m-inverse`, `p-work`, `P11` an
 the eight skills, their records verbatim from the Task 3 map, their direct prerequisites, and their
 contract fingerprints. Read-only.
 **Check:** every prerequisite outside the eight already has a lesson.
+**Result:** `authoring/robotics-v3/Edition07-Targets.json` (from `authoring/completions/extract-targets.mjs`,
+source `0c0619e9…`). It holds the 8 targets, each with its map record, the specification record it is
+checked against, its contract fingerprint and its direct prerequisites. **Check:** every V3
+prerequisite outside the eight has a lesson. Four master-only prerequisites have none
+(`sss-rob-planar-fk`, `sss-rob-tool-offset` of `K05`; `sss-rob-ik-verification` of `K06`;
+`sss-rob-planar-singularity` of `K07`). They are among the 23 JC left for step 7 (C1), so this is
+expected.
 
 ## [ ] Task 5 Ã¢â‚¬â€ Author Edition 07
 **Do (as JC chose at Checkpoint A):** Write

@@ -1,0 +1,993 @@
+{
+  "extracted": "2026-11-06",
+  "purpose": "The eight Edition 07 lesson targets approved at Checkpoint A (C1 (a)), extracted verbatim for authoring. Read-only: nothing in the map was changed.",
+  "source": {
+    "file": "C:\\sss-scratch\\completions\\Robotics-Atlas-structure.json",
+    "sha256": "0c0619e9a0b2d5db10bd9c9baeaa48785a4555081f1edbd843b3ec2be62ddd1e",
+    "title": "HelixSkill — Robotics Atlas (master + Robotics V3)",
+    "nodes": 1920,
+    "edges": 5714,
+    "datasetKey": "robotics-atlas-merged",
+    "atlasFamily": "sss-robotics-foundations-2026-09"
+  },
+  "note": "Each `node` is the complete map record, verbatim. `specification` is the record the lesson is checked against: V3's reviewed specification, or the approved extension (scope/completions/new-skills.json) for P11 and A12. A lesson must copy its `requires` and carry `nodeContractSha256` as `node_contract_sha256`. `directPrerequisites` lists the map's immediate prerequisite edges, which on the merged atlas include master skills and decision-10 links the specification does not list.",
+  "check": {
+    "v3PrerequisitesWithoutLesson": [],
+    "masterOnlyPrerequisitesWithoutLesson": [
+      "sss-rob-planar-fk (of K05)",
+      "sss-rob-tool-offset (of K05)",
+      "sss-rob-ik-verification (of K06)",
+      "sss-rob-planar-singularity (of K07)"
+    ]
+  },
+  "targetCount": 8,
+  "targets": [
+    {
+      "planningId": "m-inverse",
+      "runtimeId": "m-inverse",
+      "nodeContractSha256": "4494d052544c44c247d1c07dec15548202a60ce537fe6907c5dc71545ea5980d",
+      "node": {
+        "id": "m-inverse",
+        "name": "Inverse functions",
+        "domain": "Mathematics",
+        "subdomain": "Algebra and functions",
+        "description": "Reverse a one-to-one mapping and restrict the domain when needed.",
+        "details": "An inverse function undoes another function: if f sends 2 to 7, then f⁻¹ sends 7 back to 2. For f(x) = 2x + 3, solve y = 2x + 3 for x to get x = (y − 3)/2, then rename the variable: f⁻¹(x) = (x − 3)/2. Checking that f(f⁻¹(x)) = x and f⁻¹(f(x)) = x confirms the result. The notation f⁻¹(x) means the inverse function, not 1/f(x).\n\nOnly one-to-one functions have inverses, because each output must trace back to a single input. A graph is one-to-one when no horizontal line meets it twice. f(x) = x² fails, since both 3 and −3 give 9, but restricting its domain to x ≥ 0 makes it one-to-one with inverse √x. The domain and range trade places between a function and its inverse, and the graph of f⁻¹ is the mirror image of f in the line y = x. Logarithms arise exactly this way, as inverses of exponential functions.",
+        "position": [
+          -465.112,
+          1344,
+          280.272
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 25/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 8. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA1",
+          "MA2"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 44
+        },
+        "skillLevel": 22,
+        "previousPlacementNote": "Placed in the Algebra and functions branch of Mathematics. It follows Functions, domains, and ranges, Linear equations in one unknown. Its saved height is 76 × prerequisite depth 8; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-inverse",
+        "nodeKind": "foundation",
+        "feedsMilestones": [
+          "I02",
+          "I04",
+          "I05"
+        ],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-inverse",
+        "branch": "Mathematics",
+        "name": "Inverse functions",
+        "requires": [
+          "m-function",
+          "m-equation"
+        ],
+        "demonstration": "Reverse a one-to-one mapping and restrict the domain when needed.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-inverse",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 7,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Reverse a one-to-one mapping and restrict the domain when needed.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Inverse functions",
+          "completion_evidence": "Reverse a one-to-one mapping and restrict the domain when needed.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-inverse",
+          "source_candidate_id": "m-inverse",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "An inverse function undoes another function: if f sends 2 to 7, then f⁻¹ sends 7 back to 2. For f(x) = 2x + 3, solve y = 2x + 3 for x to get x = (y − 3)/2, then rename the variable: f⁻¹(x) = (x − 3)/2. Checking that f(f⁻¹(x)) = x and f⁻¹(f(x)) = x confirms the result. The notation f⁻¹(x) means the inverse function, not 1/f(x).\n\nOnly one-to-one functions have inverses, because each output must trace back to a single input. A graph is one-to-one when no horizontal line meets it twice. f(x) = x² fails, since both 3 and −3 give 9, but restricting its domain to x ≥ 0 makes it one-to-one with inverse √x. The domain and range trade places between a function and its inverse, and the graph of f⁻¹ is the mirror image of f in the line y = x. Logarithms arise exactly this way, as inverses of exponential functions.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "m-equation",
+          "planningId": "m-equation",
+          "name": "Linear equations in one unknown",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "m-function",
+          "planningId": "m-function",
+          "name": "Functions, domains, and ranges",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-invtrig",
+      "runtimeId": "m-invtrig",
+      "nodeContractSha256": "95ec1f1d0f4f501e837507075db5f3683a4c3fda71354378d4c7b968a3d35f86",
+      "node": {
+        "id": "m-invtrig",
+        "name": "Inverse trigonometry and quadrants",
+        "domain": "Mathematics",
+        "subdomain": "Geometry and trigonometry",
+        "description": "Recover angles from ratios and resolve the quadrant ambiguity using both components.",
+        "details": "Inverse trigonometric functions run the trigonometric ratios backwards, turning a ratio into an angle. Because sine, cosine, and tangent repeat, each inverse returns only a principal value from a restricted range: arcsin gives angles from −90° to 90°, arccos from 0° to 180°, and arctan strictly between −90° and 90°. Other valid angles must be found using symmetry and the quadrant.\n\nFor example, arcsin(0.5) = 30°, but 150° also has sine 0.5. Direction problems show why quadrants matter. A vector with components x = −3 and y = −3 has tan θ = 1, and arctan(1) = 45°, yet the vector points into the third quadrant, so its direction is 225°. Using the signs of both components, as the two-argument function atan2(y, x) does in most programming languages, resolves this. Note that arcsin and arccos only accept inputs from −1 to 1. This skill is the gateway to solving trigonometric equations.",
+        "position": [
+          -1024.913,
+          1728,
+          -300.942
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "triangle",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 28/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 9. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA1",
+          "MA2",
+          "MA3"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 62
+        },
+        "skillLevel": 28,
+        "previousPlacementNote": "Placed in the Geometry and trigonometry branch of Mathematics. It follows Right-triangle trigonometry, Inverse functions. Its saved height is 76 × prerequisite depth 9; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-invtrig",
+        "nodeKind": "foundation",
+        "feedsMilestones": [
+          "I02",
+          "I04",
+          "I05"
+        ],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-invtrig",
+        "branch": "Mathematics",
+        "name": "Inverse trigonometry and quadrants",
+        "requires": [
+          "m-trig",
+          "m-inverse"
+        ],
+        "demonstration": "Recover angles from ratios and resolve the quadrant ambiguity using both components.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-invtrig",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 9,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Recover angles from ratios and resolve the quadrant ambiguity using both components.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Inverse trigonometry and quadrants",
+          "completion_evidence": "Recover angles from ratios and resolve the quadrant ambiguity using both components.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-invtrig",
+          "source_candidate_id": "m-invtrig",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "Inverse trigonometric functions run the trigonometric ratios backwards, turning a ratio into an angle. Because sine, cosine, and tangent repeat, each inverse returns only a principal value from a restricted range: arcsin gives angles from −90° to 90°, arccos from 0° to 180°, and arctan strictly between −90° and 90°. Other valid angles must be found using symmetry and the quadrant.\n\nFor example, arcsin(0.5) = 30°, but 150° also has sine 0.5. Direction problems show why quadrants matter. A vector with components x = −3 and y = −3 has tan θ = 1, and arctan(1) = 45°, yet the vector points into the third quadrant, so its direction is 225°. Using the signs of both components, as the two-argument function atan2(y, x) does in most programming languages, resolves this. Note that arcsin and arccos only accept inputs from −1 to 1. This skill is the gateway to solving trigonometric equations.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "m-inverse",
+          "planningId": "m-inverse",
+          "name": "Inverse functions",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        },
+        {
+          "id": "m-trig",
+          "planningId": "m-trig",
+          "name": "Right-triangle trigonometry",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "p-work",
+      "runtimeId": "p-work",
+      "nodeContractSha256": "7fad42fbbbeb9cac37564a3aef883df8ebf903dab4e0631359e41931eb18dcce",
+      "node": {
+        "id": "p-work",
+        "name": "Work by a constant force",
+        "domain": "Physics",
+        "subdomain": "Translational mechanics",
+        "description": "Calculate energy transfer through the component of force along displacement.",
+        "details": "A constant force does work W = F·d·cos θ on an object, where d is the displacement and θ is the angle between the force and the displacement. This is the same as the dot product F · d. The unit is the joule, 1 J = 1 N·m. Only the component of force along the motion counts. A 20 N pull at 60° above the direction of travel, over 3 m, does 20 × 3 × cos 60° = 30 J.\n\nThe sign of work tells you which way energy flows. Work is positive when the force has a component along the motion, and negative when it opposes the motion, as kinetic friction does on a sliding block. Work is zero when the force is perpendicular to the motion. For example, the normal force does no work on a cart rolling across level ground, and the inward force in circular motion changes direction without changing speed. Work is the bridge to kinetic and potential energy, and dividing it by time gives power.",
+        "position": [
+          573.205,
+          2112,
+          -488.822
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "motion",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 34/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 11. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "PG1"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "physics.txt",
+          "line": 30
+        },
+        "skillLevel": 34,
+        "previousPlacementNote": "Placed in the Translational mechanics branch of Physics. It follows Newton's second law in components, Dot products and projection. Its saved height is 76 × prerequisite depth 11; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "p-work",
+        "nodeKind": "foundation",
+        "feedsMilestones": [
+          "I01",
+          "I02",
+          "I03",
+          "I04",
+          "I05"
+        ],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "calculation and explanation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "p-work",
+        "branch": "Physics",
+        "name": "Work by a constant force",
+        "requires": [
+          "p-newton",
+          "m-dot"
+        ],
+        "demonstration": "Calculate energy transfer through the component of force along displacement.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "p-work",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 11,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "calculation and explanation",
+          "task": "Calculate energy transfer through the component of force along displacement.",
+          "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+          "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Work by a constant force",
+          "completion_evidence": "Calculate energy transfer through the component of force along displacement.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:p-work",
+          "source_candidate_id": "p-work",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "A constant force does work W = F·d·cos θ on an object, where d is the displacement and θ is the angle between the force and the displacement. This is the same as the dot product F · d. The unit is the joule, 1 J = 1 N·m. Only the component of force along the motion counts. A 20 N pull at 60° above the direction of travel, over 3 m, does 20 × 3 × cos 60° = 30 J.\n\nThe sign of work tells you which way energy flows. Work is positive when the force has a component along the motion, and negative when it opposes the motion, as kinetic friction does on a sliding block. Work is zero when the force is perpendicular to the motion. For example, the normal force does no work on a cart rolling across level ground, and the inward force in circular motion changes direction without changing speed. Work is the bridge to kinetic and potential energy, and dividing it by time gives power.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "m-dot",
+          "planningId": "m-dot",
+          "name": "Dot products and projection",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "p-newton",
+          "planningId": "p-newton",
+          "name": "Newton's second law in components",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "K05",
+      "runtimeId": "rob3:K05",
+      "nodeContractSha256": "efbf1c964ed250ddf8292d672942af805a1d6b0d7a383380ab5ffb9d339d8c44",
+      "node": {
+        "id": "rob3:K05",
+        "name": "Solve planar two-link forward kinematics",
+        "domain": "Robotics",
+        "subdomain": "Robot geometry and kinematics",
+        "nodeKind": "outcome",
+        "description": "Solve planar two-link forward kinematics",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Solve planar two-link forward kinematics\nCompletion evidence: Calculate tool pose with a fixed offset and verify known configurations.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: written calculation\nTask: Calculate tool pose with a fixed offset and verify known configurations.\nCases required: A routine example, a changed-value transfer example and a domain/invalid-input counterexample.\nAcceptance: Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): sss-rob-planar-fk, sss-rob-tool-offset",
+        "position": [
+          -620.508,
+          2304,
+          -114.088
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Robot geometry and kinematics branch, core tier, supporting depth or advanced extension.",
+        "planningId": "K05",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [
+          "I02",
+          "I04",
+          "I05"
+        ],
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 37,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "K05",
+        "branch": "Robot geometry and kinematics",
+        "name": "Solve planar two-link forward kinematics",
+        "requires": [
+          "K03",
+          "K04",
+          "m-unitcircle"
+        ],
+        "demonstration": "Calculate tool pose with a fixed offset and verify known configurations.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "sss-rob-planar-fk",
+          "sss-rob-tool-offset"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 11,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Calculate tool pose with a fixed offset and verify known configurations.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Solve planar two-link forward kinematics",
+          "completion_evidence": "Calculate tool pose with a fixed offset and verify known configurations.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "revised",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:K05",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "m-unitcircle",
+          "planningId": "m-unitcircle",
+          "name": "Unit-circle trigonometry",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:K03",
+          "planningId": "K03",
+          "name": "Apply, compose and invert rigid transforms",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:K04",
+          "planningId": "K04",
+          "name": "Distinguish configuration, workspace and constraints",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "sss-rob-planar-fk",
+          "planningId": null,
+          "name": "Calculate position and orientation of an ideal two-revolute-link planar arm",
+          "contentStatus": "master-only skill, no lesson",
+          "inThisSet": false
+        },
+        {
+          "id": "sss-rob-tool-offset",
+          "planningId": null,
+          "name": "Include a fixed tool offset after the final link transform",
+          "contentStatus": "master-only skill, no lesson",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "K06",
+      "runtimeId": "rob3:K06",
+      "nodeContractSha256": "8467cd371673ea8d56d5c9b18beca8a165e53ce41211655f9aeb74f32ca6f14e",
+      "node": {
+        "id": "rob3:K06",
+        "name": "Solve and verify planar inverse kinematics",
+        "domain": "Robotics",
+        "subdomain": "Robot geometry and kinematics",
+        "nodeKind": "outcome",
+        "description": "Solve and verify planar inverse kinematics",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Solve and verify planar inverse kinematics\nCompletion evidence: Check reach, compute both regular branches and verify pose and joint limits; handle boundary cases explicitly.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: written calculation\nTask: Check reach, compute both regular branches and verify pose and joint limits; handle boundary cases explicitly.\nCases required: A routine example, a changed-value transfer example and a domain/invalid-input counterexample.\nAcceptance: Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): sss-rob-planar-reach, sss-rob-planar-ik, sss-rob-ik-verification",
+        "position": [
+          -371.618,
+          2496,
+          -531.444
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Robot geometry and kinematics branch, core tier, supporting depth or advanced extension.",
+        "planningId": "K06",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [
+          "I02",
+          "I04",
+          "I05"
+        ],
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 40,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "K06",
+        "branch": "Robot geometry and kinematics",
+        "name": "Solve and verify planar inverse kinematics",
+        "requires": [
+          "K05",
+          "m-invtrig"
+        ],
+        "demonstration": "Check reach, compute both regular branches and verify pose and joint limits; handle boundary cases explicitly.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "sss-rob-planar-reach",
+          "sss-rob-planar-ik",
+          "sss-rob-ik-verification"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 12,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Check reach, compute both regular branches and verify pose and joint limits; handle boundary cases explicitly.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Solve and verify planar inverse kinematics",
+          "completion_evidence": "Check reach, compute both regular branches and verify pose and joint limits; handle boundary cases explicitly.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:K06",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "m-invtrig",
+          "planningId": "m-invtrig",
+          "name": "Inverse trigonometry and quadrants",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        },
+        {
+          "id": "rob3:K05",
+          "planningId": "K05",
+          "name": "Solve planar two-link forward kinematics",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        },
+        {
+          "id": "sss-rob-ik-verification",
+          "planningId": null,
+          "name": "Verify an inverse-kinematic candidate by forward substitution and joint limits",
+          "contentStatus": "master-only skill, no lesson",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "K07",
+      "runtimeId": "rob3:K07",
+      "nodeContractSha256": "a58019cf44915e5d1034850854d6bf27cf2e8e6759091c13fbd09bc8b0f6f57f",
+      "node": {
+        "id": "rob3:K07",
+        "name": "Calculate and test a planar Jacobian",
+        "domain": "Robotics",
+        "subdomain": "Robot geometry and kinematics",
+        "nodeKind": "outcome",
+        "description": "Calculate and test a planar Jacobian",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Calculate and test a planar Jacobian\nCompletion evidence: Compare Jacobian velocity with finite differences and explain a singular configuration.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: written calculation\nTask: Compare Jacobian velocity with finite differences and explain a singular configuration.\nCases required: A routine example, a changed-value transfer example and a domain/invalid-input counterexample.\nAcceptance: Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): sss-rob-position-jacobian, sss-rob-joint-to-tip-rate, sss-rob-planar-singularity",
+        "position": [
+          681.748,
+          3456,
+          -278.3
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Robot geometry and kinematics branch, core tier, supporting depth or advanced extension.",
+        "planningId": "K07",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [
+          "I02",
+          "I04",
+          "I05"
+        ],
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 55,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "K07",
+        "branch": "Robot geometry and kinematics",
+        "name": "Calculate and test a planar Jacobian",
+        "requires": [
+          "K05",
+          "m-partial",
+          "R-M03",
+          "R-M02"
+        ],
+        "demonstration": "Compare Jacobian velocity with finite differences and explain a singular configuration.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "sss-rob-position-jacobian",
+          "sss-rob-joint-to-tip-rate",
+          "sss-rob-planar-singularity"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 15,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Compare Jacobian velocity with finite differences and explain a singular configuration.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Calculate and test a planar Jacobian",
+          "completion_evidence": "Compare Jacobian velocity with finite differences and explain a singular configuration.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "revised",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:K07",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "m-partial",
+          "planningId": "m-partial",
+          "name": "Partial derivatives",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:K05",
+          "planningId": "K05",
+          "name": "Solve planar two-link forward kinematics",
+          "contentStatus": "introductory lesson pending",
+          "inThisSet": true
+        },
+        {
+          "id": "rob3:R-M02",
+          "planningId": "R-M02",
+          "name": "Compute sampled rates and accumulated changes",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:R-M03",
+          "planningId": "R-M03",
+          "name": "Differentiate trigonometric rotation expressions",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "sss-rob-planar-singularity",
+          "planningId": null,
+          "name": "Identify lost instantaneous motion directions at a planar arm singularity",
+          "contentStatus": "master-only skill, no lesson",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "P11",
+      "runtimeId": "rob3:P11",
+      "nodeContractSha256": "da75782b107983d69cf5dc70266c3253e8d3bd7d3309f6a2e692ccc0ae686308",
+      "node": {
+        "id": "rob3:P11",
+        "name": "Detect an inconsistent measurement innovation",
+        "domain": "Robotics",
+        "subdomain": "Sensing, calibration and estimation",
+        "nodeKind": "outcome",
+        "description": "Detect an inconsistent measurement innovation",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Detect an inconsistent measurement innovation\nCompletion evidence: For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: written calculation\nTask: For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.\nCases required: A routine example, a changed-value transfer example and a domain/invalid-input counterexample.\nAcceptance: Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: New outcome; no source skill.",
+        "position": [
+          841.446,
+          3840,
+          -10.815
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Sensing, calibration and estimation branch, core tier, core endpoint path. Feeds I03, I04, I05.",
+        "planningId": "P11",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "core endpoint path",
+        "feedsMilestones": [
+          "I03",
+          "I04",
+          "I05"
+        ],
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "scope R6 split of P09, completions edition 07",
+        "contentStatus": "introductory lesson pending",
+        "skillLevel": 61
+      },
+      "specification": {
+        "id": "P11",
+        "branch": "Sensing, calibration and estimation",
+        "name": "Detect an inconsistent measurement innovation",
+        "requires": [
+          "P08"
+        ],
+        "demonstration": "For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.",
+        "kind": "outcome",
+        "origin": "scope R6 split of P09, completions edition 07",
+        "tier": "core",
+        "existing_candidates": [],
+        "proficiency80": null,
+        "migration": "New outcome; no source skill.",
+        "dependency_depth": 15,
+        "path_role": "core endpoint path",
+        "feeds_milestones": [
+          "I03",
+          "I04",
+          "I05"
+        ],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Detect an inconsistent measurement innovation",
+          "completion_evidence": "For a stated linear Gaussian filter, compute each measurement's innovation and innovation covariance, form the normalized innovation squared, and compare it with a chi-square gate fixed in advance from the measurement dimension and a stated false-alarm rate; classify a synthetic sequence that includes injected outliers, and explain why a rejected measurement alone does not distinguish a sensor fault from a wrong noise or motion model.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "drafted in completions Task 2; awaiting JC at Checkpoint A",
+          "decision": "proposed",
+          "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 07."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:P11",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "sss-robotics-foundations-2026-09",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:P08",
+          "planningId": "P08",
+          "name": "Implement a state estimator",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "A12",
+      "runtimeId": "rob3:A12",
+      "nodeContractSha256": "bd15bcdba3501a79c1d93e9e2c6cf69f88c59543e0383daa74bc5bf6114f84ad",
+      "node": {
+        "id": "rob3:A12",
+        "name": "Distinguish coupling misalignment from backlash",
+        "domain": "Robotics",
+        "subdomain": "Actuation and transmissions",
+        "nodeKind": "outcome",
+        "description": "Distinguish coupling misalignment from backlash",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Distinguish coupling misalignment from backlash\nCompletion evidence: Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence, coupling selection or alignment procedure, or untested hardware.\nAssessment mode: calculation and explanation\nTask: Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.\nCases required: A labeled physical scenario, a changed-condition case and a limiting case.\nAcceptance: State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: New outcome; no source skill.",
+        "position": [
+          709.792,
+          3648,
+          -254.206
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Actuation and transmissions branch, core tier, supporting depth or advanced extension.",
+        "planningId": "A12",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "calculation and explanation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "scope R12 gap, completions edition 07",
+        "contentStatus": "introductory lesson pending",
+        "skillLevel": 58
+      },
+      "specification": {
+        "id": "A12",
+        "branch": "Actuation and transmissions",
+        "name": "Distinguish coupling misalignment from backlash",
+        "requires": [
+          "A09",
+          "D08"
+        ],
+        "demonstration": "Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.",
+        "kind": "outcome",
+        "origin": "scope R12 gap, completions edition 07",
+        "tier": "core",
+        "existing_candidates": [],
+        "proficiency80": null,
+        "migration": "New outcome; no source skill.",
+        "dependency_depth": 15,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "calculation and explanation",
+          "task": "Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.",
+          "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+          "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Distinguish coupling misalignment from backlash",
+          "completion_evidence": "Given a motor, coupling and output shaft with stated measurements of output angle against input angle over full revolutions and at direction reversals, plus shaft-support load or vibration readings, attribute the error to backlash (a dead band at reversal, independent of shaft angle), misalignment (an error and radial load that repeat once or twice per revolution, with no dead band) or both; name the measurement that would separate them when the data cannot.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence, coupling selection or alignment procedure, or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "drafted in completions Task 2; awaiting JC at Checkpoint A",
+          "decision": "proposed",
+          "limits": "Not independent expert verification; the lesson and reference exercises are authored in Edition 07."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:A12",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "sss-robotics-foundations-2026-09",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "directPrerequisites": [
+        {
+          "id": "rob3:A09",
+          "planningId": "A09",
+          "name": "Measure backlash and compliance",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        },
+        {
+          "id": "rob3:D08",
+          "planningId": "D08",
+          "name": "Select bearings and shaft supports",
+          "contentStatus": "introductory lesson authored",
+          "inThisSet": false
+        }
+      ]
+    }
+  ]
+}
