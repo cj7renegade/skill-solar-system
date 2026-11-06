@@ -1,7 +1,7 @@
 # TASKS — HelixSkill — Core lessons (step 7)
 
 Step 7 of `reports/scope/07-checkpoint.md` §2: introductory lessons for every required skill. JC
-asked for it on 2026-11-05 ("Let's queue up step 7"). **Part 1 done: Checkpoint B1 passed on 2026-11-05 and merged. Part 2 not started.**
+asked for it on 2026-11-05 ("Let's queue up step 7"). **Done: both parts finished, Checkpoints B1 and B2 passed on 2026-11-05.**
 
 The queue has **two parts**, one edition each, and each part ends with its own Checkpoint B and pull
 request. JC reads about twenty lessons at a time rather than forty-four at once, and the working map
@@ -234,11 +234,31 @@ local `main`.
 their specification records and contract fingerprints, and their prerequisites' lessons. Write
 `Edition09-Targets.json`.
 **STOP if:** a Group B prerequisite outside the 21 has no lesson.
+**Result:**
+- Working map `e91a4292…` (the Edition 08 map). The answer record is unchanged.
+- Group B is the 21 entries, none answered, all with V3 specification records.
+- **Every prerequisite outside the 21 has a lesson**, so there is no STOP. Eight entries depend on others
+  in the group, so the lessons run in dependency order.
+- `authoring/lessons/edition-09/Edition09-Targets.json` is written by the build (Task 9). It holds each
+  entry's map record, specification, contract fingerprint and prerequisites.
 
 ## [ ] Task 9 — Write Edition 09
 **Do:** The same package layout and checks as Edition 08, for the 21 Group B entries, against V3's
 reviewed specification. Backup first.
 **Check:** `check_package.py` passes; the lab results are recorded.
+**Result:**
+- **Backup:** `%OneDrive%\HelixSkill Backups\2026-11-05_211412` (every file verified; the app was closed).
+- **Package:** sources in `authoring/lessons/edition-09/`. `authoring/lessons/build-edition09.mjs`
+  copies every specification-decided field from V3's reviewed specification, and assembles
+  `packages/core-lessons-learning-edition-09/`.
+- **21 lessons, all saying no real-hardware evidence is needed** (E4). The four entries assessed as
+  *circuit analysis or supervised measurement* (`e-sampling`, `e-adc`, `e-calibration`, `e-imu`) follow
+  24 of the 30 earlier cards in that mode. The five runnable-code entries (`C06`–`C09`, `N09`) are taught
+  through small simulations that the lab runs.
+- **`check_package.py`: 68 checks passed.** They cover fingerprints, counts, field order, evidence
+  fields, contracts, the core (351 skills; without a card, exactly the 21 and `r-singular`) and every
+  number and simulation in the text.
+- **For JC to read at Checkpoint B2:** `authoring/lessons/edition-09/Core-Learning-Edition-09.md`.
 
 ## [ ] Task 10 — Import, measure and report Part 2
 **Do:**
@@ -249,9 +269,34 @@ reviewed specification. Backup first.
 - Update `docs/PLATFORM.md` and `docs/SCOPE.md`.
 
 **STOP (Checkpoint B2):** JC reads the 21 lessons, opens the finished map and says go or no-go.
+**Result:** `reports/lessons/03-edition09-results.md`.
+- **Importer:** Edition 09 is an optional input applied after Edition 08; its expected counts are
+  327 V3 + 23 master-skill lessons.
+- **Import** into `C:\sss-scratch\lessons\Robotics-Atlas-09.json` (`1212ad46…714b452`) passed: 21 gained,
+  329 unchanged, 0 conflicts, 0 existing lessons or cards changed, and a re-run touches nothing.
+- **Every core skill has a card except `r-singular` (350 of 351).**
+- **Tests:** unit 260 pass, 0 fail, 6 skipped. New e2e `tests/core-lessons-09-e2e.mjs`: 11 checks pass.
+  Full e2e suite with every map: 807 checks pass, 0 fail.
+- **Docs:** `src/lesson.js` names the edition. `docs/PLATFORM.md` has a new §9.1e, and
+  `docs/SCOPE.md` has a change-log entry.
+- **Display issue noted, not changed:** the "Physical work" demonstration line for the
+  supervised-measurement mode. It goes with JC's evidence-card review.
+
+**Passed:** JC opened the finished map and said **go** on 2026-11-05.
 
 ## [ ] Task 11 — Make it the working map, then merge Part 2
 **Do (only after JC's go):** as Task 7.
+**Result (2026-11-05, after JC's "Go"):**
+- **Backed up:** `Maps/Backups/2026-11-05-before-edition09/Robotics-Atlas.json`, which matches the Edition
+  08 map (`e91a4292…`).
+- **Replaced:** `Maps/Robotics-Atlas.json` is now `1212ad46…714b452`.
+- **Check passed:** the old maps and the answer record are unchanged. The app was closed.
+- The importer's default dry run passes (327 V3 + 23 master-skill lessons, nothing to change, I05
+  328/328). The e2e checks pass on the new working map: Edition 09 11, Edition 08 11, splits 10,
+  merged atlas 12.
+- **One test changed:** in `tests/completions.test.mjs`, the wording check used `P07` and `A11` as
+  pending entries, and both now have lessons. It now reads them from the map the step-5 skills were
+  approved against. Unit tests: 260 pass, 0 fail, 6 skipped.
 
 ---
 

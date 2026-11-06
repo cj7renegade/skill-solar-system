@@ -149,6 +149,7 @@ JC accepted the recommendation on each. The evidence is in `reports/scope/05-dec
 | 2026-11-05 | Checkpoint B passed: the merged atlas is the working map, `Maps/Robotics-Atlas.json` | JC (go); Claude Code (status update) |
 | 2026-11-05 | Robotics completions: R6 gains `P11` (the innovation-check split) and R12 gains `A12` (coupling misalignment versus backlash), both approved at the completions' Checkpoint A; Edition 07 gives the six lessonless V3 entries in the I05 chain their cards. Checkpoint B passed: the finished map is the working map | JC (approval and go); Claude Code (status update) |
 | 2026-11-05 | Foundation splits (step 6): 35 new skills cover every split and new-skill candidate in physics, electronics, mechanics and computing; C6's asymmetric-cost candidate is recorded as already covered by `c-classification`. All 35 are optional (D1–D5 in `reports/splits/01-new-skills.md`). Checkpoint B passed: the finished map is the working map | JC (approval and go); Claude Code (status update) |
+| 2026-11-05 | Core lessons (step 7): Editions 08 and 09 give every core skill an introductory lesson (350 of 351; `r-singular` stays orientation, Q6). Edition 08 covers the 23 master-only skills on the I05 path, against specifications JC approved (E1–E5); Edition 09 covers the 21 V3 entries of the core off the I05 path. Both are in the working map (Checkpoints B1 and B2 passed) | JC (approval and go); Claude Code (status update) |
 
 ## 7. Branch map
 

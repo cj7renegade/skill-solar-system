@@ -1,0 +1,2444 @@
+{
+  "extracted": "2026-11-05",
+  "purpose": "The 21 V3 entries on the core robotics paths, outside the I05 path, that Edition 09 gives a lesson (step 7, Part 2).",
+  "source": {
+    "file": "Maps/Robotics-Atlas.json",
+    "sha256": "e91a4292a940351b88ef08ccdb3adf2fcbc138fc92f221dd421c4056f772f81e",
+    "nodes": 1955,
+    "edges": 5783,
+    "datasetKey": "robotics-atlas-merged",
+    "atlasFamily": "sss-robotics-foundations-2026-09"
+  },
+  "targetCount": 21,
+  "targets": [
+    {
+      "planningId": "m-random",
+      "runtimeId": "m-random",
+      "node": {
+        "id": "m-random",
+        "name": "Random variables and distributions",
+        "domain": "Mathematics",
+        "subdomain": "Probability and statistics",
+        "description": "Map outcomes to numerical values and describe their mass or cumulative distribution.",
+        "details": "A random variable assigns a number to each outcome of a random experiment, such as the number of heads in three coin flips, which can be 0, 1, 2, or 3. For a discrete random variable, the probability mass function lists P(X = x) for each possible value; for three fair flips these are 1/8, 3/8, 3/8, and 1/8, which must sum to 1.\n\nThe cumulative distribution function F(x) = P(X ≤ x) accumulates those probabilities, so here F(1) = 1/8 + 3/8 = 1/2. Distributions let you answer questions about ranges of values, and they are the basis for expected value, variance, and named models such as the binomial, geometric, and Poisson distributions. Continuous random variables, such as a measured length, need densities instead of probabilities for individual values.",
+        "position": [
+          -1120.867,
+          1152,
+          649.507
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "calculator",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 22/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 7. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MAPS"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 154
+        },
+        "skillLevel": 19,
+        "previousPlacementNote": "Placed in the Probability and statistics branch of Mathematics. It follows Probability rules, Functions, domains, and ranges. Its saved height is 76 × prerequisite depth 7; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-random",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-random",
+        "branch": "Mathematics",
+        "name": "Random variables and distributions",
+        "requires": [
+          "m-prob",
+          "m-function"
+        ],
+        "demonstration": "Map outcomes to numerical values and describe their mass or cumulative distribution.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-random",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 6,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Map outcomes to numerical values and describe their mass or cumulative distribution.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Random variables and distributions",
+          "completion_evidence": "Map outcomes to numerical values and describe their mass or cumulative distribution.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-random",
+          "source_candidate_id": "m-random",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "A random variable assigns a number to each outcome of a random experiment, such as the number of heads in three coin flips, which can be 0, 1, 2, or 3. For a discrete random variable, the probability mass function lists P(X = x) for each possible value; for three fair flips these are 1/8, 3/8, 3/8, and 1/8, which must sum to 1.\n\nThe cumulative distribution function F(x) = P(X ≤ x) accumulates those probabilities, so here F(1) = 1/8 + 3/8 = 1/2. Distributions let you answer questions about ranges of values, and they are the basis for expected value, variance, and named models such as the binomial, geometric, and Poisson distributions. Continuous random variables, such as a measured length, need densities instead of probabilities for individual values.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "60de0586c832c252a53f27383f2a138ab41876b001baed4a51155cf6af2d08c5",
+      "directPrerequisites": [
+        {
+          "planningId": "m-prob",
+          "id": "m-prob",
+          "name": "Probability rules",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-function",
+          "id": "m-function",
+          "name": "Functions, domains, and ranges",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "p-wave",
+      "runtimeId": "p-wave",
+      "node": {
+        "id": "p-wave",
+        "name": "Wave speed, frequency, and wavelength",
+        "domain": "Physics",
+        "subdomain": "Fields, waves, and light",
+        "description": "Use v = fλ to link how fast a wave travels, how often it oscillates, and the spacing of its crests.",
+        "details": "A wave is a disturbance that travels, while each bit of the medium only oscillates about its resting position. Frequency f is the number of oscillations per second (hertz), period T = 1/f is the time for one oscillation, and wavelength λ is the distance between neighbouring crests. Because a wave advances one wavelength per period, its speed is v = fλ.\n\nSound in air at about 20 °C travels near 343 m/s, so a 1000 Hz tone has λ = 343/1000 ≈ 0.34 m. The frequency is set by the source; when a wave passes into a new medium its speed and wavelength change, but its frequency stays the same. Ultrasonic ranging is a practical use: a sensor times an echo, and because the pulse travels out and back, the distance is d = vt/2. An echo returning after 5.8 ms means about 343 × 0.0058 / 2 ≈ 1.0 m.",
+        "position": [
+          -527.519,
+          1344,
+          -128.861
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "sensor",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 22/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 7. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "PG2",
+          "PGHS"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "physics.txt",
+          "line": 78
+        },
+        "skillLevel": 22,
+        "previousPlacementNote": "Placed in the Fields, waves, and light branch of Physics. It follows Simple harmonic motion. Its saved height is 76 × prerequisite depth 13; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "p-wave",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "calculation and explanation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "p-wave",
+        "branch": "Physics",
+        "name": "Wave speed, frequency, and wavelength",
+        "requires": [
+          "p-speed",
+          "m-ratio"
+        ],
+        "demonstration": "Use v = fλ to link how fast a wave travels, how often it oscillates, and the spacing of its crests.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "p-wave",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 7,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "calculation and explanation",
+          "task": "Use v = fλ to link how fast a wave travels, how often it oscillates, and the spacing of its crests.",
+          "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+          "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Wave speed, frequency, and wavelength",
+          "completion_evidence": "Use v = fλ to link how fast a wave travels, how often it oscillates, and the spacing of its crests.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:p-wave",
+          "source_candidate_id": "p-wave",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "A wave is a disturbance that travels, while each bit of the medium only oscillates about its resting position. Frequency f is the number of oscillations per second (hertz), period T = 1/f is the time for one oscillation, and wavelength λ is the distance between neighbouring crests. Because a wave advances one wavelength per period, its speed is v = fλ.\n\nSound in air at about 20 °C travels near 343 m/s, so a 1000 Hz tone has λ = 343/1000 ≈ 0.34 m. The frequency is set by the source; when a wave passes into a new medium its speed and wavelength change, but its frequency stays the same. Ultrasonic ranging is a practical use: a sensor times an echo, and because the pulse travels out and back, the distance is d = vt/2. An echo returning after 5.8 ms means about 343 × 0.0058 / 2 ≈ 1.0 m.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "cbd72d854670cf409925210f4ba14768b46d1a70d555704989cd3f1f6327f2c3",
+      "directPrerequisites": [
+        {
+          "planningId": "p-speed",
+          "id": "p-speed",
+          "name": "Speed and average velocity",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-ratio",
+          "id": "m-ratio",
+          "name": "Ratios and unit rates",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-sampling",
+      "runtimeId": "m-sampling",
+      "node": {
+        "id": "m-sampling",
+        "name": "Sampling and bias",
+        "domain": "Mathematics",
+        "subdomain": "Probability and statistics",
+        "description": "Distinguish a population from an observed sample and identify selection or measurement bias.",
+        "details": "A population is the entire group you want to learn about; a sample is the part you actually observe. Statistics computed from a sample estimate population values, and an estimate is only as good as the way the sample was collected. Random sampling, where every member has a known chance of selection, protects against systematic distortion and allows the remaining uncertainty to be quantified.\n\nBias is a consistent error in one direction that does not shrink with more data. Selection bias arises when some groups are more likely to be included, such as surveying only people at home on weekday afternoons. Measurement bias comes from faulty instruments or leading questions, and nonresponse bias appears when those who decline differ from those who answer. Random sampling error, by contrast, varies from sample to sample and decreases as the sample grows, which is why a huge biased sample can be less accurate than a small random one.",
+        "position": [
+          -2231.696,
+          1344,
+          969.106
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "calculator",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 25/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 8. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MAPS"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 162
+        },
+        "skillLevel": 22,
+        "previousPlacementNote": "Placed in the Probability and statistics branch of Mathematics. It follows Random variables and distributions. Its saved height is 76 × prerequisite depth 8; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-sampling",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-sampling",
+        "branch": "Mathematics",
+        "name": "Sampling and bias",
+        "requires": [
+          "m-random"
+        ],
+        "demonstration": "Distinguish a population from an observed sample and identify selection or measurement bias.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-sampling",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 7,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Distinguish a population from an observed sample and identify selection or measurement bias.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Sampling and bias",
+          "completion_evidence": "Distinguish a population from an observed sample and identify selection or measurement bias.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-sampling",
+          "source_candidate_id": "m-sampling",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "A population is the entire group you want to learn about; a sample is the part you actually observe. Statistics computed from a sample estimate population values, and an estimate is only as good as the way the sample was collected. Random sampling, where every member has a known chance of selection, protects against systematic distortion and allows the remaining uncertainty to be quantified.\n\nBias is a consistent error in one direction that does not shrink with more data. Selection bias arises when some groups are more likely to be included, such as surveying only people at home on weekday afternoons. Measurement bias comes from faulty instruments or leading questions, and nonresponse bias appears when those who decline differ from those who answer. Random sampling error, by contrast, varies from sample to sample and decreases as the sample grows, which is why a huge biased sample can be less accurate than a small random one.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "b75ad9488d5b34fae5aec379500b7d234e8f2f48381109624f2e67a304c538f7",
+      "directPrerequisites": [
+        {
+          "planningId": "m-random",
+          "id": "m-random",
+          "name": "Random variables and distributions",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "e-sampling",
+      "runtimeId": "e-sampling",
+      "node": {
+        "id": "e-sampling",
+        "name": "Sampling and aliasing",
+        "domain": "Electronics",
+        "subdomain": "Robotics electronics practice",
+        "description": "Understand how taking discrete samples of a continuous signal can make fast signals masquerade as slow ones.",
+        "details": "A digital system never sees a signal continuously; it records values at regular instants, at a sampling rate fs. The Nyquist–Shannon sampling theorem says a signal can be captured unambiguously only if all of its frequency content lies below fs/2, the Nyquist frequency. Anything above that limit folds back and appears as a lower frequency, called an alias.\n\nExample: sampled at 1000 Hz, a 900 Hz cosine produces exactly the same sample values as a 100 Hz cosine, because |900 − 1000| = 100. Once sampled, nothing in the data tells the two apart. The film effect of wagon wheels seeming to spin backward is the same phenomenon. In robotics this matters for motor current, vibration, and control loops: an unexpected slow oscillation in logged data may really be a fast disturbance aliased down. Sampling fast enough and filtering before sampling are the standard defences.",
+        "position": [
+          557.591,
+          1536,
+          58.068
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "sensor",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 25/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 8. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "EDITORIAL"
+        ],
+        "sourceAlignment": "editorial-extension",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "electronics.txt",
+          "line": 61
+        },
+        "skillLevel": 25,
+        "previousPlacementNote": "Placed in the Robotics electronics practice branch of Electronics. It follows Wave speed, frequency, and wavelength, Sequences and finite sums. Its saved height is 76 × prerequisite depth 14; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "e-sampling",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "circuit analysis or supervised measurement",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "e-sampling",
+        "branch": "Electronics",
+        "name": "Sampling and aliasing",
+        "requires": [
+          "p-wave",
+          "m-sequence"
+        ],
+        "demonstration": "Understand how taking discrete samples of a continuous signal can make fast signals masquerade as slow ones.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "e-sampling",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 8,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "circuit analysis or supervised measurement",
+          "task": "Understand how taking discrete samples of a continuous signal can make fast signals masquerade as slow ones.",
+          "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+          "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Sampling and aliasing",
+          "completion_evidence": "Understand how taking discrete samples of a continuous signal can make fast signals masquerade as slow ones.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:e-sampling",
+          "source_candidate_id": "e-sampling",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "A digital system never sees a signal continuously; it records values at regular instants, at a sampling rate fs. The Nyquist–Shannon sampling theorem says a signal can be captured unambiguously only if all of its frequency content lies below fs/2, the Nyquist frequency. Anything above that limit folds back and appears as a lower frequency, called an alias.\n\nExample: sampled at 1000 Hz, a 900 Hz cosine produces exactly the same sample values as a 100 Hz cosine, because |900 − 1000| = 100. Once sampled, nothing in the data tells the two apart. The film effect of wagon wheels seeming to spin backward is the same phenomenon. In robotics this matters for motor current, vibration, and control loops: an unexpected slow oscillation in logged data may really be a fast disturbance aliased down. Sampling fast enough and filtering before sampling are the standard defences.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "4105b2636655933573f3662d552c9e5d5e20782c5cba3c34209e037cf1f26f51",
+      "directPrerequisites": [
+        {
+          "planningId": "p-wave",
+          "id": "p-wave",
+          "name": "Wave speed, frequency, and wavelength",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "m-sequence",
+          "id": "m-sequence",
+          "name": "Sequences and finite sums",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-complex",
+      "runtimeId": "m-complex",
+      "node": {
+        "id": "m-complex",
+        "name": "Complex-number arithmetic",
+        "domain": "Mathematics",
+        "subdomain": "Algebra and functions",
+        "description": "Extend real arithmetic with an imaginary unit whose square is minus one and use conjugates for division.",
+        "details": "Complex numbers extend the reals by adding the imaginary unit i, defined by i² = −1. Every complex number can be written a + bi, with real part a and imaginary part b, which lets equations like x² + 4 = 0 have solutions, x = 2i and x = −2i. Addition and subtraction work part by part: (3 + 2i) + (1 − 4i) = 4 − 2i. Multiplication uses distribution and then replaces i² with −1: (3 + 2i)(1 − 4i) = 3 − 12i + 2i − 8i² = 11 − 10i.\n\nDivision relies on the conjugate. The conjugate of a + bi is a − bi, and their product a² + b² is real. To divide, multiply top and bottom by the conjugate of the denominator: (5 + 5i)/(1 + 2i) becomes (15 − 5i)/5 = 3 − i. Powers of i repeat in a cycle of four, i, −1, −i, 1, so i¹⁰ = i² = −1.",
+        "position": [
+          -539.264,
+          1920,
+          -253.221
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 31/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 10. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA2",
+          "MA3"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 183
+        },
+        "skillLevel": 31,
+        "previousPlacementNote": "Placed in the Algebra and functions branch of Mathematics. It follows Solving quadratic equations, Vector components and arithmetic. Its saved height is 76 × prerequisite depth 10; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-complex",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-complex",
+        "branch": "Mathematics",
+        "name": "Complex-number arithmetic",
+        "requires": [
+          "m-quadratic",
+          "m-vector"
+        ],
+        "demonstration": "Extend real arithmetic with an imaginary unit whose square is minus one and use conjugates for division.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-complex",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 10,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Extend real arithmetic with an imaginary unit whose square is minus one and use conjugates for division.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Complex-number arithmetic",
+          "completion_evidence": "Extend real arithmetic with an imaginary unit whose square is minus one and use conjugates for division.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-complex",
+          "source_candidate_id": "m-complex",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "Complex numbers extend the reals by adding the imaginary unit i, defined by i² = −1. Every complex number can be written a + bi, with real part a and imaginary part b, which lets equations like x² + 4 = 0 have solutions, x = 2i and x = −2i. Addition and subtraction work part by part: (3 + 2i) + (1 − 4i) = 4 − 2i. Multiplication uses distribution and then replaces i² with −1: (3 + 2i)(1 − 4i) = 3 − 12i + 2i − 8i² = 11 − 10i.\n\nDivision relies on the conjugate. The conjugate of a + bi is a − bi, and their product a² + b² is real. To divide, multiply top and bottom by the conjugate of the denominator: (5 + 5i)/(1 + 2i) becomes (15 − 5i)/5 = 3 − i. Powers of i repeat in a cycle of four, i, −1, −i, 1, so i¹⁰ = i² = −1.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "86974581f14762ec1c27959f170bd2f45070937efcd87760c8a9ccc851a46332",
+      "directPrerequisites": [
+        {
+          "planningId": "m-quadratic",
+          "id": "m-quadratic",
+          "name": "Solving quadratic equations",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-vector",
+          "id": "m-vector",
+          "name": "Vector components and arithmetic",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-defintegral",
+      "runtimeId": "m-defintegral",
+      "node": {
+        "id": "m-defintegral",
+        "name": "Definite integrals and accumulation",
+        "domain": "Mathematics",
+        "subdomain": "Calculus",
+        "description": "Interpret a definite integral as signed accumulation, built as the limit of increasingly fine Riemann sums.",
+        "details": "The definite integral ∫ from a to b of f(x) dx measures the signed accumulation of f over the interval [a, b]. To build it, slice the interval into n strips of width Δx, multiply a sample height from each strip by Δx, and add; this Riemann sum approaches the integral as the strips get thinner. With f(x) = x² on [0, 2] and four strips, the left sum is 0.5(0 + 0.25 + 1 + 2.25) = 1.75, while the exact value is 8/3 ≈ 2.67. Left, right, midpoint, and trapezoidal sums differ only in how each strip's height is chosen.\n\nSigned means area below the x-axis counts as negative, so ∫ from 0 to 2π of sin x dx equals 0 even though the curve encloses area; to get total geometric area, split at the crossings and add absolute values. Integrals turn rates into totals: integrating velocity gives displacement, and integrating a density gives total mass. Linearity and symmetry simplify many calculations.",
+        "position": [
+          -364.948,
+          2112,
+          -492.941
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 34/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 11. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA2",
+          "MA3"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 82
+        },
+        "skillLevel": 34,
+        "previousPlacementNote": "Placed in the Calculus branch of Mathematics. It follows Limits of functions, Perimeter and planar area. Its saved height is 76 × prerequisite depth 11; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-defintegral",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-defintegral",
+        "branch": "Mathematics",
+        "name": "Definite integrals and accumulation",
+        "requires": [
+          "m-limit",
+          "m-area"
+        ],
+        "demonstration": "Interpret a definite integral as signed accumulation, built as the limit of increasingly fine Riemann sums.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-defintegral",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 11,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Interpret a definite integral as signed accumulation, built as the limit of increasingly fine Riemann sums.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Definite integrals and accumulation",
+          "completion_evidence": "Interpret a definite integral as signed accumulation, built as the limit of increasingly fine Riemann sums.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-defintegral",
+          "source_candidate_id": "m-defintegral",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "The definite integral ∫ from a to b of f(x) dx measures the signed accumulation of f over the interval [a, b]. To build it, slice the interval into n strips of width Δx, multiply a sample height from each strip by Δx, and add; this Riemann sum approaches the integral as the strips get thinner. With f(x) = x² on [0, 2] and four strips, the left sum is 0.5(0 + 0.25 + 1 + 2.25) = 1.75, while the exact value is 8/3 ≈ 2.67. Left, right, midpoint, and trapezoidal sums differ only in how each strip's height is chosen.\n\nSigned means area below the x-axis counts as negative, so ∫ from 0 to 2π of sin x dx equals 0 even though the curve encloses area; to get total geometric area, split at the crossings and add absolute values. Integrals turn rates into totals: integrating velocity gives displacement, and integrating a density gives total mass. Linearity and symmetry simplify many calculations.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "181d9560a10df0dd9d031edceea410955777fbd508ba3e1ac9006550b9191705",
+      "directPrerequisites": [
+        {
+          "planningId": "m-limit",
+          "id": "m-limit",
+          "name": "Limits of functions",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-area",
+          "id": "m-area",
+          "name": "Perimeter and planar area",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-regression",
+      "runtimeId": "m-regression",
+      "node": {
+        "id": "m-regression",
+        "name": "Regression and residual analysis",
+        "domain": "Mathematics",
+        "subdomain": "Probability and statistics",
+        "description": "Fit a relationship and inspect residual patterns rather than relying only on a fitted line.",
+        "details": "Regression fits a model that predicts a response variable from one or more explanatory variables. In simple linear regression, the least-squares line ŷ = a + bx is the line that minimises the sum of squared residuals, where each residual is an observed value minus its predicted value, e = y − ŷ.\n\nResidual analysis checks whether the model suits the data. Plot residuals against x or against the fitted values: a good fit leaves a patternless band centred on zero. A curved pattern suggests a nonlinear relationship, a funnel shape means the scatter changes with x, and isolated large residuals point to outliers or influential points. If a straight line is fitted to data that really follow y = x² over a range of positive x, the residuals are positive at both ends and negative in the middle. A high r² alone does not guarantee a suitable model, so inspect residuals before trusting a calibration or prediction.",
+        "position": [
+          -705.108,
+          2112,
+          -755.381
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "calculator",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 34/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 11. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MAPS"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 166
+        },
+        "skillLevel": 34,
+        "previousPlacementNote": "Placed in the Probability and statistics branch of Mathematics. It follows Linear least-squares fitting, Sampling and bias. Its saved height is 76 × prerequisite depth 11; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-regression",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-regression",
+        "branch": "Mathematics",
+        "name": "Regression and residual analysis",
+        "requires": [
+          "m-leastsquares",
+          "m-sampling"
+        ],
+        "demonstration": "Fit a relationship and inspect residual patterns rather than relying only on a fitted line.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-regression",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 11,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Fit a relationship and inspect residual patterns rather than relying only on a fitted line.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Regression and residual analysis",
+          "completion_evidence": "Fit a relationship and inspect residual patterns rather than relying only on a fitted line.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-regression",
+          "source_candidate_id": "m-regression",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "Regression fits a model that predicts a response variable from one or more explanatory variables. In simple linear regression, the least-squares line ŷ = a + bx is the line that minimises the sum of squared residuals, where each residual is an observed value minus its predicted value, e = y − ŷ.\n\nResidual analysis checks whether the model suits the data. Plot residuals against x or against the fitted values: a good fit leaves a patternless band centred on zero. A curved pattern suggests a nonlinear relationship, a funnel shape means the scatter changes with x, and isolated large residuals point to outliers or influential points. If a straight line is fitted to data that really follow y = x² over a range of positive x, the residuals are positive at both ends and negative in the middle. A high r² alone does not guarantee a suitable model, so inspect residuals before trusting a calibration or prediction.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "4b73943c046c47f219add8b9ace4641b7c420e40f4b37d019af0c40809138a57",
+      "directPrerequisites": [
+        {
+          "planningId": "m-leastsquares",
+          "id": "m-leastsquares",
+          "name": "Linear least-squares fitting",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-sampling",
+          "id": "m-sampling",
+          "name": "Sampling and bias",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "m-antiderivative",
+      "runtimeId": "m-antiderivative",
+      "node": {
+        "id": "m-antiderivative",
+        "name": "Antiderivatives",
+        "domain": "Mathematics",
+        "subdomain": "Calculus",
+        "description": "Recover a family of functions from its derivative and use an initial condition to fix the integration constant.",
+        "details": "An antiderivative of f is any function F whose derivative is f. Because constants differentiate to zero, antiderivatives come as a family F(x) + C, written as the indefinite integral ∫ f(x) dx = F(x) + C. Basic results come from reading derivative rules backwards: ∫ xⁿ dx = x^(n+1)/(n + 1) + C for n ≠ −1, ∫ 1/x dx = ln|x| + C, ∫ e^x dx = e^x + C, and ∫ cos x dx = sin x + C. Sums and constant multiples are handled term by term, and any answer can be checked by differentiating it.\n\nAn initial condition selects one member of the family. If an object's acceleration is a(t) = −9.8 m/s² and its velocity at t = 0 is 5 m/s, then v(t) = −9.8t + C, and v(0) = 5 forces C = 5. Integrating again with a known starting position gives the position function. Antiderivatives are also the working tool for evaluating definite integrals through the Fundamental Theorem of Calculus.",
+        "position": [
+          -71.314,
+          2496,
+          -644.552
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 40/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 13. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA2",
+          "MA3"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 81
+        },
+        "skillLevel": 40,
+        "previousPlacementNote": "Placed in the Calculus branch of Mathematics. It follows Power, product, and quotient differentiation. Its saved height is 76 × prerequisite depth 13; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-antiderivative",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-antiderivative",
+        "branch": "Mathematics",
+        "name": "Antiderivatives",
+        "requires": [
+          "m-diffrules"
+        ],
+        "demonstration": "Recover a family of functions from its derivative and use an initial condition to fix the integration constant.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-antiderivative",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 13,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Recover a family of functions from its derivative and use an initial condition to fix the integration constant.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Antiderivatives",
+          "completion_evidence": "Recover a family of functions from its derivative and use an initial condition to fix the integration constant.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-antiderivative",
+          "source_candidate_id": "m-antiderivative",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "An antiderivative of f is any function F whose derivative is f. Because constants differentiate to zero, antiderivatives come as a family F(x) + C, written as the indefinite integral ∫ f(x) dx = F(x) + C. Basic results come from reading derivative rules backwards: ∫ xⁿ dx = x^(n+1)/(n + 1) + C for n ≠ −1, ∫ 1/x dx = ln|x| + C, ∫ e^x dx = e^x + C, and ∫ cos x dx = sin x + C. Sums and constant multiples are handled term by term, and any answer can be checked by differentiating it.\n\nAn initial condition selects one member of the family. If an object's acceleration is a(t) = −9.8 m/s² and its velocity at t = 0 is 5 m/s, then v(t) = −9.8t + C, and v(0) = 5 forces C = 5. Integrating again with a known starting position gives the position function. Antiderivatives are also the working tool for evaluating definite integrals through the Fundamental Theorem of Calculus.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "d9dd9bb0458ee3f29296a43c154e161d6fba9414b0620b1d319f891daf874abf",
+      "directPrerequisites": [
+        {
+          "planningId": "m-diffrules",
+          "id": "m-diffrules",
+          "name": "Power, product, and quotient differentiation",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-ftc",
+      "runtimeId": "m-ftc",
+      "node": {
+        "id": "m-ftc",
+        "name": "Fundamental theorem of calculus",
+        "domain": "Mathematics",
+        "subdomain": "Calculus",
+        "description": "Connect accumulation with differentiation and evaluate definite integrals as F(b) − F(a) using antiderivatives.",
+        "details": "The Fundamental Theorem of Calculus shows that integration and differentiation undo each other. The first part says that if f is continuous and A(x) = ∫ from a to x of f(t) dt is the area accumulated up to x, then A'(x) = f(x): area accumulates at a rate equal to the curve's height. The second part says that if F is any antiderivative of f on [a, b], then ∫ from a to b of f(x) dx = F(b) − F(a).\n\nThe second part replaces limits of Riemann sums with quick calculations: ∫ from 0 to 2 of x² dx = 8/3 − 0 = 8/3, and ∫ from 0 to π of sin x dx = −cos π + cos 0 = 2. The continuity condition matters. Applying the formula blindly to 1/x² on [−1, 1] gives −2, which is impossible for a positive function, because 1/x² is undefined at 0; that integral is improper and actually diverges. In applied terms, total change equals the integral of the rate of change.",
+        "position": [
+          178.048,
+          2688,
+          -641.822
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 43/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 14. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA2",
+          "MA3"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 83
+        },
+        "skillLevel": 43,
+        "previousPlacementNote": "Placed in the Calculus branch of Mathematics. It follows Antiderivatives, Definite integrals and accumulation. Its saved height is 76 × prerequisite depth 14; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-ftc",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-ftc",
+        "branch": "Mathematics",
+        "name": "Fundamental theorem of calculus",
+        "requires": [
+          "m-antiderivative",
+          "m-defintegral"
+        ],
+        "demonstration": "Connect accumulation with differentiation and evaluate definite integrals as F(b) − F(a) using antiderivatives.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-ftc",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 14,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Connect accumulation with differentiation and evaluate definite integrals as F(b) − F(a) using antiderivatives.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Fundamental theorem of calculus",
+          "completion_evidence": "Connect accumulation with differentiation and evaluate definite integrals as F(b) − F(a) using antiderivatives.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-ftc",
+          "source_candidate_id": "m-ftc",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "The Fundamental Theorem of Calculus shows that integration and differentiation undo each other. The first part says that if f is continuous and A(x) = ∫ from a to x of f(t) dt is the area accumulated up to x, then A'(x) = f(x): area accumulates at a rate equal to the curve's height. The second part says that if F is any antiderivative of f on [a, b], then ∫ from a to b of f(x) dx = F(b) − F(a).\n\nThe second part replaces limits of Riemann sums with quick calculations: ∫ from 0 to 2 of x² dx = 8/3 − 0 = 8/3, and ∫ from 0 to π of sin x dx = −cos π + cos 0 = 2. The continuity condition matters. Applying the formula blindly to 1/x² on [−1, 1] gives −2, which is impossible for a positive function, because 1/x² is undefined at 0; that integral is improper and actually diverges. In applied terms, total change equals the integral of the rate of change.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "3fd75ec79fc0bdee94265cdc0aa36c105e014d0c56f04a559cdade6c83bd706d",
+      "directPrerequisites": [
+        {
+          "planningId": "m-antiderivative",
+          "id": "m-antiderivative",
+          "name": "Antiderivatives",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "m-defintegral",
+          "id": "m-defintegral",
+          "name": "Definite integrals and accumulation",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "m-improper",
+      "runtimeId": "m-improper",
+      "node": {
+        "id": "m-improper",
+        "name": "Improper integrals",
+        "domain": "Mathematics",
+        "subdomain": "Calculus",
+        "description": "Evaluate integrals over unbounded intervals or with unbounded integrands by taking limits.",
+        "details": "An improper integral is a definite integral whose interval is infinite or whose integrand blows up somewhere on the interval. The fix is to replace the troublesome bound with a variable and take a limit. For example, ∫ from 1 to ∞ of 1/x² dx is the limit as b → ∞ of (1 − 1/b), which is 1, so the integral converges. By contrast, ∫ from 1 to ∞ of 1/x dx grows like ln b and diverges. In general, ∫ from 1 to ∞ of 1/x^p dx converges only when p > 1.\n\nIntegrals of the second kind have a vertical asymptote: ∫ from 0 to 1 of 1/√x dx is the limit of 2 − 2√a as a → 0⁺, which is 2. An integral over the whole real line must be split at some point, and each piece must converge on its own; using arctangent, ∫ of 1/(1 + x²) from −∞ to ∞ equals π. Improper integrals appear in probability distributions, Laplace transforms, and the integral test for series.",
+        "position": [
+          466.437,
+          2880,
+          -499.795
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 46/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 15. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MA2",
+          "MA3"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 87
+        },
+        "skillLevel": 46,
+        "previousPlacementNote": "Placed in the Calculus branch of Mathematics. It follows Fundamental theorem of calculus. Its saved height is 76 × prerequisite depth 15; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-improper",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-improper",
+        "branch": "Mathematics",
+        "name": "Improper integrals",
+        "requires": [
+          "m-ftc"
+        ],
+        "demonstration": "Evaluate integrals over unbounded intervals or with unbounded integrands by taking limits.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-improper",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 15,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Evaluate integrals over unbounded intervals or with unbounded integrands by taking limits.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Improper integrals",
+          "completion_evidence": "Evaluate integrals over unbounded intervals or with unbounded integrands by taking limits.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-improper",
+          "source_candidate_id": "m-improper",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "An improper integral is a definite integral whose interval is infinite or whose integrand blows up somewhere on the interval. The fix is to replace the troublesome bound with a variable and take a limit. For example, ∫ from 1 to ∞ of 1/x² dx is the limit as b → ∞ of (1 − 1/b), which is 1, so the integral converges. By contrast, ∫ from 1 to ∞ of 1/x dx grows like ln b and diverges. In general, ∫ from 1 to ∞ of 1/x^p dx converges only when p > 1.\n\nIntegrals of the second kind have a vertical asymptote: ∫ from 0 to 1 of 1/√x dx is the limit of 2 − 2√a as a → 0⁺, which is 2. An integral over the whole real line must be split at some point, and each piece must converge on its own; using arctangent, ∫ of 1/(1 + x²) from −∞ to ∞ equals π. Improper integrals appear in probability distributions, Laplace transforms, and the integral test for series.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "598ee7114d8ed1497166f06d3e9369112415b14266da10515aa82561a3a99c81",
+      "directPrerequisites": [
+        {
+          "planningId": "m-ftc",
+          "id": "m-ftc",
+          "name": "Fundamental theorem of calculus",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "e-adc",
+      "runtimeId": "e-adc",
+      "node": {
+        "id": "e-adc",
+        "name": "Analog-to-digital conversion",
+        "domain": "Electronics",
+        "subdomain": "Digital logic and conversion",
+        "description": "Map an analog input range to discrete output codes and distinguish a converter's resolution from its accuracy.",
+        "details": "An analog-to-digital converter samples a voltage and reports it as an integer code. An N-bit converter has 2^N codes spread across its reference voltage, so one step, the least significant bit, is about Vref/2^N. A 12-bit converter with a 3.3 V reference has 4096 codes and a step of about 0.806 mV, so 1.65 V reads near code 2048. Even an ideal converter rounds, leaving up to ±½ LSB of quantisation error.\n\nResolution is the step size; accuracy is how close the reading is to the truth, and extra bits do not improve it. A reference that is 1% off gives 1% error however many bits there are, and offset, gain error, nonlinearity, noise, and incomplete settling of the sampling capacitor from a high-impedance source all add more. Sampling rate matters too: content above half the sample rate aliases to false lower frequencies, which is why an anti-alias filter is used. Keep inputs within the allowed range.",
+        "position": [
+          -612.956,
+          2880,
+          438.466
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "code",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 46/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 15. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "AAC"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "electronics.txt",
+          "line": 58
+        },
+        "skillLevel": 46,
+        "previousPlacementNote": "Placed in the Digital logic and conversion branch of Electronics. It follows Logic levels and noise margins, Binary and hexadecimal representation. Its saved height is 76 × prerequisite depth 15; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "e-adc",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "circuit analysis or supervised measurement",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "e-adc",
+        "branch": "Electronics",
+        "name": "Analog-to-digital conversion",
+        "requires": [
+          "e-logicvoltage",
+          "m-binary"
+        ],
+        "demonstration": "Map an analog input range to discrete output codes and distinguish a converter's resolution from its accuracy.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "e-adc",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 9,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "circuit analysis or supervised measurement",
+          "task": "Map an analog input range to discrete output codes and distinguish a converter's resolution from its accuracy.",
+          "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+          "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Analog-to-digital conversion",
+          "completion_evidence": "Map an analog input range to discrete output codes and distinguish a converter's resolution from its accuracy.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:e-adc",
+          "source_candidate_id": "e-adc",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "An analog-to-digital converter samples a voltage and reports it as an integer code. An N-bit converter has 2^N codes spread across its reference voltage, so one step, the least significant bit, is about Vref/2^N. A 12-bit converter with a 3.3 V reference has 4096 codes and a step of about 0.806 mV, so 1.65 V reads near code 2048. Even an ideal converter rounds, leaving up to ±½ LSB of quantisation error.\n\nResolution is the step size; accuracy is how close the reading is to the truth, and extra bits do not improve it. A reference that is 1% off gives 1% error however many bits there are, and offset, gain error, nonlinearity, noise, and incomplete settling of the sampling capacitor from a high-impedance source all add more. Sampling rate matters too: content above half the sample rate aliases to false lower frequencies, which is why an anti-alias filter is used. Keep inputs within the allowed range.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "0a0b3399244abc866c9e088a5281861aed1d4b0ee463b4748a6d718f699e8c67",
+      "directPrerequisites": [
+        {
+          "planningId": "e-logicvoltage",
+          "id": "e-logicvoltage",
+          "name": "Logic levels and noise margins",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-binary",
+          "id": "m-binary",
+          "name": "Binary and hexadecimal representation",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "m-laplace",
+      "runtimeId": "m-laplace",
+      "node": {
+        "id": "m-laplace",
+        "name": "Laplace transforms",
+        "domain": "Mathematics",
+        "subdomain": "Differential equations and transforms",
+        "description": "Transform time functions and derivative equations into a complex-frequency representation.",
+        "details": "The Laplace transform converts a function of time f(t), defined for t ≥ 0, into a function of a complex variable s through the improper integral F(s) = ∫ from 0 to ∞ of e^(−st)·f(t) dt, which converges when the real part of s is large enough. Standard pairs include 1 → 1/s, e^(at) → 1/(s − a), and sin(ωt) → ω/(s² + ω²).\n\nIts main use is the derivative rule L{y'} = s·Y(s) − y(0), with L{y''} = s²·Y(s) − s·y(0) − y'(0). Differentiation becomes multiplication by s and initial conditions enter automatically, so a linear ODE with constant coefficients turns into algebra. For y' + 2y = 1 with y(0) = 0, transforming gives s·Y + 2Y = 1/s, so Y(s) = 1/(s(s + 2)). Turning that back into a time function is the job of inverse Laplace methods. In control engineering, the ratio of the output transform to the input transform, with zero initial conditions, is called the transfer function.",
+        "position": [
+          681.09,
+          3072,
+          -166.776
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "function",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 49/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 16. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "MADE"
+        ],
+        "sourceAlignment": "public-coverage-alignment",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "math.txt",
+          "line": 142
+        },
+        "skillLevel": 49,
+        "previousPlacementNote": "Placed in the Differential equations and transforms branch of Mathematics. It follows Improper integrals, Exponential models. Its saved height is 76 × prerequisite depth 16; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "m-laplace",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "m-laplace",
+        "branch": "Mathematics",
+        "name": "Laplace transforms",
+        "requires": [
+          "m-improper",
+          "m-expfunction"
+        ],
+        "demonstration": "Transform time functions and derivative equations into a complex-frequency representation.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "m-laplace",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 16,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Transform time functions and derivative equations into a complex-frequency representation.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Laplace transforms",
+          "completion_evidence": "Transform time functions and derivative equations into a complex-frequency representation.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:m-laplace",
+          "source_candidate_id": "m-laplace",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "The Laplace transform converts a function of time f(t), defined for t ≥ 0, into a function of a complex variable s through the improper integral F(s) = ∫ from 0 to ∞ of e^(−st)·f(t) dt, which converges when the real part of s is large enough. Standard pairs include 1 → 1/s, e^(at) → 1/(s − a), and sin(ωt) → ω/(s² + ω²).\n\nIts main use is the derivative rule L{y'} = s·Y(s) − y(0), with L{y''} = s²·Y(s) − s·y(0) − y'(0). Differentiation becomes multiplication by s and initial conditions enter automatically, so a linear ODE with constant coefficients turns into algebra. For y' + 2y = 1 with y(0) = 0, transforming gives s·Y + 2Y = 1/s, so Y(s) = 1/(s(s + 2)). Turning that back into a time function is the job of inverse Laplace methods. In control engineering, the ratio of the output transform to the input transform, with zero initial conditions, is called the transfer function.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "5dea37db086211acb4a3c82fbada42911a877c58ccf63a575fb00e74e2b18d30",
+      "directPrerequisites": [
+        {
+          "planningId": "m-improper",
+          "id": "m-improper",
+          "name": "Improper integrals",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "m-expfunction",
+          "id": "m-expfunction",
+          "name": "Exponential models",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "e-calibration",
+      "runtimeId": "e-calibration",
+      "node": {
+        "id": "e-calibration",
+        "name": "Sensor calibration curves",
+        "domain": "Electronics",
+        "subdomain": "Robotics electronics practice",
+        "description": "Relate raw sensor readings to reference quantities and inspect offset, gain, nonlinearity, and residuals.",
+        "details": "A sensor reports a raw number, such as ADC counts or millivolts, that must be mapped to a physical quantity. A calibration curve is built by recording readings at several known reference values and fitting a model to them. The simplest is linear: quantity = gain × reading + offset. If a pressure sensor reads 410 counts at 0 kPa and 3690 counts at 200 kPa, the gain is 200 / 3280 ≈ 0.061 kPa per count and the offset is about −25 kPa.\n\nAfter fitting, inspect the residuals, the differences between reference values and model predictions. Random scatter suggests the model is adequate; a curved pattern reveals nonlinearity that may need a polynomial or lookup table. A calibration holds only for the range and conditions used. Extrapolating beyond the tested points, or applying it at a different temperature or supply voltage, can produce errors the fit never saw, so record those conditions and the reference uncertainty.",
+        "position": [
+          -790.335,
+          3072,
+          288.113
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "sensor",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 49/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 16. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "EDITORIAL"
+        ],
+        "sourceAlignment": "editorial-extension",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "electronics.txt",
+          "line": 77
+        },
+        "skillLevel": 49,
+        "previousPlacementNote": "Placed in the Robotics electronics practice branch of Electronics. It follows Regression and residual analysis, Analog-to-digital conversion. Its saved height is 76 × prerequisite depth 16; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "e-calibration",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "circuit analysis or supervised measurement",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "e-calibration",
+        "branch": "Electronics",
+        "name": "Sensor calibration curves",
+        "requires": [
+          "m-regression",
+          "e-adc"
+        ],
+        "demonstration": "Relate raw sensor readings to reference quantities and inspect offset, gain, nonlinearity, and residuals.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "e-calibration",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 12,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "circuit analysis or supervised measurement",
+          "task": "Relate raw sensor readings to reference quantities and inspect offset, gain, nonlinearity, and residuals.",
+          "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+          "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Sensor calibration curves",
+          "completion_evidence": "Relate raw sensor readings to reference quantities and inspect offset, gain, nonlinearity, and residuals.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:e-calibration",
+          "source_candidate_id": "e-calibration",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "A sensor reports a raw number, such as ADC counts or millivolts, that must be mapped to a physical quantity. A calibration curve is built by recording readings at several known reference values and fitting a model to them. The simplest is linear: quantity = gain × reading + offset. If a pressure sensor reads 410 counts at 0 kPa and 3690 counts at 200 kPa, the gain is 200 / 3280 ≈ 0.061 kPa per count and the offset is about −25 kPa.\n\nAfter fitting, inspect the residuals, the differences between reference values and model predictions. Random scatter suggests the model is adequate; a curved pattern reveals nonlinearity that may need a polynomial or lookup table. A calibration holds only for the range and conditions used. Extrapolating beyond the tested points, or applying it at a different temperature or supply voltage, can produce errors the fit never saw, so record those conditions and the reference uncertainty.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "df21a0bced7ca0d6149218b793af25c51d9cc3d645673c2312945b7d8157ed67",
+      "directPrerequisites": [
+        {
+          "planningId": "m-regression",
+          "id": "m-regression",
+          "name": "Regression and residual analysis",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "e-adc",
+          "id": "e-adc",
+          "name": "Analog-to-digital conversion",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "C07",
+      "runtimeId": "rob3:C07",
+      "node": {
+        "id": "rob3:C07",
+        "name": "Analyze a linear control model",
+        "domain": "Robotics",
+        "subdomain": "Control and trajectories",
+        "nodeKind": "outcome",
+        "description": "Analyze a linear control model",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Analyze a linear control model\nCompletion evidence: Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: runnable code or trace\nTask: Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.\nCases required: A normal input, boundary input and malformed/error input.\nAcceptance: Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-statespace",
+        "position": [
+          433.67,
+          3264,
+          -573.225
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Control and trajectories branch, core tier, supporting depth or advanced extension.",
+        "planningId": "C07",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "runnable code or trace",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 52,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "C07",
+        "branch": "Control and trajectories",
+        "name": "Analyze a linear control model",
+        "requires": [
+          "m-laplace",
+          "m-complex",
+          "R-M06"
+        ],
+        "demonstration": "Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "r-statespace"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 17,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "runnable code or trace",
+          "task": "Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.",
+          "case_requirements": "A normal input, boundary input and malformed/error input.",
+          "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Analyze a linear control model",
+          "completion_evidence": "Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "revised",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:C07",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "7535cee53cea44ce8c6729727feb55905130c7933095048be41e6b8fa4435dc2",
+      "directPrerequisites": [
+        {
+          "planningId": "m-laplace",
+          "id": "m-laplace",
+          "name": "Laplace transforms",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "m-complex",
+          "id": "m-complex",
+          "name": "Complex-number arithmetic",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "R-M06",
+          "id": "rob3:R-M06",
+          "name": "Represent and discretize a linear dynamical model",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "e-imu",
+      "runtimeId": "e-imu",
+      "node": {
+        "id": "e-imu",
+        "name": "Inertial measurement units",
+        "domain": "Electronics",
+        "subdomain": "Robotics electronics practice",
+        "description": "Distinguish accelerometer and gyroscope outputs, their biases, and the reference frames they are expressed in.",
+        "details": "An inertial measurement unit combines accelerometers and gyroscopes, often three of each on perpendicular axes, and sometimes a magnetometer. A gyroscope measures angular rate, in degrees or radians per second, about each axis of the sensor's own body frame. An accelerometer measures specific force, which is acceleration relative to free fall. That is why a board lying still on a table reads about 1 g upward rather than zero, while a board in free fall reads nearly zero.\n\nThis causes common misunderstandings. The accelerometer alone cannot separate gravity from motion, so tilt estimates are corrupted while the robot accelerates. Integrating gyroscope rate gives orientation, but any small bias accumulates into steadily growing drift, and double-integrating acceleration to get position drifts far faster. Readings are also in the sensor's frame and must be rotated into the robot or world frame. Calibration removes offsets and scale errors, and fusion filters combine the gyroscope's short-term accuracy with the accelerometer's long-term gravity reference.",
+        "position": [
+          -774.533,
+          3264,
+          -149.279
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "sensor",
+        "layoutMode": "vortex",
+        "placementNote": "At release, reference level 52/100 was provisional and was calculated as 1 + 3 × recorded prerequisite depth 17. The domain sets the colored spiral strand; peers fan across and outward to maintain spacing. Supporting and related links do not raise the level. This is an editorial map rank, not your proficiency or a standardized difficulty rating.",
+        "sourceRefs": [
+          "EDITORIAL"
+        ],
+        "sourceAlignment": "editorial-extension",
+        "lessonMatch": "not-verified",
+        "contentAuthorship": "Original atlas wording; not copied lesson text.",
+        "authoringOrigin": {
+          "file": "electronics.txt",
+          "line": 81
+        },
+        "skillLevel": 52,
+        "previousPlacementNote": "Placed in the Robotics electronics practice branch of Electronics. It follows Angular position, speed, and acceleration, Sensor calibration curves. Its saved height is 76 × prerequisite depth 17; horizontal position separates domain bands and spreads peers to reduce overlap. Height is a consequence of this chosen dependency model, not absolute difficulty or proficiency. Connections and placement are editorial; source references identify coverage, not an official learning order.",
+        "planningId": "e-imu",
+        "nodeKind": "foundation",
+        "feedsMilestones": [],
+        "pathRole": "supporting depth or advanced extension",
+        "tier": null,
+        "assessmentMode": "circuit analysis or supervised measurement",
+        "assessable": true,
+        "contentStatus": "introductory lesson pending",
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored"
+      },
+      "specification": {
+        "id": "e-imu",
+        "branch": "Electronics",
+        "name": "Inertial measurement units",
+        "requires": [
+          "p-angular",
+          "e-calibration"
+        ],
+        "demonstration": "Distinguish accelerometer and gyroscope outputs, their biases, and the reference frames they are expressed in.",
+        "kind": "foundation",
+        "origin": "existing candidate with explicit prerequisites",
+        "source_id": "e-imu",
+        "source_proficiency80": null,
+        "proficiency80": null,
+        "migration": "Candidate only; do not copy historical self-report until semantic equivalence is established.",
+        "dependency_depth": 13,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "circuit analysis or supervised measurement",
+          "task": "Distinguish accelerometer and gyroscope outputs, their biases, and the reference frames they are expressed in.",
+          "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+          "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Inertial measurement units",
+          "completion_evidence": "Distinguish accelerometer and gyroscope outputs, their biases, and the reference frames they are expressed in.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:e-imu",
+          "source_candidate_id": "e-imu",
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "source_explanation_unreviewed": "An inertial measurement unit combines accelerometers and gyroscopes, often three of each on perpendicular axes, and sometimes a magnetometer. A gyroscope measures angular rate, in degrees or radians per second, about each axis of the sensor's own body frame. An accelerometer measures specific force, which is acceleration relative to free fall. That is why a board lying still on a table reads about 1 g upward rather than zero, while a board in free fall reads nearly zero.\n\nThis causes common misunderstandings. The accelerometer alone cannot separate gravity from motion, so tilt estimates are corrupted while the robot accelerates. Integrating gyroscope rate gives orientation, but any small bias accumulates into steadily growing drift, and double-integrating acceleration to get position drifts far faster. Readings are also in the sensor's frame and must be rotated into the robot or world frame. Calibration removes offsets and scale errors, and fusion filters combine the gyroscope's short-term accuracy with the accelerometer's long-term gravity reference.",
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "5dbab71647cd83a4d99144456fa39750ff9c6e1daef03ef08680ef4913c66d9c",
+      "directPrerequisites": [
+        {
+          "planningId": "p-angular",
+          "id": "p-angular",
+          "name": "Angular position, speed, and acceleration",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "e-calibration",
+          "id": "e-calibration",
+          "name": "Sensor calibration curves",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "C08",
+      "runtimeId": "rob3:C08",
+      "node": {
+        "id": "rob3:C08",
+        "name": "Evaluate sampling, delay and noise",
+        "domain": "Robotics",
+        "subdomain": "Control and trajectories",
+        "nodeKind": "outcome",
+        "description": "Evaluate sampling, delay and noise",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Evaluate sampling, delay and noise\nCompletion evidence: Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: runnable code or trace\nTask: Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.\nCases required: A normal input, boundary input and malformed/error input.\nAcceptance: Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): c-control-loop",
+        "position": [
+          654.506,
+          3456,
+          -337.421
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Control and trajectories branch, core tier, supporting depth or advanced extension.",
+        "planningId": "C08",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "runnable code or trace",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 55,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "C08",
+        "branch": "Control and trajectories",
+        "name": "Evaluate sampling, delay and noise",
+        "requires": [
+          "C07",
+          "e-sampling",
+          "S09"
+        ],
+        "demonstration": "Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "c-control-loop"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 18,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "runnable code or trace",
+          "task": "Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.",
+          "case_requirements": "A normal input, boundary input and malformed/error input.",
+          "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Evaluate sampling, delay and noise",
+          "completion_evidence": "Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:C08",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "cc8fe6469d4d5076e42999397fe3bfa704e1b35bc629272d566d34af60ecb31e",
+      "directPrerequisites": [
+        {
+          "planningId": "C07",
+          "id": "rob3:C07",
+          "name": "Analyze a linear control model",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "e-sampling",
+          "id": "e-sampling",
+          "name": "Sampling and aliasing",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "S09",
+          "id": "rob3:S09",
+          "name": "Measure execution budgets and concurrency",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "P07",
+      "runtimeId": "rob3:P07",
+      "node": {
+        "id": "rob3:P07",
+        "name": "Estimate orientation from inertial data",
+        "domain": "Robotics",
+        "subdomain": "Sensing, calibration and estimation",
+        "nodeKind": "outcome",
+        "description": "Estimate orientation from inertial data",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Estimate orientation from inertial data\nCompletion evidence: Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: written calculation\nTask: Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.\nCases required: A routine example, a changed-value transfer example and a domain/invalid-input counterexample.\nAcceptance: Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-fusion",
+        "position": [
+          753.161,
+          3648,
+          -34.261
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Sensing, calibration and estimation branch, core tier, supporting depth or advanced extension.",
+        "planningId": "P07",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "written calculation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 58,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "P07",
+        "branch": "Sensing, calibration and estimation",
+        "name": "Estimate orientation from inertial data",
+        "requires": [
+          "P02",
+          "P03",
+          "K12",
+          "e-imu"
+        ],
+        "demonstration": "Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "r-fusion"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 16,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "written calculation",
+          "task": "Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.",
+          "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+          "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Estimate orientation from inertial data",
+          "completion_evidence": "Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:P07",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "546e426bb385c06e9f23916550a2a59698185b518436d1bb903950c8a29d9496",
+      "directPrerequisites": [
+        {
+          "planningId": "P02",
+          "id": "rob3:P02",
+          "name": "Align and timestamp sensor streams",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "P03",
+          "id": "rob3:P03",
+          "name": "Model noise and covariance",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "K12",
+          "id": "rob3:K12",
+          "name": "Compare orientation representations",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "e-imu",
+          "id": "e-imu",
+          "name": "Inertial measurement units",
+          "hasLesson": false,
+          "inThisSet": true
+        }
+      ]
+    },
+    {
+      "planningId": "A11",
+      "runtimeId": "rob3:A11",
+      "node": {
+        "id": "rob3:A11",
+        "name": "Identify a simple actuator model",
+        "domain": "Robotics",
+        "subdomain": "Actuation and transmissions",
+        "nodeKind": "outcome",
+        "description": "Identify a simple actuator model",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Identify a simple actuator model\nCompletion evidence: Fit a stated low-order model from recorded input/output data and test it on a separate run.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: calculation and explanation\nTask: Fit a stated low-order model from recorded input/output data and test it on a separate run.\nCases required: A labeled physical scenario, a changed-condition case and a limiting case.\nAcceptance: State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-dynamics",
+        "position": [
+          771.356,
+          3840,
+          15.668
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Actuation and transmissions branch, core tier, supporting depth or advanced extension.",
+        "planningId": "A11",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "calculation and explanation",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 61,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "A11",
+        "branch": "Actuation and transmissions",
+        "name": "Identify a simple actuator model",
+        "requires": [
+          "A07",
+          "E03",
+          "m-leastsquares"
+        ],
+        "demonstration": "Fit a stated low-order model from recorded input/output data and test it on a separate run.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "r-dynamics"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 16,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "calculation and explanation",
+          "task": "Fit a stated low-order model from recorded input/output data and test it on a separate run.",
+          "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+          "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Identify a simple actuator model",
+          "completion_evidence": "Fit a stated low-order model from recorded input/output data and test it on a separate run.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:A11",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "f759ac90ac07d88c45184c4da4b65d4ef90e82dc870edec994d2ea6726d177e0",
+      "directPrerequisites": [
+        {
+          "planningId": "A07",
+          "id": "rob3:A07",
+          "name": "Match a motor to its driver",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "E03",
+          "id": "rob3:E03",
+          "name": "Take and interpret low-voltage circuit measurements",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-leastsquares",
+          "id": "m-leastsquares",
+          "name": "Linear least-squares fitting",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "C09",
+      "runtimeId": "rob3:C09",
+      "node": {
+        "id": "rob3:C09",
+        "name": "Design state feedback and an observer",
+        "domain": "Robotics",
+        "subdomain": "Control and trajectories",
+        "nodeKind": "outcome",
+        "description": "Design state feedback and an observer",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Design state feedback and an observer\nCompletion evidence: For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: runnable code or trace\nTask: For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.\nCases required: A normal input, boundary input and malformed/error input.\nAcceptance: Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-statespace, r-observe",
+        "position": [
+          740.263,
+          3840,
+          217.361
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Control and trajectories branch, core tier, supporting depth or advanced extension.",
+        "planningId": "C09",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "runnable code or trace",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 61,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "C09",
+        "branch": "Control and trajectories",
+        "name": "Design state feedback and an observer",
+        "requires": [
+          "C07",
+          "m-eigen",
+          "m-rank",
+          "R-M06",
+          "P08"
+        ],
+        "demonstration": "For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "r-statespace",
+          "r-observe"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 18,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "runnable code or trace",
+          "task": "For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.",
+          "case_requirements": "A normal input, boundary input and malformed/error input.",
+          "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Design state feedback and an observer",
+          "completion_evidence": "For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "revised",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:C09",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "47ccbe52a50e5672cacc36ff250690456a9efe5c72d54ba64d9ff680905753d6",
+      "directPrerequisites": [
+        {
+          "planningId": "C07",
+          "id": "rob3:C07",
+          "name": "Analyze a linear control model",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "m-eigen",
+          "id": "m-eigen",
+          "name": "Eigenvalues and eigenvectors",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "m-rank",
+          "id": "m-rank",
+          "name": "Rank and null spaces",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "R-M06",
+          "id": "rob3:R-M06",
+          "name": "Represent and discretize a linear dynamical model",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "P08",
+          "id": "rob3:P08",
+          "name": "Implement a state estimator",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "C06",
+      "runtimeId": "rob3:C06",
+      "node": {
+        "id": "rob3:C06",
+        "name": "Add model-based feedforward",
+        "domain": "Robotics",
+        "subdomain": "Control and trajectories",
+        "nodeKind": "outcome",
+        "description": "Add model-based feedforward",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Add model-based feedforward\nCompletion evidence: Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: runnable code or trace\nTask: Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.\nCases required: A normal input, boundary input and malformed/error input.\nAcceptance: Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-dynamics",
+        "position": [
+          483.663,
+          4224,
+          645.586
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Control and trajectories branch, core tier, supporting depth or advanced extension.",
+        "planningId": "C06",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "runnable code or trace",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 67,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "C06",
+        "branch": "Control and trajectories",
+        "name": "Add model-based feedforward",
+        "requires": [
+          "C03",
+          "A11",
+          "C05"
+        ],
+        "demonstration": "Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "r-dynamics"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 18,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "runnable code or trace",
+          "task": "Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.",
+          "case_requirements": "A normal input, boundary input and malformed/error input.",
+          "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Add model-based feedforward",
+          "completion_evidence": "Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:C06",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "4ba35cd1ac6c9eccabb95ade7a53174724c53d1e43f41c477a89639d9b733b92",
+      "directPrerequisites": [
+        {
+          "planningId": "C03",
+          "id": "rob3:C03",
+          "name": "Implement practical PID behavior",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "A11",
+          "id": "rob3:A11",
+          "name": "Identify a simple actuator model",
+          "hasLesson": false,
+          "inThisSet": true
+        },
+        {
+          "planningId": "C05",
+          "id": "rob3:C05",
+          "name": "Generate bounded joint trajectories",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    },
+    {
+      "planningId": "N09",
+      "runtimeId": "rob3:N09",
+      "node": {
+        "id": "rob3:N09",
+        "name": "Evaluate a SLAM pipeline",
+        "domain": "Robotics",
+        "subdomain": "Wheeled mobility and navigation",
+        "nodeKind": "outcome",
+        "description": "Evaluate a SLAM pipeline",
+        "details": "LESSON NOT YET AUTHORED. This entry carries its reviewed scope and assessment contract from the v3 curriculum specification. It is a planning record, not a finished lesson.\n\nLearning target: Evaluate a SLAM pipeline\nCompletion evidence: Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.\nBoundary: Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware.\nAssessment mode: runnable code or trace\nTask: Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.\nCases required: A normal input, boundary input and malformed/error input.\nAcceptance: Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.\nStatus: assessment specification; individual question bank not authored\nAnswer policy: Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.\nLineage: Proposed outcome; source equivalence not established.\nExisting atlas candidates (not approved as equivalent): r-navigation",
+        "position": [
+          -162.368,
+          4416,
+          808.092
+        ],
+        "pinned": false,
+        "proficiency80": null,
+        "icon": "robot",
+        "layoutMode": "vortex",
+        "placementNote": "outcome entry in the Wheeled mobility and navigation branch, core tier, supporting depth or advanced extension.",
+        "planningId": "N09",
+        "sourceCandidateId": null,
+        "approvedEquivalentToSource": false,
+        "tier": "core",
+        "pathRole": "supporting depth or advanced extension",
+        "feedsMilestones": [],
+        "assessmentMode": "runnable code or trace",
+        "assessable": true,
+        "lessonStatus": "scope and assessment specified; introductory lesson not yet authored",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "skillLevel": 70,
+        "contentStatus": "introductory lesson pending"
+      },
+      "specification": {
+        "id": "N09",
+        "branch": "Wheeled mobility and navigation",
+        "name": "Evaluate a SLAM pipeline",
+        "requires": [
+          "N05",
+          "P09",
+          "S10"
+        ],
+        "demonstration": "Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.",
+        "kind": "outcome",
+        "origin": "blueprint v1 outcome, revised prerequisites",
+        "tier": "core",
+        "existing_candidates": [
+          "r-navigation"
+        ],
+        "proficiency80": null,
+        "migration": "Proposed outcome; source equivalence not established.",
+        "dependency_depth": 18,
+        "path_role": "supporting depth or advanced extension",
+        "feeds_milestones": [],
+        "planning_only": true,
+        "assessment_contract": {
+          "mode": "runnable code or trace",
+          "task": "Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.",
+          "case_requirements": "A normal input, boundary input and malformed/error input.",
+          "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+          "evidence_record": [
+            "task and version",
+            "inputs and assumptions",
+            "work or implementation",
+            "reference result or measurement method",
+            "outcome and limits"
+          ],
+          "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+          "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+          "status": "assessment specification; individual question bank not authored"
+        },
+        "scope_contract": {
+          "learning_target": "Evaluate a SLAM pipeline",
+          "completion_evidence": "Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.",
+          "boundary": "Limited to the conditions and method in the demonstration. This entry does not certify broader professional competence or untested hardware."
+        },
+        "review": {
+          "scope_and_prerequisite_pass": "reviewed in v3 design pass",
+          "decision": "retain at stated scope",
+          "limits": "Not independent expert verification of every source explanation; full lessons and per-node reference exercises remain to be authored."
+        },
+        "runtime_identity": {
+          "proposed_id": "rob3:N09",
+          "source_candidate_id": null,
+          "approved_equivalent_to_source": false,
+          "family": "robotics-foundations-integration-v3-review",
+          "proficiency80": null
+        },
+        "lesson_status": "scope and assessment specified; full lesson authoring pending"
+      },
+      "nodeContractSha256": "fe1bfc9eed5720d96942c41f50b08612bb3e622d7689325f2d1710e6b2aa9084",
+      "directPrerequisites": [
+        {
+          "planningId": "N05",
+          "id": "rob3:N05",
+          "name": "Localize against a known map",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "P09",
+          "id": "rob3:P09",
+          "name": "Fuse nonlinear mobile-robot measurements",
+          "hasLesson": true,
+          "inThisSet": false
+        },
+        {
+          "planningId": "S10",
+          "id": "rob3:S10",
+          "name": "Create logs and replayable tests",
+          "hasLesson": true,
+          "inThisSet": false
+        }
+      ]
+    }
+  ]
+}

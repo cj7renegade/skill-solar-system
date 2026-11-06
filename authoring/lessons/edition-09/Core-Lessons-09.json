@@ -1,0 +1,1139 @@
+{
+  "metadata": {
+    "artifact_type": "content_patch_not_map",
+    "edition": "core-lessons-09",
+    "authored": "2026-11-05",
+    "author": "Claude Code, at JC's request (step 7 Checkpoint A, E3)",
+    "baseline_spec_version": "3.0",
+    "baseline_spec_sha256": "2cb33332945d7e3fd9475bf6b3f2d9b791e0e6f3fcb5ecc68959604c4b61f968",
+    "confirmed_export_sha256": "e91a4292a940351b88ef08ccdb3adf2fcbc138fc92f221dd421c4056f772f81e",
+    "dataset_key": "robotics-atlas-merged",
+    "lesson_count": 21,
+    "expected_prior_lessons": 329,
+    "cumulative_unique_lessons": 350,
+    "selection": "Step 7 Group B (E1): the V3 entries on the core robotics paths, outside the I05 path, without a lesson.",
+    "proficiency_write": false
+  },
+  "lessons": [
+    {
+      "id": "m-random",
+      "explanation": "A random variable assigns a number to each outcome of a random process. A discrete one is described by its probability mass function, P(X = x) for each value, whose values are between 0 and 1 and add to 1. Its cumulative distribution function, F(x) = P(X <= x), rises from 0 to 1 and answers 'at most' questions directly. A PMF value and a CDF value answer different questions, so say which one you mean.",
+      "worked_example": "Flip a fair coin twice and let X count the heads. The outcomes HH, HT, TH and TT are equally likely, so P(X = 0) = 0.25, P(X = 1) = 0.5 and P(X = 2) = 0.25, which add to 1. The CDF at 1 is P(X <= 1) = 0.25 + 0.5 = 0.75.",
+      "practice": {
+        "question": "X is the face of a fair six-sided die. Find P(X >= 5) and F(3).",
+        "answer": "P(X >= 5) = 2/6 = 0.3333 and F(3) = P(X <= 3) = 3/6 = 0.5."
+      },
+      "boundary_case": {
+        "question": "In the coin example, what is P(X = 1.5), and is F(1.5) also 0?",
+        "answer": "P(X = 1.5) = 0, because X only takes whole values. But F(1.5) = P(X <= 1.5) = 0.75: the CDF is defined everywhere and stays flat between values."
+      },
+      "name": "Random variables and distributions",
+      "branch": "Mathematics",
+      "planning_id": "m-random",
+      "proposed_runtime_id": "rob3:m-random",
+      "requires": [
+        "m-prob",
+        "m-function"
+      ],
+      "dependency_depth": 6,
+      "node_contract_sha256": "60de0586c832c252a53f27383f2a138ab41876b001baed4a51155cf6af2d08c5",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Map outcomes to numerical values and describe their mass or cumulative distribution.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Map outcomes to numerical values and describe their mass or cumulative distribution.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Sampling and bias.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with continuous distributions, expectation and variance.",
+      "references": [],
+      "details": "A random variable assigns a number to each outcome of a random process. A discrete one is described by its probability mass function, P(X = x) for each value, whose values are between 0 and 1 and add to 1. Its cumulative distribution function, F(x) = P(X <= x), rises from 0 to 1 and answers 'at most' questions directly. A PMF value and a CDF value answer different questions, so say which one you mean.\n\nFlip a fair coin twice and let X count the heads. The outcomes HH, HT, TH and TT are equally likely, so P(X = 0) = 0.25, P(X = 1) = 0.5 and P(X = 2) = 0.25, which add to 1. The CDF at 1 is P(X <= 1) = 0.25 + 0.5 = 0.75.",
+      "placement_note": "Builds on Probability rules and Functions, domains, and ranges. Prepares for Sampling and bias.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "p-wave",
+      "explanation": "A wave travels while each part of the medium only oscillates in place. Its frequency f is how many oscillations pass per second, its wavelength lambda is the spacing of crests, and its speed is v = f * lambda. The source sets the frequency; the medium sets the speed. So when a wave passes into another medium, its frequency stays the same and its wavelength changes with its speed.",
+      "worked_example": "A 40 kHz ultrasonic range sensor in air (v = 343 m/s) emits a wavelength of 343 / 40,000 = 8.6 mm. The same tone in water (v = 1480 m/s) has a wavelength of 37.0 mm. Objects much smaller than the wavelength reflect it poorly, so wavelength sets the smallest target the sensor can see.",
+      "practice": {
+        "question": "What is the wavelength of a 2.4 GHz radio signal (v = 3.0e8 m/s)?",
+        "answer": "3.0e8 / 2.4e9 = 0.125 m, or 12.5 cm."
+      },
+      "boundary_case": {
+        "question": "The ultrasonic pulse passes from air into water. Does its frequency change?",
+        "answer": "No. The source sets the frequency, which stays 40 kHz. The speed rises to 1480 m/s, so the wavelength grows from 8.6 mm to 37.0 mm."
+      },
+      "name": "Wave speed, frequency, and wavelength",
+      "branch": "Physics",
+      "planning_id": "p-wave",
+      "proposed_runtime_id": "rob3:p-wave",
+      "requires": [
+        "p-speed",
+        "m-ratio"
+      ],
+      "dependency_depth": 7,
+      "node_contract_sha256": "cbd72d854670cf409925210f4ba14768b46d1a70d555704989cd3f1f6327f2c3",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Use v = fλ to link how fast a wave travels, how often it oscillates, and the spacing of its crests.",
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Use v = fλ to link how fast a wave travels, how often it oscillates, and the spacing of its crests.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Calculation and explanation on labeled scenarios, checked in the lab.",
+      "why_it_matters": "Prepares for Sampling and aliasing.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with superposition, interference and the Doppler effect.",
+      "references": [],
+      "details": "A wave travels while each part of the medium only oscillates in place. Its frequency f is how many oscillations pass per second, its wavelength lambda is the spacing of crests, and its speed is v = f * lambda. The source sets the frequency; the medium sets the speed. So when a wave passes into another medium, its frequency stays the same and its wavelength changes with its speed.\n\nA 40 kHz ultrasonic range sensor in air (v = 343 m/s) emits a wavelength of 343 / 40,000 = 8.6 mm. The same tone in water (v = 1480 m/s) has a wavelength of 37.0 mm. Objects much smaller than the wavelength reflect it poorly, so wavelength sets the smallest target the sensor can see.",
+      "placement_note": "Builds on Speed and average velocity and Ratios and unit rates. Prepares for Sampling and aliasing.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-sampling",
+      "explanation": "A population is everything you want to describe; a sample is the part you actually observed. A sample estimate is only as good as the way the sample was chosen. Selection bias comes from a sampling process that favours some members, and measurement bias from an instrument that is consistently off. Neither shrinks with a larger sample: more data from the same biased process converges on the wrong answer.",
+      "worked_example": "A fleet of 200 robots uploads its logs only over Wi-Fi. The 160 robots that upload average 21.0 h of uptime; the 40 in a warehouse corner with no coverage average 15.0 h and never upload. The true fleet mean is (160 * 21.0 + 40 * 15.0) / 200 = 19.8 h, so the uploaded logs overstate uptime by 1.2 h.",
+      "practice": {
+        "question": "A scale reads 0.5 kg heavy on every weighing. What kind of bias is this, and does weighing more parcels reduce it?",
+        "answer": "Measurement bias. Every reading is 0.5 kg high, so the mean stays 0.5 kg high however many parcels are weighed."
+      },
+      "boundary_case": {
+        "question": "If the fleet uploaded 1600 logs instead of 160, would the uptime estimate approach 19.8 h?",
+        "answer": "No. The corner robots are still missing, so the estimate approaches 21.0 h, the uploaders' mean. Fix the selection, not the sample size."
+      },
+      "name": "Sampling and bias",
+      "branch": "Mathematics",
+      "planning_id": "m-sampling",
+      "proposed_runtime_id": "rob3:m-sampling",
+      "requires": [
+        "m-random"
+      ],
+      "dependency_depth": 7,
+      "node_contract_sha256": "b75ad9488d5b34fae5aec379500b7d234e8f2f48381109624f2e67a304c538f7",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Distinguish a population from an observed sample and identify selection or measurement bias.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Distinguish a population from an observed sample and identify selection or measurement bias.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation and classification, checked in the lab.",
+      "why_it_matters": "Prepares for Regression and residual analysis and Datasets, features, and labels.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with stratified samples, survivorship bias and confidence intervals.",
+      "references": [],
+      "details": "A population is everything you want to describe; a sample is the part you actually observed. A sample estimate is only as good as the way the sample was chosen. Selection bias comes from a sampling process that favours some members, and measurement bias from an instrument that is consistently off. Neither shrinks with a larger sample: more data from the same biased process converges on the wrong answer.\n\nA fleet of 200 robots uploads its logs only over Wi-Fi. The 160 robots that upload average 21.0 h of uptime; the 40 in a warehouse corner with no coverage average 15.0 h and never upload. The true fleet mean is (160 * 21.0 + 40 * 15.0) / 200 = 19.8 h, so the uploaded logs overstate uptime by 1.2 h.",
+      "placement_note": "Builds on Random variables and distributions. Prepares for Regression and residual analysis and Datasets, features, and labels.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "e-sampling",
+      "explanation": "A digital system records a signal only at instants spaced 1/fs apart, where fs is the sampling rate. A sinusoid is captured unambiguously only if its frequency is below fs/2, the Nyquist frequency. A higher frequency folds back and appears as a lower one, an alias: a frequency f appears at its distance from the nearest whole multiple of fs. Once sampled, an alias is indistinguishable from a real low-frequency signal, so frequencies above fs/2 must be removed by an analog filter before sampling.",
+      "worked_example": "A controller samples a sensor at 200 Hz, so the Nyquist frequency is 100 Hz. A 60 Hz component is captured correctly. A 180 Hz vibration appears as |180 - 200| = 20 Hz, a slow oscillation that is not really there.",
+      "practice": {
+        "question": "A 1.2 kHz motor vibration is sampled at 1 kHz. At what frequency does it appear?",
+        "answer": "At |1200 - 1000| = 200 Hz."
+      },
+      "boundary_case": {
+        "question": "Can a digital low-pass filter applied after sampling remove the 20 Hz alias?",
+        "answer": "No. After sampling, the alias is a genuine 20 Hz signal in the data. Only an analog anti-alias filter before the converter, or a higher sampling rate, prevents it."
+      },
+      "name": "Sampling and aliasing",
+      "branch": "Electronics",
+      "planning_id": "e-sampling",
+      "proposed_runtime_id": "rob3:e-sampling",
+      "requires": [
+        "p-wave",
+        "m-sequence"
+      ],
+      "dependency_depth": 8,
+      "node_contract_sha256": "4105b2636655933573f3662d552c9e5d5e20782c5cba3c34209e037cf1f26f51",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Understand how taking discrete samples of a continuous signal can make fast signals masquerade as slow ones.",
+      "assessment_contract": {
+        "mode": "circuit analysis or supervised measurement",
+        "task": "Understand how taking discrete samples of a continuous signal can make fast signals masquerade as slow ones.",
+        "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+        "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation on stated signals, with the folding computed in the lab.",
+      "why_it_matters": "Prepares for Evaluate sampling, delay and noise.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with anti-alias filter design and measured spectra.",
+      "references": [],
+      "details": "A digital system records a signal only at instants spaced 1/fs apart, where fs is the sampling rate. A sinusoid is captured unambiguously only if its frequency is below fs/2, the Nyquist frequency. A higher frequency folds back and appears as a lower one, an alias: a frequency f appears at its distance from the nearest whole multiple of fs. Once sampled, an alias is indistinguishable from a real low-frequency signal, so frequencies above fs/2 must be removed by an analog filter before sampling.\n\nA controller samples a sensor at 200 Hz, so the Nyquist frequency is 100 Hz. A 60 Hz component is captured correctly. A 180 Hz vibration appears as |180 - 200| = 20 Hz, a slow oscillation that is not really there.",
+      "placement_note": "Builds on Wave speed, frequency, and wavelength and Sequences and finite sums. Prepares for Evaluate sampling, delay and noise.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-complex",
+      "explanation": "Complex numbers extend the reals with an imaginary unit i, where i^2 = -1. A complex number a + bi adds and multiplies like a polynomial in i, replacing i^2 by -1. Its conjugate is a - bi, and (a + bi)(a - bi) = a^2 + b^2 is real, so to divide, multiply top and bottom by the conjugate of the bottom. The modulus |a + bi| = sqrt(a^2 + b^2) is its distance from 0 in the plane.",
+      "worked_example": "(3 + 4i)(1 - 2i) = 3 - 6i + 4i - 8i^2 = 11 - 2i. To divide, (3 + 4i)/(1 - 2i) = (3 + 4i)(1 + 2i)/((1 - 2i)(1 + 2i)) = (-5 + 10i)/5 = -1 + 2i. Check: (-1 + 2i)(1 - 2i) = 3 + 4i. And |3 + 4i| = 5.",
+      "practice": {
+        "question": "Expand (2 + i)^2.",
+        "answer": "4 + 4i + i^2 = 3 + 4i."
+      },
+      "boundary_case": {
+        "question": "Is sqrt(-4) * sqrt(-9) = sqrt(36) = 6?",
+        "answer": "No. sqrt(-4) = 2i and sqrt(-9) = 3i, so the product is 6i^2 = -6. The rule sqrt(a) * sqrt(b) = sqrt(ab) holds for non-negative a and b only."
+      },
+      "name": "Complex-number arithmetic",
+      "branch": "Mathematics",
+      "planning_id": "m-complex",
+      "proposed_runtime_id": "rob3:m-complex",
+      "requires": [
+        "m-quadratic",
+        "m-vector"
+      ],
+      "dependency_depth": 10,
+      "node_contract_sha256": "86974581f14762ec1c27959f170bd2f45070937efcd87760c8a9ccc851a46332",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Extend real arithmetic with an imaginary unit whose square is minus one and use conjugates for division.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Extend real arithmetic with an imaginary unit whose square is minus one and use conjugates for division.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation, checked in the lab.",
+      "why_it_matters": "Prepares for Analyze a linear control model.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with polar form, roots and complex exponentials.",
+      "references": [],
+      "details": "Complex numbers extend the reals with an imaginary unit i, where i^2 = -1. A complex number a + bi adds and multiplies like a polynomial in i, replacing i^2 by -1. Its conjugate is a - bi, and (a + bi)(a - bi) = a^2 + b^2 is real, so to divide, multiply top and bottom by the conjugate of the bottom. The modulus |a + bi| = sqrt(a^2 + b^2) is its distance from 0 in the plane.\n\n(3 + 4i)(1 - 2i) = 3 - 6i + 4i - 8i^2 = 11 - 2i. To divide, (3 + 4i)/(1 - 2i) = (3 + 4i)(1 + 2i)/((1 - 2i)(1 + 2i)) = (-5 + 10i)/5 = -1 + 2i. Check: (-1 + 2i)(1 - 2i) = 3 + 4i. And |3 + 4i| = 5.",
+      "placement_note": "Builds on Solving quadratic equations and Vector components and arithmetic. Prepares for Analyze a linear control model.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-defintegral",
+      "explanation": "The definite integral of f from a to b is the signed accumulation of f over the interval: area above the axis counts positive, area below counts negative. It is the limit of Riemann sums, where the interval is cut into n strips of width h and each strip contributes f(sample point) * h. As n grows, the sum settles on the integral. Integrating a rate gives an accumulated change: velocity gives displacement, flow rate gives volume.",
+      "worked_example": "A cart's velocity is v(t) = 2t m/s for 0 <= t <= 3 s. Left Riemann sums give 6.0 m with 3 strips and 7.5 m with 6 strips, and 8.997 m with 3000 strips. They approach the exact displacement, 9 m, the area of the triangle under v.",
+      "practice": {
+        "question": "Evaluate the integral of (x - 1) from 0 to 2.",
+        "answer": "0: the triangle below the axis on [0, 1] (-0.5) cancels the triangle above it on [1, 2] (+0.5)."
+      },
+      "boundary_case": {
+        "question": "If v(t) = t - 1 m/s on [0, 2] s, is the integral of v the distance the cart travelled?",
+        "answer": "No. The integral, 0 m, is the displacement: the cart backs up and returns. The distance travelled is the integral of |v|, 1 m."
+      },
+      "name": "Definite integrals and accumulation",
+      "branch": "Mathematics",
+      "planning_id": "m-defintegral",
+      "proposed_runtime_id": "rob3:m-defintegral",
+      "requires": [
+        "m-limit",
+        "m-area"
+      ],
+      "dependency_depth": 11,
+      "node_contract_sha256": "181d9560a10df0dd9d031edceea410955777fbd508ba3e1ac9006550b9191705",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Interpret a definite integral as signed accumulation, built as the limit of increasingly fine Riemann sums.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Interpret a definite integral as signed accumulation, built as the limit of increasingly fine Riemann sums.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation with Riemann sums, checked in the lab.",
+      "why_it_matters": "Prepares for Fundamental theorem of calculus, Numerical quadrature, and Area moments of inertia.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with non-uniform strips, trapezoid and midpoint sums.",
+      "references": [],
+      "details": "The definite integral of f from a to b is the signed accumulation of f over the interval: area above the axis counts positive, area below counts negative. It is the limit of Riemann sums, where the interval is cut into n strips of width h and each strip contributes f(sample point) * h. As n grows, the sum settles on the integral. Integrating a rate gives an accumulated change: velocity gives displacement, flow rate gives volume.\n\nA cart's velocity is v(t) = 2t m/s for 0 <= t <= 3 s. Left Riemann sums give 6.0 m with 3 strips and 7.5 m with 6 strips, and 8.997 m with 3000 strips. They approach the exact displacement, 9 m, the area of the triangle under v.",
+      "placement_note": "Builds on Limits of functions and Perimeter and planar area. Prepares for Fundamental theorem of calculus, Numerical quadrature, and Area moments of inertia.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-regression",
+      "explanation": "A least-squares fit chooses the line that minimises the sum of squared residuals, the vertical gaps between each point and the line. A good fit is judged by the residuals, not only by R^2: residuals that scatter randomly about zero support the model, while a pattern, such as a U shape or a trend, says the model's form is wrong. A high R^2 can hide a wrong model.",
+      "worked_example": "Points (0, 0.1), (1, 1.0), (2, 3.9), (3, 9.1) and (4, 16.0) give the line y = 3.99x - 1.96, with R^2 = 0.916. The residuals are 2.06, -1.03, -2.12, -0.91 and 2.0: positive at both ends and negative in the middle, a U shape. The data are curved (close to x^2), and a straight line is the wrong model despite the high R^2.",
+      "practice": {
+        "question": "A line's residuals are 0.1, -0.2, 0.05, 0.1 and -0.05, in order of x. Do they suggest a wrong model?",
+        "answer": "No. They are small, change sign irregularly and show no trend or curve, so a line is a reasonable model for this range."
+      },
+      "boundary_case": {
+        "question": "R^2 = 0.916 in the worked example. Does that show the linear model is right?",
+        "answer": "No. R^2 measures how much variation the line follows, not whether its form is right. The U-shaped residuals show the curvature it misses."
+      },
+      "name": "Regression and residual analysis",
+      "branch": "Mathematics",
+      "planning_id": "m-regression",
+      "proposed_runtime_id": "rob3:m-regression",
+      "requires": [
+        "m-leastsquares",
+        "m-sampling"
+      ],
+      "dependency_depth": 11,
+      "node_contract_sha256": "4b73943c046c47f219add8b9ace4641b7c420e40f4b37d019af0c40809138a57",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Fit a relationship and inspect residual patterns rather than relying only on a fitted line.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Fit a relationship and inspect residual patterns rather than relying only on a fitted line.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written fitting and residual inspection, checked in the lab.",
+      "why_it_matters": "Prepares for Sensor calibration curves and Regression models and loss functions.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with polynomial fits, outliers and residual plots against other variables.",
+      "references": [],
+      "details": "A least-squares fit chooses the line that minimises the sum of squared residuals, the vertical gaps between each point and the line. A good fit is judged by the residuals, not only by R^2: residuals that scatter randomly about zero support the model, while a pattern, such as a U shape or a trend, says the model's form is wrong. A high R^2 can hide a wrong model.\n\nPoints (0, 0.1), (1, 1.0), (2, 3.9), (3, 9.1) and (4, 16.0) give the line y = 3.99x - 1.96, with R^2 = 0.916. The residuals are 2.06, -1.03, -2.12, -0.91 and 2.0: positive at both ends and negative in the middle, a U shape. The data are curved (close to x^2), and a straight line is the wrong model despite the high R^2.",
+      "placement_note": "Builds on Linear least-squares fitting and Sampling and bias. Prepares for Sensor calibration curves and Regression models and loss functions.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-antiderivative",
+      "explanation": "An antiderivative of f is a function F with F' = f. Antiderivatives come as a family, F + C, because any constant differentiates to zero. One known value, an initial condition, fixes C. Check an antiderivative by differentiating it back.",
+      "worked_example": "A joint's velocity is v(t) = 3t^2 - 2 rad/s. Its position is x(t) = t^3 - 2t + C. With x(0) = 5 rad, C = 5, so x(2) = 8 - 4 + 5 = 9 rad. Differentiating x gives 3t^2 - 2 back, and the slope at t = 2 is 10.",
+      "practice": {
+        "question": "Find f with f'(t) = cos(2t) and f(0) = 1.",
+        "answer": "f(t) = 0.5 * sin(2t) + C, and f(0) = C = 1, so f(t) = 0.5 * sin(2t) + 1."
+      },
+      "boundary_case": {
+        "question": "Is x(t) = t^3 - 2t the joint's position?",
+        "answer": "Only if x(0) = 0. Without an initial condition the velocity fixes x only up to a constant; here x(0) = 5 rad gives t^3 - 2t + 5."
+      },
+      "name": "Antiderivatives",
+      "branch": "Mathematics",
+      "planning_id": "m-antiderivative",
+      "proposed_runtime_id": "rob3:m-antiderivative",
+      "requires": [
+        "m-diffrules"
+      ],
+      "dependency_depth": 13,
+      "node_contract_sha256": "d9dd9bb0458ee3f29296a43c154e161d6fba9414b0620b1d319f891daf874abf",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Recover a family of functions from its derivative and use an initial condition to fix the integration constant.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Recover a family of functions from its derivative and use an initial condition to fix the integration constant.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation with a differentiate-back check, computed in the lab.",
+      "why_it_matters": "Prepares for Fundamental theorem of calculus and Beam deflection.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with substitution and integration by parts.",
+      "references": [],
+      "details": "An antiderivative of f is a function F with F' = f. Antiderivatives come as a family, F + C, because any constant differentiates to zero. One known value, an initial condition, fixes C. Check an antiderivative by differentiating it back.\n\nA joint's velocity is v(t) = 3t^2 - 2 rad/s. Its position is x(t) = t^3 - 2t + C. With x(0) = 5 rad, C = 5, so x(2) = 8 - 4 + 5 = 9 rad. Differentiating x gives 3t^2 - 2 back, and the slope at t = 2 is 10.",
+      "placement_note": "Builds on Power, product, and quotient differentiation. Prepares for Fundamental theorem of calculus and Beam deflection.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-ftc",
+      "explanation": "The fundamental theorem of calculus links the two halves of calculus. If F is an antiderivative of a continuous f, the definite integral from a to b is F(b) - F(a). And the accumulation function, the integral of f from a to x, has derivative f(x). It turns an infinite Riemann sum into one subtraction, but only when f is continuous on the whole interval.",
+      "worked_example": "The integral of (2x + 1) from 1 to 3: an antiderivative is x^2 + x, so the integral is (9 + 3) - (1 + 1) = 10. A fine Riemann sum gives 10.0, as it must.",
+      "practice": {
+        "question": "Evaluate the integral of sin x from 0 to pi.",
+        "answer": "-cos(pi) - (-cos 0) = 1 + 1 = 2."
+      },
+      "boundary_case": {
+        "question": "Applying F(b) - F(a) to 1/x^2 from -1 to 1 gives [-1/x] = -1 - 1 = -2. Is the integral -2?",
+        "answer": "No. 1/x^2 is positive everywhere, so -2 is impossible. The integrand is unbounded at 0, the theorem does not apply, and the integral diverges (m-improper)."
+      },
+      "name": "Fundamental theorem of calculus",
+      "branch": "Mathematics",
+      "planning_id": "m-ftc",
+      "proposed_runtime_id": "rob3:m-ftc",
+      "requires": [
+        "m-antiderivative",
+        "m-defintegral"
+      ],
+      "dependency_depth": 14,
+      "node_contract_sha256": "3fd75ec79fc0bdee94265cdc0aa36c105e014d0c56f04a559cdade6c83bd706d",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Connect accumulation with differentiation and evaluate definite integrals as F(b) − F(a) using antiderivatives.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Connect accumulation with differentiation and evaluate definite integrals as F(b) − F(a) using antiderivatives.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation with a numerical check, computed in the lab.",
+      "why_it_matters": "Prepares for Improper integrals.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with accumulation functions and the chain rule.",
+      "references": [],
+      "details": "The fundamental theorem of calculus links the two halves of calculus. If F is an antiderivative of a continuous f, the definite integral from a to b is F(b) - F(a). And the accumulation function, the integral of f from a to x, has derivative f(x). It turns an infinite Riemann sum into one subtraction, but only when f is continuous on the whole interval.\n\nThe integral of (2x + 1) from 1 to 3: an antiderivative is x^2 + x, so the integral is (9 + 3) - (1 + 1) = 10. A fine Riemann sum gives 10.0, as it must.",
+      "placement_note": "Builds on Antiderivatives and Definite integrals and accumulation. Prepares for Improper integrals.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-improper",
+      "explanation": "An improper integral has an unbounded interval or an unbounded integrand. It is defined as a limit: integrate up to a finite bound, or stop short of the bad point, then let the bound go. If the limit exists the integral converges to it; if not, it diverges. Exponential decay converges on an infinite interval, and 1/x^2 converges on [1, infinity), but 1/x does not: its partial integrals grow without bound.",
+      "worked_example": "The integral of e^(-2t) from 0 to infinity is the limit of (1 - e^(-2b))/2 as b grows, which is 0.5. The integral of 1/x^2 from 1 to infinity is the limit of 1 - 1/b, which is 1. The integral of 1/x from 1 to b is ln b: 4.61 at b = 100, 9.21 at 1e4 and 13.82 at 1e6, growing without limit, so it diverges.",
+      "practice": {
+        "question": "Evaluate the integral of 1/sqrt(x) from 0 to 1.",
+        "answer": "The limit of 2 - 2*sqrt(eps) as eps goes to 0 is 2: it converges, although the integrand is unbounded at 0."
+      },
+      "boundary_case": {
+        "question": "Does the integral of 1/x^2 from 0 to 1 converge too, like 1/sqrt(x)?",
+        "answer": "No. The limit of 1/eps - 1 grows without bound, so it diverges. Unbounded integrands can go either way: check the limit."
+      },
+      "name": "Improper integrals",
+      "branch": "Mathematics",
+      "planning_id": "m-improper",
+      "proposed_runtime_id": "rob3:m-improper",
+      "requires": [
+        "m-ftc"
+      ],
+      "dependency_depth": 15,
+      "node_contract_sha256": "598ee7114d8ed1497166f06d3e9369112415b14266da10515aa82561a3a99c81",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Evaluate integrals over unbounded intervals or with unbounded integrands by taking limits.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Evaluate integrals over unbounded intervals or with unbounded integrands by taking limits.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written limits, checked numerically in the lab.",
+      "why_it_matters": "Prepares for Laplace transforms.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with comparison tests and integrals that feed the Laplace transform.",
+      "references": [],
+      "details": "An improper integral has an unbounded interval or an unbounded integrand. It is defined as a limit: integrate up to a finite bound, or stop short of the bad point, then let the bound go. If the limit exists the integral converges to it; if not, it diverges. Exponential decay converges on an infinite interval, and 1/x^2 converges on [1, infinity), but 1/x does not: its partial integrals grow without bound.\n\nThe integral of e^(-2t) from 0 to infinity is the limit of (1 - e^(-2b))/2 as b grows, which is 0.5. The integral of 1/x^2 from 1 to infinity is the limit of 1 - 1/b, which is 1. The integral of 1/x from 1 to b is ln b: 4.61 at b = 100, 9.21 at 1e4 and 13.82 at 1e6, growing without limit, so it diverges.",
+      "placement_note": "Builds on Fundamental theorem of calculus. Prepares for Laplace transforms.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "e-adc",
+      "explanation": "An analog-to-digital converter maps an input range, usually 0 to its reference Vref, onto 2^N integer codes. One step, the least significant bit (LSB), is Vref / 2^N. Resolution is that step; accuracy is how close a reading is to the truth, and it also depends on offset, gain and reference error, which are often many LSB. More bits improve resolution but not, by themselves, accuracy.",
+      "worked_example": "A 10-bit converter with a 5.0 V reference has 1024 codes and an LSB of 4.88 mV, so 2.5 V reads about code 512. If its offset error is 3 LSB, every reading is 14.6 mV off: its accuracy is three times coarser than its resolution.",
+      "practice": {
+        "question": "What is the LSB of a 16-bit converter with a 2.5 V reference?",
+        "answer": "2.5 / 65,536 = 38.1 uV."
+      },
+      "boundary_case": {
+        "question": "That 16-bit converter's reference is accurate to 0.5%. Can it measure to 38 uV?",
+        "answer": "Not in absolute terms. 0.5% of 2.5 V is 12.5 mV, hundreds of LSB. Resolution is 38 uV; accuracy is limited by the reference unless the system is calibrated."
+      },
+      "name": "Analog-to-digital conversion",
+      "branch": "Electronics",
+      "planning_id": "e-adc",
+      "proposed_runtime_id": "rob3:e-adc",
+      "requires": [
+        "e-logicvoltage",
+        "m-binary"
+      ],
+      "dependency_depth": 9,
+      "node_contract_sha256": "0a0b3399244abc866c9e088a5281861aed1d4b0ee463b4748a6d718f699e8c67",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Map an analog input range to discrete output codes and distinguish a converter's resolution from its accuracy.",
+      "assessment_contract": {
+        "mode": "circuit analysis or supervised measurement",
+        "task": "Map an analog input range to discrete output codes and distinguish a converter's resolution from its accuracy.",
+        "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+        "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation on stated converter specifications, checked in the lab.",
+      "why_it_matters": "Prepares for Sensor calibration curves and Condition a sensor signal.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with input ranges, differential inputs and datasheet error budgets; the split skill sss-elec-adc-code-conversion builds on this.",
+      "references": [],
+      "details": "An analog-to-digital converter maps an input range, usually 0 to its reference Vref, onto 2^N integer codes. One step, the least significant bit (LSB), is Vref / 2^N. Resolution is that step; accuracy is how close a reading is to the truth, and it also depends on offset, gain and reference error, which are often many LSB. More bits improve resolution but not, by themselves, accuracy.\n\nA 10-bit converter with a 5.0 V reference has 1024 codes and an LSB of 4.88 mV, so 2.5 V reads about code 512. If its offset error is 3 LSB, every reading is 14.6 mV off: its accuracy is three times coarser than its resolution.",
+      "placement_note": "Builds on Logic levels and noise margins and Binary and hexadecimal representation. Prepares for Sensor calibration curves and Condition a sensor signal.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "m-laplace",
+      "explanation": "The Laplace transform turns a function of time into a function of complex frequency s: F(s) is the integral from 0 to infinity of f(t) * e^(-st) dt, an improper integral that converges for s large enough. Three facts carry most of the work: the transform of 1 is 1/s, the transform of e^(-at) is 1/(s + a), and the transform of a derivative f' is s*F(s) - f(0). So a linear differential equation becomes algebra in s.",
+      "worked_example": "The transform of e^(-2t) is 1/(s + 2); at s = 1 the defining integral evaluates to 0.3333, as 1/(1 + 2) says. The equation y' + 2y = 0 with y(0) = 3 becomes sY - 3 + 2Y = 0, so Y = 3/(s + 2) and y(t) = 3e^(-2t), which is 1.1036 at t = 0.5.",
+      "practice": {
+        "question": "Transform f(t) = 5 and g(t) = e^(-t) - e^(-3t).",
+        "answer": "F(s) = 5/s and G(s) = 1/(s + 1) - 1/(s + 3)."
+      },
+      "boundary_case": {
+        "question": "Does the transform of e^(2t) exist at s = 1?",
+        "answer": "No. The integrand e^(2t) * e^(-t) = e^t grows, so the integral diverges. The transform 1/(s - 2) holds only for s > 2, its region of convergence."
+      },
+      "name": "Laplace transforms",
+      "branch": "Mathematics",
+      "planning_id": "m-laplace",
+      "proposed_runtime_id": "rob3:m-laplace",
+      "requires": [
+        "m-improper",
+        "m-expfunction"
+      ],
+      "dependency_depth": 16,
+      "node_contract_sha256": "5dea37db086211acb4a3c82fbada42911a877c58ccf63a575fb00e74e2b18d30",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Transform time functions and derivative equations into a complex-frequency representation.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Transform time functions and derivative equations into a complex-frequency representation.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written transforms with the defining integral checked in the lab.",
+      "why_it_matters": "Prepares for Analyze a linear control model.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with the inverse transform, partial fractions and transfer functions.",
+      "references": [],
+      "details": "The Laplace transform turns a function of time into a function of complex frequency s: F(s) is the integral from 0 to infinity of f(t) * e^(-st) dt, an improper integral that converges for s large enough. Three facts carry most of the work: the transform of 1 is 1/s, the transform of e^(-at) is 1/(s + a), and the transform of a derivative f' is s*F(s) - f(0). So a linear differential equation becomes algebra in s.\n\nThe transform of e^(-2t) is 1/(s + 2); at s = 1 the defining integral evaluates to 0.3333, as 1/(1 + 2) says. The equation y' + 2y = 0 with y(0) = 3 becomes sY - 3 + 2Y = 0, so Y = 3/(s + 2) and y(t) = 3e^(-2t), which is 1.1036 at t = 0.5.",
+      "placement_note": "Builds on Improper integrals and Exponential models. Prepares for Analyze a linear control model.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "e-calibration",
+      "explanation": "A calibration curve relates a sensor's raw readings to reference values of the quantity measured. Record raw readings at known references across the range, fit a model, usually a line (reference = gain * raw + offset), and inspect the residuals. Residuals that follow a pattern show nonlinearity. The curve is valid only over the range and conditions it was measured in.",
+      "worked_example": "A force sensor reads 100, 405, 712, 1020 and 1330 counts at reference loads of 0, 10, 20, 30 and 40 N. A least-squares line gives force = 0.03252 N/count * raw - 3.2 N. The residuals are -0.052, 0.029, 0.046, 0.029 and -0.052 N: small, but negative at both ends and positive in the middle, a slight curvature that a second-order fit could remove.",
+      "practice": {
+        "question": "With that curve, what force does a raw reading of 600 counts indicate?",
+        "answer": "0.03252 * 600 - 3.2 = 16.31 N."
+      },
+      "boundary_case": {
+        "question": "Can the curve convert a reading taken at 60 N?",
+        "answer": "Not with known accuracy. The curve was fitted from 0 to 40 N, and its slight curvature suggests the error grows outside that range. Extend the calibration before trusting it there."
+      },
+      "name": "Sensor calibration curves",
+      "branch": "Electronics",
+      "planning_id": "e-calibration",
+      "proposed_runtime_id": "rob3:e-calibration",
+      "requires": [
+        "m-regression",
+        "e-adc"
+      ],
+      "dependency_depth": 12,
+      "node_contract_sha256": "df21a0bced7ca0d6149218b793af25c51d9cc3d645673c2312945b7d8157ed67",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Relate raw sensor readings to reference quantities and inspect offset, gain, nonlinearity, and residuals.",
+      "assessment_contract": {
+        "mode": "circuit analysis or supervised measurement",
+        "task": "Relate raw sensor readings to reference quantities and inspect offset, gain, nonlinearity, and residuals.",
+        "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+        "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written fitting and residual inspection on stated readings, checked in the lab.",
+      "why_it_matters": "Prepares for Inertial measurement units.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Calibrating a real sensor against references with stated uncertainty, repeatability and temperature effects.",
+      "references": [],
+      "details": "A calibration curve relates a sensor's raw readings to reference values of the quantity measured. Record raw readings at known references across the range, fit a model, usually a line (reference = gain * raw + offset), and inspect the residuals. Residuals that follow a pattern show nonlinearity. The curve is valid only over the range and conditions it was measured in.\n\nA force sensor reads 100, 405, 712, 1020 and 1330 counts at reference loads of 0, 10, 20, 30 and 40 N. A least-squares line gives force = 0.03252 N/count * raw - 3.2 N. The residuals are -0.052, 0.029, 0.046, 0.029 and -0.052 N: small, but negative at both ends and positive in the middle, a slight curvature that a second-order fit could remove.",
+      "placement_note": "Builds on Regression and residual analysis and Analog-to-digital conversion. Prepares for Inertial measurement units.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "C07",
+      "explanation": "A small linear model, such as x' = -a*x + b*u, can be analysed before anything is built. Its pole, here s = -a, sets its behaviour: a negative pole decays, with time constant 1/a; a positive pole grows. Build the model in code, simulate a step input, and compare the simulation with a case whose answer is known, such as the first-order step response that reaches 63.2% of its final value at one time constant. A stable model does not by itself mean a robot performs well: saturation, delay and unmodelled effects are not in it.",
+      "worked_example": "A motor speed model w' = -5w + 10u has its pole at -5, a time constant of 0.2 s, and a final speed of 10/5 = 2 for a unit step. A simulation with 0.1 ms Euler steps gives w = 1.264 at t = 0.2 s, matching the known 2 * (1 - e^(-1)) = 1.264. So the simulation and the analysis agree.",
+      "practice": {
+        "question": "A model is x' = 2x + u. Where is its pole, and what does a unit step do?",
+        "answer": "The pole is at +2, so the model is unstable: the response grows without bound, reaching about 26.8 by t = 2 s from rest."
+      },
+      "boundary_case": {
+        "question": "The motor model is stable with a 0.2 s time constant. Will the real motor respond like that?",
+        "answer": "Not shown. The model leaves out voltage limits, friction, delay and load changes. Model stability is a property of the model; the robot's performance has to be measured."
+      },
+      "name": "Analyze a linear control model",
+      "branch": "Control and trajectories",
+      "planning_id": "C07",
+      "proposed_runtime_id": "rob3:C07",
+      "requires": [
+        "m-laplace",
+        "m-complex",
+        "R-M06"
+      ],
+      "dependency_depth": 17,
+      "node_contract_sha256": "7535cee53cea44ce8c6729727feb55905130c7933095048be41e6b8fa4435dc2",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.",
+      "assessment_contract": {
+        "mode": "runnable code or trace",
+        "task": "Build a stated small linear model, identify poles/equilibrium response and compare simulation to a known first-order case; distinguish model stability from measured robot performance.",
+        "case_requirements": "A normal input, boundary input and malformed/error input.",
+        "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Runnable model and step simulation, checked against the analytic response in the lab.",
+      "why_it_matters": "Prepares for Evaluate sampling, delay and noise and Design state feedback and an observer.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with second-order models, transfer functions and frequency response.",
+      "references": [],
+      "details": "A small linear model, such as x' = -a*x + b*u, can be analysed before anything is built. Its pole, here s = -a, sets its behaviour: a negative pole decays, with time constant 1/a; a positive pole grows. Build the model in code, simulate a step input, and compare the simulation with a case whose answer is known, such as the first-order step response that reaches 63.2% of its final value at one time constant. A stable model does not by itself mean a robot performs well: saturation, delay and unmodelled effects are not in it.\n\nA motor speed model w' = -5w + 10u has its pole at -5, a time constant of 0.2 s, and a final speed of 10/5 = 2 for a unit step. A simulation with 0.1 ms Euler steps gives w = 1.264 at t = 0.2 s, matching the known 2 * (1 - e^(-1)) = 1.264. So the simulation and the analysis agree.",
+      "placement_note": "Builds on Laplace transforms, Complex-number arithmetic, and Represent and discretize a linear dynamical model. Prepares for Evaluate sampling, delay and noise and Design state feedback and an observer.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "e-imu",
+      "explanation": "An inertial measurement unit combines an accelerometer and a gyroscope. The accelerometer measures specific force: at rest it reads the reaction to gravity, about 9.81 m/s^2 pointing up, split across its axes by its tilt. The gyroscope measures angular rate. Both report in the sensor's own frame, and both have biases: a small constant error that integration turns into a growing one.",
+      "worked_example": "A gyroscope at rest reads 0.02 rad/s on its z axis: that is its bias. Integrated for 60 s it produces 1.2 rad (68.8 deg) of false heading. An accelerometer at rest, tilted 30 deg about its x axis, reads 9.81 * sin(30) = 4.905 m/s^2 on y and 9.81 * cos(30) = 8.496 m/s^2 on z (signs depend on the axis convention).",
+      "practice": {
+        "question": "A gyroscope has a bias of 0.5 deg/s. What heading error does it build up in 10 s if nothing corrects it?",
+        "answer": "0.5 * 10 = 5 deg."
+      },
+      "boundary_case": {
+        "question": "In free fall, does the accelerometer read 9.81 m/s^2 downward?",
+        "answer": "No, it reads about zero. It measures specific force, the push from whatever supports it; in free fall nothing does. Gravity is not measured directly."
+      },
+      "name": "Inertial measurement units",
+      "branch": "Electronics",
+      "planning_id": "e-imu",
+      "proposed_runtime_id": "rob3:e-imu",
+      "requires": [
+        "p-angular",
+        "e-calibration"
+      ],
+      "dependency_depth": 13,
+      "node_contract_sha256": "5dbab71647cd83a4d99144456fa39750ff9c6e1daef03ef08680ef4913c66d9c",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Distinguish accelerometer and gyroscope outputs, their biases, and the reference frames they are expressed in.",
+      "assessment_contract": {
+        "mode": "circuit analysis or supervised measurement",
+        "task": "Distinguish accelerometer and gyroscope outputs, their biases, and the reference frames they are expressed in.",
+        "case_requirements": "A supplied circuit/specification, a rating/connection edge case and a measured or reference result.",
+        "acceptance": "Declare voltage/current references and ratings; distinguish predicted from measured behavior; reject unsupported connections or operating limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written interpretation of stated readings, checked in the lab.",
+      "why_it_matters": "Prepares for Estimate orientation from inertial data.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Measuring a real IMU's biases and noise with stated conditions, and calibrating its axes.",
+      "references": [],
+      "details": "An inertial measurement unit combines an accelerometer and a gyroscope. The accelerometer measures specific force: at rest it reads the reaction to gravity, about 9.81 m/s^2 pointing up, split across its axes by its tilt. The gyroscope measures angular rate. Both report in the sensor's own frame, and both have biases: a small constant error that integration turns into a growing one.\n\nA gyroscope at rest reads 0.02 rad/s on its z axis: that is its bias. Integrated for 60 s it produces 1.2 rad (68.8 deg) of false heading. An accelerometer at rest, tilted 30 deg about its x axis, reads 9.81 * sin(30) = 4.905 m/s^2 on y and 9.81 * cos(30) = 8.496 m/s^2 on z (signs depend on the axis convention).",
+      "placement_note": "Builds on Angular position, speed, and acceleration and Sensor calibration curves. Prepares for Estimate orientation from inertial data.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "C08",
+      "explanation": "A controller that runs on samples sees the world late and in steps. Vary three things in a model and see what each does: the sample time T, a measurement delay, and measurement noise. For an integrator plant x' = u under proportional control u = -K*x, sampling gives x(k+1) = (1 - K*T) * x(k), which is stable only while K*T < 2. With a one-step delay the loop uses x(k-1), and stability needs K*T < 1: the delay halves the margin. Report conclusions only within the conditions tested.",
+      "worked_example": "With K = 10 /s: at T = 0.05 s each step multiplies the error by 0.5, and after 20 steps it is 1e-6 of its start. At T = 0.25 s each step multiplies it by -1.5: it oscillates and grows to 3325 times its start in 20 steps. The stability limit is T = 0.2 s without delay, but only T = 0.1 s with a one-step delay.",
+      "practice": {
+        "question": "K = 10 /s and T = 0.12 s. Is the loop stable without delay? With a one-step delay?",
+        "answer": "Without delay, K*T = 1.2 < 2: stable, and the error decays. With the delay, K*T = 1.2 > 1: unstable, and the error grows to about 41 times its start in 40 steps."
+      },
+      "boundary_case": {
+        "question": "Measurement noise of 0.01 is added. Does it change whether the loop is stable?",
+        "answer": "No: in this linear model, noise does not move the stability limit. It makes the control signal jitter by about K * 0.01 = 0.1, which matters for actuator wear and saturation. Stability and performance are separate questions."
+      },
+      "name": "Evaluate sampling, delay and noise",
+      "branch": "Control and trajectories",
+      "planning_id": "C08",
+      "proposed_runtime_id": "rob3:C08",
+      "requires": [
+        "C07",
+        "e-sampling",
+        "S09"
+      ],
+      "dependency_depth": 18,
+      "node_contract_sha256": "cc8fe6469d4d5076e42999397fe3bfa704e1b35bc629272d566d34af60ecb31e",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.",
+      "assessment_contract": {
+        "mode": "runnable code or trace",
+        "task": "Vary sample time, delay and measurement noise in a model and report stability/performance implications within tested conditions.",
+        "case_requirements": "A normal input, boundary input and malformed/error input.",
+        "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Runnable sampled-loop simulation over stated sample times, delays and noise, computed in the lab.",
+      "why_it_matters": "A core robotics outcome in its own right (Control and trajectories).",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with second-order plants, filters in the loop and measured timing jitter.",
+      "references": [],
+      "details": "A controller that runs on samples sees the world late and in steps. Vary three things in a model and see what each does: the sample time T, a measurement delay, and measurement noise. For an integrator plant x' = u under proportional control u = -K*x, sampling gives x(k+1) = (1 - K*T) * x(k), which is stable only while K*T < 2. With a one-step delay the loop uses x(k-1), and stability needs K*T < 1: the delay halves the margin. Report conclusions only within the conditions tested.\n\nWith K = 10 /s: at T = 0.05 s each step multiplies the error by 0.5, and after 20 steps it is 1e-6 of its start. At T = 0.25 s each step multiplies it by -1.5: it oscillates and grows to 3325 times its start in 20 steps. The stability limit is T = 0.2 s without delay, but only T = 0.1 s with a one-step delay.",
+      "placement_note": "Builds on Analyze a linear control model, Sampling and aliasing, and Measure execution budgets and concurrency. A core robotics outcome in its own right (Control and trajectories).",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "P07",
+      "explanation": "Integrating a gyroscope gives orientation over short times, but its bias makes the estimate drift without limit. An accelerometer gives tilt from gravity's direction with no drift, but any acceleration of the robot corrupts it. A complementary filter combines them: each step it trusts the integrated gyro a lot (weight alpha, close to 1) and nudges the result toward the accelerometer's tilt (weight 1 - alpha). Report both the remaining drift and when the accelerometer correction misleads.",
+      "worked_example": "A gyroscope with a 0.01 rad/s roll bias, integrated alone for 100 s, drifts by 1.0 rad. A complementary filter with alpha = 0.98 and steps of 0.01 s settles instead at an error of alpha * bias * dt / (1 - alpha) = 0.98 * 0.01 * 0.01 / 0.02 = 0.0049 rad, and a 20,000-step simulation agrees. But while the robot accelerates sideways at 2 m/s^2, the accelerometer's apparent tilt is off by atan(2 / 9.81) = 11.5 deg.",
+      "practice": {
+        "question": "A gyroscope's bias is 0.005 rad/s. How far does pure integration drift in 60 s?",
+        "answer": "0.005 * 60 = 0.3 rad."
+      },
+      "boundary_case": {
+        "question": "Why not estimate tilt from the accelerometer alone and skip the gyroscope?",
+        "answer": "Because any acceleration of the robot adds to gravity's reading. During a 2 m/s^2 sideways acceleration, the tilt would be wrong by 11.5 deg. The gyroscope carries the estimate through such motion."
+      },
+      "name": "Estimate orientation from inertial data",
+      "branch": "Sensing, calibration and estimation",
+      "planning_id": "P07",
+      "proposed_runtime_id": "rob3:P07",
+      "requires": [
+        "P02",
+        "P03",
+        "K12",
+        "e-imu"
+      ],
+      "dependency_depth": 16,
+      "node_contract_sha256": "546e426bb385c06e9f23916550a2a59698185b518436d1bb903950c8a29d9496",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.",
+      "assessment_contract": {
+        "mode": "written calculation",
+        "task": "Compare integrated gyro orientation with a corrected estimate and document drift and acceleration-related limitations.",
+        "case_requirements": "A routine example, a changed-value transfer example and a domain/invalid-input counterexample.",
+        "acceptance": "Record steps; check the result by substitution, an independent calculation or an explicit identity; state domains and units when applicable.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Written calculation and a synthetic filter simulation, checked in the lab.",
+      "why_it_matters": "Prepares for Future specialization scope: legged, humanoid or aerial systems.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with three-axis orientation, magnetometers and Kalman-filter estimators.",
+      "references": [],
+      "details": "Integrating a gyroscope gives orientation over short times, but its bias makes the estimate drift without limit. An accelerometer gives tilt from gravity's direction with no drift, but any acceleration of the robot corrupts it. A complementary filter combines them: each step it trusts the integrated gyro a lot (weight alpha, close to 1) and nudges the result toward the accelerometer's tilt (weight 1 - alpha). Report both the remaining drift and when the accelerometer correction misleads.\n\nA gyroscope with a 0.01 rad/s roll bias, integrated alone for 100 s, drifts by 1.0 rad. A complementary filter with alpha = 0.98 and steps of 0.01 s settles instead at an error of alpha * bias * dt / (1 - alpha) = 0.98 * 0.01 * 0.01 / 0.02 = 0.0049 rad, and a 20,000-step simulation agrees. But while the robot accelerates sideways at 2 m/s^2, the accelerometer's apparent tilt is off by atan(2 / 9.81) = 11.5 deg.",
+      "placement_note": "Builds on Align and timestamp sensor streams, Model noise and covariance, Compare orientation representations, and Inertial measurement units. Prepares for Future specialization scope: legged, humanoid or aerial systems.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "A11",
+      "explanation": "A simple actuator model, such as the first-order motor speed model tau * w' = -w + K * V, has two parameters: the gain K (final speed per volt) and the time constant tau. Fit them from recorded input and output data, for example a voltage step. Then test the fitted model on a different run, with a different input, because a model always fits the data it was fitted to. Report the test error, not the fit error.",
+      "worked_example": "A 6 V step drives a motor to a final speed of 120 rad/s, so K = 120 / 6 = 20 rad/s per V. The speed reaches 63.2% of final, 75.9 rad/s, at t = 0.05 s, so tau = 0.05 s; a least-squares fit to ln(1 - w / 120) gives the same 0.05 s. On a separate 3 V run the model predicts 60 rad/s, and the run reaches 57 rad/s: a 5.0% test error, larger at low voltage, where friction matters more.",
+      "practice": {
+        "question": "A 9 V step gives a final speed of 90 rad/s, reached to 63.2% at 0.08 s. What are K and tau?",
+        "answer": "K = 90 / 9 = 10 rad/s per V and tau = 0.08 s."
+      },
+      "boundary_case": {
+        "question": "The model reproduces the 6 V run exactly. Is it validated?",
+        "answer": "No. It was fitted to that run. Only a separate run, here at 3 V, tests it, and it shows a 5.0% error the fit could not reveal."
+      },
+      "name": "Identify a simple actuator model",
+      "branch": "Actuation and transmissions",
+      "planning_id": "A11",
+      "proposed_runtime_id": "rob3:A11",
+      "requires": [
+        "A07",
+        "E03",
+        "m-leastsquares"
+      ],
+      "dependency_depth": 16,
+      "node_contract_sha256": "f759ac90ac07d88c45184c4da4b65d4ef90e82dc870edec994d2ea6726d177e0",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Fit a stated low-order model from recorded input/output data and test it on a separate run.",
+      "assessment_contract": {
+        "mode": "calculation and explanation",
+        "task": "Fit a stated low-order model from recorded input/output data and test it on a separate run.",
+        "case_requirements": "A labeled physical scenario, a changed-condition case and a limiting case.",
+        "acceptance": "State system boundary and assumptions; use coherent units; verify signs and physical limiting behavior.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Calculation and explanation on stated input and output data, with the fit computed in the lab.",
+      "why_it_matters": "Prepares for Add model-based feedforward.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Recording real step responses with stated instruments, and fitting models with friction and saturation.",
+      "references": [],
+      "details": "A simple actuator model, such as the first-order motor speed model tau * w' = -w + K * V, has two parameters: the gain K (final speed per volt) and the time constant tau. Fit them from recorded input and output data, for example a voltage step. Then test the fitted model on a different run, with a different input, because a model always fits the data it was fitted to. Report the test error, not the fit error.\n\nA 6 V step drives a motor to a final speed of 120 rad/s, so K = 120 / 6 = 20 rad/s per V. The speed reaches 63.2% of final, 75.9 rad/s, at t = 0.05 s, so tau = 0.05 s; a least-squares fit to ln(1 - w / 120) gives the same 0.05 s. On a separate 3 V run the model predicts 60 rad/s, and the run reaches 57 rad/s: a 5.0% test error, larger at low voltage, where friction matters more.",
+      "placement_note": "Builds on Match a motor to its driver, Take and interpret low-voltage circuit measurements, and Linear least-squares fitting. Prepares for Add model-based feedforward.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "C09",
+      "explanation": "For a linear model x' = A*x + B*u with measurement y = C*x, check two things before designing. Controllability: the matrix [B, A*B] has full rank, so the input can steer every state. Observability: the matrix [C; C*A] has full rank, so the measurement reveals every state. With state feedback u = -K*x, the closed loop's poles are the eigenvalues of A - B*K. An observer estimates the state from y with gain L, and its error poles are the eigenvalues of A - L*C, usually placed faster than the controller's. Test the design with a perturbed model.",
+      "worked_example": "A double integrator (position x1, velocity x2, x1' = x2, x2' = u), with position measured (y = x1), has controllability and observability matrices of rank 2. A supplied gain K = [4, 4] places the closed-loop poles at -2, -2. A supplied observer gain L = [8, 16] places the estimation-error poles at -4, -4, twice as fast.",
+      "practice": {
+        "question": "Same system, but only velocity is measured (y = x2). Is it observable?",
+        "answer": "No. [C; C*A] = [[0, 1], [0, 0]] has rank 1: position cannot be recovered from velocity alone."
+      },
+      "boundary_case": {
+        "question": "The real mass is 20% higher than the model's, so u has 1/1.2 of its modelled effect. What happens to the closed loop?",
+        "answer": "The poles move from -2, -2 to about -1.667 +/- 0.745i: still stable, but slower and slightly oscillatory. The perturbation test shows how much margin the design has; it does not certify the real robot."
+      },
+      "name": "Design state feedback and an observer",
+      "branch": "Control and trajectories",
+      "planning_id": "C09",
+      "proposed_runtime_id": "rob3:C09",
+      "requires": [
+        "C07",
+        "m-eigen",
+        "m-rank",
+        "R-M06",
+        "P08"
+      ],
+      "dependency_depth": 18,
+      "node_contract_sha256": "47ccbe52a50e5672cacc36ff250690456a9efe5c72d54ba64d9ff680905753d6",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.",
+      "assessment_contract": {
+        "mode": "runnable code or trace",
+        "task": "For a specified small linear system, check controllability/observability and implement a supplied state-feedback/observer design; test perturbations and document limitations. General optimal-control synthesis is outside scope.",
+        "case_requirements": "A normal input, boundary input and malformed/error input.",
+        "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Runnable rank checks and pole calculations, with the perturbation computed in the lab.",
+      "why_it_matters": "Prepares for Implement force or impedance control, Apply model-predictive control, and Future specialization scope: legged, humanoid or aerial systems.",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with larger systems and discrete-time designs; general optimal-control synthesis is outside this entry.",
+      "references": [],
+      "details": "For a linear model x' = A*x + B*u with measurement y = C*x, check two things before designing. Controllability: the matrix [B, A*B] has full rank, so the input can steer every state. Observability: the matrix [C; C*A] has full rank, so the measurement reveals every state. With state feedback u = -K*x, the closed loop's poles are the eigenvalues of A - B*K. An observer estimates the state from y with gain L, and its error poles are the eigenvalues of A - L*C, usually placed faster than the controller's. Test the design with a perturbed model.\n\nA double integrator (position x1, velocity x2, x1' = x2, x2' = u), with position measured (y = x1), has controllability and observability matrices of rank 2. A supplied gain K = [4, 4] places the closed-loop poles at -2, -2. A supplied observer gain L = [8, 16] places the estimation-error poles at -4, -4, twice as fast.",
+      "placement_note": "Builds on Analyze a linear control model, Eigenvalues and eigenvectors, Rank and null spaces, Represent and discretize a linear dynamical model, and Implement a state estimator. Prepares for Implement force or impedance control, Apply model-predictive control, and Future specialization scope: legged, humanoid or aerial systems.",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "C06",
+      "explanation": "Feedback corrects errors after they appear; feedforward uses a model to supply the input the task needs before any error appears. For the motor model tau * w' = -w + K * V, holding a speed w_ref needs V_ff = w_ref / K. Adding feedback on top corrects what the model gets wrong. Compare feedback alone with feedforward plus feedback, and quantify how sensitive each is to a model error.",
+      "worked_example": "For w_ref = 100 rad/s with K = 20 rad/s per V, proportional feedback alone with gain 0.05 V per rad/s leaves a steady error of 50 rad/s. Adding V_ff = 100 / 20 = 5 V removes it entirely when the model is exact. If the motor's real gain is 18, 10% low, the error is 5.26 rad/s with feedforward but 52.63 rad/s with feedback alone.",
+      "practice": {
+        "question": "With the model exact (K = 20) and feedforward plus the same feedback, what is the steady error?",
+        "answer": "Zero: the feedforward supplies exactly the 5 V needed, and the feedback has nothing left to correct."
+      },
+      "boundary_case": {
+        "question": "Why not use the 5 V feedforward alone, without feedback?",
+        "answer": "With the real gain 10% low the motor settles at 18 * 5 = 90 rad/s, a 10% error, and any load disturbance goes uncorrected. Feedforward needs feedback to clean up model error."
+      },
+      "name": "Add model-based feedforward",
+      "branch": "Control and trajectories",
+      "planning_id": "C06",
+      "proposed_runtime_id": "rob3:C06",
+      "requires": [
+        "C03",
+        "A11",
+        "C05"
+      ],
+      "dependency_depth": 18,
+      "node_contract_sha256": "4ba35cd1ac6c9eccabb95ade7a53174724c53d1e43f41c477a89639d9b733b92",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.",
+      "assessment_contract": {
+        "mode": "runnable code or trace",
+        "task": "Compare feedback-only and feedforward-plus-feedback performance and quantify model-mismatch sensitivity.",
+        "case_requirements": "A normal input, boundary input and malformed/error input.",
+        "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Runnable steady-state comparison over stated model errors, computed in the lab.",
+      "why_it_matters": "A core robotics outcome in its own right (Control and trajectories).",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Varied practice with ramp and trajectory feedforward and with friction compensation.",
+      "references": [],
+      "details": "Feedback corrects errors after they appear; feedforward uses a model to supply the input the task needs before any error appears. For the motor model tau * w' = -w + K * V, holding a speed w_ref needs V_ff = w_ref / K. Adding feedback on top corrects what the model gets wrong. Compare feedback alone with feedforward plus feedback, and quantify how sensitive each is to a model error.\n\nFor w_ref = 100 rad/s with K = 20 rad/s per V, proportional feedback alone with gain 0.05 V per rad/s leaves a steady error of 50 rad/s. Adding V_ff = 100 / 20 = 5 V removes it entirely when the model is exact. If the motor's real gain is 18, 10% low, the error is 5.26 rad/s with feedforward but 52.63 rad/s with feedback alone.",
+      "placement_note": "Builds on Implement practical PID behavior, Identify a simple actuator model, and Generate bounded joint trajectories. A core robotics outcome in its own right (Control and trajectories).",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    },
+    {
+      "id": "N09",
+      "explanation": "Evaluate a SLAM pipeline against references, not by how its map looks. The absolute trajectory error (ATE) is the root-mean-square position error of the estimated trajectory against a reference trajectory, after aligning their frames. Drift is the error accumulated per distance travelled. A false loop closure, which joins two places that only look alike, shows up as a sudden jump in the trajectory and a map that folds onto itself. Report results only for the routes and conditions tested.",
+      "worked_example": "At four checkpoints along a 50 m route, the estimate is off by (0.1, 0), (0.2, 0.1), (0.3, -0.1) and (0.4, 0.2) m. The squared errors average 0.09 m^2, so the ATE is 0.3 m. The final error, 0.4472 m after 50 m, is a drift of 0.89% of the distance travelled.",
+      "practice": {
+        "question": "The estimate is off by 0.05 m at each of the four checkpoints. What is the ATE?",
+        "answer": "0.05 m: every squared error is 0.0025 m^2, and the root of their mean is 0.05 m."
+      },
+      "boundary_case": {
+        "question": "The pipeline scores 0.3 m ATE on a 50 m route with one loop. Will it do as well in a 200 m warehouse with repeated aisles?",
+        "answer": "Not shown. Repeated aisles invite false loop closures, and drift grows with distance. The result holds for the tested route; test the new environment."
+      },
+      "name": "Evaluate a SLAM pipeline",
+      "branch": "Wheeled mobility and navigation",
+      "planning_id": "N09",
+      "proposed_runtime_id": "rob3:N09",
+      "requires": [
+        "N05",
+        "P09",
+        "S10"
+      ],
+      "dependency_depth": 18,
+      "node_contract_sha256": "fe1bfc9eed5720d96942c41f50b08612bb3e622d7689325f2d1710e6b2aa9084",
+      "content_status": "introductory_lesson_authored",
+      "proficiency_write": false,
+      "instructional_scope": "Introductory explanation, worked example and two checks; not an exhaustive course, a question bank or proof of mastery.",
+      "full_demonstration": "Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.",
+      "assessment_contract": {
+        "mode": "runnable code or trace",
+        "task": "Compare estimated map and trajectory with available references; examine drift and false loop-closure cases.",
+        "case_requirements": "A normal input, boundary input and malformed/error input.",
+        "acceptance": "Use reproducible files and environment; verify expected outputs, error behavior and relevant resource/timing limits.",
+        "evidence_record": [
+          "task and version",
+          "inputs and assumptions",
+          "work or implementation",
+          "reference result or measurement method",
+          "outcome and limits"
+        ],
+        "tolerance_policy": "Set numeric tolerances before a numerical or physical trial using the specified model, instrument resolution and task requirement; there is no universal robotics tolerance.",
+        "answer_policy": "Evidence is optional supporting information for the existing self-report. Do not automatically write Yes/No or infer prerequisite proficiency.",
+        "status": "assessment specification; individual question bank not authored"
+      },
+      "practice_mode": "Runnable trajectory-error calculation on stated checkpoints, computed in the lab.",
+      "why_it_matters": "A core robotics outcome in its own right (Wheeled mobility and navigation).",
+      "evidence_policy": "A calculation, simulation or synthetic lab result checks use of the stated method only. No answer is written automatically; proficiency stays a manual self-report.",
+      "required_future_work": "Evaluating a pipeline on recorded datasets with ground truth, including relative pose error and loop-closure checks.",
+      "references": [],
+      "details": "Evaluate a SLAM pipeline against references, not by how its map looks. The absolute trajectory error (ATE) is the root-mean-square position error of the estimated trajectory against a reference trajectory, after aligning their frames. Drift is the error accumulated per distance travelled. A false loop closure, which joins two places that only look alike, shows up as a sudden jump in the trajectory and a map that folds onto itself. Report results only for the routes and conditions tested.\n\nAt four checkpoints along a 50 m route, the estimate is off by (0.1, 0), (0.2, 0.1), (0.3, -0.1) and (0.4, 0.2) m. The squared errors average 0.09 m^2, so the ATE is 0.3 m. The final error, 0.4472 m after 50 m, is a drift of 0.89% of the distance travelled.",
+      "placement_note": "Builds on Localize against a known map, Fuse nonlinear mobile-robot measurements, and Create logs and replayable tests. A core robotics outcome in its own right (Wheeled mobility and navigation).",
+      "assessment_rule": "Attempt the practice and boundary check before reading the keys, then complete the full demonstration with its evidence record. Self-assessment remains manual.",
+      "requires_physical_evidence": false,
+      "evidence_kind": "none"
+    }
+  ]
+}

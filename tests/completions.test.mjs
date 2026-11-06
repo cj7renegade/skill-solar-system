@@ -105,9 +105,11 @@ const realAvailable = existsSync(ATLAS) && existsSync(APPROVED);
 const BASE = realAvailable && [ATLAS, path.join(ROOT, 'Maps', 'Backups', '2026-11-05-before-completions', 'Robotics-Atlas.json')]
   .find(f => existsSync(f) && createHash('sha256').update(readFileSync(f)).digest('hex') === JSON.parse(readFileSync(APPROVED, 'utf8')).baseMap.sha256);
 
-test('a new skill is worded like the existing pending V3 entries', { skip: !(realAvailable && existsSync(SPEC)) && 'needs the working map and the V3 specification' }, () => {
-  const atlas = JSON.parse(readFileSync(ATLAS, 'utf8')), v3spec = JSON.parse(readFileSync(SPEC, 'utf8'));
-  // The two new skills' branches; each has one entry still pending.
+// Compared against the map the new skills were approved against, where P07 and A11 were still pending;
+// they have lessons since Edition 09.
+test('a new skill is worded like the existing pending V3 entries', { skip: !(BASE && existsSync(SPEC)) && 'needs the base map and the V3 specification' }, () => {
+  const atlas = JSON.parse(readFileSync(BASE, 'utf8')), v3spec = JSON.parse(readFileSync(SPEC, 'utf8'));
+  // The two new skills' branches; each had one entry still pending.
   for (const id of ['P07', 'A11']) {
     const entry = v3spec.nodes.find(n => n.id === id), mapNode = atlas.nodes.find(n => n.planningId === id);
     assert.equal(mapNode.lesson, undefined);

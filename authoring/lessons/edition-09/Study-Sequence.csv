@@ -1,0 +1,22 @@
+Order,Planning ID,Name,Requires
+1,m-random,Random variables and distributions,m-prob m-function
+2,p-wave,"Wave speed, frequency, and wavelength",p-speed m-ratio
+3,m-sampling,Sampling and bias,m-random
+4,e-sampling,Sampling and aliasing,p-wave m-sequence
+5,m-complex,Complex-number arithmetic,m-quadratic m-vector
+6,m-defintegral,Definite integrals and accumulation,m-limit m-area
+7,m-regression,Regression and residual analysis,m-leastsquares m-sampling
+8,m-antiderivative,Antiderivatives,m-diffrules
+9,m-ftc,Fundamental theorem of calculus,m-antiderivative m-defintegral
+10,m-improper,Improper integrals,m-ftc
+11,e-adc,Analog-to-digital conversion,e-logicvoltage m-binary
+12,m-laplace,Laplace transforms,m-improper m-expfunction
+13,e-calibration,Sensor calibration curves,m-regression e-adc
+14,C07,Analyze a linear control model,m-laplace m-complex R-M06
+15,e-imu,Inertial measurement units,p-angular e-calibration
+16,C08,"Evaluate sampling, delay and noise",C07 e-sampling S09
+17,P07,Estimate orientation from inertial data,P02 P03 K12 e-imu
+18,A11,Identify a simple actuator model,A07 E03 m-leastsquares
+19,C09,Design state feedback and an observer,C07 m-eigen m-rank R-M06 P08
+20,C06,Add model-based feedforward,C03 A11 C05
+21,N09,Evaluate a SLAM pipeline,N05 P09 S10

@@ -1030,6 +1030,16 @@ and matched by the skill's own id (`runtime_identity.master_skill`), because the
 planning id. A skill that gains one keeps its own text in `atlasDetails` and `atlasPlacementNote`.
 The importer counts them as `masterSkillLessons`, apart from V3's.
 
+### 9.1e Core lessons, Edition 09 (the working map since 2026-11-05)
+
+Built from the Edition 08 map and made the working map after JC's go at Checkpoint B2 (`reports/lessons/03-edition09-results.md`). The map it replaced is in `Maps/Backups/2026-11-05-before-edition09/`:
+
+| | |
+| --- | --- |
+| Lessons | 350: Edition 09 (`core-lessons-09`, written in this repository) adds 21 on the V3 entries of the core outside the I05 path, checked against V3's specification |
+| Core | 350 of 351 skills with a card; only `r-singular`, the orientation overview (Q6), has none |
+| Pending V3 entries | 55, all outside the core: 11 extension pathways (step 9) and 44 context entries |
+
 ### 9.2 Chain closure
 
 | Milestone | Chain | Closed? |
