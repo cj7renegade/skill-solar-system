@@ -110,7 +110,9 @@ items, each with a recommendation:
 - **C4:** recalculate `feedsMilestones`.
 - **C5:** Claude Code writes Edition 07.
 
-**Waiting for JC at Checkpoint A, and for the fresh backup.**
+**Checkpoint A passed on 2026-11-05:** JC accepted every recommendation ("C1 a, C2 yes, C3
+optional, C4 yes, C5 Claude Code"). Recorded in `new-skills.json` (`status: APPROVED`). The
+lessons are 8: `K05`, `K06`, `K07`, `m-invtrig`, `m-inverse`, `p-work`, `P11` and `A12`.
 
 ## [ ] Task 3 Ã¢â‚¬â€ The structure tool
 **Do:** Write `authoring/completions/add-skills.mjs` (logic only, no file access) and
@@ -125,6 +127,21 @@ items, each with a recommendation:
   skills; running it twice gives identical bytes.
 **Check:** unit tests for each rule and gate (`tests/completions.test.mjs`). Write the result to
 `C:\sss-scratch\completions\`. Record how many skills changed level.
+**Result:** `authoring/completions/add-skills.mjs` and `build-completions.mjs`.
+- **Backup first:** `%OneDrive%\HelixSkill Backups\2026-11-05_192031` (213 files, 109.0 MB, every
+  file verified). The app was closed, so Claude Code ran the backup script.
+- **The build PASSED every gate.** It has 1,920 skills and 5,714 connections (4,327 prerequisite,
+  177 supports, 1,210 related). The 308 answers and 298 lessons are unchanged, and a rebuild gives
+  identical bytes. The result is `C:\sss-scratch\completions\Robotics-Atlas-structure.json`
+  (SHA-256 `0c0619e9…62ddd1e`).
+- **New skills:** `rob3:P11` at level 61, feeding I03–I05; `rob3:A12` at level 58, optional.
+  Both are worded and laid out like the existing pending V3 entries, which a test checks.
+- **feedsMilestones:** the 9 corrections from Task 1 are applied.
+- **Levels:** 1,914 existing skills kept their level, 4 moved up (by at most 3), and 22 positions
+  changed. The highest level is still 82.
+- **Specification extension:** the importer reads the approved records from `new-skills.json`.
+- `tests/completions.test.mjs`: 8 tests, all passing. The working map and the answer record are
+  unchanged.
 
 ## [ ] Task 4 Ã¢â‚¬â€ Extract the Edition 07 targets
 **Do:** Write `authoring/robotics-v3/Edition07-Targets.json` in the format of `Edition06-Targets.json`:
