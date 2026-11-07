@@ -20,6 +20,7 @@ import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
 import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from './learner.js';
 import { planLayout, renderPlan } from './plan.js';
 import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
+import { createGuidePanel } from './guide-panel.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -743,6 +744,11 @@ const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-profic
   show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
   onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
 $('mark-proficiency').onclick=()=>review.open();
+// The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
+// replies select a skill or show a path, the same as the HUD's buttons.
+const guidePanel=createGuidePanel({bridge:window.desktop?.guide,button:$('guide-button'),pill:$('guide-state'),panel:$('guide-panel'),el,
+  getContext:()=>({graph,target:activeTarget(graph,safeStorage),selected,pathTarget,reviewLeft:reviewLeft(safeStorage,graph),record,today:new Date().toISOString().slice(0,10)}),
+  actions:{select:flyTo,path:id=>setPath(id)}});
 viewer?.spacing(spacing);
 $('sphere-spacing').value=String(spacing);$('spacing-value').value=`${spacing.toFixed(2)}×`;
 render();viewer?.fit();
