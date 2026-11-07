@@ -228,3 +228,6 @@ small,.eyebrow,.edge-note,.node-id,footer,.sync-state,.find-results .find-domain
 .guide-starters{display:flex;flex-wrap:wrap;gap:6px}.guide-starter{font-size:12px;padding:5px 9px;text-align:left}
 .guide-form{display:flex;flex-direction:column;gap:6px}.guide-form textarea{min-height:52px}.guide-form-buttons{display:flex;justify-content:flex-end;gap:6px}
 .guide-note{font-size:11px;color:var(--muted);margin:0}
+.guide-log-wrap{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;min-height:60px}.guide-log-wrap .guide-log{flex:none;overflow:visible}
+.guide-earlier{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px}.guide-earlier summary{cursor:pointer;color:var(--muted)}.guide-past{display:flex;flex-direction:column;gap:6px;margin:6px 0;opacity:.85}
+.guide-notes{white-space:pre-wrap;font-size:12px;background:#0b1320;border:1px solid #243247;border-radius:6px;padding:7px 9px;margin:4px 0}

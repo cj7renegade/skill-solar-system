@@ -7,6 +7,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { writeFileAtomic } = require('./save.cjs');
+const { fileFor } = require('./proficiency-store.cjs');
 
 const MODEL = 'claude-opus-5-5';
 // Estimated US$ per million tokens for this model, to keep the monthly cap. The Console's billing is
@@ -15,6 +16,10 @@ const PRICE = { input: 4, output: 20, cacheRead: 0.2, cacheWrite: 5 };
 const DEFAULT_LIMIT = 10;
 const RETRY_MS = 30_000;
 const MAX_REQUEST_CHARS = 1_500_000;
+const MAX_MEMORY_BYTES = 2_000_000;
+// What the Guide remembers, one file per atlas family (maps without one share "default"): the visible
+// conversations and the notes summarized from them. Kept on this computer only.
+const MEMORY_FORMAT = 'helixskill-guide-memory';
 
 // Connection states. The rest of HelixSkill works offline in every one of them.
 //   off           no API key, or the Guide is turned off
@@ -140,7 +145,7 @@ function createGuide({ dir, secure, createClient, SDK, onStatus = () => {}, onli
         // On a safety decline, the API re-runs the request on Anthropic's recommended fallback model.
         betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default',
         cache_control: { type: 'ephemeral' },
-        system, tools: tools.map(t => ({ ...t, eager_input_streaming: true })), messages
+        system, ...(tools.length ? { tools: tools.map(t => ({ ...t, eager_input_streaming: true })) } : {}), messages
       }, { signal: controller.signal });
       stream.on('text', text => onDelta(text));
       const message = await stream.finalMessage();
@@ -161,7 +166,24 @@ function createGuide({ dir, secure, createClient, SDK, onStatus = () => {}, onli
     if (overLimit()) set('paused', 'Monthly limit reached'); else onStatus(status());
   }
 
-  return { load, probe, status, setKey, clearKey, setSettings, turn, cancel, stop: () => { clearTimeout(timer); for (const c of running.values()) c.abort(); } };
+  // Memory is plain local storage: reading and writing it never needs the connection.
+  const memoryDir = path.join(dir, 'memory'), memoryQueue = new Map();
+  async function loadMemory(family) {
+    try { return await fs.readFile(fileFor(memoryDir, family), 'utf8'); }
+    catch (error) { if (error.code === 'ENOENT') return null; throw error; }
+  }
+  function saveMemory(family, text) {
+    const file = fileFor(memoryDir, family);
+    if (typeof text !== 'string' || Buffer.byteLength(text) > MAX_MEMORY_BYTES) throw Error('Invalid guide memory.');
+    let memory;
+    try { memory = JSON.parse(text); } catch { throw Error('Invalid guide memory.'); }
+    if (memory?.format !== MEMORY_FORMAT || memory.family !== family || !Array.isArray(memory.conversations) || typeof memory.notes !== 'string') throw Error('Invalid guide memory.');
+    const run = (memoryQueue.get(file) || Promise.resolve()).catch(() => {}).then(async () => { await fs.mkdir(memoryDir, { recursive: true }); await writeFileAtomic(file, text); });
+    memoryQueue.set(file, run);
+    return run.then(() => true);
+  }
+
+  return { load, probe, status, setKey, clearKey, setSettings, turn, cancel, loadMemory, saveMemory, stop: () => { clearTimeout(timer); for (const c of running.values()) c.abort(); } };
 }
 
-module.exports = { createGuide, MODEL, PRICE, DEFAULT_LIMIT, STATES, cost, validMessages, classify };
+module.exports = { createGuide, MEMORY_FORMAT, MODEL, PRICE, DEFAULT_LIMIT, STATES, cost, validMessages, classify };

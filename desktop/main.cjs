@@ -60,6 +60,8 @@ app.whenReady().then(() => {
   ipcMain.handle('guide-settings', guarded((_, next) => guide.setSettings(next)));
   ipcMain.handle('guide-turn', guarded((event, id, request) => guide.turn(id, request, text => { if (!event.sender.isDestroyed()) event.sender.send('guide-delta', id, text); })));
   ipcMain.handle('guide-cancel', guarded((_, id) => guide.cancel(id)));
+  ipcMain.handle('guide-memory-load', guarded((_, family) => guide.loadMemory(family)));
+  ipcMain.handle('guide-memory-save', guarded((_, family, text) => guide.saveMemory(family, text)));
   guide.load().catch(() => {});
   app.on('before-quit', () => guide.stop());
   win.loadFile(path.join(__dirname, '../dist/index.html'));

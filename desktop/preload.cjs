@@ -18,6 +18,10 @@ contextBridge.exposeInMainWorld('desktop', {
     settings: next => ipcRenderer.invoke('guide-settings', next),
     turn: (id, request) => ipcRenderer.invoke('guide-turn', id, request),
     cancel: id => ipcRenderer.invoke('guide-cancel', id),
+    memory: {
+      load: family => ipcRenderer.invoke('guide-memory-load', family),
+      save: (family, text) => ipcRenderer.invoke('guide-memory-save', family, text)
+    },
     onStatus: callback => ipcRenderer.on('guide-status', (_, status) => callback(status)),
     onDelta: callback => ipcRenderer.on('guide-delta', (_, id, text) => callback(id, text))
   }
