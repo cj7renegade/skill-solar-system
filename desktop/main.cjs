@@ -4,6 +4,7 @@ const { writeFileAtomic } = require('./save.cjs');
 const { createProficiencyStore } = require('./proficiency-store.cjs');
 const { listMaps, readMap } = require('./map-library.cjs');
 const { createGuide } = require('./guide.cjs');
+const { createLessons } = require('./lessons.cjs');
 // The same id as build.appId, so a pinned taskbar shortcut and the running window share one button.
 app.setAppUserModelId('local.skillsolarsystem.atlas');
 // The folder the "Your maps" dropdown lists. Tests point it at their own folder.
@@ -62,6 +63,11 @@ app.whenReady().then(() => {
   ipcMain.handle('guide-cancel', guarded((_, id) => guide.cancel(id)));
   ipcMain.handle('guide-memory-load', guarded((_, family) => guide.loadMemory(family)));
   ipcMain.handle('guide-memory-save', guarded((_, family, text) => guide.saveMemory(family, text)));
+  // Lessons: kept outside map files, in userData/lessons (see docs/ai-lessons-plan.md).
+  const lessons = createLessons({ dir: path.join(app.getPath('userData'), 'lessons') });
+  ipcMain.handle('lessons-get', guarded((_, mapKey, nodeId) => lessons.get(mapKey, nodeId)));
+  ipcMain.handle('lessons-list', guarded((_, mapKey) => lessons.list(mapKey)));
+  ipcMain.handle('lessons-absorb', guarded((_, mapKey, nodes) => lessons.absorb(mapKey, nodes)));
   guide.load().catch(() => {});
   app.on('before-quit', () => guide.stop());
   win.loadFile(path.join(__dirname, '../dist/index.html'));

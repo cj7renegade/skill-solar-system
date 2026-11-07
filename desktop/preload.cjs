@@ -9,6 +9,12 @@ contextBridge.exposeInMainWorld('desktop', {
     list: () => ipcRenderer.invoke('maps-list'),
     read: relative => ipcRenderer.invoke('maps-read', relative)
   },
+  // Lessons, kept outside map files by the main process.
+  lessons: {
+    get: (mapKey, nodeId) => ipcRenderer.invoke('lessons-get', mapKey, nodeId),
+    list: mapKey => ipcRenderer.invoke('lessons-list', mapKey),
+    absorb: (mapKey, nodes) => ipcRenderer.invoke('lessons-absorb', mapKey, nodes)
+  },
   // The AI Guide: requests go to the main process, which alone talks to Claude.
   guide: {
     status: () => ipcRenderer.invoke('guide-status'),

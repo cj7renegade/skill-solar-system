@@ -8,7 +8,7 @@ import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
-import { hasLesson, lessonSections, contentStatusLine, contentPendingLine } from './lesson.js';
+import { lessonSections, contentStatusLine, contentPendingLine } from './lesson.js';
 import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, stepLabel } from './prerequisites.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
@@ -21,8 +21,11 @@ import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from 
 import { planLayout, renderPlan } from './plan.js';
 import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
 import { createGuidePanel } from './guide-panel.js';
+import { createLessonIndex, embeddedLesson, LESSON_FIELDS } from './lessons.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
+// Lessons live outside map files (src/lessons.js); every reader goes through lessonIndex.getLesson.
+const lessonIndex=createLessonIndex(window.desktop?.lessons);
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
 const listActivation=createActivationTracker();
 const SPACING_CACHE='skill-solar-system-spacing';
@@ -114,6 +117,19 @@ function replace(next,status){
   listActivation.reset();closeDetails();
   const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);pathTarget=null;planOpen=false;$('plan-view').hidden=true;const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
 }
+// Lessons still embedded in the open map (an older file or draft) are handed to the lesson store as
+// reviewed archives; once stored identically they leave the in-memory map, so Save map writes a
+// lesson-free file. Only the two lesson fields change; the graph and answers do not.
+let absorbing=null;
+function absorbEmbedded(){
+  if(absorbing===graph||!window.desktop?.lessons||!graph.nodes.some(embeddedLesson))return;
+  const g=absorbing=graph;
+  lessonIndex.absorb(g).then(ids=>{
+    if(graph!==g||!ids.length)return;
+    const safe=new Set(ids);for(const n of graph.nodes)if(safe.has(n.id))for(const k of LESSON_FIELDS)delete n[k];
+    cache();render();message(`${$('status').textContent.trim()} ${ids.length.toLocaleString('en')} lessons are now kept in the lesson store, outside the map.`);
+  },()=>{});
+}
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
   $('counts').textContent=`${graph.nodes.length.toLocaleString('en')} skills · ${graph.edges.length.toLocaleString('en')} links`;
@@ -126,6 +142,7 @@ function render(){
   $('layout-summary').textContent=isHelixMap(graph)?'Height: helix level (longest prerequisite chain, not difficulty) · Around: course':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Links above.';
   viewer?.path(pathState()?.remaining??null,false);viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
   renderLearner();renderPathCard();if(planOpen)renderPlanView();
+  lessonIndex.load(graph);absorbEmbedded();
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
 }
@@ -228,7 +245,7 @@ function inspect(){
   if(!editing){
     // A map that records one says whether this subject has an authored lesson, so the reader knows
     // what opening the card will show. It describes the content, never the reader's proficiency.
-    const status=contentStatusLine(n),state=learner(),taught=hasLesson(n);
+    const lesson=lessonIndex.state(graph,n),status=lesson.has?`Lesson: ${lesson.label}`:null,state=learner(),taught=lesson.has;
     body.append(...[skillChips(n,state),el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),
       el('div',{class:'button-row skill-actions'},
         el('button',{id:'open-details',text:taught?'Open lesson':'Read skill details',title:taught?'Open the lesson card':'Open the full description and connections',onclick:openDetails}),
@@ -689,7 +706,7 @@ function prerequisiteLinks(node){
 }
 // The authored learning sections, all closed to begin with so the opened card stays short. Opening
 // one is a reading action only; it never touches an answer.
-function lessonCard(node){
+function lessonCard(node){/* node: a node with its lesson fields merged in from getLesson */
   const sections=lessonSections(node);
   if(!sections.length)return [];
   return sections.map(section=>el('details',{class:'lesson-section'},el('summary',{text:section.title}),
@@ -706,15 +723,18 @@ function fillDetails(){
   body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,node,'Reference level',' · Reference level unassigned')})));
   // What content this entry has, then what is still missing even where a card exists. Both describe
   // the content only; neither says anything about the reader's proficiency.
-  const status=contentStatusLine(node),pending=contentPendingLine(node);
-  if(status)body.append(el('p',{class:'lesson-status',text:status}));
-  if(pending)body.append(el('p',{class:'edge-note',text:pending}));
-  const taught=hasLesson(node);
-  // The short description repeats the title in the robotics curriculum maps; show it only when it adds something.
-  if(taught){
+  // The lesson comes from the lesson store (getLesson), read asynchronously; the rest of the card is
+  // filled at once and the lesson part joins it when it arrives, if this is still the open card.
+  const lessonHost=el('div',{class:'lesson-host'});body.append(lessonHost);
+  lessonIndex.getLesson(graph,node).then(({archive})=>{
+    if(selected!==node.id||!lessonHost.isConnected||!archive)return;
+    const taught={...node,...archive.content};
+    const status=contentStatusLine(taught),pending=contentPendingLine(taught);
+    lessonHost.append(...[status&&el('p',{class:'lesson-status',text:status}),pending&&el('p',{class:'edge-note',text:pending}),
+      taught.lesson?.instructional_scope&&el('p',{class:'edge-note',text:taught.lesson.instructional_scope}),...lessonCard(taught)].filter(Boolean));
+  });
+  if(lessonIndex.state(graph,node).has){
     if(node.description.trim()&&node.description.trim()!==node.name.trim())body.append(el('p',{class:'subject-summary',text:node.description}));
-    if(node.lesson.instructional_scope)body.append(el('p',{class:'edge-note',text:node.lesson.instructional_scope}));
-    body.append(...lessonCard(node));
   }else{
     const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
     for(const paragraph of paragraphs)body.append(el('p',{text:paragraph}));
@@ -747,7 +767,7 @@ $('mark-proficiency').onclick=()=>review.open();
 // The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
 // replies select a skill or show a path, the same as the HUD's buttons.
 const guidePanel=createGuidePanel({bridge:window.desktop?.guide,button:$('guide-button'),pill:$('guide-state'),panel:$('guide-panel'),el,getFamily:()=>atlasFamily(graph)||'default',
-  getContext:()=>({graph,target:activeTarget(graph,safeStorage),selected,pathTarget,reviewLeft:reviewLeft(safeStorage,graph),record,today:new Date().toISOString().slice(0,10)}),
+  getContext:()=>({graph,target:activeTarget(graph,safeStorage),selected,pathTarget,reviewLeft:reviewLeft(safeStorage,graph),record,today:new Date().toISOString().slice(0,10),lessonState:n=>lessonIndex.state(graph,n)}),
   actions:{select:flyTo,path:id=>setPath(id)}});
 viewer?.spacing(spacing);
 $('sphere-spacing').value=String(spacing);$('spacing-value').value=`${spacing.toFixed(2)}×`;

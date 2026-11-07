@@ -117,7 +117,7 @@ export function runTool(name, input, ctx) {
       return {
         ...brief(ctx, n), courseName: n.course ?? null, description: clip(n.description, 600),
         stage: n.buildStage != null ? `${n.buildStage}${stages[n.buildStage] ? ` · ${stages[n.buildStage]}` : ''}` : null,
-        tier: tierOf(graph, n), practice: n.helixPractice ?? null, roughHours: formatHours(effortHours(graph, n)), hasLesson: hasLesson(n),
+        tier: tierOf(graph, n), practice: n.helixPractice ?? null, roughHours: formatHours(effortHours(graph, n)), hasLesson: ctx.lessonState ? ctx.lessonState(n).has : hasLesson(n),
         prerequisites: list(parents), prerequisitesTotal: parents.length, unlocks: list(children), unlocksTotal: children.length
       };
     }
