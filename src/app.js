@@ -8,7 +8,8 @@ import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
-import { lessonSections, contentStatusLine, contentPendingLine } from './lesson.js';
+import { renderSkillCard } from './skill-card.js';
+import { renderArchive } from './lesson-viewer.js';
 import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, stepLabel } from './prerequisites.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
@@ -19,7 +20,7 @@ import { renderHud, learnerState, activeTarget, storeTarget, reviewLeft } from '
 import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
 import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from './learner.js';
 import { planLayout, renderPlan } from './plan.js';
-import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
+import { listOrder, recentAnswers, renderToday } from './panel.js';
 import { createGuidePanel } from './guide-panel.js';
 import { createLessonIndex, embeddedLesson, LESSON_FIELDS } from './lessons.js';
 
@@ -221,19 +222,6 @@ function renderList(){
   if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No skills found.'}));
   $('node-list').scrollTop=scrollTop;
 }
-// Facts about a selected skill as chips: course, level, stage, tier, effort and its state.
-function skillChips(n,state){
-  const pal=palette(),chips=el('div',{class:'skill-chips'});
-  const chip=(text,title,color)=>{const c=el('span',{class:'chip',text,title});if(color)c.style.setProperty('--chip',color);chips.append(c);};
-  if(n.courseCode)chip(n.course?`${n.courseCode} · ${n.course}`:n.courseCode,'Course',pal?.[n.courseCode]);else chip(n.domain,'Domain',DOMAINS[n.domain]);
-  if(isHelixMap(graph)&&n.helixLevel!=null)chip(`Helix level ${n.helixLevel}/${graph.layout.topLevel}`,'Height on the helix: 1 + 3 × the longest prerequisite chain below this skill');
-  else if(n.skillLevel!=null)chip(`Level ${n.skillLevel}/100`,LEVEL_NOTE);
-  if(n.buildStage!=null){const names=graph.metadata?.humanoidHelixImport?.buildStages||{};chip(`Stage ${n.buildStage}${names[n.buildStage]?` · ${names[n.buildStage]}`:''}`,'Build stage');}
-  const tier=tierOf(graph,n);if(tier)chip(tier,'Level of the skill on the path');
-  chip(formatHours(effortHours(graph,n)),'Rough study effort: an estimate from the skill\'s tier, doubled for hands-on practice');
-  if(n.proficiency80===true)chip('✓ Proficient','Your own answer',PROFICIENCY_COLORS.yes);else if(state.frontier.has(n.id))chip('Ready to study','Every prerequisite is marked proficient',FRONTIER_GLOW);
-  return chips;
-}
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
   if(!n){panel.classList.remove('collapsed');renderToday(panel,{graph,state:learner(),record,reviewCount:reviewLeft(safeStorage,graph),el,palette:palette(),actions:{select:flyTo,openReview:()=>review.open()}});return;}
@@ -243,17 +231,8 @@ function inspect(){
   panel.classList.toggle('collapsed',!panels.card);
   panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,n,'Level',' · Level unassigned')}))),cardToggle),body);
   if(!editing){
-    // A map that records one says whether this subject has an authored lesson, so the reader knows
-    // what opening the card will show. It describes the content, never the reader's proficiency.
-    const lesson=lessonIndex.state(graph,n),status=lesson.has?`Lesson: ${lesson.label}`:null,state=learner(),taught=lesson.has;
-    body.append(...[skillChips(n,state),el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),
-      el('div',{class:'button-row skill-actions'},
-        el('button',{id:'open-details',text:taught?'Open lesson':'Read skill details',title:taught?'Open the lesson card':'Open the full description and connections',onclick:openDetails}),
-        el('button',{id:'path-to-selected',text:'Path to this',title:`Light up everything left to learn before ${n.name}`,onclick:()=>setPath(n.id)}),
-        el('button',{id:'fly-to-selected',text:'Fly to',title:`Fly the camera to ${n.name}`,onclick:()=>viewer?.fly(n.id)})),
-      el('h4',{class:'mini-title',text:'Prerequisites and what it unlocks'}),
-      miniGraph(n,{index:state.index,frontier:state.frontier,onSelect:flyTo}),
-      proficiencyControls(n)].filter(Boolean));
+    panel.dataset.card='skill';
+    body.append(skillCard(n,[proficiencyControls(n)]));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -678,68 +657,42 @@ function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dial
 // Closing the card to show the chain list must not clear the selection the list belongs to.
 function closeDetailsKeepSelection(){if($('details-dialog').open)$('details-dialog').close();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}
-// One question or check, with its answer behind a control the reader has to press. Revealing an
-// answer changes nothing but this button: no proficiency is read, written or implied by it.
-function revealBlock(block){
-  const answer=el('p',{class:'lesson-answer',text:block.answer,hidden:true});
-  const button=el('button',{class:'reveal',text:block.reveal,onclick:()=>{answer.hidden=!answer.hidden;button.textContent=answer.hidden?block.reveal:block.hide;button.setAttribute('aria-expanded',String(!answer.hidden));}});
-  button.setAttribute('aria-expanded','false');
-  return el('div',{class:'lesson-question'},el('p',{class:'lesson-prompt',text:block.question}),block.answer?button:null,block.answer?answer:el('p',{class:'edge-note',text:'No answer key was supplied for this question.'}));
+// --- The skill card ------------------------------------------------------------------------------
+// One card for every node (src/skill-card.js): the console and the full card dialog show the same
+// layout, and no lesson body appears on it. The lesson opens in the lesson viewer.
+function lessonGeneration(){return {ok:false,reason:'Lesson generation is not set up yet.'};}
+function skillCard(n,extra=[],{inDialog=false}={}){
+  const state=learner();
+  return renderSkillCard(graph,n,{learner:state,lessonState:lessonIndex.state(graph,n),generation:lessonGeneration(),palette:palette(),el,extra,
+    colors:{yes:PROFICIENCY_COLORS.yes,no:PROFICIENCY_COLORS.no,unset:PROFICIENCY_COLORS.unset,ready:FRONTIER_GLOW},
+    actions:{select:id=>{selected=id;render();viewer?.focus(id);},path:id=>setPath(id),fly:id=>viewer?.fly(id),openDetails:inDialog?null:openDetails,
+      openLesson:()=>openLesson(n.id),generate:()=>{},regenerate:()=>{}}});
 }
-function lessonBlock(block){
-  if(block.type==='note')return el('p',{class:'lesson-note',text:block.text});
-  if(block.type==='reveal')return revealBlock(block);
-  if(block.type==='list')return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('ul',{},...block.items.map(item=>el('li',{text:item}))));
-  if(block.type==='links')return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('ul',{},...block.items.map(item=>el('li',{},el('span',{class:'lesson-url',text:item.url}),item.use?el('p',{class:'edge-note',text:item.use}):null))));
-  return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('p',{text:block.text}));
+// The lesson viewer: a reviewed archive renders its own sections, behind "Show answer" where they ask.
+let lessonOpen=null;
+async function openLesson(id){
+  const node=graph.nodes.find(n=>n.id===id);if(!node)return;
+  stopPanning();closeDetailsKeepSelection();lessonOpen=id;
+  const body=$('lesson-body');body.replaceChildren(el('p',{class:'edge-note',text:'Opening the lesson…'}));
+  $('lesson-title').textContent=node.name;
+  if(!$('lesson-dialog').open)$('lesson-dialog').showModal();
+  const {archive,ai}=await lessonIndex.getLesson(graph,node);
+  if(lessonOpen!==id)return;
+  body.replaceChildren();
+  if(archive)body.append(el('p',{class:'lesson-badge lesson-reviewed',text:'Reviewed lesson'}),...renderArchive(el,node,archive));
+  else if(!ai)body.append(el('p',{class:'edge-note',text:'This skill has no lesson yet.'}));
+  body.querySelector('details.lesson-section>summary')?.focus();
 }
-// The named prerequisites, taken from the map's own edges so the card can never contradict the
-// graph. Each one selects that subject and reopens the card on it.
-function prerequisiteLinks(node){
-  const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
-  const ids=graph.edges.filter(e=>e.type==='prerequisite'&&e.target===node.id).map(e=>e.source);
-  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this skill in this map.'});
-  // render() refills an open card, which removes the button that was clicked, so keyboard focus is
-  // placed deliberately on the new card rather than being dropped on the page body.
-  const go=id=>{selected=id;render();viewer?.focus(id);($('details-body').querySelector('details.lesson-section>summary')||$('details-close')).focus();};
-  return el('div',{class:'lesson-block'},el('h4',{text:`Prerequisites (${ids.length})`}),el('div',{class:'lesson-links'},...ids.map(id=>el('button',{class:'lesson-link',text:names.get(id),onclick:()=>go(id)}))));
-}
-// The authored learning sections, all closed to begin with so the opened card stays short. Opening
-// one is a reading action only; it never touches an answer.
-function lessonCard(node){/* node: a node with its lesson fields merged in from getLesson */
-  const sections=lessonSections(node);
-  if(!sections.length)return [];
-  return sections.map(section=>el('details',{class:'lesson-section'},el('summary',{text:section.title}),
-    ...section.blocks.map(lessonBlock),section.prerequisites?prerequisiteLinks(node):null));
-}
-// The card shows the 1–2 detail paragraphs, one short placement summary, and the connection list.
-// Where a subject carries an authored lesson, those paragraphs are its explanation and worked
-// example, so they move into the first expandable section instead of being repeated above it.
-// Coordinates, layout provenance, and placement notes stay in the file and the edit console.
+function closeLesson(){lessonOpen=null;if($('lesson-dialog').open)$('lesson-dialog').close();}
 function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
   body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,node,'Reference level',' · Reference level unassigned')})));
-  // What content this entry has, then what is still missing even where a card exists. Both describe
-  // the content only; neither says anything about the reader's proficiency.
-  // The lesson comes from the lesson store (getLesson), read asynchronously; the rest of the card is
-  // filled at once and the lesson part joins it when it arrives, if this is still the open card.
-  const lessonHost=el('div',{class:'lesson-host'});body.append(lessonHost);
-  lessonIndex.getLesson(graph,node).then(({archive})=>{
-    if(selected!==node.id||!lessonHost.isConnected||!archive)return;
-    const taught={...node,...archive.content};
-    const status=contentStatusLine(taught),pending=contentPendingLine(taught);
-    lessonHost.append(...[status&&el('p',{class:'lesson-status',text:status}),pending&&el('p',{class:'edge-note',text:pending}),
-      taught.lesson?.instructional_scope&&el('p',{class:'edge-note',text:taught.lesson.instructional_scope}),...lessonCard(taught)].filter(Boolean));
-  });
-  if(lessonIndex.state(graph,node).has){
-    if(node.description.trim()&&node.description.trim()!==node.name.trim())body.append(el('p',{class:'subject-summary',text:node.description}));
-  }else{
-    const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
-    for(const paragraph of paragraphs)body.append(el('p',{text:paragraph}));
-    if(!paragraphs.length)body.append(el('p',{class:'subject-summary',text:node.description||'No description yet. In Edit mode, add one or two paragraphs in Detailed description.'}));
-  }
+  // The same card as the console, with the longer description, where the skill sits and its links.
+  const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
+  const more=paragraphs.length?el('div',{class:'skill-details'},...paragraphs.map(p=>el('p',{text:p}))):null;
+  body.append(skillCard(node,[more],{inDialog:true}));
   body.append(el('h3',{text:'Where it sits'}),el('p',{text:placementSummary(graph,node)}));
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const links=graph.edges.filter(e=>e.source===node.id||e.target===node.id);
@@ -754,6 +707,8 @@ function fillDetails(){
   body.append(proficiencyControls(node));
 }
 $('details-close').onclick=closeDetails;
+$('lesson-close').onclick=closeLesson;
+$('lesson-dialog').addEventListener('close',()=>{lessonOpen=null;$('canvas').focus();});
 $('details-dialog').addEventListener('click',e=>{const r=$('details-dialog').getBoundingClientRect();if(e.target===$('details-dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))closeDetails();});
 $('details-dialog').addEventListener('close',()=>{$('canvas').focus();});
 $('canvas').tabIndex=0;

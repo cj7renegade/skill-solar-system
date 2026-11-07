@@ -1,3 +1,4 @@
+// Since the AI-lessons change, lesson sections open in the lesson viewer (#lesson-body), not on the card.
 // End-to-end check of the imported robotics v3 learning content in the real Electron app, using a
 // copy of the map in an isolated profile with its own proficiency store, so the user's real
 // answers are never touched.
@@ -55,11 +56,11 @@ try {
   const settled = () => app.waitFor(`!/saving/.test(document.getElementById('sync-state').textContent)`);
   const selectByName = async name => { await evaluate(`(()=>{const n=${JSON.stringify(name)};[...document.querySelectorAll('.node-item')].find(b=>b.textContent===n).click()})()`); await sleep(250); };
   const selectById = id => selectByName(byId.get(id).name);
-  const openCardNamed = async name => { await selectByName(name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(300); };
+  const openCardNamed = async name => { await selectByName(name); await evaluate(`(document.getElementById('lesson-primary')?.textContent==='Open lesson'?document.getElementById('lesson-primary'):[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details')).click()`); await sleep(300); };
   const openCard = id => openCardNamed(byId.get(id).name);
   const cardText = () => evaluate(`document.getElementById('details-body').innerText`);
-  const sectionTitles = () => evaluate(`[...document.querySelectorAll('#details-body details.lesson-section>summary')].map(s=>s.textContent)`);
-  const openSection = async title => { await evaluate(`(()=>{const d=[...document.querySelectorAll('#details-body details.lesson-section')].find(d=>d.querySelector('summary').textContent===${JSON.stringify(title)});d.open=true})()`); await sleep(120); };
+  const sectionTitles = () => evaluate(`[...document.querySelectorAll('#lesson-body details.lesson-section>summary')].map(s=>s.textContent)`);
+  const openSection = async title => { await evaluate(`(()=>{const d=[...document.querySelectorAll('#lesson-body details.lesson-section')].find(d=>d.querySelector('summary').textContent===${JSON.stringify(title)});d.open=true})()`); await sleep(120); };
   const visibleAnswers = () => evaluate(`[...document.querySelectorAll('#details-body .lesson-answer')].filter(p=>!p.hidden).map(p=>p.textContent)`);
 
   await open(map);
@@ -79,7 +80,7 @@ try {
     await openCard(id);
     const titles = await sectionTitles();
     check(`the ${area} card opens with its authored sections`, titles.join('|') === expected.map(s => s.title).join('|'), titles.join(', ').slice(0, 90));
-    check(`the ${area} card starts with every section closed`, await evaluate(`document.querySelectorAll('#details-body details.lesson-section[open]').length`) === 0);
+    check(`the ${area} card starts with every section closed`, await evaluate(`document.querySelectorAll('#lesson-body details.lesson-section[open]').length`) === 0);
     const header = await cardText();
     check(`the ${area} card says which edition wrote it`, new RegExp(`Introductory lesson available · ${EDITIONS[node.lessonCard.edition]}`).test(header), node.lessonCard.edition);
     check(`the ${area} card separates an available card from the extended work still pending`, /Extended lessons and further practice for this entry are still to be authored/.test(header));
@@ -100,14 +101,14 @@ try {
     const questions = await cardText();
     check(`the ${area} card shows both questions`, questions.includes(node.lesson.practice.question.slice(0, 40)) && questions.includes(node.lesson.boundary_case.question.slice(0, 40)));
     check(`neither answer is shown before it is asked for`, (await visibleAnswers()).length === 0);
-    await evaluate(`document.querySelectorAll('#details-body button.reveal')[0].click()`); await sleep(150);
+    await evaluate(`document.querySelectorAll('#lesson-body button.reveal')[0].click()`); await sleep(150);
     const afterFirst = await visibleAnswers();
     check(`the ${area} practice answer appears only when revealed`, afterFirst.length === 1 && afterFirst[0] === node.lesson.practice.answer);
     check('the boundary answer has its own separate control', !afterFirst.includes(node.lesson.boundary_case.answer));
-    await evaluate(`document.querySelectorAll('#details-body button.reveal')[1].click()`); await sleep(150);
+    await evaluate(`document.querySelectorAll('#lesson-body button.reveal')[1].click()`); await sleep(150);
     const afterSecond = await visibleAnswers();
     check(`the ${area} boundary answer appears from its own control`, afterSecond.length === 2 && afterSecond.includes(node.lesson.boundary_case.answer));
-    await evaluate(`document.querySelectorAll('#details-body button.reveal')[0].click()`); await sleep(150);
+    await evaluate(`document.querySelectorAll('#lesson-body button.reveal')[0].click()`); await sleep(150);
     check('an answer can be hidden again', (await visibleAnswers()).length === 1);
 
     await openSection('Full demonstration and evidence');
@@ -127,7 +128,7 @@ try {
   check('a card with references shows them', references.includes(byId.get('rob3:C03').lesson.references[0].url));
   check('a card with references shows what remains to be learned', references.includes(byId.get('rob3:C03').lesson.required_future_work.slice(0, 40)));
   // The dialog scrolls rather than clipping a long card.
-  await evaluate(`[...document.querySelectorAll('#details-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(200);
+  await evaluate(`[...document.querySelectorAll('#lesson-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(200);
   const scroll = await evaluate(`(()=>{const d=document.getElementById('details-dialog');d.scrollTop=0;const before=d.scrollTop;d.scrollTop=d.scrollHeight;return {over:d.scrollHeight>d.clientHeight,before,after:d.scrollTop}})()`);
   check('a fully expanded card scrolls inside the dialog', scroll.over && scroll.after > scroll.before, `${scroll.after} px`);
   await keep('02-pid-card-expanded');
@@ -135,11 +136,11 @@ try {
 
   // Keyboard alone: a section opens from its summary, and an answer reveals from its button.
   await openCard('rob3:m-trig');
-  await evaluate(`document.querySelector('#details-body details.lesson-section>summary').focus()`);
+  await evaluate(`document.querySelector('#lesson-body details.lesson-section>summary').focus()`);
   await key('Enter');
-  check('a section opens from the keyboard', await evaluate(`document.querySelectorAll('#details-body details.lesson-section[open]').length`) >= 1);
+  check('a section opens from the keyboard', await evaluate(`document.querySelectorAll('#lesson-body details.lesson-section[open]').length`) >= 1);
   await openSection('Practice question');
-  await evaluate(`document.querySelector('#details-body button.reveal').focus()`);
+  await evaluate(`document.querySelector('#lesson-body button.reveal').focus()`);
   check('the reveal control can be reached and says it is closed', await evaluate(`document.activeElement.getAttribute('aria-expanded')`) === 'false');
   await key(' ');
   check('an answer reveals from the keyboard and says it is open', (await visibleAnswers()).length === 1 && await evaluate(`document.activeElement.getAttribute('aria-expanded')`) === 'true');
@@ -155,7 +156,7 @@ try {
 
   // Symbols, paragraph breaks and an entry with no authored lesson.
   await openCard(symbolNode.id);
-  await evaluate(`[...document.querySelectorAll('#details-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(150);
+  await evaluate(`[...document.querySelectorAll('#lesson-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(150);
   const symbolText = await cardText();
   const present = SYMBOLS.filter(s => JSON.stringify(symbolNode.lesson).includes(s));
   check('symbols survive into the card', present.every(s => symbolText.includes(s)), `${present.join(' ')} in ${symbolNode.id}`);
@@ -163,14 +164,14 @@ try {
   // Units are part of the answer in the wheeled-robot cards; they must read exactly as authored.
   const united = byId.get('rob3:N01');
   await openCard('rob3:N01');
-  await evaluate(`[...document.querySelectorAll('#details-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(150);
-  await evaluate(`document.querySelectorAll('#details-body button.reveal').forEach(b=>b.click())`); await sleep(200);
+  await evaluate(`[...document.querySelectorAll('#lesson-body details.lesson-section')].forEach(d=>d.open=true)`); await sleep(150);
+  await evaluate(`document.querySelectorAll('#lesson-body button.reveal').forEach(b=>b.click())`); await sleep(200);
   const unitText = await cardText();
   const units = [...new Set((JSON.stringify(united.lesson).match(/\d+(?:\.\d+)?\s?(?:m\/s|rad\/s|mm|m\b)/g) || []))];
   check('units read exactly as authored, in the explanation and in the answers', units.length >= 4 && units.every(u => unitText.includes(u)), units.join(', '));
   check('the revealed answer keeps its units', unitText.includes(united.lesson.practice.answer));
   await keep('06-units-card');
-  check('the explanation and the worked example stay separate paragraphs', await evaluate(`document.querySelectorAll('#details-body details.lesson-section h4').length`) >= 2);
+  check('the explanation and the worked example stay separate paragraphs', await evaluate(`document.querySelectorAll('#lesson-body details.lesson-section h4').length`) >= 2);
   await click('#details-close', 200);
 
   await openCard(PENDING.id);
@@ -229,7 +230,7 @@ try {
   await openCard('rob3:C03');
   await openSection('Practice question');
   check('a reopened card still hides its answer until asked', (await visibleAnswers()).length === 0);
-  await evaluate(`document.querySelectorAll('#details-body button.reveal')[0].click()`); await sleep(150);
+  await evaluate(`document.querySelectorAll('#lesson-body button.reveal')[0].click()`); await sleep(150);
   check('a reopened card still reveals the right answer', (await visibleAnswers())[0] === byId.get('rob3:C03').lesson.practice.answer);
   await click('#details-close', 200);
   await keep('04-after-reload');

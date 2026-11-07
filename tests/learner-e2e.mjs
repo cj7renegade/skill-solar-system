@@ -121,11 +121,12 @@ try {
   const chips = await evaluate(`[...document.querySelectorAll('#inspector .skill-chips .chip')].map(e=>e.textContent)`);
   check('the skill card shows course, helix level, stage, level and ~hours', chips.some(c => c.startsWith('ACT · ')) && chips.some(c => /^Helix level \d+\/244$/.test(c)) && chips.some(c => c.startsWith('Stage ')) && chips.some(c => /^~[\d.]+ h$/.test(c)), chips.join(' | '));
   check('with Path to this, Fly to and the details button', await evaluate(`['open-details','path-to-selected','fly-to-selected'].every(id=>document.getElementById(id))`));
-  const mini = await evaluate(`[...document.querySelectorAll('#inspector .mini-node')].map(g=>g.getAttribute('aria-label'))`);
-  check('a mini graph shows its prerequisites and what it unlocks', mini.length >= 3 && mini.includes(goal.name), `${mini.length} skills`);
-  const other = mini.find(name => name !== goal.name);
-  await evaluate(`[...document.querySelectorAll('#inspector .mini-node')].find(g=>g.getAttribute('aria-label')===${JSON.stringify(other)}).dispatchEvent(new MouseEvent('click',{bubbles:true}))`); await sleep(700);
-  check('clicking a skill in the mini graph selects it', await evaluate(`document.querySelector('#inspector h3')?.textContent`) === other, other);
+  const cardLinks = await evaluate(`({pre:[...document.querySelectorAll('#card-prerequisites .skill-link')].map(b=>b.textContent),unlocks:[...document.querySelectorAll('#card-unlocks .skill-link')].map(b=>b.textContent),dots:document.querySelectorAll('#card-prerequisites .dot').length})`);
+  check('the card lists its prerequisites (with answer colours) and what it unlocks', cardLinks.pre.length + cardLinks.unlocks.length >= 2 && cardLinks.dots === cardLinks.pre.length, `${cardLinks.pre.length} + ${cardLinks.unlocks.length}`);
+  check('the lesson badge and button are on the card, with no lesson body', await evaluate(`!!document.getElementById('lesson-badge')&&!!document.getElementById('lesson-primary')&&!document.querySelector('#inspector .lesson-section')`));
+  const other = cardLinks.pre[0] || cardLinks.unlocks[0];
+  await evaluate(`[...document.querySelectorAll('#inspector .skill-link')].find(b=>b.textContent===${JSON.stringify(other)}).click()`); await sleep(700);
+  check('clicking a prerequisite or unlock selects it', await evaluate(`document.querySelector('#inspector h3')?.textContent`) === other, other);
 
   // Phase 7: header, status, menus, risky actions and text size.
   check('the header names the open map, and the version lives in the tour', await text('header-map') === helix.title && !/0\.4\.0/.test(await evaluate(`document.querySelector('header').textContent`)));

@@ -1,3 +1,4 @@
+// Since the AI-lessons change, lesson sections open in the lesson viewer (#lesson-body), not on the card.
 // End-to-end check of the Humanoid Protocol Droid Helix map in the real Electron app, in an isolated
 // profile: it renders, its filters work, cards open for an Atlas skill and a new skill, and the
 // Robotics Atlas still opens as before. Saves screenshots to docs/screenshots/humanoid-helix/.
@@ -24,9 +25,9 @@ try {
   const shot = async name => { await sleep(600); const { data } = await send('Page.captureScreenshot', { format: 'png' }); writeFileSync(path.join(SHOTS, name), Buffer.from(data, 'base64')); console.log(`  screenshot ${name}`); };
   const fromDraft = expression => evaluate(`(()=>{const g=JSON.parse(localStorage.getItem('skill-solar-system-v1'));return ${expression};})()`);
   const selectByName = async name => { await evaluate(`(()=>{const n=${JSON.stringify(name)};[...document.querySelectorAll('.node-item')].find(b=>b.textContent===n).click()})()`); await sleep(300); };
-  const openCard = async node => { await selectByName(node.name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(400); };
+  const openCard = async node => { await selectByName(node.name); await evaluate(`(document.getElementById('lesson-primary')?.textContent==='Open lesson'?document.getElementById('lesson-primary'):[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details')).click()`); await sleep(400); };
   const cardText = () => evaluate(`document.getElementById('details-body').textContent`);
-  const sectionTitles = () => evaluate(`[...document.querySelectorAll('#details-body details.lesson-section>summary')].map(s=>s.textContent)`);
+  const sectionTitles = () => evaluate(`[...document.querySelectorAll('#lesson-body details.lesson-section>summary')].map(s=>s.textContent)`);
   const closeCard = () => app.click('#details-close', 250);
   const setFilter = async (key, value) => { await evaluate(`(()=>{const s=document.getElementById('helix-filter-${key}');s.value=${JSON.stringify(value)};s.dispatchEvent(new Event('change'));})()`); await sleep(500); };
   const filterCount = () => evaluate(`document.getElementById('helix-filter-count')?.textContent||''`);
