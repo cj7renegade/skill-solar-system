@@ -1,0 +1,47 @@
+{
+  "title": "Ohm's law for a single resistor",
+  "estimatedMinutes": 30,
+  "objectives": [
+    "Relate voltage, current and resistance with $V = IR$.",
+    "Calculate an unknown with units at every step."
+  ],
+  "explanation": "## The relationship\n\nFor a resistor, the voltage across it is proportional to the current through it:\n\n$$V = I R$$\n\nHere $V$ is in volts (V), $I$ in amperes (A) and $R$ in ohms (Ω). A welder already knows that a longer, thinner lead drops more voltage at the same current: that drop is $I R$. The same idea runs through every wire, motor winding and heater element on a robot, so this one relationship carries a long way. When a cable feels warm under load, part of the supply voltage is being spent across its resistance instead of reaching the motor.\n\n- Rearranged: $I = V / R$ and $R = V / I$.\n- Keep units in every line.\n\n```python\nV, I = 12.0, 3.0  # volts, amperes\nR = V / I          # ohms\n```",
+  "workedExample": {
+    "problem": "A 12 V supply drives 3 A through a heater element. Find $R$.",
+    "steps": [
+      "Write the law: $R = V / I$.",
+      "Substitute: $R = 12\\,\\text{V} / 3\\,\\text{A}$.",
+      "Compute: $R = 4\\,\\Omega$."
+    ],
+    "result": "$R = 4\\,\\Omega$"
+  },
+  "guidedPractice": [
+    { "id": "g1", "prompt": "A 4 V source drives 2 A through a resistor. Find its resistance $R$.", "hints": ["Use Ohm's law, $V = IR$."], "solution": "$R = 4\\,\\text{V} / 2\\,\\text{A} = 2\\,\\Omega$.", "answer": "2 Ω", "finalValue": 2, "unit": "Ω" },
+    { "id": "g2", "prompt": "A 10 V source drives 2 A through a resistor. Find its resistance $R$.", "hints": ["Divide voltage by current."], "solution": "$R = 10\\,\\text{V} / 2\\,\\text{A} = 5\\,\\Omega$.", "answer": "5 Ω", "finalValue": 5, "unit": "Ω" }
+  ],
+  "independentPractice": [
+    { "id": "p1", "prompt": "A 20 V source drives 2 A through a resistor. Find $R$.", "hints": [], "solution": "$R = 20 / 2 = 10\\,\\Omega$.", "answer": "10 Ω", "finalValue": 10, "unit": "Ω" },
+    { "id": "p2", "prompt": "A 6 V source drives 2 A through a resistor. Find $R$.", "hints": [], "solution": "$R = 6 / 2 = 3\\,\\Omega$.", "answer": "3 Ω", "finalValue": 3, "unit": "Ω" },
+    { "id": "p3", "prompt": "A 12 V source drives 2 A through a resistor. Find $R$.", "hints": [], "solution": "$R = 12 / 2 = 6\\,\\Omega$.", "answer": "6 Ω", "finalValue": 6, "unit": "Ω" }
+  ],
+  "checkForUnderstanding": [
+    { "question": "If $R$ doubles at a fixed $V$, what happens to $I$?", "answer": "It halves." },
+    { "question": "What is the unit of resistance?", "answer": "The ohm (Ω)." },
+    { "question": "Does $V = IR$ hold with a constant $R$ for a diode?", "answer": "No: a diode is not ohmic." }
+  ],
+  "safety": {
+    "hazards": ["A shorted battery can deliver hundreds of amperes and cause burns or fire."],
+    "precautions": ["Use a current-limited bench supply and a fuse."],
+    "stopConditions": ["Any heat, smell or smoke."]
+  },
+  "demonstration": {
+    "description": "Measure a resistor on a bench supply and compare $V/I$ with its marked value.",
+    "evidence": ["Photo of the setup", "Table of V, I and V/I"],
+    "satisfiedByLesson": false
+  },
+  "keyTerms": [
+    { "term": "Resistance", "definition": "Opposition to current, in ohms (Ω)." },
+    { "term": "Ohmic", "definition": "Obeys $V = IR$ with a constant $R$." }
+  ],
+  "commonMistakes": ["Mixing mA and A.", "Dropping units."]
+}

@@ -9,7 +9,9 @@ import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
 import { renderSkillCard } from './skill-card.js';
-import { renderArchive } from './lesson-viewer.js';
+import { createLessonUI } from './lesson-ui.js';
+import { practiceItems, renderMarkdown } from './lesson-render.js';
+import { revealBlock } from './lesson-viewer.js';
 import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, stepLabel } from './prerequisites.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
@@ -660,30 +662,24 @@ function closeDetails(){if($('details-dialog').open)$('details-dialog').close();
 // --- The skill card ------------------------------------------------------------------------------
 // One card for every node (src/skill-card.js): the console and the full card dialog show the same
 // layout, and no lesson body appears on it. The lesson opens in the lesson viewer.
-function lessonGeneration(){return {ok:false,reason:'Lesson generation is not set up yet.'};}
+// Whether lessons can be generated now (key, connection, budget), from the main process. Refreshed
+// when the Guide's connection changes, so the card's Generate button follows it.
+let lessonStatus=null;
+function refreshLessonStatus(){
+  if(!window.desktop?.lessons)return Promise.resolve(null);
+  return window.desktop.lessons.status().then(next=>{const changed=JSON.stringify(next?.availability)!==JSON.stringify(lessonStatus?.availability)||next?.settings?.model!==lessonStatus?.settings?.model;lessonStatus=next;if(changed)render();return next;},()=>null);
+}
+function lessonGeneration(){
+  if(!window.desktop?.lessons)return {ok:false,reason:'Lessons are generated in the desktop app.'};
+  return lessonStatus?.availability||{ok:false,reason:'Checking whether lessons can be generated…'};
+}
 function skillCard(n,extra=[],{inDialog=false}={}){
   const state=learner();
   return renderSkillCard(graph,n,{learner:state,lessonState:lessonIndex.state(graph,n),generation:lessonGeneration(),palette:palette(),el,extra,
     colors:{yes:PROFICIENCY_COLORS.yes,no:PROFICIENCY_COLORS.no,unset:PROFICIENCY_COLORS.unset,ready:FRONTIER_GLOW},
     actions:{select:id=>{selected=id;render();viewer?.focus(id);},path:id=>setPath(id),fly:id=>viewer?.fly(id),openDetails:inDialog?null:openDetails,
-      openLesson:()=>openLesson(n.id),generate:()=>{},regenerate:()=>{}}});
+      openLesson:()=>lessonUI.open(n.id),generate:()=>lessonUI.generate(n.id),regenerate:()=>lessonUI.regenerate(n.id)}});
 }
-// The lesson viewer: a reviewed archive renders its own sections, behind "Show answer" where they ask.
-let lessonOpen=null;
-async function openLesson(id){
-  const node=graph.nodes.find(n=>n.id===id);if(!node)return;
-  stopPanning();closeDetailsKeepSelection();lessonOpen=id;
-  const body=$('lesson-body');body.replaceChildren(el('p',{class:'edge-note',text:'Opening the lesson…'}));
-  $('lesson-title').textContent=node.name;
-  if(!$('lesson-dialog').open)$('lesson-dialog').showModal();
-  const {archive,ai}=await lessonIndex.getLesson(graph,node);
-  if(lessonOpen!==id)return;
-  body.replaceChildren();
-  if(archive)body.append(el('p',{class:'lesson-badge lesson-reviewed',text:'Reviewed lesson'}),...renderArchive(el,node,archive));
-  else if(!ai)body.append(el('p',{class:'edge-note',text:'This skill has no lesson yet.'}));
-  body.querySelector('details.lesson-section>summary')?.focus();
-}
-function closeLesson(){lessonOpen=null;if($('lesson-dialog').open)$('lesson-dialog').close();}
 function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
@@ -707,8 +703,14 @@ function fillDetails(){
   body.append(proficiencyControls(node));
 }
 $('details-close').onclick=closeDetails;
-$('lesson-close').onclick=closeLesson;
-$('lesson-dialog').addEventListener('close',()=>{lessonOpen=null;$('canvas').focus();});
+// The lesson dialog (src/lesson-ui.js): open, generate with live progress, regenerate, review.
+const lessonUI=createLessonUI({bridge:window.desktop?.lessons,index:lessonIndex,el,dialog:$('lesson-dialog'),title:$('lesson-title'),body:$('lesson-body'),
+  getGraph:()=>graph,getLearner:learner,getStatus:()=>lessonStatus,onChanged:()=>{refreshLessonStatus();render();},beforeOpen:()=>{stopPanning();closeDetailsKeepSelection();}});
+$('lesson-close').onclick=()=>lessonUI.close();
+$('lesson-dialog').addEventListener('close',()=>{$('canvas').focus();});
+window.desktop?.guide?.onStatus(()=>refreshLessonStatus());
+refreshLessonStatus();
+
 $('details-dialog').addEventListener('click',e=>{const r=$('details-dialog').getBoundingClientRect();if(e.target===$('details-dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))closeDetails();});
 $('details-dialog').addEventListener('close',()=>{$('canvas').focus();});
 $('canvas').tabIndex=0;
@@ -717,7 +719,12 @@ $('canvas').addEventListener('pointerdown',()=>{$('canvas').focus({preventScroll
 const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-proficiency'),getGraph:()=>graph,storage:safeStorage,
   apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Saved on this computer; File ▸ Save map exports a file.`,'review');if(result.ok&&nextId)viewer?.focus(nextId);return result;},
   show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
-  onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
+  onOpen:()=>{stopPanning();listActivation.reset();closeDetails();},
+  // The skill's cached lesson practice, so the same questions come back in every review.
+  practiceFor:node=>lessonIndex.getLesson(graph,node).then(practiceItems),
+  renderPractice:items=>el('details',{class:'review-practice',id:'review-practice'},el('summary',{text:`Practice from your lesson (${items.length})`}),
+    ...items.slice(0,4).map(item=>revealBlock(el,{question:el('div',{},renderMarkdown(el,item.question)),answer:item.answer},text=>renderMarkdown(el,text))),
+    el('p',{class:'edge-note',text:'For your own check only. Nothing here answers the question below.'}))});
 $('mark-proficiency').onclick=()=>review.open();
 // The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
 // replies select a skill or show a path, the same as the HUD's buttons.

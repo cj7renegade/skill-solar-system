@@ -20,7 +20,10 @@ function el(tag, props = {}, ...children) {
 }
 const SAVE_NOTE = 'Answers go into the open map and its local draft. File ▸ Save map exports a portable JSON file.';
 
-export function createReviewDialog({ dialog, opener, getGraph, apply, show, storage, onOpen = () => {} }) {
+// practiceFor(node): an optional promise of the skill's cached lesson practice ({ question, answer }
+// items), shown under the description so the same questions recur in every review. Reading them
+// never answers anything: the Yes/No below stays the learner's own judgment.
+export function createReviewDialog({ dialog, opener, getGraph, apply, show, storage, onOpen = () => {}, practiceFor = null, renderPractice = null }) {
   const body = dialog.querySelector('#review-body');
   const fill = (...children) => body.replaceChildren(...children.filter(Boolean));
   const gate = createAnswerGate(400);
@@ -82,6 +85,8 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
     if (!node) { session = skip(session, id); persist(); return renderCurrent(highlight); }
     if (highlight) show(id);
     const p = progress(session, getGraph()), value = node.proficiency80;
+    const practiceHost = el('div', { id: 'review-practice-host' });
+    if (practiceFor && renderPractice) practiceFor(node).then(items => { if (items?.length && practiceHost.isConnected && currentId(session) === id) practiceHost.append(renderPractice(items, node)); }, () => {});
     const paragraphs = (node.details || '').trim().split(/\n\s*\n/).filter(Boolean);
     const choose = result => {
       const shown = id;
@@ -115,6 +120,7 @@ export function createReviewDialog({ dialog, opener, getGraph, apply, show, stor
         node.description ? el('p', { class: 'subject-summary', text: node.description }) : null,
         ...paragraphs.map(text => el('p', { text })),
         !node.description && !paragraphs.length ? el('p', { class: 'edge-note', text: 'No description yet.' }) : null),
+      practiceHost,
       el('div', { class: 'review-answers' }, answerButton(false, 'No', 'no'), answerButton(true, 'Yes', 'yes')),
       el('div', { class: 'review-controls' },
         el('button', { id: 'review-back', text: '← Back', disabled: !session.visited.length, onclick: nav(back) }),

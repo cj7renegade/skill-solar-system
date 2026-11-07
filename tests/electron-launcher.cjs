@@ -31,8 +31,17 @@ if (process.env.SSS_GUIDE_FAKE === '1') {
       const handlers = [], last = params.messages[params.messages.length - 1];
       const toolResult = Array.isArray(last.content) && last.content.find(b => b.type === 'tool_result');
       let content;
+      // Lesson requests use structured output: the lesson itself, the answer check, or a repaired
+      // problem. The scripted lesson is tests/fixtures/ai-lesson.json; the check agrees with its key.
+      const format = params.output_config?.format?.schema;
+      const lesson = () => JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ai-lesson.json'), 'utf8'));
+      if (format?.properties?.answers) {
+        const problems = JSON.parse(params.messages[0].content.split('<problems>')[1].split('</problems>')[0]);
+        const key = new Map([...lesson().guidedPractice, ...lesson().independentPractice].map(p => [p.id, p]));
+        content = [{ type: 'text', text: JSON.stringify({ answers: problems.map(p => ({ id: p.id, answer: key.get(p.id).answer, finalValue: key.get(p.id).finalValue, unit: key.get(p.id).unit })) }) }];
+      } else if (format?.properties?.objectives) content = [{ type: 'text', text: JSON.stringify(lesson()) }];
       // A request without tools is the notes summary.
-      if (!params.tools) content = [{ type: 'text', text: '- Goal: reach First milestone.\n- Studies about 6 hours a week.' }];
+      else if (!params.tools) content = [{ type: 'text', text: '- Goal: reach First milestone.\n- Studies about 6 hours a week.' }];
       else if (toolResult) {
         const result = JSON.parse(toolResult.content), first = result.next?.[0];
         content = [{ type: 'text', text: first ? `Start with [${first.name}](skill:${first.id}).\n\n- It is ready now.\n- Then [Path to ${result.target.name}](path:${result.target.id}).` : 'Nothing is ready.' }];
