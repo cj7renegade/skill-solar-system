@@ -45,7 +45,7 @@ try {
 
   const before = await sample('Marked yes');
   check('nothing pulses while proficiency colouring is off', before.swing < 3, `swing ${before.swing.toFixed(2)}`);
-  await click('#show-proficiency', 400);
+  await evaluate(`(()=>{const p=document.getElementById('view-popover');if(p.hidden)document.getElementById('view-settings').click();})()`); await click('#show-proficiency', 400);
   const yes = await sample('Marked yes'), no = await sample('Marked no'), unmarked = await sample('Unmarked');
   check('a skill marked Yes pulses with proficiency colouring on', yes.swing > 8, `swing ${yes.swing.toFixed(2)}`);
   check('a skill marked No stays steady', no.swing < 3, `swing ${no.swing.toFixed(2)}`);
@@ -60,7 +60,7 @@ try {
   check('the legend names the proficiency colours in use and the ready-to-study glow', await evaluate(`[...document.querySelectorAll('#legend div.legend-item')].map(e=>e.textContent).join('|')`) === 'Proficient (Yes)|Not marked|Marked No (darker)|Glow · ready to study');
   await evaluate(`[...document.querySelectorAll('.node-item')].find(b=>b.textContent==='Marked yes').click()`); await sleep(400);
   check('the console shows the answer through the pressed button, not a status line', await evaluate(`!document.querySelector('.proficiency-state') && document.querySelector('#inspector .proficiency-controls button.chosen')?.textContent === 'Yes'`));
-  await click('#show-proficiency', 400);
+  await evaluate(`(()=>{const p=document.getElementById('view-popover');if(p.hidden)document.getElementById('view-settings').click();})()`); await click('#show-proficiency', 400);
   const after = await sample('Marked yes');
   check('switching proficiency colouring off stops the pulse', after.swing < 3, `swing ${after.swing.toFixed(2)}`);
   check('no uncaught page errors', pageErrors.length === 0, pageErrors.join(' | '));

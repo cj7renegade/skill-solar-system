@@ -33,7 +33,7 @@ const savePanels=()=>{try{localStorage.setItem(PANELS_CACHE,JSON.stringify(panel
 let spacing=1,spacingFrame=null;
 try{const saved=localStorage.getItem(SPACING_CACHE);if(saved!==null)spacing=spacingValue(saved);}catch{}
 const message=text=>{$('status').textContent=text;};
-try {const saved=localStorage.getItem(CACHE);if(saved){graph=normalize(JSON.parse(saved));dirty=true;message('Recovered local draft. Save map for a portable copy.');}}catch{message('No readable draft found. Open a saved JSON file to recover your work.');}
+try {const saved=localStorage.getItem(CACHE);if(saved){graph=normalize(JSON.parse(saved));dirty=true;}}catch{message('No readable draft found. Open a saved JSON file to recover your work.');}
 const emptyInspector=$('inspector').cloneNode(true);
 try { viewer=createViewer($('canvas'),$('labels'),id=>{selected=id;render();},(id,position)=>{change(next=>{Object.assign(next.nodes.find(n=>n.id===id),{position,layoutMode:'manual'});},'Node moved.');},id=>{selected=id;openDetails();}); }
 catch(error){$('render-error').hidden=false;$('render-error').textContent='3D view could not start. Enable hardware acceleration / WebGL in your graphics settings. The data console remains available. '+error.message;}
@@ -44,7 +44,18 @@ function field(title,input){return el('label',{class:'field'},document.createTex
 let mapChars=0;
 // Added to the status line whenever the draft could not be stored, so the next message never hides it.
 const DRAFT_WARNING=' Draft cache unavailable: save the map to a JSON file now.';
-function cache(){try{const text=JSON.stringify(graph);mapChars=text.length;localStorage.setItem(CACHE,text);return true;}catch{message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
+function cache(){try{const text=JSON.stringify(graph);mapChars=text.length;localStorage.setItem(CACHE,text);draftSaved=true;return true;}catch{draftSaved=false;message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
+// One save indicator: every change is kept at once in the local draft and (answers) in the shared
+// record. "Saving…" while the shared record is being written, "Unsaved changes" if either could not
+// be stored, otherwise "Saved ✓". Exporting a portable file is separate, under File.
+let draftSaved=true;
+function renderSaveState(){
+  const failed=!draftSaved||sync==='failed'||sync==='unreadable',saving=sync==='saving';
+  const state=$('dirty');state.textContent=failed?'Unsaved changes':saving?'Saving…':'Saved ✓';
+  state.className=`save-state ${failed?'failed':saving?'saving':'saved'}`;
+  state.dataset.exported=dirty?'no':'yes';
+  state.title=failed?'A change could not be stored on this computer. Use File ▸ Save map to keep a copy now.':`Kept on this computer.${dirty?' Not exported since your last change: File ▸ Save map writes a portable copy.':' Matches the last exported file.'}`;
+}
 const safeStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{return null;}},setItem:(key,value)=>localStorage.setItem(key,value)};
 
 // Shared offline proficiency: one record per atlas family, stored outside map files. An opened map
@@ -52,7 +63,7 @@ const safeStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{ret
 // commit() (console, guided review, edit mode, Undo/Redo). Nothing else in a map is shared.
 const records=createRecordStore(window.desktop?.proficiency,safeStorage);
 let family=null,record=null,recordError=null,fileAnswers=null,writes=Promise.resolve(),sync='none',syncDetail='';
-function setSync(state,detail=''){sync=state;syncDetail=detail;renderShared();}
+function setSync(state,detail=''){sync=state;syncDetail=detail;renderShared();renderSaveState();}
 function persistRecord(){
   if(!record)return Promise.resolve(false);
   const snapshot=record;setSync('saving');
@@ -104,12 +115,14 @@ function replace(next,status){
 }
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
-  $('counts').textContent=`${graph.nodes.length} subjects / ${graph.edges.length} connections`;
-  $('dirty').textContent=dirty?'Local draft · save to file':'Saved to file';
-  $('map-name').textContent=graph.title||'Untitled map';
+  $('counts').textContent=`${graph.nodes.length.toLocaleString('en')} skills · ${graph.edges.length.toLocaleString('en')} links`;
+  renderSaveState();
+  $('map-name').textContent=graph.title||'Untitled map';$('header-map').textContent=graph.title||'Untitled map';
+  document.querySelector('.layout-tools').hidden=!editing;
+  const target=activeTarget(graph,safeStorage);$('path-mode').disabled=!target;$('path-mode').setAttribute('aria-pressed',String(!!pathTarget));$('path-mode').textContent=pathTarget?'Exit path':'Path mode';
   $('layout-help').textContent=isHelixMap(graph)?HELIX_LAYOUT_HELP:SPIRAL_LAYOUT_HELP;
   $('layout-summary').title=isHelixMap(graph)?'Height is the helix level: 1 + 3 × the longest chain of prerequisites below a skill. It shows how much rests underneath, not how hard the skill is, and it is separate from your proficiency.':'';
-  $('layout-summary').textContent=isHelixMap(graph)?'Height: helix level (longest prerequisite chain, not difficulty) · Around: course':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
+  $('layout-summary').textContent=isHelixMap(graph)?'Height: helix level (longest prerequisite chain, not difficulty) · Around: course':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Links above.';
   viewer?.path(pathState()?.remaining??null,false);viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
   renderLearner();renderPathCard();if(planOpen)renderPlanView();
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
@@ -206,7 +219,7 @@ function skillChips(n,state){
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
   if(!n){panel.classList.remove('collapsed');renderToday(panel,{graph,state:learner(),record,reviewCount:reviewLeft(safeStorage,graph),el,palette:palette(),actions:{select:flyTo,openReview:()=>review.open()}});return;}
-  const cardToggle=el('button',{id:'inspector-toggle',text:panels.card?'▾':'▸',title:panels.card?'Collapse this subject card':'Expand this subject card',ariaLabel:panels.card?'Collapse this subject card':'Expand this subject card',onclick:()=>{panels.card=!panels.card;savePanels();inspect();}});
+  const cardToggle=el('button',{id:'inspector-toggle',text:panels.card?'▾':'▸',title:panels.card?'Collapse this skill card':'Expand this skill card',ariaLabel:panels.card?'Collapse this skill card':'Expand this skill card',onclick:()=>{panels.card=!panels.card;savePanels();inspect();}});
   cardToggle.setAttribute('aria-expanded',String(panels.card));
   const body=el('div',{class:'inspector-body'});
   panel.classList.toggle('collapsed',!panels.card);
@@ -236,22 +249,22 @@ function inspect(){
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
   body.append(field('Skill',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
-  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Subject updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its connections? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Subject deleted.');}})));
-  body.append(el('h3',{text:'Connections'}));
+  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Skill updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its links? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Skill deleted.');}})));
+  body.append(el('h3',{text:'Links'}));
   const links=graph.edges.filter(e=>e.source===n.id||e.target===n.id);
   for(const edge of links){
     const source=graph.nodes.find(x=>x.id===edge.source).name,target=graph.nodes.find(x=>x.id===edge.target).name;
     const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to';
-    body.append(el('div',{class:'edge-item'},el('span',{text:`${source} ${verb} ${target}`}),el('button',{text:'×',title:'Remove connection',ariaLabel:'Remove connection',disabled:!editing,onclick:()=>change(next=>{next.edges=next.edges.filter(e=>!(e.source===edge.source&&e.target===edge.target&&e.type===edge.type));},'Connection removed.')})));
+    body.append(el('div',{class:'edge-item'},el('span',{text:`${source} ${verb} ${target}`}),el('button',{text:'×',title:'Remove link',ariaLabel:'Remove link',disabled:!editing,onclick:()=>change(next=>{next.edges=next.edges.filter(e=>!(e.source===edge.source&&e.target===edge.target&&e.type===edge.type));},'Link removed.')})));
   }
-  if(!links.length)body.append(el('p',{class:'edge-note',text:'No connections yet.'}));
+  if(!links.length)body.append(el('p',{class:'edge-note',text:'No links yet.'}));
   if(!editing)return;
   const type=el('select',{id:'edge-type'},...options(TYPES,'supports'));
-  const direction=el('select',{id:'edge-direction'},el('option',{value:'out',text:'This subject → other subject'}),el('option',{value:'in',text:'Other subject → this subject'}));
+  const direction=el('select',{id:'edge-direction'},el('option',{value:'out',text:'This skill → other skill'}),el('option',{value:'in',text:'Other skill → this skill'}));
   const target=el('select',{id:'edge-target'},...graph.nodes.filter(x=>x.id!==n.id).map(x=>el('option',{value:x.id,text:x.name})));
-  body.append(el('h3',{text:'Add a connection'}),field('Relationship',type),field('Direction',direction),field('Other subject',target),el('p',{class:'edge-note',text:'Prerequisite: source must come before target. Supports: directional contribution. Related: no learning order.'}),el('button',{text:'Connect subjects',id:'connect',disabled:graph.nodes.length<2,onclick:()=>change(next=>{next.edges.push({source:direction.value==='out'?n.id:target.value,target:direction.value==='out'?target.value:n.id,type:type.value});},'Connection added.')}));
+  body.append(el('h3',{text:'Add a link'}),field('Relationship',type),field('Direction',direction),field('Other skill',target),el('p',{class:'edge-note',text:'Prerequisite: source must come before target. Supports: directional contribution. Related: no learning order.'}),el('button',{text:'Link skills',id:'connect',disabled:graph.nodes.length<2,onclick:()=>change(next=>{next.edges.push({source:direction.value==='out'?n.id:target.value,target:direction.value==='out'?target.value:n.id,type:type.value});},'Link added.')}));
 }
-$('edit-mode').onchange=e=>{listActivation.reset();closeDetails();editing=e.target.checked;render();message(editing?'Edit mode · Apply changes commits console edits.':'View mode · Select a subject to inspect.');};
+$('edit-mode').onchange=e=>{listActivation.reset();closeDetails();editing=e.target.checked;render();message(editing?'Edit mode · Apply changes commits console edits. Layout tools are at the end of the console.':'View mode.');};
 $('search').oninput=renderList;
 // The skill list's order: ready to study first (default) or A–Z, remembered on this computer.
 const LIST_SORT='skill-solar-system-list-sort';
@@ -297,6 +310,24 @@ function applyToolsPanel(){
 }
 $('view-tools-toggle').onclick=()=>{panels.tools=!panels.tools;savePanels();if(!panels.tools)closeFind();applyToolsPanel();};
 applyToolsPanel();
+// Two small menus: File (open, export) in the header and View (display settings) in the map tools.
+// Each opens on its button, closes on a second click, on Esc or on a click elsewhere, and returns
+// focus to its button when closed from the keyboard.
+const MENUS=[['file-menu','file-menu-items'],['view-settings','view-popover']];
+function setMenu(button,panel,open){$(panel).hidden=!open;$(button).setAttribute('aria-expanded',String(open));}
+for(const [button,panel] of MENUS){
+  $(button).onclick=e=>{e.stopPropagation();const open=$(panel).hidden;for(const [b,p] of MENUS)setMenu(b,p,false);setMenu(button,panel,open);if(open)$(panel).querySelector('button,input')?.focus();};
+  $(panel).addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();setMenu(button,panel,false);$(button).focus();}});
+}
+document.addEventListener('click',e=>{for(const [button,panel] of MENUS)if(!$(panel).hidden&&!$(panel).contains(e.target)&&e.target!==$(button))setMenu(button,panel,false);});
+$('load').addEventListener('click',()=>setMenu('file-menu','file-menu-items',false));$('save').addEventListener('click',()=>setMenu('file-menu','file-menu-items',false));
+// Path mode from the toolbar: the path to the active target, or back out of path mode.
+$('path-mode').onclick=()=>{if(pathTarget)setPath(null);else{const target=activeTarget(graph,safeStorage);if(target)setPath(target);}};
+// Grouping distant skills into subject clusters (level of detail), remembered on this computer.
+const GROUPS_CACHE='skill-solar-system-groups';
+try{if(localStorage.getItem(GROUPS_CACHE)==='off')$('show-groups').checked=false;}catch{}
+viewer?.grouping($('show-groups').checked);
+$('show-groups').onchange=e=>{viewer?.grouping(e.target.checked);try{localStorage.setItem(GROUPS_CACHE,e.target.checked?'on':'off');}catch{}};
 $('console-toggle').onclick=()=>{document.body.classList.toggle('console-hidden');$('console-toggle').setAttribute('aria-expanded',String(!document.body.classList.contains('console-hidden')));};
 function setSpacing(value){
   spacing=spacingValue(value);
@@ -311,7 +342,7 @@ $('reset-spacing').onclick=()=>{setSpacing(1);try{localStorage.setItem(SPACING_C
 $('home').onclick=()=>viewer?.fit();$('front').onclick=()=>viewer?.fit(true);
 $('show-proficiency').onchange=e=>{proficiencyOn=e.target.checked;viewer?.proficiency(proficiencyOn);renderLegend();renderList();};
 $('show-labels').onchange=e=>viewer?.labels(e.target.checked);$('selected-connections').onchange=e=>viewer?.selectedConnections(e.target.checked);
-$('add-node').onclick=()=>{const id=crypto.randomUUID();const base=graph.nodes.find(n=>n.id===selected)?.position||[0,0,0];change(next=>{next.nodes.push({id,name:'New subject',domain:'Robotics',description:'',details:'',placementNote:'',proficiency80:null,icon:'robot',layoutMode:'manual',position:[base[0]+40,base[1]+30,base[2]+30],pinned:false});},'New subject added. Edit its fields and apply changes.');selected=id;$('search').value='';render();$('node-name')?.focus();};
+$('add-node').onclick=()=>{const id=crypto.randomUUID();const base=graph.nodes.find(n=>n.id===selected)?.position||[0,0,0];change(next=>{next.nodes.push({id,name:'New skill',domain:'Robotics',description:'',details:'',placementNote:'',proficiency80:null,icon:'robot',layoutMode:'manual',position:[base[0]+40,base[1]+30,base[2]+30],pinned:false});},'New skill added. Edit its fields and apply changes.');selected=id;$('search').value='';render();$('node-name')?.focus();};
 // Undo and Redo restore whole map versions. Within the same map, reversed answers are written to
 // the shared record, so a reversed answer cannot return when a related map is opened. Crossing a
 // map change (for example undoing Open map) re-applies the shared answers to the restored map.
@@ -335,8 +366,8 @@ const helixArrange=()=>{if(confirm('Arrange the helix again? Height comes from e
 $('vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Arrange an upward spiral? Unassigned levels are estimated from prerequisites; existing levels are raised if needed to stay above their prerequisites. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeVortex(next)),'Spiral arranged. Reference levels reconciled; pinned positions retained.');viewer?.fit();}};
 $('recalculate-vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Recalculate ALL reference levels from the recorded prerequisite graph and arrange a spiral? This replaces edited levels but keeps proficiency and pinned positions. Undo is available.')){change(next=>Object.assign(next,arrangeVortex(next,{recalculate:true})),'Reference levels recalculated and spiral arranged.');viewer?.fit();}};
 $('arrange').onclick=()=>{if(confirm('Arrange unpinned nodes using strict prerequisites only? Supports links do not affect height. Undo restores your layout.'))change(next=>Object.assign(next,arrange(next)),'Dependency layout applied. Pinned nodes kept their positions.');};
-$('blank').onclick=()=>{if(editing&&confirm('Start an empty map? Save your current map first if you need a separate copy. Undo is available.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
-$('reset').onclick=()=>{if(editing&&confirm('Restore the starter map? Undo is available.')){replace(starter,'Starter restored.');loadRecord(graph);}};
+$('blank').onclick=()=>{if(editing&&confirm('Replace the whole current map with an empty map? Every skill and link disappears from view; your answers stay in the shared record. Undo brings the map back, and File ▸ Save map can export it first.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
+$('reset').onclick=()=>{if(editing&&confirm('Replace the whole current map with the small starter map? Undo brings the current map back, and File ▸ Save map can export it first.')){replace(starter,'Starter restored.');loadRecord(graph);}};
 $('load').onclick=()=>{if(!dirty||confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))$('file').click();};
 // Opening a map, from a file or from Your maps: validate it, then apply shared answers before anything (counts, review) reads it.
 async function openMap(name,size,readText){try{if(size>LIMITS.mapBytes)throw Error(`Map files must be smaller than ${LIMITS.mapBytes/1_000_000} MB.`);const parsed=validate(JSON.parse(await readText()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}}
@@ -447,7 +478,7 @@ function renderLegend(){
   helixExtras=null;if(isHelixMap(graph))renderHelixLegend(legend);
   // On helix maps the six-subject highlight sits with the filters, under the course key.
   const counts=domainCounts(graph),key=legend;legend=helixExtras||legend;
-  legend.append(el('div',{class:'legend-heading',text:'Subjects · click to highlight'}));
+  legend.append(el('div',{class:'legend-heading',text:'Domains · click to highlight'}));
   for(const [name,color]of Object.entries(DOMAINS)){
     const on=subjects.has(name),dot=el('span',{class:'dot'});dot.style.background=color;
     const button=el('button',{class:'legend-item subject'+(on?' active':''),disabled:!counts[name],title:counts[name]?`${on?'Remove the highlight from':'Highlight'} all ${counts[name]} ${name} skills`:`No ${name} skills in this map`,onclick:()=>setSubjects(toggleSubject(subjects,name))},dot,el('span',{text:name}),el('span',{class:'legend-count',text:String(counts[name])}));
@@ -461,7 +492,7 @@ function renderLegend(){
     const glow=el('span',{class:'dot glow'});glow.style.background=PROFICIENCY_COLORS.unset;glow.style.boxShadow=`0 0 5px 3px ${FRONTIER_GLOW}`;legend.append(el('div',{class:'legend-item'},glow,document.createTextNode('Glow · ready to study')));
     legend.append(el('div',{class:'edge-note',text:'Manual self-report'}));
   }
-  legend.append(el('div',{class:'edge-note',text:'Gold → prerequisite'}),el('div',{class:'edge-note',text:'Dashed → supports'}),el('div',{class:'edge-note',text:'Violet — related'}));
+  legend.append(el('div',{class:'edge-note',text:'Links: gold → prerequisite · dashed → supports · violet — related'}));
 }
 function renderShared(){
   const mapFamily=atlasFamily(graph),summary=recordSummary(record),loaded=!!record&&record.family===mapFamily;
@@ -469,7 +500,7 @@ function renderShared(){
   $('export-record').disabled=!loaded;$('import-record').disabled=!loaded;
   $('adopt-file').disabled=!(loaded&&fileAnswers&&fileAnswers.family===mapFamily&&fileAnswers.title===(graph.title||''));
   const labels={none:'',ready:'Shared answers: up to date',saving:'Shared answers: saving…',saved:`Shared answers saved on ${records.location}`,failed:'Shared answers NOT saved · Retry',unreadable:'Shared record unreadable · Retry'};
-  const state=$('sync-state');state.textContent=labels[sync]||'';state.hidden=!labels[sync];state.disabled=!(sync==='failed'||sync==='unreadable');state.className=`sync-state ${sync}`;state.title=syncDetail;
+  const state=$('sync-state');state.textContent=labels[sync]||'';state.hidden=!(sync==='failed'||sync==='unreadable');   // the save indicator covers the rest; failures keep their Retry buttonstate.disabled=!(sync==='failed'||sync==='unreadable');state.className=`sync-state ${sync}`;state.title=syncDetail;
 }
 $('sync-state').onclick=async()=>{
   if(sync==='failed'){persistRecord();return;}
@@ -515,7 +546,7 @@ function proficiencyControls(node){
   const group=el('div',{class:'proficiency-controls'},el('h3',{text:'At least 80% proficient?'}),el('p',{class:'edge-note',text:'Your judgment only. No tests or automatic scoring.'}));
   const row=el('div',{class:'button-row'});
   for(const [label,value]of [['Yes',true],['No',false],['Clear',null]]){
-    const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated. Save map to keep it in the file.','console')});
+    const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated.','console')});
     b.setAttribute('aria-pressed',String(node.proficiency80===value));row.append(b);
   }
   group.append(row);
@@ -606,7 +637,7 @@ function updateChainAction(list){
   action.textContent=!changes.length?'Nothing to change':chain.value===null?`Clear ${count}`:`Mark ${count} ${proficiencyLabel(chain.value)}`;
   const checked=[...chain.selected].length;
   note.textContent=changes.length
-    ?`${checked} checked; ${changes.length} would change. Undo reverses the whole pass. Save map writes it to the JSON file.`
+    ?`${checked} checked; ${changes.length} would change. Undo reverses the whole pass. File ▸ Save map exports it.`
     :`${checked} checked, none of which would change. Pick another answer or check more skills.`;
 }
 function applyChain(list){
@@ -649,7 +680,7 @@ function lessonBlock(block){
 function prerequisiteLinks(node){
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const ids=graph.edges.filter(e=>e.type==='prerequisite'&&e.target===node.id).map(e=>e.source);
-  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this subject in this map.'});
+  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this skill in this map.'});
   // render() refills an open card, which removes the button that was clicked, so keyboard focus is
   // placed deliberately on the new card rather than being dropped on the page body.
   const go=id=>{selected=id;render();viewer?.focus(id);($('details-body').querySelector('details.lesson-section>summary')||$('details-close')).focus();};
@@ -692,7 +723,7 @@ function fillDetails(){
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const links=graph.edges.filter(e=>e.source===node.id||e.target===node.id);
   if(links.length){
-    const list=el('details',{class:'connections',open:links.length<=12},el('summary',{text:`Connections (${links.length})`}));
+    const list=el('details',{class:'connections',open:links.length<=12},el('summary',{text:`Links (${links.length})`}));
     for(const edge of links){
       const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to',text=`${names.get(edge.source)} ${verb} ${names.get(edge.target)}`;
       list.append(edge.rationale&&edge.rationale.length>80?el('details',{class:'detail-link'},el('summary',{text}),el('p',{text:edge.rationale})):el('p',{class:'detail-link',text:text+(edge.rationale?' — '+edge.rationale:'')}));
@@ -708,7 +739,7 @@ $('canvas').tabIndex=0;
 $('canvas').addEventListener('pointerdown',()=>{$('canvas').focus({preventScroll:true});});
 // Guided proficiency review: answers use the normal commit path (history, draft cache, dirty state, shared record).
 const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-proficiency'),getGraph:()=>graph,storage:safeStorage,
-  apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Kept in the local draft; Save map writes the JSON file.`,'review');if(result.ok&&nextId)viewer?.focus(nextId);return result;},
+  apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Saved on this computer; File ▸ Save map exports a file.`,'review');if(result.ok&&nextId)viewer?.focus(nextId);return result;},
   show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
   onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
 $('mark-proficiency').onclick=()=>review.open();

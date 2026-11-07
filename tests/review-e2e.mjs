@@ -71,7 +71,7 @@ try {
   let v = await values();
   check('a double-click on Yes answers one skill and advances once', v.a === true && v.b1 === null && await title() === 'Beta');
   check('the map highlight follows the review', await selectedLabel() === 'Beta');
-  check('the map is marked dirty as a local draft', /Local draft/.test(await evaluate(`document.getElementById('dirty').textContent`)));
+  check('the change is kept locally and marked as not yet exported', /^(Saved ✓|Saving…)$/.test(await evaluate(`document.getElementById('dirty').textContent`)) && await evaluate(`document.getElementById('dirty').dataset.exported`) === 'no');
   await key('Enter', 6);
   v = await values();
   check('repeated Enter with focus on the skill title records nothing', v.b1 === null && await title() === 'Beta');
@@ -106,7 +106,7 @@ try {
   check('closing returns focus to the HUD button', await evaluate(`document.activeElement.id==='mark-proficiency'`));
 
   // --- Only proficiency changes; answers survive Save map and reopen
-  await click('#save', 800);
+  await click('#file-menu', 200); await click('#save', 800);
   await waitFor(`/saved to file/i.test(document.getElementById('status').textContent)`);
   const saved = JSON.parse(readFileSync(path.join(dir, 'saved.json'), 'utf8')), original = JSON.parse(readFileSync(mapA, 'utf8'));
   check('the saved file holds the answers', saved.nodes.find(n => n.id === 'b1').proficiency80 === true && saved.nodes.find(n => n.id === 'z').proficiency80 === false);

@@ -4,6 +4,7 @@
 // Display only: no position is computed into the map, and nothing here changes an answer.
 import * as THREE from 'three';
 import { DOMAINS } from './model.js';
+import { PROFICIENCY } from './palette.js';
 
 export const LOD_MIN_NODES = 400;        // smaller maps always show every skill
 // Detail shows when the camera is closer to the map than this fraction of the map's size.
@@ -24,13 +25,13 @@ export function clusterData(graph, place) {
 
 // Two instanced meshes: a translucent shell in the subject's colour, and a gold core.
 const shellGeometry = new THREE.SphereGeometry(1, 20, 14), coreGeometry = new THREE.SphereGeometry(1, 14, 10);
-export function clusterMeshes(clusters, palette) {
+export function clusterMeshes(clusters, palette, proficiencyView = false) {
   const shell = new THREE.InstancedMesh(shellGeometry, new THREE.MeshStandardMaterial({ roughness: .5, metalness: .1, transparent: true, opacity: .55, depthWrite: false }), Math.max(1, clusters.length));
   const core = new THREE.InstancedMesh(coreGeometry, new THREE.MeshStandardMaterial({ color: 0xf2c14e, emissive: 0xf2c14e, emissiveIntensity: .35, roughness: .3, transparent: true, opacity: 1 }), Math.max(1, clusters.length));
   const m = new THREE.Matrix4(), color = new THREE.Color();
   clusters.forEach((c, i) => {
     m.makeScale(c.radius, c.radius, c.radius).setPosition(...c.centre); shell.setMatrixAt(i, m);
-    shell.setColorAt(i, color.set((c.course && palette?.[c.course]) || DOMAINS[c.domain] || '#9aa4b2'));
+    shell.setColorAt(i, color.set(proficiencyView ? PROFICIENCY.unset : (c.course && palette?.[c.course]) || DOMAINS[c.domain] || '#9aa4b2'));
     const r = c.done > 0 ? c.radius * Math.cbrt(c.done) * .92 : 0;   // the core's volume is the proficient share
     m.makeScale(r || 1e-4, r || 1e-4, r || 1e-4).setPosition(...c.centre); core.setMatrixAt(i, m);
   });

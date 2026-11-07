@@ -135,7 +135,7 @@ try {
   const bare = await evaluate(`document.getElementById('inspector').innerText`);
   check('a skill with nothing underneath offers no chain control', !/Mark proficient on all prerequisite skills/.test(bare));
   check('a map that records no content status shows no stray text for it', !/null/.test(bare), bare.replace(/\s+/g, ' ').slice(0, 120));
-  await click('#save', 600);
+  await click('#file-menu', 200); await click('#save', 600);
   const saved = JSON.parse(readFileSync(path.join(app.dir, 'saved.json'), 'utf8'));
   check('the saved file holds the marked chain and nothing else', saved.nodes.filter(n => n.proficiency80 === true).length === 5 && saved.nodes.find(n => n.id === 'modules').proficiency80 === null);
   check('the saved file is otherwise unchanged', JSON.stringify(saved.edges) === JSON.stringify(fixture.edges) && saved.nodes.every((n, i) => n.id === fixture.nodes[i].id && JSON.stringify(n.position) === JSON.stringify(fixture.nodes[i].position)));

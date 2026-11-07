@@ -199,3 +199,15 @@
 .mini-node{cursor:pointer}.mini-node circle{fill:#9aa4b2;stroke:#0b1420}.mini-node.done circle{fill:#f2c14e}.mini-node.ready circle{stroke:#ffe7a6;stroke-width:2.5}
 .mini-node text{font-size:11px;fill:#c9d6e6}.mini-node.self{cursor:default}.mini-node.self text{fill:#fff;font-weight:600}.mini-node.self circle{stroke:#fff;stroke-width:2}
 .mini-node:focus{outline:none}.mini-node:focus-visible text{fill:#ffe7a6;text-decoration:underline}
+
+/* Phase 7: header, menus, View popover, save indicator, and every text at least 11 px. */
+.header-map{font-size:12px;letter-spacing:.3px;color:#b8c6d8;text-transform:none}
+.menu{position:relative}
+.menu-items,.popover{position:absolute;z-index:20;background:#0d1726;border:1px solid #3a4d66;border-radius:8px;padding:6px;box-shadow:0 10px 30px #000a;display:grid;gap:4px}
+.menu-items{right:0;top:calc(100% + 6px);min-width:250px}.menu-items button{text-align:left;width:100%}
+.popover{left:0;bottom:calc(100% + 8px);min-width:300px;padding:10px}.popover label{display:flex;gap:8px;align-items:center;font-size:12px;margin:2px 0}
+.popover .spacing-control{border-left:0;padding-left:0;margin-top:4px}.popover-note{font-size:11px;color:var(--muted);margin:4px 0 0}
+#path-mode[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.save-state{font-size:11px;white-space:nowrap}.save-state.saved{color:#8dc9ac}.save-state.saving{color:var(--accent)}.save-state.failed{color:#ffb4a8;font-weight:600}
+.navigation{font-size:11px;letter-spacing:.2px;color:#8b9bb0;bottom:12px}
+small,.eyebrow,.edge-note,.node-id,footer,.sync-state,.find-results .find-domain,.view-tools label,.switch,.offline,#legend button.legend-item,#legend .legend-clear,.layout-tools button,.shared-tools>button,.spacing-control button,.spacing-control output,#view-tools-toggle,.find-control input{font-size:11px}

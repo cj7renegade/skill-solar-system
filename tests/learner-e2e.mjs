@@ -126,6 +126,22 @@ try {
   const other = mini.find(name => name !== goal.name);
   await evaluate(`[...document.querySelectorAll('#inspector .mini-node')].find(g=>g.getAttribute('aria-label')===${JSON.stringify(other)}).dispatchEvent(new MouseEvent('click',{bubbles:true}))`); await sleep(700);
   check('clicking a skill in the mini graph selects it', await evaluate(`document.querySelector('#inspector h3')?.textContent`) === other, other);
+
+  // Phase 7: header, status, menus, risky actions and text size.
+  check('the header names the open map, and the version lives in the tour', await text('header-map') === helix.title && !/0\.4\.0/.test(await evaluate(`document.querySelector('header').textContent`)));
+  check('the status bar counts skills and links', await text('counts') === `${helix.nodes.length.toLocaleString('en')} skills · ${helix.edges.length.toLocaleString('en')} links`, await text('counts'));
+  check('one save indicator', /^(Saved ✓|Saving…)$/.test(await text('dirty')), await text('dirty'));
+  check('Save map is under the File menu, not a highlighted button', await evaluate(`document.getElementById('file-menu-items').hidden && !document.getElementById('save').classList.contains('primary') && document.getElementById('file-menu-items').contains(document.getElementById('save'))`));
+  await evaluate(`document.getElementById('file-menu').click()`); await sleep(200);
+  check('the File menu opens', await evaluate(`!document.getElementById('file-menu-items').hidden`));
+  await app.key('Escape'); await sleep(200);
+  check('the display settings sit in the View popover', await evaluate(`['show-labels','selected-connections','show-proficiency','show-groups','sphere-spacing'].every(id=>document.getElementById('view-popover').contains(document.getElementById(id)))`));
+  check('layout tools are hidden outside edit mode', await evaluate(`document.querySelector('.layout-tools').hidden`));
+  await evaluate(`(()=>{const e=document.getElementById('edit-mode');e.checked=true;e.dispatchEvent(new Event('change'));})()`); await sleep(500);
+  check('and appear in edit mode', await evaluate(`!document.querySelector('.layout-tools').hidden`));
+  await evaluate(`(()=>{const e=document.getElementById('edit-mode');e.checked=false;e.dispatchEvent(new Event('change'));})()`); await sleep(500);
+  const small = await evaluate(`[...document.querySelectorAll('body *')].filter(e=>{if(!e.offsetParent&&e.tagName!=='BODY')return false;const own=[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim());return own&&parseFloat(getComputedStyle(e).fontSize)<11;}).map(e=>(e.id||e.className||e.tagName)+':'+getComputedStyle(e).fontSize).slice(0,8)`);
+  check('no visible text is smaller than 11 px', !small.length, small.join(' | '));
   check('no page errors on the helix map', !pageErrors.length, pageErrors.slice(0, 2).join(' | '));
 
   if (process.env.SSS_ATLAS_MAP) {

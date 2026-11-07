@@ -78,7 +78,8 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     clusters = clusterData(graph, place);
     // Grouping needs subjects: a map with few of them, or one subject per handful of skills, keeps every skill.
     if (!lodEnabled || clusters.length < 8 || clusters.length > graph.nodes.length / 3) { clusters = []; detail = true; lodMix = 1; applyLod(); return; }
-    ({ shell: clusterShell, core: clusterCore } = clusterMeshes(clusters, helix ? courseColors(helixCourses(graph)) : null));
+    // In the proficiency view the shells go grey, so the gold cores alone carry the progress.
+    ({ shell: clusterShell, core: clusterCore } = clusterMeshes(clusters, helix ? courseColors(helixCourses(graph)) : null, proficiencyOn));
     clusterGroup.add(clusterShell, clusterCore);
     clusterLabels = clusters.map(c => { const el = document.createElement('div'); el.className = 'cluster-label'; el.textContent = c.name; el.hidden = true; clusterHost.append(el); return { el, cluster: c, position: new THREE.Vector3(...c.centre) }; });
     clusterHost.dataset.count = String(clusters.length);

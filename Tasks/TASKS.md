@@ -22,8 +22,8 @@ changes; proficiency stays manual. Commit per phase.
 - [x] Phase 4: level of detail and label budget
 - [x] Phase 5: path mode and 2D plan view
 - [x] Phase 6: right panel (Today, skill list and skill card)
-- [ ] Phase 7: header, status, View popover and risky actions
-- [ ] Verification: tests, map SHA-256 unchanged, final screenshots and report
+- [x] Phase 7: header, status, View popover and risky actions
+- [x] Verification: tests, map SHA-256 unchanged, final screenshots and report
 
 ## Done since the campaign started: the Humanoid Protocol Droid Helix map
 

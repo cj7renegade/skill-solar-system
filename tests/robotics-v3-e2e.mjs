@@ -215,7 +215,7 @@ try {
   await evaluate(`[...document.querySelectorAll('#inspector .proficiency-controls button')].find(b=>b.textContent==='Yes').click()`); await sleep(300); await settled();
   check('the manual proficiency control still marks a skill', await answerOf('rob3:I01') === true && record()?.entries['rob3:I01']?.value === true);
   check('marking the milestone left its prerequisites alone', await answerOf('rob3:C03') === null);
-  await click('#save', 600);
+  await click('#file-menu', 200); await click('#save', 600);
   const saved = JSON.parse(readFileSync(path.join(app.dir, 'saved.json'), 'utf8'));
   check('the saved file keeps every lesson', saved.nodes.filter(n => n.lesson).length === EXPECT.authored);
   check('the saved file keeps the authored fields the card does not show', saved.nodes.find(n => n.id === 'rob3:C03').lesson.node_contract_sha256 === byId.get('rob3:C03').lesson.node_contract_sha256 && saved.nodes.find(n => n.id === 'rob3:C03').lesson.dependency_depth != null);

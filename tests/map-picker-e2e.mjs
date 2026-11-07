@@ -24,12 +24,12 @@ try {
   const choose = value => evaluate(`(()=>{const p=document.getElementById('map-picker');p.value=${JSON.stringify(value)};p.dispatchEvent(new Event('change'));})()`);
   await choose('Curriculum/Picker-Curriculum.json');
   await waitFor(`/^Opened Picker-Curriculum\\.json/.test(document.getElementById('status').textContent)`);
-  check('choosing a map opens it', await evaluate(`document.getElementById('counts').textContent`) === '2 subjects / 0 connections' && await evaluate(`document.getElementById('map-name').textContent`) === 'Picker curriculum map');
+  check('choosing a map opens it', await evaluate(`document.getElementById('counts').textContent`) === '2 skills · 0 links' && await evaluate(`document.getElementById('map-name').textContent`) === 'Picker curriculum map');
   check('the dropdown returns to its prompt, so the same map can be chosen again', await evaluate(`document.getElementById('map-picker').value`) === '');
 
   await choose('Picker-Master.json');
   await waitFor(`/^Opened Picker-Master\\.json/.test(document.getElementById('status').textContent)`);
-  check('another map replaces it', await evaluate(`document.getElementById('counts').textContent`) === '3 subjects / 0 connections');
+  check('another map replaces it', await evaluate(`document.getElementById('counts').textContent`) === '3 skills · 0 links');
 
   // A forged request for a file the list does not offer is refused by the desktop side.
   const refused = await evaluate(`window.desktop.maps.read('Archived maps/Stale.json').then(()=>'read',e=>String(e.message))`);

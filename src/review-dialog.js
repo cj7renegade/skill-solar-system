@@ -18,7 +18,7 @@ function el(tag, props = {}, ...children) {
   for (const child of children) if (child) node.append(child);
   return node;
 }
-const SAVE_NOTE = 'Answers go into the open map and its local draft. Use Save map to write the JSON file.';
+const SAVE_NOTE = 'Answers go into the open map and its local draft. File ▸ Save map exports a portable JSON file.';
 
 export function createReviewDialog({ dialog, opener, getGraph, apply, show, storage, onOpen = () => {} }) {
   const body = dialog.querySelector('#review-body');

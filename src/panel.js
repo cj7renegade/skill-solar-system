@@ -24,7 +24,7 @@ export function listOrder(nodes, { frontier, recent, mode = 'suggested' }) {
 // Today: ready skills on the way to the target, an unfinished review, and what was answered lately.
 export function renderToday(host, { graph, state, record, reviewCount, el, palette, actions }) {
   host.replaceChildren();
-  host.append(el('h3', { class: 'today-title', text: 'Today' }));
+  host.append(el('h2', { class: 'today-title', text: 'Today' }));
   if (reviewCount > 0) host.append(el('button', { id: 'today-review', class: 'hud-review', text: `Resume your review · ${reviewCount.toLocaleString('en')} left`, onclick: actions.openReview }));
   const byId = state.index.byId, target = state.target && byId.get(state.target);
   // Without a milestone to aim at, the ready skills of the whole map, lowest first.
