@@ -71,7 +71,7 @@ export function ProgressRing({ label, value = 0, size = 92, tone = 'cyan', unit 
   const svg = s('svg', { width: size, height: size, viewBox: `0 0 ${size} ${size}`, role: 'img', 'aria-label': `${label}: ${Math.round(pct)}${unit}` },
     ticks, s('circle', { class: 'track', cx: r, cy: r, r: arcR, 'stroke-width': 4 }),
     s('circle', { class: 'arc', cx: r, cy: r, r: arcR, 'stroke-width': 4, 'stroke-dasharray': circ, 'stroke-dashoffset': circ * (1 - pct / 100), transform: `rotate(-90 ${r} ${r})`, style: color ? `stroke:${color}` : null }),
-    s('text', { class: 'value', x: r, y: r - 3 }, document.createTextNode(center ?? String(Math.round(pct)))), s('text', { class: 'unit', x: r, y: r + 12 }, document.createTextNode(unit)));
+    s('text', { class: 'value', x: r, y: r - 3 }, document.createTextNode(center ?? String(Math.round(pct)))), s('text', { class: 'unit', x: r, y: r + 14 }, document.createTextNode(unit)));
   return h('figure', { class: `cp-ring${tone !== 'cyan' ? ` ${tone}` : ''}${rotating ? ' is-rotating' : ''}`, style: 'margin:0' }, svg, h('figcaption', { class: 'cp-ring-label', text: label }));
 }
 

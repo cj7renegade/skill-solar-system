@@ -3,6 +3,8 @@
 // learner's own review of an AI lesson (Mark reviewed, Flag a problem). Generating, opening or
 // finishing a lesson never changes proficiency, and AI practice is never a demonstration.
 import { renderArchive } from './lesson-viewer.js';
+import { askConfirm, askDanger } from './theme/confirm.js';
+import { SegmentedProgress } from './theme/components.js';
 import { renderAiLesson, sectionTitle } from './lesson-render.js';
 import { lessonKey } from './lessons.js';
 import { buildLessonContext } from './lesson-context.js';
@@ -79,8 +81,8 @@ export function createLessonUI({ bridge, index, el, dialog, title, body, getGrap
     const node = nodeById(id), status = getStatus();
     if (!node || job || !bridge) return;
     if (!status?.availability.ok) { show(node); body.replaceChildren(el('p', { class: 'lesson-flag', text: status?.availability.reason || 'Lesson generation is not available.' })); return; }
-    if (replace && !confirm('Replaces the current AI lesson; reviewed lessons are kept.')) return;
-    if (!replace && status.settings.askBeforeGenerating && !confirm(`Generate a 30-minute lesson for "${node.name}" with ${modelName(status.settings.model)}? It usually takes about 30–60 seconds (longer when practice answers are checked) and costs ${costEstimate(status.settings.model)}.`)) return;
+    if (replace && !await askDanger('Replaces the current AI lesson; reviewed lessons are kept.')) return;
+    if (!replace && status.settings.askBeforeGenerating && !await askConfirm(`Generate a 30-minute lesson for "${node.name}" with ${modelName(status.settings.model)}? It usually takes about 30–60 seconds (longer when practice answers are checked) and costs ${costEstimate(status.settings.model)}.`)) return;
     const graph = getGraph(), learner = getLearner(), context = buildLessonContext(graph, node, { index: learner.index, learnerProfile: status.settings.learnerProfile });
     show(node);
     const jobId = `L${Date.now()}-${++sequence}`; job = jobId;
@@ -90,6 +92,7 @@ export function createLessonUI({ bridge, index, el, dialog, title, body, getGrap
     const timer = setInterval(() => { clock.textContent = `${Math.round((Date.now() - started) / 1000)} s · usually about 30–60 s${context.skill.type === 'QUANT' ? ', plus the answer check' : ''}`; }, 500);
     body.replaceChildren(el('div', { class: 'lesson-generating', id: 'lesson-generating' },
       el('h3', { text: replace ? 'Writing a new lesson…' : 'Generating…' }), stage, clock,
+      el('div', { class: 'cp-only lesson-scan' }, SegmentedProgress({ label: 'Writing', scanning: true })),
       el('ul', { class: 'lesson-progress' }, ...items.values()),
       el('button', { id: 'lesson-cancel', text: 'Cancel', onclick: () => bridge.cancel(jobId) }),
       el('p', { class: 'edge-note', text: `${modelName(status.settings.model)} writes the lesson from this skill, its prerequisites and what it unlocks. Nothing is saved until it is complete and checked.` })));

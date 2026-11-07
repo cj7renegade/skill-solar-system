@@ -4,6 +4,8 @@
 // fly, change target, resume review), so the HUD never writes an answer.
 import { prerequisiteIndex, frontier, milestones, defaultTarget, finalMilestone, targetProgress, nextUp, formatHours, isProficient } from './learner.js';
 import { mapKey, findSession } from './review.js';
+import { ProgressRing, SegmentedProgress } from './theme/components.js';
+const classicOnly = node => { node.classList.add('classic-only'); return node; };
 
 const TARGET_STORE = 'skill-solar-system-target-v1';
 export function storedTarget(storage, graph) {
@@ -64,13 +66,17 @@ export function renderHud(host, { graph, state, palette, reviewCount, el, action
   host.append(el('div', { class: 'hud-label', text: 'Working toward' }), el('div', { class: 'hud-target-row' }, picker,
     el('button', { id: 'hud-path', class: 'hud-path', text: 'Path', title: `Show the path to ${targetNode.name}: what is left, in study order`, onclick: () => actions.pathTo(target) })));
 
-  host.append(el('div', { class: 'hud-row' }, el('span', { class: 'hud-row-label', text: 'Progress to target' }), el('span', { class: 'hud-percent', text: `${progress.percent}%` })),
-    bar(progress.percent, `Progress to ${targetNode.name}`),
+  // Cyberpunk HUD gauges (hidden in Classic, whose bars below are hidden in Cyberpunk).
+  host.append(el('div', { class: 'hud-gauges cp-only' }, ProgressRing({ label: 'Target', value: progress.percent, tone: progress.complete ? 'gold' : 'amber', rotating: !progress.complete, size: 84 }),
+    el('div', { class: 'hud-gauge-side' }, overall && state.final !== target ? SegmentedProgress({ label: shortName(byId.get(state.final).name), value: overall.percent, segments: 16 }) : null,
+      el('p', { class: 'hud-gauge-detail', text: progress.complete ? 'Target complete.' : `${number(progress.proficient)}/${number(progress.prerequisites)} PREREQS · ${formatHours(progress.hoursLeft).toUpperCase()} LEFT` }))));
+  host.append(el('div', { class: 'hud-row classic-only' }, el('span', { class: 'hud-row-label', text: 'Progress to target' }), el('span', { class: 'hud-percent', text: `${progress.percent}%` })),
+    classicOnly(bar(progress.percent, `Progress to ${targetNode.name}`)),
     el('p', { class: 'hud-detail', id: 'hud-progress', text: progress.complete ? `${targetNode.name} is marked proficient.` : `${number(progress.proficient)} / ${number(progress.prerequisites)} prerequisites proficient · ${formatHours(progress.hoursLeft)} left` }));
   if (overall && state.final !== target) {
     const finalNode = byId.get(state.final);
-    host.append(el('div', { class: 'hud-row' }, el('span', { class: 'hud-row-label', text: `Overall · ${shortName(finalNode.name)}` }), el('span', { class: 'hud-percent', id: 'hud-overall', text: `${overall.percent}%` })),
-      bar(overall.percent, `Overall progress to ${finalNode.name}`));
+    host.append(el('div', { class: 'hud-row classic-only' }, el('span', { class: 'hud-row-label', text: `Overall · ${shortName(finalNode.name)}` }), el('span', { class: 'hud-percent', id: 'hud-overall', text: `${overall.percent}%` })),
+      classicOnly(bar(overall.percent, `Overall progress to ${finalNode.name}`)));
   }
   if (reviewCount > 0) host.append(el('button', { class: 'hud-review', id: 'hud-review', text: `Review in progress · ${number(reviewCount)} left`, title: 'Resume your guided proficiency review', onclick: actions.openReview }));
 

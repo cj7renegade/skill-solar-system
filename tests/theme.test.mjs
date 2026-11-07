@@ -30,8 +30,9 @@ test('no green: the theme never introduces one', () => {
 test('appearance: Classic by default, saved choices read back, bad values ignored', () => {
   const s = memory();
   assert.deepEqual(readAppearance(s), DEFAULTS); assert.equal(DEFAULTS.theme, 'classic'); assert.equal(DEFAULTS.atmosphere, false);
-  saveAppearance(s, { theme: 'cyberpunk', atmosphere: true, reduceMotion: true, glow: 'off' });
-  assert.deepEqual(readAppearance(s), { theme: 'cyberpunk', atmosphere: true, reduceMotion: true, glow: 'off' });
+  saveAppearance(s, { theme: 'cyberpunk', atmosphere: true, reduceMotion: true, glow: 'off', bloom: true });
+  assert.deepEqual(readAppearance(s), { theme: 'cyberpunk', atmosphere: true, reduceMotion: true, glow: 'off', bloom: true });
+  assert.equal(DEFAULTS.bloom, false, 'bloom is off by default');
   s.setItem(APPEARANCE_STORE, JSON.stringify({ theme: 'neon', glow: 'max', atmosphere: 'yes' }));
   assert.deepEqual(readAppearance(s), DEFAULTS);
   s.setItem(APPEARANCE_STORE, '{broken');
@@ -79,4 +80,13 @@ test('the style guide reads real data from the map and says so when it is missin
 test('the time readout uses the local date and time', async () => {
   const { timeReadout } = await import('../src/theme/readouts.js');
   assert.equal(timeReadout(new Date(2026, 10, 6, 22, 5)), '2026-11-06 22:05');
+});
+
+test('the app-shell stylesheet only applies in the Cyberpunk theme', () => {
+  const css = readFileSync(new URL('../src/theme/app.css', import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const selectors = css.split('}').map(r => r.split('{')[0].trim()).filter(s => s && !s.startsWith('--') && !/^[\w-]+:/.test(s) && !s.includes(';'));
+  assert.ok(selectors.length > 40);
+  // Split each selector list at top-level commas only (selectors nest :where(), :is() and :not()).
+  const topLevel = sel => { const parts = []; let depth = 0, cur = ''; for (const ch of sel) { if (ch === '(') depth++; if (ch === ')') depth--; if (ch === ',' && !depth) { parts.push(cur); cur = ''; } else cur += ch; } parts.push(cur); return parts; };
+  for (const sel of selectors) for (const part of topLevel(sel)) assert.ok(/data-theme="cyberpunk"/.test(part), part);
 });

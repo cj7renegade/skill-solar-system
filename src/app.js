@@ -27,8 +27,10 @@ import { planLayout, renderPlan } from './plan.js';
 import { listOrder, recentAnswers, renderToday } from './panel.js';
 import { createGuidePanel } from './guide-panel.js';
 import { createLessonIndex, embeddedLesson, LESSON_FIELDS } from './lessons.js';
-import { readAppearance, applyAppearance } from './theme/appearance.js';
+import { readAppearance, applyAppearance, motionAllowed } from './theme/appearance.js';
 import { createSettingsDialog } from './settings-dialog.js';
+import { askConfirm, askDanger } from './theme/confirm.js';
+import { skillCodes } from './theme/readouts.js';
 import { renderStyleGuide } from './theme/styleguide.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
@@ -143,6 +145,7 @@ function absorbEmbedded(){
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
   $('counts').textContent=`${graph.nodes.length.toLocaleString('en')} skills · ${graph.edges.length.toLocaleString('en')} links`;
+  $('readout-skills').textContent=`${graph.nodes.length.toLocaleString('en')} SKILLS`;$('readout-links').textContent=`${graph.edges.length.toLocaleString('en')} LINKS`;
   renderSaveState();
   $('map-name').textContent=graph.title||'Untitled map';$('header-map').textContent=graph.title||'Untitled map';
   document.querySelector('.layout-tools').hidden=!editing;
@@ -255,7 +258,7 @@ function inspect(){
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
   body.append(field('Skill',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
-  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Skill updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its links? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Skill deleted.');}})));
+  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Skill updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:async()=>{if(await askDanger(`Delete ${n.name} and its links? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Skill deleted.');}})));
   body.append(el('h3',{text:'Links'}));
   const links=graph.edges.filter(e=>e.source===n.id||e.target===n.id);
   for(const edge of links){
@@ -368,12 +371,13 @@ $('undo').onclick=()=>travel(history,redo,'undo');
 $('redo').onclick=()=>travel(redo,history,'redo');
 // On a helix map both arrange buttons rebuild the helix (src/helix.js) instead of the six-domain spiral,
 // whose 100-level scale cannot hold the helix's levels. Skill levels are not changed.
-const helixArrange=()=>{if(confirm('Arrange the helix again? Height comes from each skill\'s helix level (1 + 3 × its longest prerequisite chain) and angle from its course. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeHelix(next)),'Helix arranged. Pinned positions retained.');viewer?.fit();}};
-$('vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Arrange an upward spiral? Unassigned levels are estimated from prerequisites; existing levels are raised if needed to stay above their prerequisites. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeVortex(next)),'Spiral arranged. Reference levels reconciled; pinned positions retained.');viewer?.fit();}};
-$('recalculate-vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Recalculate ALL reference levels from the recorded prerequisite graph and arrange a spiral? This replaces edited levels but keeps proficiency and pinned positions. Undo is available.')){change(next=>Object.assign(next,arrangeVortex(next,{recalculate:true})),'Reference levels recalculated and spiral arranged.');viewer?.fit();}};
-$('arrange').onclick=()=>{if(confirm('Arrange unpinned nodes using strict prerequisites only? Supports links do not affect height. Undo restores your layout.'))change(next=>Object.assign(next,arrange(next)),'Dependency layout applied. Pinned nodes kept their positions.');};
-$('blank').onclick=()=>{if(editing&&confirm('Replace the whole current map with an empty map? Every skill and link disappears from view; your answers stay in the shared record. Undo brings the map back, and File ▸ Save map can export it first.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
-$('reset').onclick=()=>{if(editing&&confirm('Replace the whole current map with the small starter map? Undo brings the current map back, and File ▸ Save map can export it first.')){replace(starter,'Starter restored.');loadRecord(graph);}};
+const helixArrange=async()=>{if(await askConfirm('Arrange the helix again? Height comes from each skill\'s helix level (1 + 3 × its longest prerequisite chain) and angle from its course. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeHelix(next)),'Helix arranged. Pinned positions retained.');viewer?.fit();}};
+$('vortex').onclick=async()=>{if(isHelixMap(graph))return helixArrange();if(await askConfirm('Arrange an upward spiral? Unassigned levels are estimated from prerequisites; existing levels are raised if needed to stay above their prerequisites. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeVortex(next)),'Spiral arranged. Reference levels reconciled; pinned positions retained.');viewer?.fit();}};
+$('recalculate-vortex').onclick=async()=>{if(isHelixMap(graph))return helixArrange();if(await askConfirm('Recalculate ALL reference levels from the recorded prerequisite graph and arrange a spiral? This replaces edited levels but keeps proficiency and pinned positions. Undo is available.')){change(next=>Object.assign(next,arrangeVortex(next,{recalculate:true})),'Reference levels recalculated and spiral arranged.');viewer?.fit();}};
+$('arrange').onclick=async()=>{if(await askConfirm('Arrange unpinned nodes using strict prerequisites only? Supports links do not affect height. Undo restores your layout.'))change(next=>Object.assign(next,arrange(next)),'Dependency layout applied. Pinned nodes kept their positions.');};
+$('blank').onclick=async()=>{if(editing&&await askDanger('Replace the whole current map with an empty map? Every skill and link disappears from view; your answers stay in the shared record. Undo brings the map back, and File ▸ Save map can export it first.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
+$('reset').onclick=async()=>{if(editing&&await askDanger('Replace the whole current map with the small starter map? Undo brings the current map back, and File ▸ Save map can export it first.')){replace(starter,'Starter restored.');loadRecord(graph);}};
+// The native confirm stays here in both themes: the file chooser must open in the same click.
 $('load').onclick=()=>{if(!dirty||confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))$('file').click();};
 // Opening a map, from a file or from Your maps: validate it, then apply shared answers before anything (counts, review) reads it.
 async function openMap(name,size,readText){try{if(size>LIMITS.mapBytes)throw Error(`Map files must be smaller than ${LIMITS.mapBytes/1_000_000} MB.`);const parsed=validate(JSON.parse(await readText()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}}
@@ -381,7 +385,7 @@ $('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;await 
 // Your maps: the maps in the project's Maps folder (desktop only; archive and backup folders are never listed).
 const mapLabel=m=>{const title=m.title&&m.title.length>60?`${m.title.slice(0,59)}…`:m.title;return title?`${title} — ${m.path}`:m.path;};
 async function refreshMapPicker(){if(!window.desktop?.maps)return;try{const maps=await window.desktop.maps.list(),picker=$('map-picker');picker.replaceChildren(el('option',{value:'',text:maps.length?'Your maps…':'No maps in the Maps folder'}),...maps.map(m=>el('option',{value:m.path,text:mapLabel(m),title:m.path})));picker.hidden=false;}catch{}}
-$('map-picker').onchange=async e=>{const choice=e.target.value;e.target.value='';if(!choice)return;if(dirty&&!confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))return;try{const map=await window.desktop.maps.read(choice);await openMap(map.name,map.bytes,async()=>map.text);}catch(error){message(`Could not open map: ${error.message}`);}};
+$('map-picker').onchange=async e=>{const choice=e.target.value;e.target.value='';if(!choice)return;if(dirty&&!await askConfirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))return;try{const map=await window.desktop.maps.read(choice);await openMap(map.name,map.bytes,async()=>map.text);}catch(error){message(`Could not open map: ${error.message}`);}};
 refreshMapPicker();
 // The guided tour. Its button stays in the header; until the tour has been opened once, the button glows.
 const TOUR_SEEN='skill-solar-system-tour-seen-v1';
@@ -531,7 +535,7 @@ $('record-file').onchange=async e=>{
   try{
     if(file.size>5_000_000)throw Error('Proficiency records must be smaller than 5 MB.');
     const incoming=validateRecord(JSON.parse(await file.text()),family),merged=mergeImport(record,incoming),total=Object.keys(incoming.entries).length;
-    if(!confirm(`Import ${plural(total,'proficiency answer')} into atlas family “${family}”?\n\n${merged.added} new, ${merged.changed} different from the shared record, ${merged.unchanged} the same.\nImported answers replace shared answers for the same skills; skills not in the file keep their shared answer.`))return;
+    if(!await askConfirm(`Import ${plural(total,'proficiency answer')} into atlas family “${family}”?\n\n${merged.added} new, ${merged.changed} different from the shared record, ${merged.unchanged} the same.\nImported answers replace shared answers for the same skills; skills not in the file keep their shared answer.`))return;
     record=merged.record;const saved=await persistRecord();
     const applied=reconcile(graph,record,{map:graph.title||null});
     if(applied.adopted.length){record=applied.record;persistRecord();}
@@ -544,7 +548,7 @@ $('record-file').onchange=async e=>{
 $('adopt-file').onclick=async()=>{
   if(!record||!fileAnswers||fileAnswers.family!==family||fileAnswers.title!==(graph.title||''))return;
   const answers=fileAnswers.answers,count=answers.size;
-  if(!confirm(`Replace the shared answers for all ${count} skills in this map with the answers saved in the file “${fileAnswers.title}”?\n\nSkills that are unmarked in the file become Cleared in the shared record. Other maps in this atlas family use these answers the next time they are opened.`))return;
+  if(!await askDanger(`Replace the shared answers for all ${count} skills in this map with the answers saved in the file “${fileAnswers.title}”?\n\nSkills that are unmarked in the file become Cleared in the shared record. Other maps in this atlas family use these answers the next time they are opened.`))return;
   record=adoptFileAnswers(record,answers,{map:graph.title||null});const saved=await persistRecord();
   commit(next=>setProficiency(next,answers),`Shared answers for ${plural(count,'skill')} now match this file.${saved?'':' The shared record could not be saved.'}`,'adopted from file',{share:false});
 };
@@ -680,9 +684,12 @@ function lessonGeneration(){
   if(!window.desktop?.lessons)return {ok:false,reason:'Lessons are generated in the desktop app.'};
   return lessonStatus?.availability||{ok:false,reason:'Checking whether lessons can be generated…'};
 }
+// Readout codes for the Cyberpunk HUD (MTH-QNT-022), computed once per map version.
+const codeCache=new WeakMap();
+function codesFor(g){if(!codeCache.has(g))codeCache.set(g,skillCodes(g));return codeCache.get(g);}
 function skillCard(n,extra=[],{inDialog=false}={}){
   const state=learner();
-  return renderSkillCard(graph,n,{learner:state,lessonState:lessonIndex.state(graph,n),generation:lessonGeneration(),palette:palette(),el,extra,
+  return renderSkillCard(graph,n,{code:codesFor(graph).get(n.id),learner:state,lessonState:lessonIndex.state(graph,n),generation:lessonGeneration(),palette:palette(),el,extra,
     colors:{yes:PROFICIENCY_COLORS.yes,no:PROFICIENCY_COLORS.no,unset:PROFICIENCY_COLORS.unset,ready:FRONTIER_GLOW},
     actions:{select:id=>{selected=id;render();viewer?.focus(id);},path:id=>setPath(id),fly:id=>viewer?.fly(id),openDetails:inDialog?null:openDetails,
       openLesson:()=>lessonUI.open(n.id),generate:()=>lessonUI.generate(n.id),regenerate:()=>lessonUI.regenerate(n.id)}});
@@ -741,7 +748,10 @@ const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-profic
     el('p',{class:'edge-note',text:'For your own check only. Nothing here answers the question below.'}))});
 $('mark-proficiency').onclick=()=>review.open();
 // File ▸ Settings…: Appearance and Developer (src/settings-dialog.js).
-const settingsDialog=createSettingsDialog({dialog:$('settings-dialog'),body:$('settings-body'),el,storage:safeStorage,onStyleGuide:()=>openStyleGuide()});
+// The 3D view follows the appearance: theme, motion and (Cyberpunk only, default off) bloom.
+function applyViewerAppearance(a=readAppearance(safeStorage)){viewer?.setTheme(a.theme,{motion:motionAllowed(a)});viewer?.setBloom(a.bloom);}
+const settingsDialog=createSettingsDialog({dialog:$('settings-dialog'),body:$('settings-body'),el,storage:safeStorage,onStyleGuide:()=>openStyleGuide(),onChange:a=>{applyViewerAppearance(a);render();}});
+applyViewerAppearance();
 $('settings-open').onclick=()=>{setMenu('file-menu','file-menu-items',false);settingsDialog.open();};
 $('settings-close').onclick=()=>settingsDialog.close();
 // The Cyberpunk HUD style guide, with readouts from the open map (src/theme/styleguide.js).

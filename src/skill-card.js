@@ -49,7 +49,8 @@ export function lessonAction(state, generation) {
 // el: the app's element helper. palette: course colours. colors: { yes, no, unset, ready }.
 // actions: { select(id), path(id), fly(id), openLesson(), generate(), regenerate() }. extra: elements
 // appended at the end (the proficiency controls, and in the dialog the full details).
-export function renderSkillCard(graph, node, { learner, lessonState, generation, palette, colors, el, actions, extra = [], showName = false }) {
+// code: the skill's readout code (src/theme/readouts.js), shown only in the Cyberpunk HUD theme.
+export function renderSkillCard(graph, node, { learner, lessonState, generation, palette, colors, el, actions, extra = [], showName = false, code = null }) {
   const facts = cardFacts(graph, node, learner);
   const card = el('section', { class: 'skill-card' });
   card.dataset.id = node.id; card.dataset.lesson = lessonState.kind;
@@ -66,6 +67,10 @@ export function renderSkillCard(graph, node, { learner, lessonState, generation,
   if (facts.type) chip(facts.type, facts.type === 'QUANT' ? 'Quantitative: worked with numbers and units' : 'Qualitative: worked with reasoning, design or description');
   chip(facts.hours, 'Rough study effort: an estimate from the tier, doubled for hands-on practice');
   if (facts.proficient) chip('✓ Proficient', 'Your own answer', colors.yes); else if (facts.ready) chip('Ready to study', 'Every prerequisite is marked proficient', colors.ready);
+  const readout = (label, value) => el('div', { class: 'cp-stat small' }, el('span', { class: 'cp-stat-label', text: label }), el('span', { class: 'cp-stat-value', text: value }));
+  card.append(el('div', { class: 'skill-readouts cp-only' }, code ? readout('Code', code) : null,
+    readout('Level', facts.helixLevel ? `LVL ${String(facts.helixLevel.level).padStart(3, '0')}` : facts.referenceLevel != null ? `LVL ${String(facts.referenceLevel).padStart(3, '0')}` : 'LVL ---'),
+    readout('Stage', facts.stage ? `STG-${String(facts.stage.stage).padStart(2, '0')}` : 'STG --'), readout('Effort', facts.hours)));
   card.append(chips, el('p', { class: 'skill-card-description', text: facts.description || 'No description yet.' }));
 
   // The lesson: a badge, then the button (or, on milestones and checkpoints, the checklist).

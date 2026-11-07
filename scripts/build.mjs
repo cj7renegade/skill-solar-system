@@ -14,5 +14,6 @@ await cp('node_modules/katex/dist/fonts', 'dist/katex/fonts', { recursive: true 
 await writeFile('dist/theme-tokens.css', tokensCss());
 await copyFile('src/theme/base.css', 'dist/theme-base.css');
 await copyFile('src/theme/components.css', 'dist/theme-components.css');
+await copyFile('src/theme/app.css', 'dist/theme-app.css');
 await cp('assets/fonts', 'dist/fonts', { recursive: true });
 console.log('Offline renderer built in dist. Launch with npm start.');
