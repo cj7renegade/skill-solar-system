@@ -1,0 +1,83 @@
+{
+  "ranAt": [
+    "2026-11-07T03:18:49.615Z",
+    "2026-11-07T03:19:35.273Z"
+  ],
+  "model": "claude-haiku-5-5",
+  "promptVersion": "lesson-v1",
+  "skills": [
+    {
+      "label": "MTH QUANT",
+      "id": "m-boolean",
+      "name": "Boolean algebra",
+      "ok": true,
+      "status": "unreviewed",
+      "model": "claude-haiku-5-5",
+      "seconds": 29.5,
+      "tokensIn": 3786,
+      "tokensOut": 4756,
+      "cost": 0.0029,
+      "verification": {
+        "checked": 0,
+        "total": 8,
+        "mismatches": [],
+        "repaired": [],
+        "notChecked": [
+          "g1",
+          "g2",
+          "g3",
+          "p1",
+          "p2",
+          "p3",
+          "p4",
+          "p5"
+        ]
+      }
+    },
+    {
+      "label": "hands-on ELX/PWR",
+      "id": "hx-elx-soldering-tht",
+      "name": "Solder through-hole components",
+      "ok": true,
+      "status": "unreviewed",
+      "model": "claude-haiku-5-5",
+      "seconds": 32,
+      "tokensIn": 3009,
+      "tokensOut": 6010,
+      "cost": 0.0034,
+      "verification": null
+    },
+    {
+      "label": "AIL QUAL",
+      "id": "hx-ai-python-ml-env",
+      "name": "Set up a Python machine learning environment",
+      "ok": true,
+      "status": "unreviewed",
+      "model": "claude-haiku-5-5",
+      "seconds": 31.4,
+      "tokensIn": 3068,
+      "tokensOut": 6027,
+      "cost": 0.0034,
+      "verification": null
+    },
+    {
+      "label": "MTH QUANT (numeric)",
+      "id": "m-trig",
+      "name": "Right-triangle trigonometry",
+      "ok": true,
+      "status": "unreviewed",
+      "model": "claude-haiku-5-5",
+      "seconds": 27.1,
+      "tokensIn": 5180,
+      "tokensOut": 6638,
+      "cost": 0.004,
+      "verification": {
+        "checked": 8,
+        "total": 8,
+        "mismatches": [],
+        "repaired": [],
+        "notChecked": []
+      }
+    }
+  ]
+}

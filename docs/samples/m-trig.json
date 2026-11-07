@@ -1,0 +1,291 @@
+{
+  "format": "helixskill-lesson",
+  "version": 1,
+  "nodeId": "m-trig",
+  "mapKey": "humanoid-helix-v1",
+  "source": "ai-generated",
+  "status": "unreviewed",
+  "promptVersion": "lesson-v1",
+  "model": "claude-haiku-5-5",
+  "createdAt": "2026-11-07T03:19:35.262Z",
+  "inputHash": "bc62b196653b7323512c03e96d14b24e974a7991eab0b7262308fa5e9cfc3a56",
+  "tokensIn": 5180,
+  "tokensOut": 6638,
+  "cost": 0.004,
+  "seconds": 27.1,
+  "content": {
+    "title": "Right-triangle trigonometry: sine, cosine and tangent as side ratios",
+    "estimatedMinutes": 30,
+    "objectives": [
+      "Identify the opposite, adjacent and hypotenuse sides relative to a chosen acute angle in a right triangle.",
+      "Write sine, cosine and tangent as ratios of side lengths and evaluate them for a given triangle.",
+      "Use a known angle and one side to find another side with $\\sin$, $\\cos$ and $\\tan$."
+    ],
+    "explanation": "**Recap of ratios (not yet marked proficient):** A ratio compares two quantities by division. If one length is 6 m and another is 8 m, their ratio is $6\\,\\text{m}/8\\,\\text{m} = 0.75$, which is dimensionless because the metres cancel. A unit rate expresses a ratio per one unit of the denominator. Trigonometric ratios are simply fixed side ratios for a given angle.\n\n**Labelling the sides.** Pick one acute angle $\\theta$ in a right triangle. The hypotenuse is the side opposite the right angle, always the longest side. The opposite side is the side directly across from $\\theta$. The adjacent side is the side that touches $\\theta$ and is not the hypotenuse. Note that the labels change if you switch to the other acute angle, so always name the angle first.\n\n**The three ratios.**\n$$\\sin\\theta = \\frac{\\text{opposite}}{\\text{hypotenuse}}, \\qquad \\cos\\theta = \\frac{\\text{adjacent}}{\\text{hypotenuse}}, \\qquad \\tan\\theta = \\frac{\\text{opposite}}{\\text{adjacent}}$$\n\nA helpful memory aid is SOH-CAH-TOA, which lists sine as opposite over hypotenuse, cosine as adjacent over hypotenuse and tangent as opposite over adjacent. Because each ratio is built from two lengths, the units of the sides cancel and every trig ratio is dimensionless.\n\n**Solving for a side.** Once you know one acute angle and one side, you can find another side by rearranging the ratio. If the hypotenuse $h$ is known and you need the opposite side $o$, use $o = h\\sin\\theta$. If the adjacent side $a$ is known and you need the opposite side, use $o = a\\tan\\theta$. Choose the ratio that contains the unknown side and the known side; that is the core of the method.\n\n**Calculator note.** Set your calculator to degree mode when angles are given in degrees. Values such as $\\sin 30° = 0.5$ and $\\cos 60° = 0.5$ are exact and worth memorising. Other values, such as $\\sin 25°$, are approximations and should be rounded only at the final step.\n\n**Looking ahead.** Once these ratios are secure, they unlock the unit circle, the Law of Sines and Cosines for non-right triangles, and vector components. Those tools underpin later work on forces on an inclined plane and the components of motion, which matter directly for balancing and walking a humanoid robot.",
+    "workedExample": {
+      "problem": "A right triangle has an acute angle $\\theta$. The side opposite $\\theta$ is 3 m, and the hypotenuse is 5 m. Find $\\sin\\theta$, $\\cos\\theta$, and the length of the adjacent side.",
+      "steps": [
+        "Identify the sides relative to $\\theta$: opposite = 3 m, hypotenuse = 5 m, adjacent = unknown.",
+        "Compute $\\sin\\theta = \\dfrac{\\text{opposite}}{\\text{hypotenuse}} = \\dfrac{3\\,\\text{m}}{5\\,\\text{m}} = 0.6$ (dimensionless).",
+        "Find the adjacent side with the Pythagorean relation from the prerequisite: adjacent $= \\sqrt{5^2 - 3^2}\\,\\text{m} = \\sqrt{16}\\,\\text{m} = 4\\,\\text{m}$.",
+        "Compute $\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}} = \\dfrac{4\\,\\text{m}}{5\\,\\text{m}} = 0.8$ (dimensionless).",
+        "Check: $\\sin^2\\theta + \\cos^2\\theta = 0.36 + 0.64 = 1$, which confirms the values."
+      ],
+      "result": "$\\sin\\theta = 0.6$ (dimensionless), $\\cos\\theta = 0.8$ (dimensionless), and the adjacent side is 4 m."
+    },
+    "guidedPractice": [
+      {
+        "id": "g1",
+        "prompt": "In a right triangle, angle $\\theta$ has an adjacent side of 4 m and a hypotenuse of 5 m. Find $\\cos\\theta$.",
+        "hints": [
+          "Cosine uses adjacent over hypotenuse.",
+          "Both lengths are in metres, so the units cancel."
+        ],
+        "solution": "$\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}} = \\dfrac{4\\,\\text{m}}{5\\,\\text{m}} = 0.8$. The result is dimensionless.",
+        "answer": "$\\cos\\theta = 0.8$ (dimensionless)",
+        "finalValue": 0.8,
+        "unit": "dimensionless"
+      },
+      {
+        "id": "g2",
+        "prompt": "In a right triangle, angle $\\theta = 30°$ and the hypotenuse is 10 m. Find the length of the side opposite $\\theta$.",
+        "hints": [
+          "Choose the ratio that links opposite and hypotenuse: sine.",
+          "Rearrange $\\sin\\theta = \\text{opposite}/\\text{hypotenuse}$ to get opposite $= \\text{hypotenuse} \\times \\sin\\theta$.",
+          "$\\sin 30° = 0.5$ exactly."
+        ],
+        "solution": "Opposite $= 10\\,\\text{m} \\times \\sin 30° = 10\\,\\text{m} \\times 0.5 = 5\\,\\text{m}$.",
+        "answer": "5 m",
+        "finalValue": 5,
+        "unit": "m"
+      },
+      {
+        "id": "g3",
+        "prompt": "A ladder 6 m long leans against a vertical wall so that it makes an angle of $60°$ with the level ground. How high up the wall does the ladder reach? Give your answer to three decimal places.",
+        "hints": [
+          "The ladder is the hypotenuse; the wall height is opposite the 60° angle.",
+          "$\\sin 60° = \\sqrt{3}/2 \\approx 0.8660$."
+        ],
+        "solution": "Height $= 6\\,\\text{m} \\times \\sin 60° = 6\\,\\text{m} \\times 0.8660 = 5.196\\,\\text{m}$ (exactly $3\\sqrt{3}\\,\\text{m}$).",
+        "answer": "5.196 m",
+        "finalValue": 5.196,
+        "unit": "m"
+      }
+    ],
+    "independentPractice": [
+      {
+        "id": "p1",
+        "prompt": "In a right triangle, the hypotenuse is 13 m and the side opposite angle $\\theta$ is 12 m. Find $\\sin\\theta$ as a decimal to four decimal places.",
+        "hints": [
+          "Sine is opposite over hypotenuse.",
+          "Keep the units in mind: both are metres."
+        ],
+        "solution": "$\\sin\\theta = 12\\,\\text{m}/13\\,\\text{m} = 0.923077\\ldots \\approx 0.9231$ (dimensionless).",
+        "answer": "0.9231 (dimensionless)",
+        "finalValue": 0.9231,
+        "unit": "dimensionless"
+      },
+      {
+        "id": "p2",
+        "prompt": "In a right triangle, the side adjacent to angle $\\theta = 40°$ is 9 m. Find the length of the side opposite $\\theta$, to three decimal places.",
+        "hints": [
+          "Opposite and adjacent are related by tangent.",
+          "$\\tan 40° \\approx 0.8391$."
+        ],
+        "solution": "$\\tan\\theta = \\text{opposite}/\\text{adjacent}$, so opposite $= 9\\,\\text{m} \\times \\tan 40° \\approx 9\\,\\text{m} \\times 0.8391 = 7.552\\,\\text{m}$.",
+        "answer": "7.552 m",
+        "finalValue": 7.552,
+        "unit": "m"
+      },
+      {
+        "id": "p3",
+        "prompt": "A ramp of length 12 m rises at an angle of $15°$ above horizontal. What is its vertical height? Give your answer to three decimal places.",
+        "hints": [
+          "The ramp is the hypotenuse and the height is opposite the 15° angle.",
+          "$\\sin 15° \\approx 0.2588$."
+        ],
+        "solution": "Height $= 12\\,\\text{m} \\times \\sin 15° \\approx 12\\,\\text{m} \\times 0.258819 = 3.106\\,\\text{m}$ (to three decimal places, 3.106 m).",
+        "answer": "3.106 m",
+        "finalValue": 3.106,
+        "unit": "m"
+      },
+      {
+        "id": "p4",
+        "prompt": "In a right triangle, the side opposite angle $\\theta = 25°$ is 4.0 m. Find the hypotenuse to three decimal places.",
+        "hints": [
+          "Use the ratio that contains the opposite side and the hypotenuse.",
+          "Rearrange sine to solve for the hypotenuse: hypotenuse $= \\text{opposite}/\\sin\\theta$.",
+          "$\\sin 25° \\approx 0.4226$."
+        ],
+        "solution": "Hypotenuse $= 4.0\\,\\text{m}/\\sin 25° \\approx 4.0\\,\\text{m}/0.422618 = 9.466\\,\\text{m}$.",
+        "answer": "9.466 m",
+        "finalValue": 9.466,
+        "unit": "m"
+      },
+      {
+        "id": "p5",
+        "prompt": "In a right triangle, the adjacent side to angle $\\theta$ is 5 m and the hypotenuse is 8 m. Find $\\cos\\theta$ as a decimal.",
+        "hints": [
+          "Cosine is adjacent over hypotenuse."
+        ],
+        "solution": "$\\cos\\theta = 5\\,\\text{m}/8\\,\\text{m} = 0.625$ (dimensionless).",
+        "answer": "0.625 (dimensionless)",
+        "finalValue": 0.625,
+        "unit": "dimensionless"
+      }
+    ],
+    "checkForUnderstanding": [
+      {
+        "question": "In a right triangle, which ratio uses the opposite side and the adjacent side, and why is it dimensionless?",
+        "answer": "Tangent, $\\tan\\theta = \\text{opposite}/\\text{adjacent}$. Both sides are lengths in the same unit, so the units cancel and the ratio is dimensionless."
+      },
+      {
+        "question": "A triangle has hypotenuse 10 m and angle $\\theta = 30°$. Which trig ratio links the hypotenuse to the adjacent side, and what is the adjacent side?",
+        "answer": "Cosine links adjacent and hypotenuse. Adjacent $= 10\\,\\text{m} \\times \\cos 30° \\approx 8.660\\,\\text{m}$."
+      },
+      {
+        "question": "Why must you name the acute angle before labelling the sides of a right triangle?",
+        "answer": "The opposite and adjacent sides depend on which acute angle you choose. Switching angles swaps the roles of the two legs, so the ratios change."
+      }
+    ],
+    "safety": null,
+    "demonstration": null,
+    "keyTerms": [
+      {
+        "term": "Hypotenuse",
+        "definition": "The longest side of a right triangle, opposite the right angle."
+      },
+      {
+        "term": "Opposite side",
+        "definition": "The leg directly across from the chosen acute angle."
+      },
+      {
+        "term": "Adjacent side",
+        "definition": "The leg that touches the chosen acute angle and is not the hypotenuse."
+      },
+      {
+        "term": "Sine",
+        "definition": "The ratio of the opposite side to the hypotenuse for a given angle."
+      },
+      {
+        "term": "Cosine",
+        "definition": "The ratio of the adjacent side to the hypotenuse for a given angle."
+      },
+      {
+        "term": "Tangent",
+        "definition": "The ratio of the opposite side to the adjacent side for a given angle."
+      },
+      {
+        "term": "Dimensionless ratio",
+        "definition": "A ratio of two quantities with the same units, where the units cancel."
+      }
+    ],
+    "commonMistakes": [
+      "Labelling the opposite and adjacent sides without first fixing which acute angle is $\\theta$.",
+      "Using a calculator in radian mode when the angle is given in degrees.",
+      "Mixing up the ratios, for example writing $\\sin\\theta$ as adjacent over hypotenuse.",
+      "Rounding intermediate values too early, which shifts the final answer in the third decimal place.",
+      "Forgetting that a ratio of two lengths is dimensionless and leaving stray units in the final value."
+    ]
+  },
+  "userNotes": "",
+  "verification": {
+    "checkedAt": "2026-11-07T03:19:35.262Z",
+    "checked": 8,
+    "total": 8,
+    "notChecked": [],
+    "repaired": [],
+    "mismatches": []
+  },
+  "context": {
+    "skill": {
+      "name": "Right-triangle trigonometry",
+      "description": "Use sine, cosine, and tangent as side ratios with a clearly identified angle.",
+      "course": "MTH",
+      "courseName": "Mathematics",
+      "subject": "Geometry and trigonometry",
+      "helixLevel": 25,
+      "buildStage": "1 · Foundations",
+      "level": "Core",
+      "type": "QUANT",
+      "practice": "written",
+      "assessmentMode": "written calculation"
+    },
+    "safetyRequired": false,
+    "prerequisites": [
+      {
+        "name": "Right-triangle distances",
+        "description": "Relate the legs and hypotenuse of a right triangle and choose the correct side to solve for.",
+        "proficient": true
+      },
+      {
+        "name": "Ratios and unit rates",
+        "description": "Compare quantities multiplicatively and express a rate for one unit of input.",
+        "proficient": false
+      }
+    ],
+    "unlocks": [
+      "Unit-circle trigonometry",
+      "Inverse trigonometry and quadrants",
+      "General triangle solutions",
+      "Dot products and projection",
+      "Cross products",
+      "Two-dimensional motion components",
+      "Inclined-plane dynamics",
+      "The Law of Sines",
+      "The Law of Cosines",
+      "The Area of a General Triangle",
+      "Angles in the Coordinate Plane",
+      "Negative Angles in the Coordinate Plane",
+      "Coterminal Angles",
+      "Calculating Reference Angles",
+      "Properties of the Unit Circle in the First Quadrant",
+      "Extending the Trigonometric Ratios Using the Unit Circle",
+      "Extending the Trigonometric Ratios Using Angles in Radians",
+      "Extending the Trigonometric Ratios to Negative Angles",
+      "Extending the Trigonometric Ratios to Large Angles",
+      "Using the Pythagorean Identity in the First Quadrant",
+      "Extending the Pythagorean Identity to All Quadrants",
+      "Graphing Curves Defined Parametrically",
+      "Cartesian Equations of Parametric Curves",
+      "Finding Intersections of Parametric Curves and Lines",
+      "Differentiating Parametric Curves",
+      "Calculating Tangent and Normal Lines with Parametric Equations",
+      "Second Derivatives of Parametric Equations",
+      "The Arc Length of a Parametric Curve",
+      "Introduction to Polar Coordinates",
+      "Converting from Polar Coordinates to Cartesian Coordinates",
+      "Polar Equations of Circles Centered at the Origin",
+      "Polar Equations of Radial Lines",
+      "Differentiating Curves Given in Polar Form",
+      "Further Differentiation of Curves Given in Polar Form",
+      "Finding the Area of a Polar Region",
+      "The Arc Length of a Polar Curve",
+      "Calculating the Dot Product Using Angle and Magnitude",
+      "Calculating the Dot Product Using Components",
+      "The Angle Between Two Vectors",
+      "Calculating a Scalar Projection",
+      "Calculating a Vector Projection",
+      "The Cross Product of Two Vectors",
+      "Properties of the Cross Product",
+      "Calculating the Cross Product Using Determinants",
+      "Finding Areas Using the Cross Product",
+      "The Scalar Triple Product",
+      "Volumes of Parallelepipeds",
+      "Calculate a refraction angle with Snell's law",
+      "Calculate double-slit fringe spacing",
+      "Calculate transmission through an ideal linear polarizer",
+      "Refraction and total internal reflection",
+      "Torque and lever arms",
+      "Calculate a planar moment",
+      "Model differential-drive motion",
+      "Electric field of a finite line charge",
+      "Earth's magnetic field",
+      "Static tip-over angle",
+      "Friction cones and their linear approximation",
+      "Lens focal length, sensor size and field of view",
+      "Physical origin of barrel and pincushion distortion"
+    ],
+    "learner": "Self-taught adult builder working toward a humanoid robot; professional welder/fabricator."
+  }
+}

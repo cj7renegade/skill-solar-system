@@ -12,7 +12,7 @@ const { fileFor } = require('./proficiency-store.cjs');
 const MODEL = 'claude-opus-5-5';
 // Estimated US$ per million tokens for this model, to keep the monthly cap. The Console's billing is
 // the real figure; this is a close running estimate shown to the reader.
-const PRICE = { input: 4, output: 20, cacheRead: 0.2, cacheWrite: 5 };
+const PRICE = require('./claude-pricing.json').models[MODEL]; // one dated pricing file, shared with the lessons
 const DEFAULT_LIMIT = 10;
 const RETRY_MS = 30_000;
 const MAX_REQUEST_CHARS = 1_500_000;
@@ -183,7 +183,8 @@ function createGuide({ dir, secure, createClient, SDK, onStatus = () => {}, onli
     return run.then(() => true);
   }
 
-  return { load, probe, status, setKey, clearKey, setSettings, turn, cancel, loadMemory, saveMemory, stop: () => { clearTimeout(timer); for (const c of running.values()) c.abort(); } };
+  // The lessons (desktop/lessons.cjs) use the same client and key, in this process only.
+  return { client: () => client, load, probe, status, setKey, clearKey, setSettings, turn, cancel, loadMemory, saveMemory, stop: () => { clearTimeout(timer); for (const c of running.values()) c.abort(); } };
 }
 
 module.exports = { createGuide, MEMORY_FORMAT, MODEL, PRICE, DEFAULT_LIMIT, STATES, cost, validMessages, classify };

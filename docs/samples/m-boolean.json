@@ -1,0 +1,228 @@
+{
+  "format": "helixskill-lesson",
+  "version": 1,
+  "nodeId": "m-boolean",
+  "mapKey": "humanoid-helix-v1",
+  "source": "ai-generated",
+  "status": "unreviewed",
+  "promptVersion": "lesson-v1",
+  "model": "claude-haiku-5-5",
+  "createdAt": "2026-11-07T03:17:46.222Z",
+  "inputHash": "cd5cd399390f1c9d3b7383775735232adaae3cc05d95995aa63296c9fcdd261e",
+  "tokensIn": 3786,
+  "tokensOut": 4756,
+  "cost": 0.0029,
+  "seconds": 29.5,
+  "content": {
+    "title": "Boolean algebra: simplifying logic with identities",
+    "estimatedMinutes": 30,
+    "objectives": [
+      "Apply the core Boolean identities (identity, null, complement, idempotent, absorption) to simplify expressions in variables that take values 0 or 1.",
+      "Use De Morgan's laws to push a complement through a product or a sum.",
+      "Check a simplified expression against the original using a truth table or a second algebraic route."
+    ],
+    "explanation": "Boolean algebra works on variables that are either 0 (false) or 1 (true). Think of each variable as a switch: 1 means closed, 0 means open. Two operations matter. The product XY (also written X AND Y) is 1 only when both X and Y are 1, like two switches wired in series: current flows only if both are closed. The sum X+Y (X OR Y) is 1 when at least one input is 1, like two switches in parallel. The complement X' (NOT X) flips the value: 0 becomes 1 and 1 becomes 0. Recap of the prerequisite idea: a truth table lists every combination of inputs and the resulting output. If you are not yet comfortable building truth tables, do that first, because you can always verify an algebra result by comparing truth tables for the original and simplified forms.\n\nThe identities you will use most are these. Identity: X+0=X and X*1=X. Null: X+1=1 and X*0=0. Complement: X+X'=1 and X*X'=0. Idempotent: X+X=X and X*X=X. Double negation: (X')'=X. Absorption: X+XY=X and X(X+Y)=X. Distributive law: X(Y+Z)=XY+XZ, and also X+YZ=(X+Y)(X+Z). Commutative and associative laws let you reorder and regroup terms freely.\n\nDe Morgan's laws describe how complements move through operations: (XY)'=X'+Y' and (X+Y)'=X'Y'. In words: the complement of an AND is an OR of the complements, and the complement of an OR is an AND of the complements. Break the bar, change the operator. This is the rule you need most often when a negated group appears.\n\nA good simplification strategy is: first remove parentheses by distributing or applying De Morgan; then look for pairs that share a common factor and combine them, such as XY+XY'=X(Y+Y')=X; then look for absorption, where a term is swallowed by a shorter term; finally check the result. Simplification matters for hardware: each literal (a variable or its complement) and each operator becomes a physical gate or wire, so fewer terms means a simpler control circuit for later units such as logic gates and combinational circuits. Fault trees, which you will build later, use the same AND and OR logic to model when a system fails.",
+    "workedExample": {
+      "problem": "Simplify F = A B' + A B, where B' means NOT B.",
+      "steps": [
+        "Both terms share the factor A, so factor it out using the distributive law: F = A(B' + B).",
+        "Apply the complement law to the bracket: B' + B = 1 (one of B or NOT B must be 1).",
+        "Substitute: F = A * 1.",
+        "Apply the identity law: A * 1 = A, so F = A.",
+        "Check with a truth table: when A=0, both terms are 0, and F=0. When A=1, B'+B is 1 regardless of B, so F=1. The simplified form F=A matches every row."
+      ],
+      "result": "F = A"
+    },
+    "guidedPractice": [
+      {
+        "id": "g1",
+        "prompt": "Simplify F = X Y + X Y' .",
+        "hints": [
+          "Factor out the common variable X.",
+          "What does Y + Y' equal?"
+        ],
+        "solution": "Factor X: F = X(Y + Y'). Complement law: Y + Y' = 1. So F = X * 1 = X.",
+        "answer": "F = X",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "g2",
+        "prompt": "Simplify F = A + A B' C .",
+        "hints": [
+          "Ask whether the second term is already covered by A alone.",
+          "Absorption: X + XY = X, where X stands for A and Y stands for B' C."
+        ],
+        "solution": "The term A B' C contains the factor A, so A + A(B'C) matches the absorption pattern X + XY with X = A. Therefore F = A.",
+        "answer": "F = A",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "g3",
+        "prompt": "Using De Morgan's law, rewrite the complement (X + Y)' as a product of complemented variables.",
+        "hints": [
+          "De Morgan: the complement of an OR becomes an AND of the complements.",
+          "Write X' and Y' for the complemented inputs."
+        ],
+        "solution": "(X + Y)' = X' Y', because the complement of a sum equals the product of the complements.",
+        "answer": "X' Y'",
+        "finalValue": null,
+        "unit": null
+      }
+    ],
+    "independentPractice": [
+      {
+        "id": "p1",
+        "prompt": "Simplify F = A (A + B).",
+        "hints": [
+          "Expand using the distributive law, or apply an absorption identity directly."
+        ],
+        "solution": "Expand: F = AA + AB = A + AB (since AA = A). Absorption: A + AB = A.",
+        "answer": "F = A",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "p2",
+        "prompt": "Simplify F = X + X' Y.",
+        "hints": [
+          "Try the distributive law in the form X + YZ = (X+Y)(X+Z)."
+        ],
+        "solution": "F = (X + X')(X + Y) = 1 * (X + Y) = X + Y.",
+        "answer": "F = X + Y",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "p3",
+        "prompt": "Using De Morgan's law, simplify the complement (A B)' into a sum of complemented variables.",
+        "hints": [
+          "Complement of a product becomes a sum of complements."
+        ],
+        "solution": "(AB)' = A' + B' by De Morgan's law.",
+        "answer": "A' + B'",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "p4",
+        "prompt": "Simplify F = A B C + A B C' .",
+        "hints": [
+          "Factor out A B.",
+          "Use the complement law on C + C'."
+        ],
+        "solution": "F = AB(C + C') = AB * 1 = AB.",
+        "answer": "F = A B",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "p5",
+        "prompt": "Simplify F = (X + Y)(X + Y') .",
+        "hints": [
+          "Expand the product and collect terms.",
+          "Y Y' equals 0 by the complement law."
+        ],
+        "solution": "Expand: X X + X Y' + Y X + Y Y' = X + X Y' + X Y + 0 = X + X(Y' + Y) = X + X * 1 = X.",
+        "answer": "F = X",
+        "finalValue": null,
+        "unit": null
+      }
+    ],
+    "checkForUnderstanding": [
+      {
+        "question": "Simplify X + 1 using a null law.",
+        "answer": "1, because any term ORed with 1 is 1."
+      },
+      {
+        "question": "Apply De Morgan's law to (X Y)'.",
+        "answer": "X' + Y'"
+      },
+      {
+        "question": "Simplify A' A.",
+        "answer": "0, by the complement law: a variable ANDed with its complement is always 0."
+      }
+    ],
+    "safety": null,
+    "demonstration": null,
+    "keyTerms": [
+      {
+        "term": "Literal",
+        "definition": "A variable or its complement, such as A or B'."
+      },
+      {
+        "term": "Complement",
+        "definition": "The NOT of a variable, which flips 0 to 1 and 1 to 0."
+      },
+      {
+        "term": "Absorption",
+        "definition": "The identity X + XY = X, where a term containing a shorter term is absorbed by it."
+      },
+      {
+        "term": "De Morgan's laws",
+        "definition": "Rules stating (XY)' = X' + Y' and (X + Y)' = X' Y', which move complements through AND and OR."
+      },
+      {
+        "term": "Distributive law",
+        "definition": "The rule that a product distributes over a sum, X(Y + Z) = XY + XZ, and the dual form X + YZ = (X+Y)(X+Z)."
+      },
+      {
+        "term": "Idempotent law",
+        "definition": "The rules X + X = X and X X = X, meaning repeating a variable does not change the result."
+      }
+    ],
+    "commonMistakes": [
+      "Applying De Morgan's law without changing the operator, writing (XY)' as X'Y' instead of X' + Y'.",
+      "Distributing incorrectly, writing X + YZ as (X + Y)Z instead of (X + Y)(X + Z).",
+      "Cancelling a variable across an OR, for example concluding X + Y = Y from X + Y = X + Z.",
+      "Dropping the complement when a negated term is factored out, for instance writing X Y' + X Y as X Y only."
+    ]
+  },
+  "userNotes": "",
+  "verification": {
+    "checkedAt": "2026-11-07T03:17:46.222Z",
+    "checked": 0,
+    "total": 8,
+    "notChecked": [
+      "g1",
+      "g2",
+      "g3",
+      "p1",
+      "p2",
+      "p3",
+      "p4",
+      "p5"
+    ],
+    "repaired": [],
+    "mismatches": []
+  },
+  "context": {
+    "skill": {
+      "name": "Boolean algebra",
+      "description": "Simplify logical functions of 0/1 variables using Boolean identities such as absorption and De Morgan's laws.",
+      "course": "MTH",
+      "courseName": "Mathematics",
+      "subject": "Logic and discrete structures",
+      "helixLevel": 10,
+      "buildStage": "2 · Controlled joint",
+      "level": "Working",
+      "type": "QUANT",
+      "practice": "written",
+      "assessmentMode": "written calculation"
+    },
+    "safetyRequired": false,
+    "prerequisites": [
+      {
+        "name": "Propositions and truth tables",
+        "description": "Combine statements using logical operators and evaluate truth under each input combination.",
+        "proficient": false
+      }
+    ],
+    "unlocks": [
+      "Logic gates and combinational circuits",
+      "Build and evaluate a fault tree"
+    ],
+    "learner": "Self-taught adult builder working toward a humanoid robot; professional welder/fabricator."
+  }
+}

@@ -1,9 +1,11 @@
 const { app, BrowserWindow, session, ipcMain, dialog, safeStorage, net } = require('electron');
 const path = require('node:path');
+const fs = require('node:fs/promises');
 const { writeFileAtomic } = require('./save.cjs');
 const { createProficiencyStore } = require('./proficiency-store.cjs');
 const { listMaps, readMap } = require('./map-library.cjs');
 const { createGuide } = require('./guide.cjs');
+const { createLessons } = require('./lessons.cjs');
 // The same id as build.appId, so a pinned taskbar shortcut and the running window share one button.
 app.setAppUserModelId('local.skillsolarsystem.atlas');
 // The folder the "Your maps" dropdown lists. Tests point it at their own folder.
@@ -62,6 +64,31 @@ app.whenReady().then(() => {
   ipcMain.handle('guide-cancel', guarded((_, id) => guide.cancel(id)));
   ipcMain.handle('guide-memory-load', guarded((_, family) => guide.loadMemory(family)));
   ipcMain.handle('guide-memory-save', guarded((_, family, text) => guide.saveMemory(family, text)));
+  // Lessons: kept outside map files, in userData/lessons (see docs/ai-lessons-plan.md).
+  const lessons = createLessons({ dir: app.getPath('userData'), guide, SDK });
+  ipcMain.handle('lessons-get', guarded((_, mapKey, nodeId) => lessons.get(mapKey, nodeId)));
+  ipcMain.handle('lessons-list', guarded((_, mapKey) => lessons.list(mapKey)));
+  ipcMain.handle('lessons-absorb', guarded((_, mapKey, nodes) => lessons.absorb(mapKey, nodes)));
+  ipcMain.handle('lessons-status', guarded(() => lessons.status()));
+  ipcMain.handle('lessons-settings', guarded((_, next) => lessons.setSettings(next)));
+  ipcMain.handle('lessons-generate', guarded((event, jobId, mapKey, nodeId, context, options) => lessons.generate(jobId, mapKey, nodeId, context, options,
+    progress => { if (!event.sender.isDestroyed()) event.sender.send('lessons-progress', jobId, progress); })));
+  ipcMain.handle('lessons-cancel', guarded((_, jobId) => lessons.cancel(jobId)));
+  ipcMain.handle('lessons-review', guarded((_, mapKey, nodeId, change) => lessons.review(mapKey, nodeId, change)));
+  ipcMain.handle('lessons-export', guarded(async () => {
+    const result = await dialog.showSaveDialog(win, { defaultPath: `HelixSkill-Lessons-${new Date().toISOString().slice(0, 10)}.zip`, filters: [{ name: 'Lesson store', extensions: ['zip'] }] });
+    if (result.canceled) return null;
+    const zip = await lessons.exportZip();
+    await track(fs.writeFile(result.filePath, zip));
+    return { file: result.filePath, bytes: zip.length };
+  }));
+  ipcMain.handle('lessons-import', guarded(async () => {
+    const result = await dialog.showOpenDialog(win, { properties: ['openFile'], filters: [{ name: 'Lesson store', extensions: ['zip'] }] });
+    if (result.canceled || !result.filePaths[0]) return null;
+    const stat = await fs.stat(result.filePaths[0]);
+    if (stat.size > 500_000_000) throw Error('That file is too large to be a lesson export.');
+    return lessons.importZip(await fs.readFile(result.filePaths[0]));
+  }));
   guide.load().catch(() => {});
   app.on('before-quit', () => guide.stop());
   win.loadFile(path.join(__dirname, '../dist/index.html'));

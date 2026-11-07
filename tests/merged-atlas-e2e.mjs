@@ -1,3 +1,4 @@
+// Since the AI-lessons change, lesson sections open in the lesson viewer (#lesson-body), not on the card.
 // End-to-end check of the merged Robotics Atlas (authoring/merge/) in the real Electron app. The map
 // and, optionally, a copy of a shared answer record are placed in an isolated profile, so the real
 // map, the real record and the real profile are only ever read.
@@ -30,8 +31,8 @@ try {
   copyFileSync(source, map);
   const fromDraft = expression => evaluate(`(()=>{const g=JSON.parse(localStorage.getItem('skill-solar-system-v1'));return ${expression};})()`);
   const selectByName = async name => { await evaluate(`(()=>{const n=${JSON.stringify(name)};[...document.querySelectorAll('.node-item')].find(b=>b.textContent===n).click()})()`); await sleep(250); };
-  const openCard = async node => { await selectByName(node.name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(300); };
-  const sectionTitles = () => evaluate(`[...document.querySelectorAll('#details-body details.lesson-section>summary')].map(s=>s.textContent)`);
+  const openCard = async node => { await selectByName(node.name); await evaluate(`(document.getElementById('lesson-primary')?.textContent==='Open lesson'?document.getElementById('lesson-primary'):[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details')).click()`); await sleep(300); };
+  const sectionTitles = () => evaluate(`[...document.querySelectorAll('#lesson-body details.lesson-section>summary')].map(s=>s.textContent)`);
   const closeCard = () => app.click('#details-close', 200);
 
   await open(map);

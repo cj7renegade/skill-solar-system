@@ -1,0 +1,253 @@
+{
+  "format": "helixskill-lesson",
+  "version": 1,
+  "nodeId": "hx-elx-soldering-tht",
+  "mapKey": "humanoid-helix-v1",
+  "source": "ai-generated",
+  "status": "unreviewed",
+  "promptVersion": "lesson-v1",
+  "model": "claude-haiku-5-5",
+  "createdAt": "2026-11-07T03:18:18.218Z",
+  "inputHash": "be9c75ee07a5967266058778eed919b05f968245a791f11f3d6c1ec6820501b9",
+  "tokensIn": 3009,
+  "tokensOut": 6010,
+  "cost": 0.0034,
+  "seconds": 32,
+  "content": {
+    "title": "Solder through-hole components",
+    "estimatedMinutes": 30,
+    "objectives": [
+      "Set up a soldering iron and tin its tip so heat transfers well to the pad and lead.",
+      "Form a concave fillet joint that wets both the pad and the lead, in the right order.",
+      "Inspect through-hole joints and tell good joints from cold, dry or bridged ones."
+    ],
+    "explanation": "Before you start, two prerequisites matter. First, component values: the colour bands on a resistor encode its resistance and tolerance. Four bands give the first two digits, then a multiplier, then tolerance. Yellow-violet-red-gold means 47 times 10 to the power 2, which is 4700 ohms (4.7 kΩ), with ±5% tolerance. Terminal ratings tell you the maximum power or voltage a part can handle; check them before you choose a part, not after it fails. Second, hazards: solder is a lead or lead-free alloy that melts around 180 to 220 °C, the iron tip runs at roughly 300 to 380 °C, and flux fumes irritate the lungs. Plan the work area with those hazards in mind.\n\nThe core skill is heat transfer. Solder does not stick to a surface that is not clean and hot. The joint is made by heating the pad and the component lead together, then letting molten solder flow onto both so it wets them. Solder sticking to the iron tip rather than to the joint means the surfaces are not hot enough or are dirty.\n\nTinning: before a joint, put a thin, bright layer of solder on the iron tip. This keeps the tip wetted, moves heat well, and protects the tip from oxidation. Wipe the tip on a damp sponge or brass wool, then add a little fresh solder.\n\nThe joint sequence: place the tip so it touches both the pad and the lead at the same time. Count to about two or three seconds to heat both. Then feed solder into the joint, on the side opposite the iron, not onto the tip. Once the solder flows around the lead and fills the hole in a smooth, concave cone, remove the solder wire first, then the iron, and hold the part still while the joint cools. Moving the part while it cools produces a cracked, grainy joint.\n\nA good joint has a concave fillet, which is a smooth curve from pad to lead, shiny or satin, with the lead clearly outlined. A cold joint looks dull, grainy and lumpy, and may have a crack. A dry joint has poor contact: the solder sits on the lead but does not wet the pad, so it may look fine but fail under vibration. A bridge is solder that connects two adjacent pads or leads that should be separate. Check joints with a magnifier and a continuity test, and trim leads only after the joint has cooled.\n\nThis skill unlocks hand-soldering surface-mount parts, which uses the same heat-and-flow idea at a much smaller scale. Your welding background helps: the same discipline of clean surfaces, correct heat and controlled filler applies.",
+    "workedExample": {
+      "problem": "A resistor has bands yellow, violet, red, gold. Find its nominal resistance and the range allowed by its 5% tolerance. Then decide whether an iron set to 350 °C is hot enough to melt a 183 °C leaded solder with a comfortable margin.",
+      "steps": [
+        "Read the colour code. Yellow = 4, violet = 7, red = multiplier 10 to the power 2, gold = ±5%. So the digits are 47 and the multiplier is 100.",
+        "Nominal resistance: 47 × 100 = 4700 Ω, which is 4.7 kΩ.",
+        "Tolerance range: 5% of 4700 Ω is 235 Ω. Lower limit is 4700 − 235 = 4465 Ω. Upper limit is 4700 + 235 = 4935 Ω.",
+        "Temperature margin: 350 °C − 183 °C = 167 °C above the solder's melting point. That is a healthy margin for transferring heat into the joint without overheating the part.",
+        "Conclusion: the iron is suitable. A tip too cool will leave the joint cold; a tip far too hot will damage pads and parts."
+      ],
+      "result": "Nominal resistance 4700 Ω (range 4465 Ω to 4935 Ω); the 350 °C tip gives a 167 °C margin over the solder's melting point."
+    },
+    "guidedPractice": [
+      {
+        "id": "g1",
+        "prompt": "A resistor has bands brown, black, red, gold. What is its nominal resistance in ohms? Give the number only in your final value.",
+        "hints": [
+          "Brown = 1, black = 0, so the digits are 10.",
+          "Red is the multiplier 10 to the power 2."
+        ],
+        "solution": "Digits 10, multiplier 10 to the power 2 = 100, so 10 × 100 = 1000 Ω, which is 1 kΩ. Gold means ±5% tolerance.",
+        "answer": "1000 Ω (1 kΩ), ±5%.",
+        "finalValue": 1000,
+        "unit": "Ω"
+      },
+      {
+        "id": "g2",
+        "prompt": "A lead-free solder melts near 217 °C. You set the iron tip to 350 °C. How many degrees Celsius is the tip above the melting point? Then state whether you would expect a tip at 220 °C to be a good choice for typical through-hole work.",
+        "hints": [
+          "Subtract the melting point from the tip temperature.",
+          "Think about how fast heat leaves the tip when it touches a large copper pad."
+        ],
+        "solution": "350 °C − 217 °C = 133 °C above the melting point. A tip at 220 °C has only 3 °C of margin. Heat flows into a pad and lead quickly, so the tip temperature would drop below melting point during the joint, producing a cold joint. A tip near 350 °C gives enough margin for the joint to flow without damage.",
+        "answer": "133 °C above melting point; 220 °C gives too little margin and risks cold joints.",
+        "finalValue": 133,
+        "unit": "°C"
+      },
+      {
+        "id": "g3",
+        "prompt": "You inspect a joint and see a dull, grainy surface with a visible crack around the lead. Name the defect and describe one correction.",
+        "hints": [
+          "Think about what the joint looks like when it cools while the part is still moving.",
+          "Consider whether the joint was heated enough."
+        ],
+        "solution": "This is a cold joint, probably caused by moving the part during cooling or by insufficient heat. Correction: reheat the joint with a clean, tinned tip until the solder flows smoothly, add a little fresh solder if needed, and hold the part still until it cools.",
+        "answer": "Cold joint; reheat, let it flow into a concave fillet, and keep the part still while it cools.",
+        "finalValue": null,
+        "unit": null
+      }
+    ],
+    "independentPractice": [
+      {
+        "id": "p1",
+        "prompt": "A leaded solder melts at 183 °C and your iron is set to 320 °C. What is the margin in degrees Celsius?",
+        "hints": [
+          "Subtract the melting point from the iron setting."
+        ],
+        "solution": "320 °C − 183 °C = 137 °C.",
+        "answer": "137 °C",
+        "finalValue": 137,
+        "unit": "°C"
+      },
+      {
+        "id": "p2",
+        "prompt": "A resistor has bands brown, black, orange, gold. Find the highest resistance allowed by its 5% tolerance, in ohms.",
+        "hints": [
+          "Brown = 1, black = 0, orange = multiplier 10 to the power 3.",
+          "Upper limit equals nominal times 1.05."
+        ],
+        "solution": "Nominal = 10 × 1000 = 10000 Ω. Upper limit = 10000 Ω × 1.05 = 10500 Ω.",
+        "answer": "10500 Ω",
+        "finalValue": 10500,
+        "unit": "Ω"
+      },
+      {
+        "id": "p3",
+        "prompt": "You solder 6 through-hole joints and hold the iron on each for 2.5 s to heat the pad and lead. Ignoring time to reposition, what is the total heating time in seconds?",
+        "hints": [
+          "Multiply the number of joints by the time per joint."
+        ],
+        "solution": "6 × 2.5 s = 15 s.",
+        "answer": "15 s",
+        "finalValue": 15,
+        "unit": "s"
+      },
+      {
+        "id": "p4",
+        "prompt": "Describe how you would tell a dry joint from a good joint when only looking at the board. Name the visible clue that suggests poor wetting of the pad.",
+        "hints": [
+          "Look at the edge where solder meets the pad, not only the top of the joint."
+        ],
+        "solution": "A good joint shows solder wetting smoothly onto the pad, forming a concave fillet that runs from pad to lead. A dry joint shows solder that sits on the lead as a blob with a visible gap or edge at the pad, not a smooth curve onto the copper.",
+        "answer": "Poor wetting at the pad edge: solder sits on the lead without a smooth concave curve onto the pad.",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "p5",
+        "prompt": "Two adjacent pads each have solder joining them across the gap, forming a short. What is this defect called, and what is a safe first step before you re-check the board electrically?",
+        "hints": [
+          "Think about power and isolation before any test."
+        ],
+        "solution": "This is a solder bridge. Before probing or reflowing, disconnect power from the board and confirm it is de-energised. Then remove excess solder with wick or a desoldering tool and re-inspect.",
+        "answer": "Solder bridge; disconnect and confirm power is off before rework.",
+        "finalValue": null,
+        "unit": null
+      }
+    ],
+    "checkForUnderstanding": [
+      {
+        "question": "Why do you tin the iron tip before making a joint?",
+        "answer": "Tinning keeps the tip wetted, improves heat transfer to the joint, and protects the tip from oxidation."
+      },
+      {
+        "question": "In what order should the iron, solder wire and joint be applied?",
+        "answer": "Heat the pad and lead together with the iron, feed solder into the joint on the side opposite the iron, remove the solder wire, then remove the iron, and keep the part still while it cools."
+      },
+      {
+        "question": "What does a cold joint look like, and what usually causes it?",
+        "answer": "It looks dull, grainy and lumpy, sometimes cracked, and is usually caused by insufficient heat or moving the part while it cools."
+      }
+    ],
+    "safety": {
+      "hazards": [
+        "Hot iron tip at roughly 300 to 380 °C can cause severe burns and ignite nearby materials.",
+        "Solder fumes and flux smoke can irritate the lungs; leaded solder also adds a lead exposure risk.",
+        "Trimmed component leads can fly off and injure eyes.",
+        "Mains-powered equipment and boards that may still hold charge create shock risk.",
+        "A hot iron left unattended or dropped can start a fire or cause a burn."
+      ],
+      "precautions": [
+        "Use a stand for the iron, keep the cord clear of the tip, and never leave the iron unattended while hot.",
+        "Wear eye protection when trimming leads and whenever flux or solder is spattering.",
+        "Work with local extraction or ventilation running; do not solder in a closed space without it.",
+        "Disconnect and confirm power is off before soldering or rework on any powered board.",
+        "Wash hands after soldering and do not eat or drink at the bench.",
+        "Keep the work surface clear of flammable materials and have a heat-resistant tray for the iron."
+      ],
+      "stopConditions": [
+        "Stop if you smell a burning odour from a component, the board or the iron cord.",
+        "Stop if the fumes are strong enough to irritate your eyes or throat, even with ventilation.",
+        "Stop if the iron is damaged, the cord is frayed or the stand is unstable.",
+        "Stop if you are tired or distracted; hot-tool work needs full attention.",
+        "Stop if the board is still connected to power or you are unsure whether it is de-energised."
+      ]
+    },
+    "demonstration": {
+      "description": "Supervised hands-on demonstration on a practice through-hole board. Solder a set of resistors, a diode and a header, each with clean, concave fillets, then trim leads safely and inspect every joint for cold, dry or bridged solder. The supervisor observes the process and records the results. This lesson and any worked answer do not satisfy this requirement.",
+      "evidence": [
+        "Clear, well-lit photographs of each joint taken with a magnifier, showing the concave fillet and wetting at the pad.",
+        "Completed practice board, with all joints inspected and any defects reworked and marked.",
+        "Written inspection log listing each joint, its condition and the corrective action taken.",
+        "Record of the tip temperature setting and the dwell time used.",
+        "Supervisor's observation notes on tinning, heat application, solder feed and cooling technique, recorded by the supervisor."
+      ],
+      "satisfiedByLesson": false
+    },
+    "keyTerms": [
+      {
+        "term": "Tinning",
+        "definition": "Applying a thin layer of solder to the iron tip to improve heat transfer and protect it."
+      },
+      {
+        "term": "Wetting",
+        "definition": "Molten solder flowing smoothly over a clean metal surface so it bonds to it."
+      },
+      {
+        "term": "Fillet",
+        "definition": "The concave curve of solder running from the pad up to the lead in a good joint."
+      },
+      {
+        "term": "Cold joint",
+        "definition": "A joint that was not heated enough, looking dull, grainy or cracked."
+      },
+      {
+        "term": "Dry joint",
+        "definition": "A joint with poor wetting and contact, which may look acceptable but fail under stress."
+      },
+      {
+        "term": "Solder bridge",
+        "definition": "Unwanted solder linking two pads or leads that should be separate."
+      },
+      {
+        "term": "Through-hole",
+        "definition": "A component whose leads pass through drilled holes in the board and are soldered on the other side."
+      }
+    ],
+    "commonMistakes": [
+      "Feeding solder onto the iron tip instead of into the joint, which produces a blob with poor wetting.",
+      "Removing the iron before the solder has flowed, leaving a cold or dry joint.",
+      "Moving the part while the joint is cooling, causing a grainy, cracked joint.",
+      "Using a dirty or oxidised tip, which slows heat transfer and makes solder ball up.",
+      "Trimming leads while the joint is still hot or without eye protection."
+    ]
+  },
+  "userNotes": "",
+  "verification": null,
+  "context": {
+    "skill": {
+      "name": "Solder through-hole components",
+      "description": "Tin the iron, heat pad and lead together, form a concave fillet, and inspect through-hole joints for cold, dry or bridged solder.",
+      "course": "ELX",
+      "courseName": "Electrical & Electronics",
+      "subject": "Bench practice and soldering",
+      "helixLevel": 46,
+      "buildStage": "1 · Foundations",
+      "level": "Core",
+      "type": "QUAL",
+      "practice": "hands-on",
+      "assessmentMode": "supervised demonstration"
+    },
+    "safetyRequired": true,
+    "prerequisites": [
+      {
+        "name": "Read component values, units and terminal ratings",
+        "description": "Read component values, units and terminal ratings",
+        "proficient": false
+      },
+      {
+        "name": "Recognize hazards and seek appropriate controls",
+        "description": "Recognize hazards and seek appropriate controls",
+        "proficient": false
+      }
+    ],
+    "unlocks": [
+      "Hand-solder surface-mount parts"
+    ],
+    "learner": "Self-taught adult builder working toward a humanoid robot; professional welder/fabricator."
+  }
+}

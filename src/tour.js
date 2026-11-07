@@ -40,7 +40,7 @@ export const TOUR_STEPS = [
     'The list below shows every skill, ready ones first (or A to Z). Type in its search box to narrow it, and click a name to travel there.',
     'In Edit mode, Shift-drag a sphere to move it; the layout tools appear at the end of the console and each asks first.'] },
   { target: '#inspector', title: 'The skill card', text: [
-    'A selected skill shows its course, level, stage, tier and rough hours. Path to this lights its own path, Fly to brings the camera to it, and Open lesson opens its lesson when there is one.',
+    'A selected skill shows its course, level, stage and tier. Generate lesson writes a 30-minute AI lesson for it (online); Open lesson opens a saved or reviewed one, also offline. Path to this lights its path.',
     'The small graph lists what it needs and what it unlocks; click any of them to go there.'] },
   { target: '#inspector', title: 'Your own answers', text: [
     'On a skill\'s card, "At least 80% proficient?" asks for your judgment only. Yes, No and Clear record it, and Undo reverses it.',

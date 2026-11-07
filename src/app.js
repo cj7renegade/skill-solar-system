@@ -8,7 +8,12 @@ import { createViewer } from './viewer.js';
 import { ICONS, iconElement } from './icons.js';
 import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
-import { hasLesson, lessonSections, contentStatusLine, contentPendingLine } from './lesson.js';
+import { renderSkillCard } from './skill-card.js';
+import { createLessonUI } from './lesson-ui.js';
+import { createLessonQueue, queueCandidates } from './lesson-queue.js';
+import { createLessonSettings } from './lesson-settings.js';
+import { practiceItems, renderMarkdown } from './lesson-render.js';
+import { revealBlock } from './lesson-viewer.js';
 import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, stepLabel } from './prerequisites.js';
 import { domainCounts, toggleSubject, pruneSubjects } from './highlight.js';
 import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, validateRecord, mergeImport, adoptFileAnswers, recordSummary } from './proficiency.js';
@@ -19,10 +24,13 @@ import { renderHud, learnerState, activeTarget, storeTarget, reviewLeft } from '
 import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
 import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from './learner.js';
 import { planLayout, renderPlan } from './plan.js';
-import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
+import { listOrder, recentAnswers, renderToday } from './panel.js';
 import { createGuidePanel } from './guide-panel.js';
+import { createLessonIndex, embeddedLesson, LESSON_FIELDS } from './lessons.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
+// Lessons live outside map files (src/lessons.js); every reader goes through lessonIndex.getLesson.
+const lessonIndex=createLessonIndex(window.desktop?.lessons);
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
 const listActivation=createActivationTracker();
 const SPACING_CACHE='skill-solar-system-spacing';
@@ -114,6 +122,19 @@ function replace(next,status){
   listActivation.reset();closeDetails();
   const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);pathTarget=null;planOpen=false;$('plan-view').hidden=true;const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
 }
+// Lessons still embedded in the open map (an older file or draft) are handed to the lesson store as
+// reviewed archives; once stored identically they leave the in-memory map, so Save map writes a
+// lesson-free file. Only the two lesson fields change; the graph and answers do not.
+let absorbing=null;
+function absorbEmbedded(){
+  if(absorbing===graph||!window.desktop?.lessons||!graph.nodes.some(embeddedLesson))return;
+  const g=absorbing=graph;
+  lessonIndex.absorb(g).then(ids=>{
+    if(graph!==g||!ids.length)return;
+    const safe=new Set(ids);for(const n of graph.nodes)if(safe.has(n.id))for(const k of LESSON_FIELDS)delete n[k];
+    cache();render();message(`${$('status').textContent.trim()} ${ids.length.toLocaleString('en')} lessons are now kept in the lesson store, outside the map.`);
+  },()=>{});
+}
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
   $('counts').textContent=`${graph.nodes.length.toLocaleString('en')} skills · ${graph.edges.length.toLocaleString('en')} links`;
@@ -126,6 +147,7 @@ function render(){
   $('layout-summary').textContent=isHelixMap(graph)?'Height: helix level (longest prerequisite chain, not difficulty) · Around: course':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Links above.';
   viewer?.path(pathState()?.remaining??null,false);viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
   renderLearner();renderPathCard();if(planOpen)renderPlanView();
+  lessonIndex.load(graph);absorbEmbedded();
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
 }
@@ -204,19 +226,6 @@ function renderList(){
   if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No skills found.'}));
   $('node-list').scrollTop=scrollTop;
 }
-// Facts about a selected skill as chips: course, level, stage, tier, effort and its state.
-function skillChips(n,state){
-  const pal=palette(),chips=el('div',{class:'skill-chips'});
-  const chip=(text,title,color)=>{const c=el('span',{class:'chip',text,title});if(color)c.style.setProperty('--chip',color);chips.append(c);};
-  if(n.courseCode)chip(n.course?`${n.courseCode} · ${n.course}`:n.courseCode,'Course',pal?.[n.courseCode]);else chip(n.domain,'Domain',DOMAINS[n.domain]);
-  if(isHelixMap(graph)&&n.helixLevel!=null)chip(`Helix level ${n.helixLevel}/${graph.layout.topLevel}`,'Height on the helix: 1 + 3 × the longest prerequisite chain below this skill');
-  else if(n.skillLevel!=null)chip(`Level ${n.skillLevel}/100`,LEVEL_NOTE);
-  if(n.buildStage!=null){const names=graph.metadata?.humanoidHelixImport?.buildStages||{};chip(`Stage ${n.buildStage}${names[n.buildStage]?` · ${names[n.buildStage]}`:''}`,'Build stage');}
-  const tier=tierOf(graph,n);if(tier)chip(tier,'Level of the skill on the path');
-  chip(formatHours(effortHours(graph,n)),'Rough study effort: an estimate from the skill\'s tier, doubled for hands-on practice');
-  if(n.proficiency80===true)chip('✓ Proficient','Your own answer',PROFICIENCY_COLORS.yes);else if(state.frontier.has(n.id))chip('Ready to study','Every prerequisite is marked proficient',FRONTIER_GLOW);
-  return chips;
-}
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
   if(!n){panel.classList.remove('collapsed');renderToday(panel,{graph,state:learner(),record,reviewCount:reviewLeft(safeStorage,graph),el,palette:palette(),actions:{select:flyTo,openReview:()=>review.open()}});return;}
@@ -226,17 +235,8 @@ function inspect(){
   panel.classList.toggle('collapsed',!panels.card);
   panel.append(el('div',{class:'inspector-heading'},el('div',{class:'subject-heading'},iconElement(n.icon),el('div',{},el('h3',{text:n.name}),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,n,'Level',' · Level unassigned')}))),cardToggle),body);
   if(!editing){
-    // A map that records one says whether this subject has an authored lesson, so the reader knows
-    // what opening the card will show. It describes the content, never the reader's proficiency.
-    const status=contentStatusLine(n),state=learner(),taught=hasLesson(n);
-    body.append(...[skillChips(n,state),el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),
-      el('div',{class:'button-row skill-actions'},
-        el('button',{id:'open-details',text:taught?'Open lesson':'Read skill details',title:taught?'Open the lesson card':'Open the full description and connections',onclick:openDetails}),
-        el('button',{id:'path-to-selected',text:'Path to this',title:`Light up everything left to learn before ${n.name}`,onclick:()=>setPath(n.id)}),
-        el('button',{id:'fly-to-selected',text:'Fly to',title:`Fly the camera to ${n.name}`,onclick:()=>viewer?.fly(n.id)})),
-      el('h4',{class:'mini-title',text:'Prerequisites and what it unlocks'}),
-      miniGraph(n,{index:state.index,frontier:state.frontier,onSelect:flyTo}),
-      proficiencyControls(n)].filter(Boolean));
+    panel.dataset.card='skill';
+    body.append(skillCard(n,[proficiencyControls(n)]));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -661,65 +661,36 @@ function openDetails(){stopPanning();fillDetails();if(selected&&!$('details-dial
 // Closing the card to show the chain list must not clear the selection the list belongs to.
 function closeDetailsKeepSelection(){if($('details-dialog').open)$('details-dialog').close();}
 function closeDetails(){if($('details-dialog').open)$('details-dialog').close();}
-// One question or check, with its answer behind a control the reader has to press. Revealing an
-// answer changes nothing but this button: no proficiency is read, written or implied by it.
-function revealBlock(block){
-  const answer=el('p',{class:'lesson-answer',text:block.answer,hidden:true});
-  const button=el('button',{class:'reveal',text:block.reveal,onclick:()=>{answer.hidden=!answer.hidden;button.textContent=answer.hidden?block.reveal:block.hide;button.setAttribute('aria-expanded',String(!answer.hidden));}});
-  button.setAttribute('aria-expanded','false');
-  return el('div',{class:'lesson-question'},el('p',{class:'lesson-prompt',text:block.question}),block.answer?button:null,block.answer?answer:el('p',{class:'edge-note',text:'No answer key was supplied for this question.'}));
+// --- The skill card ------------------------------------------------------------------------------
+// One card for every node (src/skill-card.js): the console and the full card dialog show the same
+// layout, and no lesson body appears on it. The lesson opens in the lesson viewer.
+// Whether lessons can be generated now (key, connection, budget), from the main process. Refreshed
+// when the Guide's connection changes, so the card's Generate button follows it.
+let lessonStatus=null;
+function refreshLessonStatus(){
+  if(!window.desktop?.lessons)return Promise.resolve(null);
+  return window.desktop.lessons.status().then(next=>{const changed=JSON.stringify(next?.availability)!==JSON.stringify(lessonStatus?.availability)||next?.settings?.model!==lessonStatus?.settings?.model;lessonStatus=next;if(changed)render();return next;},()=>null);
 }
-function lessonBlock(block){
-  if(block.type==='note')return el('p',{class:'lesson-note',text:block.text});
-  if(block.type==='reveal')return revealBlock(block);
-  if(block.type==='list')return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('ul',{},...block.items.map(item=>el('li',{text:item}))));
-  if(block.type==='links')return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('ul',{},...block.items.map(item=>el('li',{},el('span',{class:'lesson-url',text:item.url}),item.use?el('p',{class:'edge-note',text:item.use}):null))));
-  return el('div',{class:'lesson-block'},block.label?el('h4',{text:block.label}):null,el('p',{text:block.text}));
+function lessonGeneration(){
+  if(!window.desktop?.lessons)return {ok:false,reason:'Lessons are generated in the desktop app.'};
+  return lessonStatus?.availability||{ok:false,reason:'Checking whether lessons can be generated…'};
 }
-// The named prerequisites, taken from the map's own edges so the card can never contradict the
-// graph. Each one selects that subject and reopens the card on it.
-function prerequisiteLinks(node){
-  const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
-  const ids=graph.edges.filter(e=>e.type==='prerequisite'&&e.target===node.id).map(e=>e.source);
-  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this skill in this map.'});
-  // render() refills an open card, which removes the button that was clicked, so keyboard focus is
-  // placed deliberately on the new card rather than being dropped on the page body.
-  const go=id=>{selected=id;render();viewer?.focus(id);($('details-body').querySelector('details.lesson-section>summary')||$('details-close')).focus();};
-  return el('div',{class:'lesson-block'},el('h4',{text:`Prerequisites (${ids.length})`}),el('div',{class:'lesson-links'},...ids.map(id=>el('button',{class:'lesson-link',text:names.get(id),onclick:()=>go(id)}))));
+function skillCard(n,extra=[],{inDialog=false}={}){
+  const state=learner();
+  return renderSkillCard(graph,n,{learner:state,lessonState:lessonIndex.state(graph,n),generation:lessonGeneration(),palette:palette(),el,extra,
+    colors:{yes:PROFICIENCY_COLORS.yes,no:PROFICIENCY_COLORS.no,unset:PROFICIENCY_COLORS.unset,ready:FRONTIER_GLOW},
+    actions:{select:id=>{selected=id;render();viewer?.focus(id);},path:id=>setPath(id),fly:id=>viewer?.fly(id),openDetails:inDialog?null:openDetails,
+      openLesson:()=>lessonUI.open(n.id),generate:()=>lessonUI.generate(n.id),regenerate:()=>lessonUI.regenerate(n.id)}});
 }
-// The authored learning sections, all closed to begin with so the opened card stays short. Opening
-// one is a reading action only; it never touches an answer.
-function lessonCard(node){
-  const sections=lessonSections(node);
-  if(!sections.length)return [];
-  return sections.map(section=>el('details',{class:'lesson-section'},el('summary',{text:section.title}),
-    ...section.blocks.map(lessonBlock),section.prerequisites?prerequisiteLinks(node):null));
-}
-// The card shows the 1–2 detail paragraphs, one short placement summary, and the connection list.
-// Where a subject carries an authored lesson, those paragraphs are its explanation and worked
-// example, so they move into the first expandable section instead of being repeated above it.
-// Coordinates, layout provenance, and placement notes stay in the file and the edit console.
 function fillDetails(){
   const node=graph.nodes.find(n=>n.id===selected);if(!node){closeDetails();return;}
   const body=$('details-body');body.replaceChildren();
   $('details-title').textContent=node.name;
   body.append(el('div',{class:'subject-heading'},iconElement(node.icon),el('p',{class:'edge-note',title:LEVEL_NOTE,text:levelLine(graph,node,'Reference level',' · Reference level unassigned')})));
-  // What content this entry has, then what is still missing even where a card exists. Both describe
-  // the content only; neither says anything about the reader's proficiency.
-  const status=contentStatusLine(node),pending=contentPendingLine(node);
-  if(status)body.append(el('p',{class:'lesson-status',text:status}));
-  if(pending)body.append(el('p',{class:'edge-note',text:pending}));
-  const taught=hasLesson(node);
-  // The short description repeats the title in the robotics curriculum maps; show it only when it adds something.
-  if(taught){
-    if(node.description.trim()&&node.description.trim()!==node.name.trim())body.append(el('p',{class:'subject-summary',text:node.description}));
-    if(node.lesson.instructional_scope)body.append(el('p',{class:'edge-note',text:node.lesson.instructional_scope}));
-    body.append(...lessonCard(node));
-  }else{
-    const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
-    for(const paragraph of paragraphs)body.append(el('p',{text:paragraph}));
-    if(!paragraphs.length)body.append(el('p',{class:'subject-summary',text:node.description||'No description yet. In Edit mode, add one or two paragraphs in Detailed description.'}));
-  }
+  // The same card as the console, with the longer description, where the skill sits and its links.
+  const paragraphs=node.details.trim().split(/\n\s*\n/).filter(Boolean);
+  const more=paragraphs.length?el('div',{class:'skill-details'},...paragraphs.map(p=>el('p',{text:p}))):null;
+  body.append(skillCard(node,[more],{inDialog:true}));
   body.append(el('h3',{text:'Where it sits'}),el('p',{text:placementSummary(graph,node)}));
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const links=graph.edges.filter(e=>e.source===node.id||e.target===node.id);
@@ -734,6 +705,21 @@ function fillDetails(){
   body.append(proficiencyControls(node));
 }
 $('details-close').onclick=closeDetails;
+// The lesson dialog (src/lesson-ui.js): open, generate with live progress, regenerate, review.
+const lessonUI=createLessonUI({bridge:window.desktop?.lessons,index:lessonIndex,el,dialog:$('lesson-dialog'),title:$('lesson-title'),body:$('lesson-body'),
+  getGraph:()=>graph,getLearner:learner,getStatus:()=>lessonStatus,onChanged:()=>{refreshLessonStatus();render();},beforeOpen:()=>{stopPanning();closeDetailsKeepSelection();}});
+$('lesson-close').onclick=()=>lessonUI.close();
+$('lesson-dialog').addEventListener('close',()=>{$('canvas').focus();});
+window.desktop?.guide?.onStatus(()=>refreshLessonStatus());
+refreshLessonStatus();
+// File ▸ Lessons…: settings, usage, the pre-generate queue and export/import (src/lesson-settings.js).
+const lessonQueue=createLessonQueue({generate:id=>lessonUI.generateQuietly(id),cancel:()=>lessonUI.cancelQuiet(),onChange:()=>{if($('lessons-dialog').open)lessonSettings.render();}});
+const lessonSettings=createLessonSettings({bridge:window.desktop?.lessons,dialog:$('lessons-dialog'),body:$('lessons-body'),el,getStatus:()=>lessonStatus,queue:lessonQueue,
+  refresh:async(reload=false)=>{await refreshLessonStatus();if(reload)await lessonIndex.load(graph,true);render();},
+  candidates:n=>queueCandidates(learner(),node=>lessonIndex.state(graph,node).has,n)});
+$('lessons-open').onclick=()=>{setMenu('file-menu','file-menu-items',false);refreshLessonStatus().then(()=>lessonSettings.open());};
+$('lessons-close').onclick=()=>lessonSettings.close();
+
 $('details-dialog').addEventListener('click',e=>{const r=$('details-dialog').getBoundingClientRect();if(e.target===$('details-dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))closeDetails();});
 $('details-dialog').addEventListener('close',()=>{$('canvas').focus();});
 $('canvas').tabIndex=0;
@@ -742,12 +728,17 @@ $('canvas').addEventListener('pointerdown',()=>{$('canvas').focus({preventScroll
 const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-proficiency'),getGraph:()=>graph,storage:safeStorage,
   apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Saved on this computer; File ▸ Save map exports a file.`,'review');if(result.ok&&nextId)viewer?.focus(nextId);return result;},
   show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
-  onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
+  onOpen:()=>{stopPanning();listActivation.reset();closeDetails();},
+  // The skill's cached lesson practice, so the same questions come back in every review.
+  practiceFor:node=>lessonIndex.getLesson(graph,node).then(practiceItems),
+  renderPractice:items=>el('details',{class:'review-practice',id:'review-practice'},el('summary',{text:`Practice from your lesson (${items.length})`}),
+    ...items.slice(0,4).map(item=>revealBlock(el,{question:el('div',{},renderMarkdown(el,item.question)),answer:item.answer},text=>renderMarkdown(el,text))),
+    el('p',{class:'edge-note',text:'For your own check only. Nothing here answers the question below.'}))});
 $('mark-proficiency').onclick=()=>review.open();
 // The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
 // replies select a skill or show a path, the same as the HUD's buttons.
 const guidePanel=createGuidePanel({bridge:window.desktop?.guide,button:$('guide-button'),pill:$('guide-state'),panel:$('guide-panel'),el,getFamily:()=>atlasFamily(graph)||'default',
-  getContext:()=>({graph,target:activeTarget(graph,safeStorage),selected,pathTarget,reviewLeft:reviewLeft(safeStorage,graph),record,today:new Date().toISOString().slice(0,10)}),
+  getContext:()=>({graph,target:activeTarget(graph,safeStorage),selected,pathTarget,reviewLeft:reviewLeft(safeStorage,graph),record,today:new Date().toISOString().slice(0,10),lessonState:n=>lessonIndex.state(graph,n)}),
   actions:{select:flyTo,path:id=>setPath(id)}});
 viewer?.spacing(spacing);
 $('sphere-spacing').value=String(spacing);$('spacing-value').value=`${spacing.toFixed(2)}×`;
