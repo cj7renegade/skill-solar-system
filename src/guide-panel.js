@@ -2,6 +2,7 @@
 // this session (never saved), the settings (API key, on/off, monthly limit) and a banner for every
 // state that is not "online". When the Guide is disconnected the rest of the app is unaffected: the
 // panel says so, keeps the conversation, and comes back by itself when the connection does.
+import { askDanger } from './theme/confirm.js';
 import { ask, parseReply, STARTERS, readMemory, emptyMemory, addTurn, pendingSummary, summaryRequest, applySummary } from './guide.js';
 
 // What the header indicator and the panel say in each state. Text carries the meaning; colour only repeats it.
@@ -208,7 +209,7 @@ export function createGuidePanel({ bridge, button, pill, panel, getContext, getF
   }
   async function forget(what) {
     await syncFamily();
-    if (!confirm(what === 'notes' ? 'Forget the Guide\'s notes for this map family? Conversations stay.' : 'Clear every saved conversation and the notes for this map family?')) return;
+    if (!await askDanger(what === 'notes' ? 'Forget the Guide\'s notes for this map family? Conversations stay.' : 'Clear every saved conversation and the notes for this map family?')) return;
     await persist(what === 'notes' ? { ...memory, notes: '', notesUpdatedAt: null } : { ...emptyMemory(family) });
     if (what === 'history') { conversation = []; conversationId = null; log.replaceChildren(); renderStarters(); }
     renderEarlier(); settingsMessage.textContent = what === 'notes' ? 'Notes forgotten.' : 'History cleared.';

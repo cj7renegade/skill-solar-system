@@ -1,0 +1,24 @@
+/* Cyberpunk HUD: bundled open-licensed fonts (assets/fonts, OFL) and the theme's base layer. Every
+   rule here is scoped to the Cyberpunk theme or to .cp-scope, so the Classic theme is unchanged.
+   Components live in src/theme/components.css; the app shell is styled in a later phase. */
+@font-face { font-family: 'Chakra Petch'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/chakra-petch-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Chakra Petch'; font-style: normal; font-weight: 600; font-display: swap; src: url('fonts/chakra-petch-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('fonts/inter-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2'); }
+
+/* Base: near-black, body face, visible keyboard focus. */
+:root[data-theme="cyberpunk"] body { background: var(--cp-bg-0); color: var(--cp-text); font-family: var(--cp-font-body); }
+:root[data-theme="cyberpunk"] :focus-visible, .cp-scope :focus-visible { outline: var(--cp-stroke) solid var(--cp-cyan); outline-offset: 2px; }
+
+/* Atmosphere effects (default off): faint scanlines, at most 3 % opacity, never over dialogs' text. */
+#atmosphere { display: none; }
+:root[data-atmosphere="on"] #atmosphere { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 5; opacity: 0.03;
+  background: repeating-linear-gradient(to bottom, #ffffff 0 1px, transparent 1px 3px); }
+
+/* The settings dialog uses the app's dialog styles; these are its own parts. */
+.settings-tabs { display: flex; gap: 6px; margin: 4px 0 10px; }
+.settings-tabs button[aria-selected="true"] { border-color: var(--accent); color: var(--accent); }
+.settings-section label.row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.settings-section select { width: auto; min-width: 180px; }

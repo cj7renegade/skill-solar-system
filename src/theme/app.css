@@ -1,0 +1,200 @@
+/* Cyberpunk HUD: the kit applied to the app shell (phase 3). Every rule is scoped to
+   :root[data-theme="cyberpunk"], so the Classic theme is unchanged.
+
+   App elements are not rebuilt; they take the kit's look from CSS. Frames are painted as layered
+   backgrounds (four edge lines, two 45° cut lines and a fill with the two cut corners left open),
+   with no clip-path, so focus rings, glows and dropdowns are never clipped. */
+
+/* Show or hide theme-specific parts. */
+:root:not([data-theme="cyberpunk"]) .cp-only { display: none !important; }
+:root[data-theme="cyberpunk"] .classic-only { display: none !important; }
+
+/* --- The frame stack ----------------------------------------------------------------------------- */
+/* :where() keeps these at the theme's own specificity (0,2,0), so the per-element rules below can
+   adjust --o (outline), --f (fill) and --c (cut). The kit's own parts (.cp-btn, .cp-frame) are left out:
+   they draw their frames themselves. */
+:root[data-theme="cyberpunk"] :where(.hud-card, .view-tools, .menu-items, dialog:not(.cp-modal):not(.styleguide-dialog), .guide-panel, .plan-view, .tour-card,
+  button:not(.cp-btn):not(.cp-chip), select:not(.cp-select), input:not([type=checkbox]):not([type=range]):not(.cp-input), textarea, .chip, .lesson-badge, .node-item) {
+  --o: var(--cp-cyan-line); --f: var(--cp-panel); --c: var(--cp-cut-s);
+  --diag: linear-gradient(to bottom right, transparent calc(50% - 0.8px), var(--o) calc(50% - 0.8px), var(--o) calc(50% + 0.8px), transparent calc(50% + 0.8px));
+  background:
+    linear-gradient(var(--o), var(--o)) var(--c) 0 / calc(100% - var(--c)) 1px no-repeat,
+    linear-gradient(var(--o), var(--o)) 100% 0 / 1px calc(100% - var(--c)) no-repeat,
+    linear-gradient(var(--o), var(--o)) 0 100% / calc(100% - var(--c)) 1px no-repeat,
+    linear-gradient(var(--o), var(--o)) 0 var(--c) / 1px calc(100% - var(--c)) no-repeat,
+    var(--diag) 0 0 / var(--c) var(--c) no-repeat, var(--diag) 100% 100% / var(--c) var(--c) no-repeat,
+    linear-gradient(135deg, transparent calc(var(--c) * 0.7071), var(--f) 0) 0 0 / 50.5% 100% no-repeat,
+    linear-gradient(-45deg, transparent calc(var(--c) * 0.7071), var(--f) 0) 100% 100% / 50.5% 100% no-repeat;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+/* Elements that Classic styles by id need the same stack at id specificity. */
+:root[data-theme="cyberpunk"] :is(#legend, #view-popover, #find-results, #find-skill, #search, #list-sort, #hud-target, #map-picker) {
+  --o: var(--cp-cyan-line); --f: var(--cp-panel); --c: var(--cp-cut-s);
+  --diag: linear-gradient(to bottom right, transparent calc(50% - 0.8px), var(--o) calc(50% - 0.8px), var(--o) calc(50% + 0.8px), transparent calc(50% + 0.8px));
+  background:
+    linear-gradient(var(--o), var(--o)) var(--c) 0 / calc(100% - var(--c)) 1px no-repeat,
+    linear-gradient(var(--o), var(--o)) 100% 0 / 1px calc(100% - var(--c)) no-repeat,
+    linear-gradient(var(--o), var(--o)) 0 100% / calc(100% - var(--c)) 1px no-repeat,
+    linear-gradient(var(--o), var(--o)) 0 var(--c) / 1px calc(100% - var(--c)) no-repeat,
+    var(--diag) 0 0 / var(--c) var(--c) no-repeat, var(--diag) 100% 100% / var(--c) var(--c) no-repeat,
+    linear-gradient(135deg, transparent calc(var(--c) * 0.7071), var(--f) 0) 0 0 / 50.5% 100% no-repeat,
+    linear-gradient(-45deg, transparent calc(var(--c) * 0.7071), var(--f) 0) 100% 100% / 50.5% 100% no-repeat;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+/* Panels: larger cuts and one corner bracket pair drawn as a drop-shadow-free outline in cyan. */
+:root[data-theme="cyberpunk"] :is(.hud-card, #legend, .view-tools, dialog:not(.cp-modal):not(.styleguide-dialog), .guide-panel, .plan-view, .tour-card) { --c: var(--cp-cut-l); }
+:root[data-theme="cyberpunk"] :is(.chip, .lesson-badge, .legend-item, .node-item) { --c: 5px; }
+:root[data-theme="cyberpunk"] #legend button.legend-item { --c: 5px; }
+:root[data-theme="cyberpunk"] :is(#legend, .view-tools, .hud-card) { --f: var(--cp-panel); }
+
+/* --- Base type --------------------------------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] body { font-size: 13px; }
+:root[data-theme="cyberpunk"] :where(h1, h2, h3:not(.cp-title), .panel-title h2, .hud-label, .mini-title, .today-heading, .legend-heading, .layout-tools h3, .shared-tools h3, .plan-head h2, .dialog-heading h2, .guide-head h2) {
+  font-family: var(--cp-font-display); text-transform: uppercase; letter-spacing: var(--cp-tracking); font-weight: 600; }
+:root[data-theme="cyberpunk"] :is(.edge-note, .caption, .navigation, footer) { color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] :focus-visible { outline: var(--cp-stroke) solid var(--cp-cyan); outline-offset: 2px; }
+
+/* --- Buttons, inputs ------------------------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] :where(button:not(.cp-btn):not(.cp-chip)) { color: var(--cp-cyan); font: 600 12px/1.2 var(--cp-font-display); letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px;
+  transition: filter var(--cp-base) ease-out, transform var(--cp-fast) ease-out; }
+:root[data-theme="cyberpunk"] :where(button:not(.cp-btn)):hover:not(:disabled) { --f: #12232B; --o: var(--cp-cyan); filter: drop-shadow(0 0 5px rgb(46 230 240 / var(--cp-glow))); }
+:root[data-theme="cyberpunk"] :where(button:not(.cp-btn)):active:not(:disabled) { --f: var(--cp-cyan-deep); transform: translateY(1px); }
+:root[data-theme="cyberpunk"] :where(button:not(.cp-btn)):disabled { --o: var(--cp-line-strong); --f: var(--cp-bg-1); color: var(--cp-text-3); opacity: 1; filter: none; }
+:root[data-theme="cyberpunk"] button.primary:not(.cp-btn), :root[data-theme="cyberpunk"] #lesson-primary.primary { --o: var(--cp-amber); --f: var(--cp-amber); color: var(--cp-on-amber); }
+:root[data-theme="cyberpunk"] button.primary:not(.cp-btn):hover:not(:disabled) { --f: #FFD43B; --o: #FFD43B; filter: drop-shadow(0 0 6px rgb(245 197 24 / var(--cp-glow))); }
+:root[data-theme="cyberpunk"] button.primary:not(.cp-btn):disabled { --o: var(--cp-line-strong); --f: var(--cp-bg-1); color: var(--cp-text-3); }
+:root[data-theme="cyberpunk"] :is(button.danger:not(.cp-btn), #delete-node) { --o: var(--cp-red); --f: var(--cp-red-deep); color: var(--cp-red); }
+:root[data-theme="cyberpunk"] :is(button.danger:not(.cp-btn), #delete-node):hover:not(:disabled) { --o: var(--cp-red); --f: #4A141C; filter: drop-shadow(0 0 5px rgb(255 59 74 / var(--cp-glow))); }
+:root[data-theme="cyberpunk"] button.link-button { --o: transparent; --f: transparent; color: var(--cp-cyan); text-decoration: underline; padding: 2px 4px; }
+:root[data-theme="cyberpunk"] :is(input:not([type=checkbox]):not([type=range]), select, textarea) { --f: var(--cp-bg-1); color: var(--cp-text); font: 14px var(--cp-font-body); padding: 8px 10px; }
+:root[data-theme="cyberpunk"] :is(input:not([type=checkbox]):not([type=range]), select, textarea):focus { --o: var(--cp-cyan); outline: none; filter: drop-shadow(0 0 5px rgb(46 230 240 / var(--cp-glow))); }
+:root[data-theme="cyberpunk"] input[type=checkbox] { accent-color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] input[type=range] { accent-color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] option { background: var(--cp-bg-1); color: var(--cp-text); }
+
+/* --- Header and footer ---------------------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] header { background: var(--cp-bg-1); border-bottom: 1px solid var(--cp-line); position: relative; }
+:root[data-theme="cyberpunk"] header::after { content: ''; position: absolute; left: 26px; bottom: -1px; width: 120px; height: 2px; background: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] .orbit-mark { color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] h1 { font-size: 22px; color: var(--cp-text); }
+:root[data-theme="cyberpunk"] .header-map { font: 600 13px/1.3 var(--cp-font-display); letter-spacing: var(--cp-tracking); text-transform: uppercase; color: var(--cp-amber); }
+:root[data-theme="cyberpunk"] .header-readouts { display: inline-flex; gap: 14px; margin-right: 6px; font: 500 12px/1 var(--cp-font-mono); color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] #guide-state { font: 500 12px/1 var(--cp-font-mono); text-transform: uppercase; letter-spacing: 0.04em; }
+:root[data-theme="cyberpunk"] #guide-state[data-state="online"] { color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] #guide-state:not([data-state="online"]) { color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] footer { background: var(--cp-bg-1); border-top: 1px solid var(--cp-line); font: 500 12px/1.6 var(--cp-font-mono); }
+:root[data-theme="cyberpunk"] #dirty.saved { color: var(--cp-gold); }
+:root[data-theme="cyberpunk"] #dirty.saving { color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] #dirty.failed { color: var(--cp-red); }
+:root[data-theme="cyberpunk"] .tour-button.unseen { filter: drop-shadow(0 0 6px rgb(245 197 24 / var(--cp-glow))); }
+
+/* --- The 3D view's frame ---------------------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] #viewport { background: radial-gradient(ellipse at 50% 45%, #0C1520 0%, var(--cp-bg-0) 70%); }
+
+/* --- Learner HUD ----------------------------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] .hud-card { color: var(--cp-text); padding: 12px 14px; }
+:root[data-theme="cyberpunk"] .hud-card h2#map-name { font-size: 13px; color: var(--cp-text); }
+:root[data-theme="cyberpunk"] #layout-summary { font: 12px/1.4 var(--cp-font-body); color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] .hud-label { font-size: 12px; color: var(--cp-text-3); }
+:root[data-theme="cyberpunk"] #hud-progress { display: none; }
+:root[data-theme="cyberpunk"] .hud-gauges { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; margin: 8px 0 4px; }
+:root[data-theme="cyberpunk"] .hud-gauges .cp-ring-label { display: none; }
+:root[data-theme="cyberpunk"] .hud-gauge-side { display: grid; gap: 8px; min-width: 0; }
+:root[data-theme="cyberpunk"] .hud-gauge-side .cp-seg { grid-template-columns: auto 1fr auto; gap: 8px; }
+:root[data-theme="cyberpunk"] .hud-gauge-detail { margin: 0; font: 500 12px/1.35 var(--cp-font-mono); color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] .hud-review { --o: var(--cp-amber); color: var(--cp-amber); width: 100%; margin: 6px 0; }
+:root[data-theme="cyberpunk"] .hud-next { display: grid; gap: 3px; padding: 0; }
+:root[data-theme="cyberpunk"] .hud-next-item { --o: transparent; --f: transparent; display: grid; grid-template-columns: 1fr auto auto; gap: 8px; width: 100%; padding: 5px 4px; text-transform: none; letter-spacing: 0;
+  font: 13px/1.3 var(--cp-font-body); color: var(--cp-text); border-bottom: 1px solid var(--cp-line); }
+:root[data-theme="cyberpunk"] .hud-next-item:hover:not(:disabled) { --o: var(--cp-cyan-line); --f: var(--cp-cyan-soft); }
+:root[data-theme="cyberpunk"] .hud-hours, :root[data-theme="cyberpunk"] .hud-percent { font: 500 12px/1 var(--cp-font-mono); color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] .hud-path { padding: 6px 10px; }
+
+/* --- Course chips, legend and badges --------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] .chip { --o: var(--cp-line-strong); --f: var(--cp-raised); color: var(--cp-text); font: 500 12px/1.2 var(--cp-font-mono); padding: 4px 8px; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+:root[data-theme="cyberpunk"] .chip::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: var(--chip); vertical-align: 1px; }
+:root[data-theme="cyberpunk"] #legend { color: var(--cp-text-2); padding: 10px 12px; font-size: 12px; }
+:root[data-theme="cyberpunk"] #legend .legend-heading { font-size: 12px; color: var(--cp-text-3); }
+:root[data-theme="cyberpunk"] #legend button.legend-item { --o: transparent; --f: transparent; font: 500 12px/1.3 var(--cp-font-mono); text-transform: none; letter-spacing: 0; color: var(--cp-text-2); padding: 4px 6px; }
+:root[data-theme="cyberpunk"] #legend button.legend-item:hover { --o: var(--cp-cyan-line); color: var(--cp-text); }
+:root[data-theme="cyberpunk"] #legend button.legend-item[aria-pressed="true"] { --o: var(--cp-cyan); --f: var(--cp-cyan-soft); color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] .lesson-badge { --o: var(--cp-line-strong); --f: var(--cp-bg-1); font: 600 12px/1 var(--cp-font-display); letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 9px; color: var(--cp-text-2); }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-reviewed { --o: var(--cp-cyan-line); color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-reviewed::before { content: '✓ '; }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-unreviewed { --o: var(--cp-amber); color: var(--cp-amber); }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-unreviewed::before { content: '◇ '; }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-flagged { --o: var(--cp-red); --f: var(--cp-red-deep); color: var(--cp-red); }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-flagged::before { content: '⚑ '; }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-none::before { content: '○ '; }
+:root[data-theme="cyberpunk"] .lesson-badge.lesson-demo { --o: var(--cp-cyan-line); color: var(--cp-cyan); }
+
+/* --- Console and the skill card --------------------------------------------------------------------- */
+:root[data-theme="cyberpunk"] aside { background: rgb(14 20 27 / 0.94); border-left: 1px solid var(--cp-line); }
+:root[data-theme="cyberpunk"] .panel-title h2 { font-size: 14px; }
+:root[data-theme="cyberpunk"] .node-item { --o: transparent; --f: transparent; font: 13px/1.3 var(--cp-font-body); text-transform: none; letter-spacing: 0; color: var(--cp-text); padding: 5px 8px; }
+:root[data-theme="cyberpunk"] .node-item:hover { --o: var(--cp-cyan-line); }
+:root[data-theme="cyberpunk"] .node-item.selected { --o: var(--cp-cyan); --f: var(--cp-cyan-soft); color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] #inspector { border-top: 1px solid var(--cp-line); }
+:root[data-theme="cyberpunk"] .inspector-heading h3 { font-size: 15px; color: var(--cp-text); }
+:root[data-theme="cyberpunk"] .skill-readouts { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 6px 16px; padding: 6px 0 2px; border-bottom: 1px solid var(--cp-line); }
+:root[data-theme="cyberpunk"] .skill-readouts .cp-stat-value { font-size: 13px; color: var(--cp-cyan); }
+:root[data-theme="cyberpunk"] .skill-card-description { font: 14px/1.55 var(--cp-font-body); color: var(--cp-text); }
+:root[data-theme="cyberpunk"] .skill-links ul { display: flex; flex-wrap: wrap; gap: 5px; }
+:root[data-theme="cyberpunk"] .skill-links li { --o: var(--cp-line-strong); --f: var(--cp-raised); --c: 5px; padding: 0 8px 0 6px;
+  background: linear-gradient(var(--o), var(--o)) var(--c) 0 / calc(100% - var(--c)) 1px no-repeat, linear-gradient(var(--o), var(--o)) 100% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--o), var(--o)) 0 100% / 100% 1px no-repeat, linear-gradient(var(--o), var(--o)) 0 var(--c) / 1px calc(100% - var(--c)) no-repeat,
+    linear-gradient(135deg, transparent calc(var(--c) * 0.7071), var(--f) 0); }
+:root[data-theme="cyberpunk"] .skill-link { --o: transparent; --f: transparent; font: 12px/1.3 var(--cp-font-body); text-transform: none; letter-spacing: 0; color: var(--cp-text); padding: 4px 2px; }
+:root[data-theme="cyberpunk"] .skill-link:hover:not(:disabled) { color: var(--cp-cyan); filter: none; }
+:root[data-theme="cyberpunk"] .demo-checklist li.done .demo-mark { color: var(--cp-gold); }
+:root[data-theme="cyberpunk"] .proficiency-controls button.chosen { --o: var(--cp-gold); --f: var(--cp-gold); color: var(--cp-bg-1); }
+
+/* --- Dialogs, the lesson viewer ------------------------------------------------------------------------ */
+:root[data-theme="cyberpunk"] dialog:not(.cp-modal):not(.styleguide-dialog) { color: var(--cp-text); --f: var(--cp-panel-solid); }
+:root[data-theme="cyberpunk"] dialog::backdrop { background: rgb(7 9 13 / 0.78); }
+:root[data-theme="cyberpunk"] .dialog-heading { background: var(--cp-bg-1); border-bottom: 1px solid var(--cp-line); }
+:root[data-theme="cyberpunk"] .dialog-heading h2 { font-size: 17px; }
+:root[data-theme="cyberpunk"] details.lesson-section > summary { font: 600 12px/1.3 var(--cp-font-display); letter-spacing: var(--cp-tracking); text-transform: uppercase; color: var(--cp-cyan); padding: 8px 0; border-bottom: 1px solid var(--cp-line); }
+/* Reading content: body face, calm panel, no decoration. */
+:root[data-theme="cyberpunk"] :is(#lesson-body, #details-body) :is(p, li, dd, .md) { font-family: var(--cp-font-body); }
+:root[data-theme="cyberpunk"] #lesson-body .md, :root[data-theme="cyberpunk"] #lesson-body .lesson-section p { font-size: 16px; line-height: 1.55; color: var(--cp-text); }
+:root[data-theme="cyberpunk"] #lesson-body .code-block { background: var(--cp-bg-1); border: 1px solid var(--cp-line); border-radius: 0; font-family: var(--cp-font-mono); }
+/* The safety section and flags: the Alert block. Red only here. */
+:root[data-theme="cyberpunk"] .lesson-safety { position: relative; border: 1px solid var(--cp-red); background: var(--cp-red-soft); padding: 10px 14px 10px 22px; }
+:root[data-theme="cyberpunk"] .lesson-safety::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: repeating-linear-gradient(-45deg, var(--cp-red) 0 3px, transparent 3px 7px); }
+:root[data-theme="cyberpunk"] .lesson-safety h4 { font: 600 12px/1.2 var(--cp-font-display); letter-spacing: var(--cp-tracking); text-transform: uppercase; color: var(--cp-red); }
+:root[data-theme="cyberpunk"] details.ai-safety > summary { color: var(--cp-red); }
+:root[data-theme="cyberpunk"] details.ai-safety > summary::before { content: '⚠ '; }
+:root[data-theme="cyberpunk"] .lesson-flag { border: 1px solid var(--cp-red); background: var(--cp-red-soft); color: var(--cp-text); border-radius: 0; }
+:root[data-theme="cyberpunk"] .lesson-scan { margin: 4px 0; }
+:root[data-theme="cyberpunk"] .lesson-progress li.done::before { color: var(--cp-gold); }
+:root[data-theme="cyberpunk"] .guide-msg { border-radius: 0; }
+:root[data-theme="cyberpunk"] .guide-banner { border-radius: 0; }
+
+/* --- Text size floor: nothing in the UI below 12 px in this theme (Classic keeps its own sizes). --- */
+:root[data-theme="cyberpunk"] :is(small, .eyebrow, .edge-note, .node-id, footer, footer *, .sync-state, .view-tools label, .switch, .offline, #legend, #legend *, .layout-tools *, .shared-tools *,
+  .spacing-control *, #view-tools-toggle, #inspector-toggle, .find-control input, .navigation, .tour-count, .caption, .hud-label, .legend-heading, .chip, .lesson-badge, .mini-title, .today-heading, .hud-detail,
+  .review-note, .review-counts, .guide-note, .guide-step, .guide-panel-state, .popover-note, .lesson-note, .lesson-status, .plan-body *, .path-card *, #path-card *) { font-size: max(12px, 1em); }
+:root[data-theme="cyberpunk"] :is(.edge-note, .caption, .navigation, small, .guide-note, .lesson-note, .popover-note, .review-note) { font-size: 12px; }
+
+/* --- The 3D map's labels and reticle (phase 4) ------------------------------------------------------- */
+/* Nameplates: dark backing plates for legibility. Milestone codes and the ruler in monospace, course
+   bands and subject clusters in the display face. */
+:root[data-theme="cyberpunk"] .node-label { background: rgb(7 9 13 / 0.86); border-left: 2px solid var(--cp-cyan-line); border-radius: 0; color: var(--cp-text); font-family: var(--cp-font-body); }
+:root[data-theme="cyberpunk"] .node-label.selected { outline: 1px solid var(--cp-cyan); border-left-color: var(--cp-cyan); color: #fff; }
+:root[data-theme="cyberpunk"] .structure-label { font-family: var(--cp-font-mono); letter-spacing: 0.02em; background: rgb(7 9 13 / 0.82); border-radius: 0; }
+:root[data-theme="cyberpunk"] .structure-label.milestone { border: 1px solid var(--cp-cyan-line); color: var(--cp-text); }
+:root[data-theme="cyberpunk"] .structure-label.milestone.active { border-color: var(--cp-amber); color: var(--cp-amber); }
+:root[data-theme="cyberpunk"] .structure-label.milestone.done { border-color: var(--cp-gold); color: var(--cp-gold); }
+:root[data-theme="cyberpunk"] .structure-label.stage { color: var(--cp-cyan); border-left: 2px solid var(--cp-cyan); padding: 1px 6px; }
+:root[data-theme="cyberpunk"] .structure-label.ruler { color: var(--cp-cyan-dim); background: transparent; }
+:root[data-theme="cyberpunk"] .structure-label.course { font: 600 13px/1.2 var(--cp-font-display); letter-spacing: var(--cp-tracking); text-transform: uppercase; background: rgb(7 9 13 / 0.7); }
+:root[data-theme="cyberpunk"] .cluster-label { font-family: var(--cp-font-display); letter-spacing: 0.03em; background: rgb(7 9 13 / 0.82); border-radius: 0; border-left: 2px solid var(--cp-cyan-line); }
+/* The selected skill's bracket reticle: four corner brackets, drawn in screen space. */
+:root[data-theme="cyberpunk"] .hud-reticle { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 2; --b: var(--cp-cyan, #2EE6F0); --l: 10px;
+  background: linear-gradient(var(--b), var(--b)) top left / var(--l) 2px no-repeat, linear-gradient(var(--b), var(--b)) top left / 2px var(--l) no-repeat,
+    linear-gradient(var(--b), var(--b)) top right / var(--l) 2px no-repeat, linear-gradient(var(--b), var(--b)) top right / 2px var(--l) no-repeat,
+    linear-gradient(var(--b), var(--b)) bottom left / var(--l) 2px no-repeat, linear-gradient(var(--b), var(--b)) bottom left / 2px var(--l) no-repeat,
+    linear-gradient(var(--b), var(--b)) bottom right / var(--l) 2px no-repeat, linear-gradient(var(--b), var(--b)) bottom right / 2px var(--l) no-repeat;
+  filter: drop-shadow(0 0 4px rgb(46 230 240 / var(--cp-glow, 0.2))); }
+:root:not([data-theme="cyberpunk"]) .hud-reticle { display: none; }
