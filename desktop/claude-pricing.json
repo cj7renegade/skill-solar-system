@@ -1,0 +1,11 @@
+{
+  "note": "Claude API prices in US dollars per million tokens, used to estimate spending against the monthly caps. Edit when prices change; the Anthropic Console shows the real bill.",
+  "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "checked": "2026-11-06",
+  "models": {
+    "claude-haiku-5-5": { "input": 0.10, "cacheWrite": 0.125, "cacheRead": 0.01, "output": 0.50,
+      "longPrompt": { "overInputTokens": 100000, "input": 0.50, "cacheWrite": 0.625, "cacheRead": 0.05, "output": 2.50 } },
+    "claude-sonnet-5-5": { "input": 2.00, "cacheWrite": 2.50, "cacheRead": 0.10, "output": 10.00 },
+    "claude-opus-5-5": { "input": 4.00, "cacheWrite": 5.00, "cacheRead": 0.20, "output": 20.00 }
+  }
+}

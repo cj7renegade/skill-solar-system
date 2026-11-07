@@ -183,7 +183,8 @@ function createGuide({ dir, secure, createClient, SDK, onStatus = () => {}, onli
     return run.then(() => true);
   }
 
-  return { load, probe, status, setKey, clearKey, setSettings, turn, cancel, loadMemory, saveMemory, stop: () => { clearTimeout(timer); for (const c of running.values()) c.abort(); } };
+  // The lessons (desktop/lessons.cjs) use the same client and key, in this process only.
+  return { client: () => client, load, probe, status, setKey, clearKey, setSettings, turn, cancel, loadMemory, saveMemory, stop: () => { clearTimeout(timer); for (const c of running.values()) c.abort(); } };
 }
 
 module.exports = { createGuide, MEMORY_FORMAT, MODEL, PRICE, DEFAULT_LIMIT, STATES, cost, validMessages, classify };

@@ -17,7 +17,7 @@ cached locally, and archive the reviewed lessons (never delete them). Plan: `doc
 - [x] Plan written after reading the code and the docs
 - [x] Phase 1: lesson store, migration (backup, dry run, apply), restore script, getLesson
 - [x] Phase 2: one skill card for every node; lesson body removed from cards; demonstration checklist
-- [ ] Phase 3: generation pipeline in the main process (context, schema, validation, verification, streaming, retry, cache)
+- [x] Phase 3: generation pipeline in the main process (context, schema, validation, verification, streaming, retry, cache)
 - [ ] Phase 4: lesson viewer (math, code, answers, review/flag/regenerate) and review sessions use cached practice
 - [ ] Phase 5: settings, pricing config, usage and cap, pre-generate queue, export/import zip
 - [ ] Verification: unit tests, mocked integration test, real run on 3 skills (needs a key), counts unchanged, screenshots, report

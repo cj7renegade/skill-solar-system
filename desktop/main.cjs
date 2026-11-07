@@ -64,10 +64,16 @@ app.whenReady().then(() => {
   ipcMain.handle('guide-memory-load', guarded((_, family) => guide.loadMemory(family)));
   ipcMain.handle('guide-memory-save', guarded((_, family, text) => guide.saveMemory(family, text)));
   // Lessons: kept outside map files, in userData/lessons (see docs/ai-lessons-plan.md).
-  const lessons = createLessons({ dir: path.join(app.getPath('userData'), 'lessons') });
+  const lessons = createLessons({ dir: app.getPath('userData'), guide, SDK });
   ipcMain.handle('lessons-get', guarded((_, mapKey, nodeId) => lessons.get(mapKey, nodeId)));
   ipcMain.handle('lessons-list', guarded((_, mapKey) => lessons.list(mapKey)));
   ipcMain.handle('lessons-absorb', guarded((_, mapKey, nodes) => lessons.absorb(mapKey, nodes)));
+  ipcMain.handle('lessons-status', guarded(() => lessons.status()));
+  ipcMain.handle('lessons-settings', guarded((_, next) => lessons.setSettings(next)));
+  ipcMain.handle('lessons-generate', guarded((event, jobId, mapKey, nodeId, context, options) => lessons.generate(jobId, mapKey, nodeId, context, options,
+    progress => { if (!event.sender.isDestroyed()) event.sender.send('lessons-progress', jobId, progress); })));
+  ipcMain.handle('lessons-cancel', guarded((_, jobId) => lessons.cancel(jobId)));
+  ipcMain.handle('lessons-review', guarded((_, mapKey, nodeId, change) => lessons.review(mapKey, nodeId, change)));
   guide.load().catch(() => {});
   app.on('before-quit', () => guide.stop());
   win.loadFile(path.join(__dirname, '../dist/index.html'));

@@ -13,7 +13,13 @@ contextBridge.exposeInMainWorld('desktop', {
   lessons: {
     get: (mapKey, nodeId) => ipcRenderer.invoke('lessons-get', mapKey, nodeId),
     list: mapKey => ipcRenderer.invoke('lessons-list', mapKey),
-    absorb: (mapKey, nodes) => ipcRenderer.invoke('lessons-absorb', mapKey, nodes)
+    absorb: (mapKey, nodes) => ipcRenderer.invoke('lessons-absorb', mapKey, nodes),
+    status: () => ipcRenderer.invoke('lessons-status'),
+    settings: next => ipcRenderer.invoke('lessons-settings', next),
+    generate: (jobId, mapKey, nodeId, context, options) => ipcRenderer.invoke('lessons-generate', jobId, mapKey, nodeId, context, options),
+    cancel: jobId => ipcRenderer.invoke('lessons-cancel', jobId),
+    review: (mapKey, nodeId, change) => ipcRenderer.invoke('lessons-review', mapKey, nodeId, change),
+    onProgress: callback => ipcRenderer.on('lessons-progress', (_, jobId, progress) => callback(jobId, progress))
   },
   // The AI Guide: requests go to the main process, which alone talks to Claude.
   guide: {
