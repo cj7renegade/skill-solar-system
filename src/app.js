@@ -10,6 +10,8 @@ import { panDirection, createActivationTracker } from './interaction.js';
 import { createReviewDialog } from './review-dialog.js';
 import { renderSkillCard } from './skill-card.js';
 import { createLessonUI } from './lesson-ui.js';
+import { createLessonQueue, queueCandidates } from './lesson-queue.js';
+import { createLessonSettings } from './lesson-settings.js';
 import { practiceItems, renderMarkdown } from './lesson-render.js';
 import { revealBlock } from './lesson-viewer.js';
 import { prerequisiteChain, chainSummary, defaultSelection, pendingChanges, stepLabel } from './prerequisites.js';
@@ -710,6 +712,13 @@ $('lesson-close').onclick=()=>lessonUI.close();
 $('lesson-dialog').addEventListener('close',()=>{$('canvas').focus();});
 window.desktop?.guide?.onStatus(()=>refreshLessonStatus());
 refreshLessonStatus();
+// File ▸ Lessons…: settings, usage, the pre-generate queue and export/import (src/lesson-settings.js).
+const lessonQueue=createLessonQueue({generate:id=>lessonUI.generateQuietly(id),cancel:()=>lessonUI.cancelQuiet(),onChange:()=>{if($('lessons-dialog').open)lessonSettings.render();}});
+const lessonSettings=createLessonSettings({bridge:window.desktop?.lessons,dialog:$('lessons-dialog'),body:$('lessons-body'),el,getStatus:()=>lessonStatus,queue:lessonQueue,
+  refresh:async(reload=false)=>{await refreshLessonStatus();if(reload)await lessonIndex.load(graph,true);render();},
+  candidates:n=>queueCandidates(learner(),node=>lessonIndex.state(graph,node).has,n)});
+$('lessons-open').onclick=()=>{setMenu('file-menu','file-menu-items',false);refreshLessonStatus().then(()=>lessonSettings.open());};
+$('lessons-close').onclick=()=>lessonSettings.close();
 
 $('details-dialog').addEventListener('click',e=>{const r=$('details-dialog').getBoundingClientRect();if(e.target===$('details-dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))closeDetails();});
 $('details-dialog').addEventListener('close',()=>{$('canvas').focus();});

@@ -19,6 +19,8 @@ contextBridge.exposeInMainWorld('desktop', {
     generate: (jobId, mapKey, nodeId, context, options) => ipcRenderer.invoke('lessons-generate', jobId, mapKey, nodeId, context, options),
     cancel: jobId => ipcRenderer.invoke('lessons-cancel', jobId),
     review: (mapKey, nodeId, change) => ipcRenderer.invoke('lessons-review', mapKey, nodeId, change),
+    exportStore: () => ipcRenderer.invoke('lessons-export'),
+    importStore: () => ipcRenderer.invoke('lessons-import'),
     onProgress: callback => ipcRenderer.on('lessons-progress', (_, jobId, progress) => callback(jobId, progress))
   },
   // The AI Guide: requests go to the main process, which alone talks to Claude.

@@ -5,7 +5,8 @@
 // Nothing here reads or writes proficiency.
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { createLessonStore, archiveRecord, FORMAT } = require('./lesson-store.cjs');
+const { createLessonStore, archiveRecord, validRecord, FORMAT } = require('./lesson-store.cjs');
+const { writeZip, readZip } = require('./zip.cjs');
 const { writeFileAtomic } = require('./save.cjs');
 const gen = require('./lesson-gen.cjs');
 const PRICING = require('./claude-pricing.json');
@@ -111,7 +112,34 @@ function createLessons({ dir, guide = null, SDK = null, now = () => new Date() }
     return store.put({ ...record, status, userNotes: notes });
   }
 
-  return { store, get: store.get, list: store.list, absorb, availability, status, setSettings, generate, cancel, review, ready };
+  // Export: every lesson record in one zip, with a small manifest. Import: records are checked and
+  // added; an existing archive or AI lesson is never overwritten by a different one (it is kept and
+  // counted), so importing can only add lessons.
+  async function exportZip() {
+    const files = await store.files();
+    const counts = { archives: files.filter(([n]) => n.endsWith('.archive.json')).length, ai: files.filter(([n]) => n.endsWith('.ai.json')).length };
+    return writeZip([['manifest.json', JSON.stringify({ format: 'helixskill-lessons-export', version: 1, exportedAt: now().toISOString(), ...counts }, null, 2)], ...files.map(([n, t]) => [`lessons/${n}`, t])]);
+  }
+  async function importZip(buffer) {
+    const entries = readZip(buffer), result = { added: 0, same: 0, keptExisting: 0, invalid: 0 };
+    const manifest = entries.find(([n]) => n === 'manifest.json');
+    if (!manifest || JSON.parse(manifest[1].toString('utf8')).format !== 'helixskill-lessons-export') throw Error('This zip is not a HelixSkill lesson export.');
+    for (const [name, data] of entries) {
+      if (!/\.(archive|ai)\.json$/.test(name)) continue;
+      let record;
+      try { record = JSON.parse(data.toString('utf8')); } catch { result.invalid++; continue; }
+      const kind = record?.source === 'reviewed-archive' ? 'archive' : record?.source === 'ai-generated' ? 'ai' : null;
+      if (!kind || !validRecord(record, record.mapKey, record.nodeId, kind)) { result.invalid++; continue; }
+      let existing;
+      try { existing = await store.read(record.mapKey, record.nodeId, kind); } catch { result.invalid++; continue; }
+      if (!existing) { await store.put(record); result.added++; }
+      else if (JSON.stringify(existing) === JSON.stringify(record)) result.same++;
+      else result.keptExisting++;
+    }
+    return result;
+  }
+
+  return { store, get: store.get, list: store.list, absorb, availability, status, setSettings, generate, cancel, review, exportZip, importZip, ready };
 }
 
 module.exports = { createLessons, costOf, DEFAULTS };

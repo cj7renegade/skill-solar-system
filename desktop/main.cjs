@@ -1,5 +1,6 @@
 const { app, BrowserWindow, session, ipcMain, dialog, safeStorage, net } = require('electron');
 const path = require('node:path');
+const fs = require('node:fs/promises');
 const { writeFileAtomic } = require('./save.cjs');
 const { createProficiencyStore } = require('./proficiency-store.cjs');
 const { listMaps, readMap } = require('./map-library.cjs');
@@ -74,6 +75,20 @@ app.whenReady().then(() => {
     progress => { if (!event.sender.isDestroyed()) event.sender.send('lessons-progress', jobId, progress); })));
   ipcMain.handle('lessons-cancel', guarded((_, jobId) => lessons.cancel(jobId)));
   ipcMain.handle('lessons-review', guarded((_, mapKey, nodeId, change) => lessons.review(mapKey, nodeId, change)));
+  ipcMain.handle('lessons-export', guarded(async () => {
+    const result = await dialog.showSaveDialog(win, { defaultPath: `HelixSkill-Lessons-${new Date().toISOString().slice(0, 10)}.zip`, filters: [{ name: 'Lesson store', extensions: ['zip'] }] });
+    if (result.canceled) return null;
+    const zip = await lessons.exportZip();
+    await track(fs.writeFile(result.filePath, zip));
+    return { file: result.filePath, bytes: zip.length };
+  }));
+  ipcMain.handle('lessons-import', guarded(async () => {
+    const result = await dialog.showOpenDialog(win, { properties: ['openFile'], filters: [{ name: 'Lesson store', extensions: ['zip'] }] });
+    if (result.canceled || !result.filePaths[0]) return null;
+    const stat = await fs.stat(result.filePaths[0]);
+    if (stat.size > 500_000_000) throw Error('That file is too large to be a lesson export.');
+    return lessons.importZip(await fs.readFile(result.filePaths[0]));
+  }));
   guide.load().catch(() => {});
   app.on('before-quit', () => guide.stop());
   win.loadFile(path.join(__dirname, '../dist/index.html'));

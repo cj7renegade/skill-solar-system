@@ -4,7 +4,7 @@
 // buttons follow; Mark reviewed, Flag and Regenerate work; offline disables Generate with a reason
 // while saved lessons still open; milestones show a checklist; review sessions show the cached
 // practice; and no answer ever changes.
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { launchApp, checker, sleep } from './e2e-harness.mjs';
 
@@ -17,10 +17,12 @@ const map = {
     node('i', 'Current basics', { proficiency80: true, position: [30, 0, 0] }),
     node('ohm', 'Ohm\'s law', { position: [0, 20, 0], courseCode: 'ELX', helixType: 'QUANT', helixPractice: 'hands-on', helixTier: 'Core' }),
     node('kcl', 'Kirchhoff current law', { position: [20, 30, 0], helixType: 'QUANT' }),
-    node('ms', 'First circuit milestone', { nodeKind: 'milestone', position: [0, 45, 0] })
+    node('ms', 'First circuit milestone', { nodeKind: 'milestone', position: [0, 45, 0] }),
+    node('pwr', 'Electrical power', { position: [-20, 30, 0], helixType: 'QUAL' })
   ],
   edges: [{ source: 'v', target: 'ohm', type: 'prerequisite' }, { source: 'i', target: 'ohm', type: 'prerequisite' }, { source: 'ohm', target: 'kcl', type: 'prerequisite' },
-    { source: 'ohm', target: 'ms', type: 'prerequisite' }, { source: 'v', target: 'ms', type: 'prerequisite' }]
+    { source: 'ohm', target: 'ms', type: 'prerequisite' }, { source: 'v', target: 'ms', type: 'prerequisite' },
+    { source: 'v', target: 'pwr', type: 'prerequisite' }, { source: 'i', target: 'pwr', type: 'prerequisite' }]
 };
 
 const app = await launchApp('sss-lessons-', { env: { SSS_GUIDE_FAKE: '1', ANTHROPIC_API_KEY: `sk-ant-api03-${'k'.repeat(40)}` } });
@@ -91,6 +93,26 @@ try {
     check('the review session shows practice from the cached lesson', /Practice from your lesson \(\d+\)/.test(await evaluate(`document.querySelector('#review-practice summary').textContent`)));
   } else check('the review session shows practice from the cached lesson', false, `review started at ${reviewing}`);
   await evaluate(`document.getElementById('review-pause').click();0`); await sleep(300);
+
+  // File ▸ Lessons…: settings, usage, pre-generating and export/import.
+  await click('#file-menu', 200); await click('#lessons-open', 500);
+  check('File ▸ Lessons opens the lesson settings with Sonnet 5.5 as the default model and a $20 cap', await evaluate(`document.getElementById('lessons-dialog').open && document.getElementById('lessons-model').value==='claude-sonnet-5-5' && document.getElementById('lessons-cap').value==='20'`));
+  check('usage counts this month\'s lessons, tokens and estimated cost', /This month: 2 lessons · [\d,]+ tokens in, [\d,]+ out · about \$\d+\.\d\d of your \$20\.00 cap/.test(await evaluate(`document.getElementById('lessons-usage').textContent`)), await evaluate(`document.getElementById('lessons-usage').textContent`));
+  await evaluate(`(()=>{const s=document.getElementById('lessons-model');s.value='claude-haiku-5-5';s.dispatchEvent(new Event('change'));})()`); await sleep(400);
+  await evaluate(`document.getElementById('lessons-profile').value='Welder building a humanoid; prefers shop-floor examples.';0`); await click('#lessons-save-profile', 400);
+  check('the model and learner profile are saved', await evaluate(`document.getElementById('lessons-model').value`) === 'claude-haiku-5-5' && /shop-floor/.test(await evaluate(`document.getElementById('lessons-profile').value`)));
+  await evaluate(`document.getElementById('lessons-batch').value='1';0`);
+  await click('#lessons-queue-start', 300);
+  await waitFor(`/Finished: 1 of 1/.test(document.getElementById('lessons-queue-state').textContent)`, 30000);
+  check('Pre-generate next up writes the next lesson in the background', true);
+  const lessonRequests = readFileSync(path.join(app.dir, 'guide-requests.jsonl'), 'utf8').trim().split('\n').map(l => JSON.parse(l)).filter(r => r.output_config?.format?.schema?.properties?.objectives);
+  check('the background lesson request carried the new profile and model', lessonRequests.at(-1).model === 'claude-haiku-5-5' && /shop-floor/.test(lessonRequests.at(-1).messages[0].content) && !('fallbacks' in lessonRequests.at(-1)));
+  await click('#lessons-export', 600);
+  check('Export writes the lesson store to a zip', /Exported to .*saved\.json/.test(await evaluate(`document.getElementById('lessons-message').textContent`)));
+  await click('#lessons-import', 800);
+  check('Import reads it back and only adds (everything is already here)', /Imported: 0 added, 3 already here, 0 kept/.test(await evaluate(`document.getElementById('lessons-message').textContent`)), await evaluate(`document.getElementById('lessons-message').textContent`));
+  await click('#lessons-close', 300);
+  check('the pre-generated lesson used the chosen model and profile', /Generated with Claude Haiku 5\.5/.test(await (async () => { await select('Electrical power'); await click('#lesson-primary', 600); const t = await evaluate(`document.querySelector('#lesson-body .lesson-head .edge-note').textContent`); await click('#lesson-close', 300); return `Generated with ${t}`; })()));
 
   // Offline: Generate is disabled with a clear reason; saved lessons still open.
   writeFileSync(path.join(app.dir, 'guide-net.json'), JSON.stringify({ up: false }));

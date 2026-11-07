@@ -10,6 +10,7 @@ app.setPath('userData', path.join(dir, 'userdata'));
 process.env.SSS_MAPS_DIR ||= path.join(dir, 'maps');
 dialog.showSaveDialog = async () => ({ canceled: false, filePath: path.join(dir, 'saved.json') });
 dialog.showMessageBoxSync = () => 1;
+dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [path.join(dir, 'saved.json')] });
 if (process.env.SSS_FAIL_PROFICIENCY_WRITES === '1') {
   const fs = require('node:fs/promises'), rename = fs.rename;
   fs.rename = async (from, to) => {

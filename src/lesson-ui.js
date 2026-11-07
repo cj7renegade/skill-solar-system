@@ -107,8 +107,21 @@ export function createLessonUI({ bridge, index, el, dialog, title, body, getGrap
       el('div', { class: 'button-row' }, el('button', { id: 'lesson-try-again', text: 'Try again', onclick: () => generate(id, { replace }) }), el('button', { text: 'Close', onclick: close })));
   }
   const regenerate = id => generate(id, { replace: true });
+  // For the pre-generate queue: one lesson without the dialog. Resolves to the main process's result.
+  async function generateQuietly(id) {
+    const node = nodeById(id), status = getStatus();
+    if (!node || !bridge) return { ok: false, kind: 'failed', message: 'Unknown skill.' };
+    if (!status?.availability.ok) return { ok: false, kind: 'unavailable', message: status?.availability.reason };
+    const graph = getGraph(), context = buildLessonContext(graph, node, { index: getLearner().index, learnerProfile: status.settings.learnerProfile });
+    const jobId = `Q${Date.now()}-${++sequence}`; queueJob = jobId;
+    try { return await bridge.generate(jobId, lessonKey(graph), id, context, {}); }
+    catch (error) { return { ok: false, kind: 'failed', message: error.message }; }
+    finally { queueJob = null; await index.invalidate(graph, id); onChanged(); }
+  }
+  let queueJob = null;
+  const cancelQuiet = () => { if (queueJob) bridge.cancel(queueJob); };
   function close() { if (job) bridge.cancel(job); openId = null; if (dialog.open) dialog.close(); }
   dialog.addEventListener('close', () => { if (job) bridge.cancel(job); openId = null; });
 
-  return { open, generate, regenerate, close, isGenerating: () => !!job };
+  return { open, generate, regenerate, generateQuietly, cancelQuiet, close, isGenerating: () => !!job };
 }
