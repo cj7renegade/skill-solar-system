@@ -9,7 +9,18 @@ goals … with Claude in the desktop app and bring back the hierarchies soon."*
 The previous queue (core lessons, step 7) is preserved in Git: merged in PRs #24 and #25, its final
 queue file at `63426b9`.
 
-## In progress: UX upgrade (branch `ux-hud-upgrade`, not pushed)
+## In progress: AI Guide (branch `ai-guide`, not pushed)
+
+JC, 2026-11-06: *"build the cloud version with Claude, guidance only. Also create an automatic state
+of the app where you can still use it offline but the AI is disconnected."* Notes: `docs/ai-guide.md`.
+
+- [x] Main-process connection: key in safeStorage, states, auto-reconnect, monthly limit
+- [x] Read-only tools, system prompt (guidance only), question loop and reply format
+- [x] Guide panel, header indicator and a tour step
+- [x] Tests: unit (19), end-to-end with a scripted client (37)
+- [ ] JC: try it with a real key; decide model, limit and saved conversations
+
+## Done: UX upgrade (PR #31)
 
 JC's brief of 2026-11-06: make the app a learning tool (HUD, colours, helix structure, level of
 detail, path mode, panel, header). Plan and measurements: `docs/ux-upgrade-plan.md`. No map data
