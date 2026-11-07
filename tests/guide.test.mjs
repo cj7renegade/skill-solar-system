@@ -123,3 +123,41 @@ test('replies parse into paragraphs, lists, headings, bold and skill links only'
   assert.deepEqual(blocks[4].inline, [{ t: 'text', text: '<b>no html</b> [x](https://example.com)' }], 'other markup and web links stay plain text');
   assert.deepEqual(parseInline('plain'), [{ t: 'text', text: 'plain' }]);
 });
+
+test('memory: turns are kept per conversation, and ended ones are summed up into notes', async () => {
+  const { emptyMemory, readMemory, addTurn, pendingSummary, summaryRequest, applySummary, SUMMARY_PROMPT, MEMORY_LIMITS } = await import('../src/guide.js');
+  let m = emptyMemory('fam');
+  assert.deepEqual(readMemory('not json', 'fam'), m);
+  assert.deepEqual(readMemory(JSON.stringify({ ...m, family: 'other' }), 'fam'), m, 'another family\'s memory is not used');
+  m = addTurn(m, { id: 'c1', map: 'Map', question: 'What next?', answer: 'Start with A.', at: '2026-11-06T10:00:00Z' });
+  m = addTurn(m, { id: 'c1', map: 'Map', question: 'And then?', answer: 'Then B.', at: '2026-11-06T10:05:00Z' });
+  m = addTurn(m, { id: 'c2', map: 'Map', question: 'Plan?', answer: 'Two hours a day.', at: '2026-11-07T09:00:00Z' });
+  assert.equal(m.conversations.length, 2); assert.equal(m.conversations[0].turns.length, 2);
+  assert.deepEqual(pendingSummary(m).map(c => c.id), ['c1', 'c2']);
+  const r = summaryRequest({ ...m, notes: '- Old goal.' });
+  assert.equal(r.system, SUMMARY_PROMPT); assert.deepEqual(r.tools, []);
+  assert.match(r.messages[0].content, /<current_notes>\n- Old goal\.\n<\/current_notes>/);
+  assert.match(r.messages[0].content, /Learner: What next\?\nGuide: Start with A\./);
+  assert.match(SUMMARY_PROMPT, /Do not record progress counts/); assert.match(SUMMARY_PROMPT, /Do not record lesson/);
+  const done = applySummary(m, '- Goal: I01.\n- Six hours a week.', ['c1'], '2026-11-07T10:00:00Z');
+  assert.equal(done.notes, '- Goal: I01.\n- Six hours a week.'); assert.deepEqual(pendingSummary(done).map(c => c.id), ['c2']);
+  assert.equal(applySummary(done, '- No notes yet.', ['c2'], 'x').notes, done.notes, 'an empty summary keeps the notes');
+  assert.equal(applySummary(m, 'x'.repeat(5000), [], 'x').notes.length, MEMORY_LIMITS.notesChars);
+  // a new answer reopens a summed-up conversation; old conversations drop off past the limit
+  assert.equal(addTurn(done, { id: 'c1', map: 'Map', question: 'q', answer: 'a', at: 'x' }).conversations[0].summarized, false);
+  let many = emptyMemory('fam');
+  for (let i = 0; i < MEMORY_LIMITS.conversations + 5; i++) many = addTurn(many, { id: `c${i}`, map: 'M', question: 'q', answer: 'a', at: 'x' });
+  assert.equal(many.conversations.length, MEMORY_LIMITS.conversations); assert.equal(many.conversations[0].id, 'c5');
+});
+
+test('a new conversation sends the notes once, before the app state', async () => {
+  const conversation = [], transport = scripted([reply([{ type: 'text', text: 'Hi.' }]), reply([{ type: 'text', text: 'Again.' }])]);
+  await ask(conversation, 'Hello', ctx({}, { notes: '- Goal: I01.' }), transport);
+  assert.equal(conversation[0].content[0].text, '<guide_notes>\n- Goal: I01.\n</guide_notes>');
+  assert.match(conversation[0].content[1].text, /^<app_state>/);
+  await ask(conversation, 'More', ctx({}, { notes: '- Goal: I01.' }), transport);
+  assert.ok(!conversation[2].content.some(b => /guide_notes/.test(b.text)), 'not repeated in the same conversation');
+  const plain = [];
+  await ask(plain, 'Hello', ctx({}, { notes: '' }), scripted([reply([{ type: 'text', text: 'Hi.' }])]));
+  assert.match(plain[0].content[0].text, /^<app_state>/);
+});

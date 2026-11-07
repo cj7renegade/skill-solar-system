@@ -38,7 +38,36 @@ teach lesson content, and it cannot mark proficiency or change a map.
 - **Replies** are parsed into paragraphs, lists, headings, bold, code, and `skill:` and `path:`
   links only. Everything is built with `textContent`. A link to an id that is not on the open map
   stays plain text.
-- **The conversation** lives in memory for the session. It is never saved, and **New** clears it.
+- **Memory** is covered in its own section below.
+
+## Memory: conversations and notes
+
+JC, 2026-11-06: *"have the app remember convos or at least save summaries and context when data is
+saved."* Both are done.
+
+- **Conversations are saved on this computer.** Each question and answer goes to
+  `userData/guide/memory/<family>-<hash>.json`, one file per atlas family. Maps without a family
+  share `default`.
+  - The file keeps up to 30 conversations of up to 60 turns. It holds visible text only, with no
+    tool data or thinking.
+  - Earlier conversations show under **Earlier conversations** in the panel, and their skill and
+    path links still work.
+- **Notes are summed up when a conversation ends:**
+  - on **File ▸ Save map** ("when data is saved"), which includes the open conversation;
+  - on **New**;
+  - when another map family opens;
+  - at the next start, for a conversation left open.
+
+  One request without tools (`SUMMARY_PROMPT` in `src/guide.js`) merges the conversations into
+  the existing notes: at most 12 bullets and 2,000 characters. The notes record goals, target,
+  time budget, agreed plans and preferences. Progress counts and lesson content are left out on
+  purpose: progress counts change and live in the app, and the Guide doesn't teach.
+- **A new conversation starts from the notes.** They are sent once, in a `<guide_notes>` block in
+  its first message, so the cached prefix stays stable.
+- **Offline:** saving conversations never needs the connection. Summaries wait until the Guide is
+  online.
+- **Settings ▸ What the Guide remembers** shows the notes, with **Forget notes** and
+  **Clear history**. Both ask first.
 
 ## The automatic states
 
@@ -63,7 +92,7 @@ offline in every state.
 - **The key** is saved with Electron `safeStorage` (Windows DPAPI for the user account) in
   `userData/guide/api-key.bin`. It is never shown again. Alternatively, `ANTHROPIC_API_KEY` in the
   environment works and is never written to disk.
-- **What is sent:** the questions, a short app state (date, map title, target and progress, the
+- **What is sent:** the questions, the notes (once per conversation), a short app state (date, map title, target and progress, the
   selected skill, path mode, an unfinished review) and the results of the tools the Guide calls.
   Map files and answers stay on the computer.
 - **Cost:**
@@ -75,20 +104,23 @@ offline in every state.
 
 ## Tests
 
-- `tests/guide.test.mjs` (10): the tools, input checks, the app state, the question loop
+- `tests/guide.test.mjs` (12): the tools, input checks, the app state, the question loop
   (append-only, tool errors, refusal, failures, runaway loops, truncated input) and the reply
   format.
-- `tests/guide-main.test.mjs` (9): every state change with a fake client, including dropping and
+- `tests/guide-main.test.mjs` (10): every state change with a fake client, including dropping and
   reconnecting by itself, plus the encrypted key, the environment key, the request shape, usage
   and the limit, and message validation.
-- `tests/guide-e2e.mjs` (37): the real app with a scripted client (`SSS_GUIDE_FAKE=1` in
+- `tests/guide-e2e.mjs` (44, including a restart): the real app with a scripted client (`SSS_GUIDE_FAKE=1` in
   `tests/electron-launcher.cjs`), so no request leaves the computer. It covers saving a key, a
-  question with a tool call, link buttons, an automatic disconnect while the map keeps working,
-  the automatic reconnect, off and limit, and that no answer changes.
+  question with a tool call, link buttons, saving the conversation, notes summed up on **Save
+  map**, a new conversation starting from the notes, an automatic disconnect while the map keeps
+  working, the automatic reconnect, off and limit, that no answer changes, and a restart that keeps
+  the key, the conversations and the notes.
 
 ## Decisions for JC
 
 1. **Model and effort:** Opus 5.5 at `medium`. Sonnet 5.5 would cost about half, and Haiku 5.5
    far less. Both are a one-line change (`MODEL` in `desktop/guide.cjs`).
-2. **Monthly limit:** $10 by default.
-3. **Saved conversations:** none for now. Should the Guide remember past sessions?
+2. **Monthly limit:** $10 a month, confirmed by JC on 2026-11-06.
+3. **Memory:** conversations and notes are saved, as JC asked. A switch to turn memory off could be
+   added if it's ever wanted.

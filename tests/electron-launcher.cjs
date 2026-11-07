@@ -31,7 +31,9 @@ if (process.env.SSS_GUIDE_FAKE === '1') {
       const handlers = [], last = params.messages[params.messages.length - 1];
       const toolResult = Array.isArray(last.content) && last.content.find(b => b.type === 'tool_result');
       let content;
-      if (toolResult) {
+      // A request without tools is the notes summary.
+      if (!params.tools) content = [{ type: 'text', text: '- Goal: reach First milestone.\n- Studies about 6 hours a week.' }];
+      else if (toolResult) {
         const result = JSON.parse(toolResult.content), first = result.next?.[0];
         content = [{ type: 'text', text: first ? `Start with [${first.name}](skill:${first.id}).\n\n- It is ready now.\n- Then [Path to ${result.target.name}](path:${result.target.id}).` : 'Nothing is ready.' }];
       } else content = [{ type: 'thinking', thinking: '', signature: 'fake' }, { type: 'tool_use', id: `tool-${Date.now()}`, name: 'next_up', input: {} }];
@@ -40,7 +42,7 @@ if (process.env.SSS_GUIDE_FAKE === '1') {
           if (!up()) throw down();
           await new Promise(r => setTimeout(r, 150));
           for (const b of content) if (b.type === 'text') for (const h of handlers) h(b.text);
-          return { content, stop_reason: toolResult ? 'end_turn' : 'tool_use', model: params.model, usage: { input_tokens: 2000, output_tokens: 200 } };
+          return { content, stop_reason: content.some(b => b.type === 'tool_use') ? 'tool_use' : 'end_turn', model: params.model, usage: { input_tokens: 2000, output_tokens: 200 } };
         } };
     } } }
   });

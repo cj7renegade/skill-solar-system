@@ -3,7 +3,7 @@
 // uses a read-only tool and answers with skill links, the links flying to a skill and opening a path,
 // the automatic disconnect when the connection drops (while the rest of the app keeps working
 // offline) and the automatic reconnect, and that no answer is ever changed by the Guide.
-import { writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { launchApp, checker, sleep } from './e2e-harness.mjs';
 
@@ -66,6 +66,27 @@ try {
   check('a path link opens path mode', await evaluate(`document.getElementById('path-mode').getAttribute('aria-pressed')`) === 'true');
   await evaluate(`document.getElementById('exit-path').click();0`);
 
+  // Memory: the conversation is kept on this computer, File ▸ Save map sums it up into notes, and a
+  // new conversation starts from them.
+  const memoryFile = () => { const dir = path.join(app.dir, 'userdata', 'guide', 'memory'); const f = existsSync(dir) && readdirSync(dir).find(n => n.startsWith('default-')); return f ? JSON.parse(readFileSync(path.join(dir, f), 'utf8')) : null; };
+  let saved = memoryFile();
+  check('the question and answer are saved on this computer', saved?.conversations.length === 1 && saved.conversations[0].turns[0].q === 'What should I study next?' && /Start with/.test(saved.conversations[0].turns[0].a));
+  await evaluate(`document.getElementById('save').click();0`);
+  await waitFor(`/First milestone/.test(document.getElementById('guide-notes').textContent)`);
+  const summary = requests().at(-1);
+  check('saving the map sums the conversation up into notes, with a request that has no tools', !summary.tools && /keep the notes/.test(summary.system) && /Learner: What should I study next\?/.test(summary.messages[0].content));
+  saved = memoryFile();
+  check('the notes are saved and the conversation is marked summed up', /Studies about 6 hours/.test(saved.notes) && saved.conversations[0].summarized === true);
+  const before2 = requests().length;
+  await click('#guide-new', 300);
+  check('New after a save needs no second summary', requests().length === before2 && await evaluate(`document.querySelectorAll('#guide-log .guide-msg').length`) === 0);
+  check('the finished conversation is listed under Earlier conversations', /Earlier conversations \(1\)/.test(await evaluate(`document.querySelector('#guide-earlier summary').textContent`)));
+  await evaluate(`document.getElementById('guide-input').value='What now?';0`);
+  await click('#guide-send', 100);
+  await waitFor(`document.querySelectorAll('#guide-log .guide-reply .guide-link').length>0`);
+  check('a new conversation starts from the notes', /<guide_notes>\n- Goal: reach First milestone\./.test(requests()[before2].messages[0].content[0].text));
+  check('the new conversation is saved separately', memoryFile().conversations.length === 2);
+
   // The connection drops: the next question finds it, the Guide disconnects, the app carries on.
   net(false);
   await evaluate(`document.getElementById('guide-input').value='Plan my week';0`);
@@ -101,4 +122,22 @@ try {
   check('the Guide never changed an answer', await answers() === before);
   check('no uncaught page errors', pageErrors.length === 0, pageErrors.join('\n'));
 } finally { await app.stop(); }
+
+// A restart: the key, the conversations and the notes are still there, and the conversation left open
+// is summed up once the Guide is online.
+const sentBefore = requests().length;
+const again = await launchApp('sss-guide-', { dir: app.dir, env: { SSS_GUIDE_FAKE: '1', ANTHROPIC_API_KEY: '' } });
+try {
+  const { evaluate, click, open, waitFor, pageErrors } = again;
+  await open(path.join(app.dir, 'Guide-Test.json'));
+  await click('#guide-button', 400);
+  await waitFor(`document.getElementById('guide-state').dataset.state==='online'`);
+  check('after a restart the Guide reconnects with the saved key', true);
+  await waitFor(`/Earlier conversations \\(2\\)/.test(document.querySelector('#guide-earlier summary')?.textContent||'')`);
+  check('both earlier conversations are shown, with working links', await evaluate(`document.querySelectorAll('#guide-earlier .guide-link').length`) >= 2);
+  await waitFor(`!document.getElementById('guide-notes').dataset.saving`);
+  check('the conversation left open last time is summed up at the next start', requests().length === sentBefore + 1 && !requests().at(-1).tools);
+  check('the notes are still there', /First milestone/.test(await evaluate(`document.getElementById('guide-notes').textContent`)));
+  check('no uncaught page errors after the restart', pageErrors.length === 0, pageErrors.join('\n'));
+} finally { await again.stop(); }
 console.log('\nGuide checks passed.');

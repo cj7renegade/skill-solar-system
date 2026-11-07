@@ -226,6 +226,7 @@ It is an editorial plan, not a completeness claim. Node counts measure spheres, 
 - Header ▸ **✦ Guide** opens a chat with Claude (Opus 5.5) for direction: what to study next, a plan, where you stand. Answers link to skills and paths.
 - Guidance only: it never teaches lessons or marks proficiency, and its tools only read the open map.
 - Needs an Anthropic API key (saved encrypted, or `ANTHROPIC_API_KEY`) and the internet. Without them, or when the connection drops, the header says **Offline** and everything else keeps working; it reconnects by itself.
+- It remembers: conversations are saved on this computer per map family, and when a conversation ends (or you use File ▸ Save map) it sums it up into short notes that the next conversation starts from.
 - A monthly spending limit ($10 by default) pauses it. Details: [docs/ai-guide.md](docs/ai-guide.md).
 
 ## Requirements

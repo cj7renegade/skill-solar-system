@@ -136,3 +136,18 @@ test('cost estimate and what the page may send', () => {
   assert.ok(!validMessages([{ role: 'system', content: 'x' }]));
   assert.ok(!validMessages([{ role: 'user', content: 'x'.repeat(1_600_000) }]));
 });
+
+test('memory is stored per family on this computer, needs no connection, and is validated', async () => {
+  const { guide, dir } = setup();
+  const { MEMORY_FORMAT } = require('../desktop/guide.cjs');
+  assert.equal(await guide.loadMemory('humanoid-helix-v1'), null);
+  const memory = { format: MEMORY_FORMAT, family: 'humanoid-helix-v1', notes: '- Goal.', notesUpdatedAt: null, conversations: [] };
+  assert.equal(await guide.saveMemory('humanoid-helix-v1', JSON.stringify(memory)), true);
+  assert.deepEqual(JSON.parse(await guide.loadMemory('humanoid-helix-v1')), memory);
+  assert.equal(await guide.loadMemory('default'), null, 'each family has its own memory');
+  assert.throws(() => guide.saveMemory('default', JSON.stringify(memory)), /Invalid guide memory/);
+  assert.throws(() => guide.saveMemory('default', 'nope'), /Invalid guide memory/);
+  assert.throws(() => guide.saveMemory('../escape', JSON.stringify({ ...memory, family: '../escape' })), /Invalid atlas family/);
+  assert.equal(guide.status().state, 'off', 'all of this works with the Guide off');
+  assert.ok(existsSync(path.join(dir, 'memory')));
+});

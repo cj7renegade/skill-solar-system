@@ -17,8 +17,9 @@ of the app where you can still use it offline but the AI is disconnected."* Note
 - [x] Main-process connection: key in safeStorage, states, auto-reconnect, monthly limit
 - [x] Read-only tools, system prompt (guidance only), question loop and reply format
 - [x] Guide panel, header indicator and a tour step
-- [x] Tests: unit (19), end-to-end with a scripted client (37)
-- [ ] JC: try it with a real key; decide model, limit and saved conversations
+- [x] Tests: unit (22), end-to-end with a scripted client (44, with a restart)
+- [x] JC: keep $10 a month; remember conversations and save summarized notes when data is saved
+- [ ] JC: try it with a real key; decide the model
 
 ## Done: UX upgrade (PR #31)
 
