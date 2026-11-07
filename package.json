@@ -28,7 +28,8 @@
     "files": [
       "dist/**/*",
       "desktop/**/*",
-      "package.json"
+      "package.json",
+      "!Reference Design/**"
     ],
     "directories": {
       "output": "release"

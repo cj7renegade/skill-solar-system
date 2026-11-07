@@ -27,10 +27,14 @@ import { planLayout, renderPlan } from './plan.js';
 import { listOrder, recentAnswers, renderToday } from './panel.js';
 import { createGuidePanel } from './guide-panel.js';
 import { createLessonIndex, embeddedLesson, LESSON_FIELDS } from './lessons.js';
+import { readAppearance, applyAppearance } from './theme/appearance.js';
+import { createSettingsDialog } from './settings-dialog.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 // Lessons live outside map files (src/lessons.js); every reader goes through lessonIndex.getLesson.
 const lessonIndex=createLessonIndex(window.desktop?.lessons);
+// The appearance (Classic or Cyberpunk HUD, glow, motion, atmosphere) is applied before anything draws.
+try{applyAppearance(document.documentElement,readAppearance(localStorage));}catch{}
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
 const listActivation=createActivationTracker();
 const SPACING_CACHE='skill-solar-system-spacing';
@@ -735,6 +739,11 @@ const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-profic
     ...items.slice(0,4).map(item=>revealBlock(el,{question:el('div',{},renderMarkdown(el,item.question)),answer:item.answer},text=>renderMarkdown(el,text))),
     el('p',{class:'edge-note',text:'For your own check only. Nothing here answers the question below.'}))});
 $('mark-proficiency').onclick=()=>review.open();
+// File ▸ Settings…: Appearance and Developer (src/settings-dialog.js).
+const settingsDialog=createSettingsDialog({dialog:$('settings-dialog'),body:$('settings-body'),el,storage:safeStorage,onStyleGuide:()=>openStyleGuide()});
+$('settings-open').onclick=()=>{setMenu('file-menu','file-menu-items',false);settingsDialog.open();};
+$('settings-close').onclick=()=>settingsDialog.close();
+function openStyleGuide(){const d=$('styleguide-dialog');$('styleguide-body').replaceChildren(el('p',{text:'The style guide arrives in phase 2.'}),el('button',{text:'Close',onclick:()=>d.close()}));d.showModal();}
 // The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
 // replies select a skill or show a path, the same as the HUD's buttons.
 const guidePanel=createGuidePanel({bridge:window.desktop?.guide,button:$('guide-button'),pill:$('guide-state'),panel:$('guide-panel'),el,getFamily:()=>atlasFamily(graph)||'default',

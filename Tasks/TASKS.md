@@ -9,6 +9,23 @@ goals … with Claude in the desktop app and bring back the hierarchies soon."*
 The previous queue (core lessons, step 7) is preserved in Git: merged in PRs #24 and #25, its final
 queue file at `63426b9`.
 
+## In progress: Cyberpunk HUD theme (branch `cyberpunk-theme`, not pushed)
+
+JC's brief of 2026-11-06: a Cyberpunk HUD visual theme built as a design system (tokens, then a
+component kit reviewed on a style guide, then the app). Based on `main` (the UX upgrade is merged;
+the AI lessons branch is not yet merged, so its components are left easy to restyle).
+Reference notes: `docs/cyberpunk-reference-notes.md`.
+
+- [x] All reference images viewed; notes written
+- [x] Phase 1: design tokens, bundled OFL fonts, Settings ▸ Appearance (theme, atmosphere, reduce motion, glow), contrast check
+- [ ] Phase 2: component kit and style-guide screen (Settings ▸ Developer ▸ Style guide), screenshots
+- [ ] **JC: review the style guide.** Tick this box to approve it; Phase 3 starts only after that.
+- [ ] Phase 3: apply the kit to the app shell (header, learner HUD, skill card, legend, toolbar, lesson viewer, dialogs)
+- [ ] Phase 4: 3D map styling (vignette, grid, milestone rings, stage rings, reticle, frontier pulse, optional bloom) with fps measured
+- [ ] Verification and final report
+
+## In progress: AI Guide (branch `ai-guide`, not pushed)
+
 ## In progress: AI lessons (branch `ai-lessons`, not pushed)
 
 JC's brief of 2026-11-06: replace the embedded lessons with on-demand 30-minute Claude lessons,
