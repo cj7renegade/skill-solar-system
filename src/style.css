@@ -102,3 +102,112 @@
 .helix-filter select{max-width:100%}
 /* Helix maps: the legend holds filters and 16 courses, so it scrolls instead of running under the tools bar. */
 #legend.helix-legend{max-width:250px;max-height:calc(100% - 230px);overflow-y:auto}
+
+/* Learner HUD (src/hud.js): a compact card over the map, top left. All text 11 px or larger. */
+.hud-card{position:absolute;top:16px;left:18px;width:300px;max-width:calc(100% - 36px);max-height:calc(100% - 190px);overflow:auto;background:#0b1422e6;border:1px solid var(--line);border-radius:10px;padding:10px 12px;z-index:3;box-shadow:0 8px 30px #0006}
+.hud-card h2{font-size:12px;font-weight:600;color:var(--muted);margin:0;letter-spacing:.3px}
+.hud-card #layout-summary{font-size:11px;color:#7f91a8;margin:1px 0 0}
+#hud{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.hud-label{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#8ea0b6;margin:0 0 3px}
+#hud-target{width:100%;padding:5px 7px;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.hud-row{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--muted);margin-top:6px}
+.hud-percent{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.hud-bar{height:7px;border-radius:4px;background:#1d2a3b;overflow:hidden;margin:3px 0}
+.hud-bar>span{display:block;height:100%;background:linear-gradient(90deg,#c99a2e,#f2c94c);border-radius:4px}
+.hud-detail{font-size:11px;color:#b3c1d3;margin:2px 0 0;font-variant-numeric:tabular-nums}
+.hud-review{width:100%;margin-top:8px;padding:5px 8px;font-size:12px;text-align:left;border-color:#6b5a2e;color:#f2d58a}
+.hud-next-label{margin-top:10px}
+.hud-next{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.hud-next-item{display:flex;align-items:center;gap:6px;width:100%;padding:4px 6px;font-size:12px;text-align:left;border:1px solid transparent;background:transparent;border-radius:5px}
+.hud-next-item:hover,.hud-next-item:focus-visible{background:#1b2a3d;border-color:#3a4d66}
+.hud-next-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hud-hours{font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip{--chip:#8ea0b6;font-size:11px;line-height:1.3;padding:0 5px;border-radius:8px;border:1px solid var(--chip);color:var(--chip);white-space:nowrap;font-weight:600}
+.hud-next{grid-template-columns:minmax(0,1fr)}.hud-next li{min-width:0}.hud-next-item{overflow:hidden}.hud-card{overflow-x:hidden}
+
+/* Phase 2: the interactive course key (families and courses isolate on click) and 11 px legend text. */
+#legend{font-size:11px}
+#legend .legend-heading{font-size:11px;letter-spacing:.6px}
+#legend button.legend-item{font-size:11px}
+#legend button.legend-item.course{padding-left:18px}
+#legend button.legend-item.family{color:var(--ink);font-weight:600;margin-top:6px}
+#legend .legend-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#legend .swatch{width:16px;height:8px;border-radius:3px;flex:none}
+#legend .dot{flex:none;width:8px;height:8px}
+#legend .legend-filters{margin-top:8px;border-top:1px solid var(--line);padding-top:4px}
+#legend .legend-filters>summary{cursor:pointer;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:#8ea0b6;padding:3px 4px}
+#legend .edge-note{font-size:11px}
+#legend.helix-legend{width:270px;max-width:270px}
+
+/* Phase 3: orientation labels drawn over the helix (src/structure.js). Fixed size, never selectable. */
+.structure-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.structure-label{position:absolute;white-space:nowrap;font-size:11px;line-height:1.3;color:#c9d6e6;text-shadow:0 1px 3px #000,0 0 6px #000}
+.structure-label.milestone{transform:translateY(-50%);font-size:12px;font-weight:600;color:#f1d79a;background:#0b1420c8;border:1px solid #6b5a2e;border-radius:4px;padding:1px 6px;z-index:2}
+.structure-label.milestone.done{border-color:#f2c14e;color:#f2c14e}
+.structure-label.milestone.done::before{content:'✓ '}
+.structure-label.milestone.active{border-color:#ffe7a6;color:#fff;box-shadow:0 0 0 2px #e9bd7966;z-index:3}
+.structure-label.milestone.active::after{content:'  ◂ target';color:#ffe7a6;font-weight:500}
+.structure-label.stage{transform:translate(8px,-50%);color:#9fb3cc;font-style:italic}
+.structure-label.ruler{transform:translate(calc(-100% - 4px),-50%);color:#7f91a8}
+.structure-label.ruler-title{transform:translate(-20%,-100%);color:#9fb3cc;font-size:11px;max-width:none}
+.structure-label.course{transform:translate(-50%,-50%);font-weight:600;font-size:12px;background:#0b1420b0;border-radius:4px;padding:0 5px}
+.structure-label.milestone.left{transform:translate(-100%,-50%)}.structure-label.ruler-title{transform:translate(calc(-100% - 40px),-50%);white-space:normal;width:190px;text-align:right}
+
+/* Phase 4: subject names on the clusters shown when zoomed out (src/lod.js). */
+.cluster-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.cluster-label{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:11px;color:#e3ebf5;text-shadow:0 1px 3px #000,0 0 5px #000;background:#0b142080;border-radius:3px;padding:0 4px}
+
+/* Phase 5: path mode (card in the HUD) and the 2D plan view (src/plan.js). */
+.hud-target-row{display:flex;gap:6px;align-items:stretch}.hud-target-row #hud-target{flex:1;min-width:0;margin-bottom:8px}
+.hud-path{padding:4px 10px;font-size:12px;margin-bottom:8px;border-color:#6b5a2e;color:#f2d58a}
+#hud.path-on .hud-next,#hud.path-on .hud-next-label{display:none}
+#path-card{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.path-summary{font-size:12px;color:var(--ink);margin:2px 0 6px;font-weight:600}
+#path-card .button-row{margin:6px 0}
+.path-steps{margin:0;padding:0 0 0 22px;max-height:240px;overflow:auto;font-size:11px;color:var(--muted)}
+.path-steps li.ready::marker{color:#ffe7a6}
+.path-step{display:flex;gap:6px;width:100%;padding:2px 5px;font-size:12px;text-align:left;border:1px solid transparent;background:transparent;border-radius:4px}
+.path-step:hover,.path-step:focus-visible,.path-step.selected{background:#1b2a3d;border-color:#3a4d66}
+.path-steps li.ready .path-step .hud-next-name{color:#ffe7a6}
+.plan-view{position:absolute;inset:12px 12px 12px 330px;z-index:6;background:#0a1220f2;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;box-shadow:0 12px 40px #000a}
+.plan-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;border-bottom:1px solid var(--line)}.plan-head h2{font-size:13px;margin:0}
+.plan-body{flex:1;overflow:auto}
+.plan-body svg{display:block}
+.plan-body .plan-title{fill:#9fb3cc;font-size:12px}
+.plan-body .plan-col{fill:#7f91a8;font-size:11px}
+.plan-body .plan-lane{fill:#ffffff06;stroke:#283548;stroke-width:1}
+.plan-body .plan-lane-label{fill:#c9d6e6;font-size:12px;font-weight:600}
+.plan-body .plan-edges{fill:none;stroke:#e9bd79;stroke-opacity:.28;stroke-width:1}
+.plan-node{cursor:pointer}.plan-node rect{fill-opacity:.85;stroke:#0b1420;stroke-width:1}.plan-node text{font-size:11px;fill:#08101b;font-weight:600;pointer-events:none}
+.plan-node.frontier rect{stroke:#ffe7a6;stroke-width:2.5}.plan-node.done rect{fill:#f2c14e!important}
+.plan-node.selected rect{stroke:#fff;stroke-width:3}.plan-node:focus{outline:none}.plan-node:focus-visible rect{stroke:#fff;stroke-width:3}
+.plan-view{background:#0a1220}
+
+/* Phase 6: the data console's Today view, skill list order and skill card (src/panel.js). */
+.search{display:flex;gap:6px}.search #search{flex:1}.search #list-sort{width:auto;padding:6px;font-size:12px}
+.node-item{font-size:12px}.node-item .dot.ready{box-shadow:0 0 4px 2px #ffe7a6}
+.today-title{font-size:15px;margin:4px 0 8px}
+.today-heading{font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:#8ea0b6;margin:14px 0 4px;font-weight:600}
+.today-list{list-style:none;margin:0;padding:0;display:grid;gap:2px;grid-template-columns:minmax(0,1fr)}
+.today-item{display:flex;gap:6px;align-items:center;width:100%;padding:4px 6px;font-size:12px;text-align:left;border:1px solid transparent;background:transparent;border-radius:5px;overflow:hidden}
+.today-item:hover,.today-item:focus-visible{background:#1b2a3d;border-color:#3a4d66}
+.skill-chips{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 8px}.skill-chips .chip{font-weight:500}
+.skill-actions{flex-wrap:wrap}.skill-actions button{flex:1 1 auto}
+.mini-title{font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:#8ea0b6;margin:12px 0 4px;font-weight:600}
+.mini-graph{display:block;max-width:100%;overflow:visible}
+.mini-links{fill:none;stroke:#e9bd79;stroke-opacity:.5;stroke-width:1.2}
+.mini-node{cursor:pointer}.mini-node circle{fill:#9aa4b2;stroke:#0b1420}.mini-node.done circle{fill:#f2c14e}.mini-node.ready circle{stroke:#ffe7a6;stroke-width:2.5}
+.mini-node text{font-size:11px;fill:#c9d6e6}.mini-node.self{cursor:default}.mini-node.self text{fill:#fff;font-weight:600}.mini-node.self circle{stroke:#fff;stroke-width:2}
+.mini-node:focus{outline:none}.mini-node:focus-visible text{fill:#ffe7a6;text-decoration:underline}
+
+/* Phase 7: header, menus, View popover, save indicator, and every text at least 11 px. */
+.header-map{font-size:12px;letter-spacing:.3px;color:#b8c6d8;text-transform:none}
+.menu{position:relative}
+.menu-items,.popover{position:absolute;z-index:20;background:#0d1726;border:1px solid #3a4d66;border-radius:8px;padding:6px;box-shadow:0 10px 30px #000a;display:grid;gap:4px}
+.menu-items{right:0;top:calc(100% + 6px);min-width:250px}.menu-items button{text-align:left;width:100%}
+.popover{left:0;bottom:calc(100% + 8px);min-width:300px;padding:10px}.popover label{display:flex;gap:8px;align-items:center;font-size:12px;margin:2px 0}
+.popover .spacing-control{border-left:0;padding-left:0;margin-top:4px}.popover-note{font-size:11px;color:var(--muted);margin:4px 0 0}
+#path-mode[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.save-state{font-size:11px;white-space:nowrap}.save-state.saved{color:#8dc9ac}.save-state.saving{color:var(--accent)}.save-state.failed{color:#ffb4a8;font-weight:600}
+.navigation{font-size:11px;letter-spacing:.2px;color:#8b9bb0;bottom:12px}
+small,.eyebrow,.edge-note,.node-id,footer,.sync-state,.find-results .find-domain,.view-tools label,.switch,.offline,#legend button.legend-item,#legend .legend-clear,.layout-tools button,.shared-tools>button,.spacing-control button,.spacing-control output,#view-tools-toggle,.find-control input{font-size:11px}

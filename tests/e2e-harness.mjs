@@ -56,7 +56,7 @@ export async function launchApp(prefix, options = {}) {
   const evaluate = async expression => { const r = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text); return r.result.value; };
   const waitFor = async (expression, timeout = STEP_TIMEOUT) => { const t = Date.now(); while (Date.now() - t < timeout) { if (await evaluate(expression)) return; await sleep(50); } throw Error(`timeout: ${expression}`); };
   await send('Runtime.enable'); await send('DOM.enable'); await send('Page.enable');
-  await waitFor(`document.getElementById('counts').textContent.includes('subjects')`);
+  await waitFor(`document.getElementById('counts').textContent.includes('skills')`);
 
   const open = async file => { const { root: doc } = await send('DOM.getDocument'); const { nodeId } = await send('DOM.querySelector', { nodeId: doc.nodeId, selector: '#file' }); await send('DOM.setFileInputFiles', { nodeId, files: [file] }); await waitFor(`/Opened ${path.basename(file).replace(/[.]/g, '\\.')}/.test(document.getElementById('status').textContent)`); await sleep(200); };
   const setFiles = async (selector, file) => { const { root: doc } = await send('DOM.getDocument'); const { nodeId } = await send('DOM.querySelector', { nodeId: doc.nodeId, selector }); await send('DOM.setFileInputFiles', { nodeId, files: [file] }); };

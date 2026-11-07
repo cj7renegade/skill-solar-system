@@ -57,13 +57,14 @@ test('pinned skills keep their position, and nothing but positions and the layou
 });
 
 test('courses get distinct colours, used only when a palette is passed', () => {
-  const colors = courseColors(COURSES);
-  assert.equal(new Set(Object.values(colors)).size, 4);
+  const families = courseColors([['MTH', 'Mathematics'], ['MEC', 'Mechanical'], ['ELX', 'Electronics'], ['LOC', 'Locomotion'], ['SYS', 'Systems']]);
+  assert.equal(new Set(Object.values(families)).size, 5);
+  const colors = courseColors(COURSES);                        // codes the palette does not know: a neutral grey
   assert.match(colors.AAA, /^#[0-9a-f]{6}$/);
   const n = node('a', { courseCode: 'AAA', domain: 'Physics' });
   assert.equal(nodeColor(n, false, colors), colors.AAA);
   assert.equal(nodeColor(n, false), DOMAINS.Physics);          // no palette: the domain colour, as before
-  assert.equal(nodeColor({ ...n, proficiency80: true }, true, colors), '#32CD32');   // proficiency colouring wins
+  assert.equal(nodeColor({ ...n, proficiency80: true }, true, colors), '#f2c14e');   // proficiency colouring wins
 });
 
 test('filters match course, stage, path and tier, and an empty filter matches everything', () => {

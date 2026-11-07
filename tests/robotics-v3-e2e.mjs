@@ -55,7 +55,7 @@ try {
   const settled = () => app.waitFor(`!/saving/.test(document.getElementById('sync-state').textContent)`);
   const selectByName = async name => { await evaluate(`(()=>{const n=${JSON.stringify(name)};[...document.querySelectorAll('.node-item')].find(b=>b.textContent===n).click()})()`); await sleep(250); };
   const selectById = id => selectByName(byId.get(id).name);
-  const openCardNamed = async name => { await selectByName(name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.textContent==='Read subject details').click()`); await sleep(300); };
+  const openCardNamed = async name => { await selectByName(name); await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(300); };
   const openCard = id => openCardNamed(byId.get(id).name);
   const cardText = () => evaluate(`document.getElementById('details-body').innerText`);
   const sectionTitles = () => evaluate(`[...document.querySelectorAll('#details-body details.lesson-section>summary')].map(s=>s.textContent)`);
@@ -215,7 +215,7 @@ try {
   await evaluate(`[...document.querySelectorAll('#inspector .proficiency-controls button')].find(b=>b.textContent==='Yes').click()`); await sleep(300); await settled();
   check('the manual proficiency control still marks a skill', await answerOf('rob3:I01') === true && record()?.entries['rob3:I01']?.value === true);
   check('marking the milestone left its prerequisites alone', await answerOf('rob3:C03') === null);
-  await click('#save', 600);
+  await click('#file-menu', 200); await click('#save', 600);
   const saved = JSON.parse(readFileSync(path.join(app.dir, 'saved.json'), 'utf8'));
   check('the saved file keeps every lesson', saved.nodes.filter(n => n.lesson).length === EXPECT.authored);
   check('the saved file keeps the authored fields the card does not show', saved.nodes.find(n => n.id === 'rob3:C03').lesson.node_contract_sha256 === byId.get('rob3:C03').lesson.node_contract_sha256 && saved.nodes.find(n => n.id === 'rob3:C03').lesson.dependency_depth != null);

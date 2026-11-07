@@ -19,12 +19,12 @@ test('choosing which skills pulse never changes the map', () => {
   assert.equal(JSON.stringify(graph), before);
 });
 
-test('proficiency colouring is green for Yes and red for everything else', () => {
+test('proficiency colouring is gold for Yes, slate for No and grey for not marked: no red-green pair', () => {
   assert.equal(nodeColor(node('a', true), true), PROFICIENCY_COLORS.yes);
   assert.equal(nodeColor(node('b', false), true), PROFICIENCY_COLORS.no);
-  assert.equal(nodeColor(node('c', null), true), PROFICIENCY_COLORS.no);
-  assert.equal(PROFICIENCY_COLORS.yes, '#32CD32');
-  assert.equal(Object.keys(PROFICIENCY_COLORS).length, 2, 'no separate colour for unanswered skills');
+  assert.equal(nodeColor(node('c', null), true), PROFICIENCY_COLORS.unset);
+  assert.equal(PROFICIENCY_COLORS.yes, '#f2c14e');
+  assert.notEqual(PROFICIENCY_COLORS.no, PROFICIENCY_COLORS.unset);
 });
 
 test('the glow stays inside its range, rises and falls smoothly, and repeats every period', () => {
@@ -43,9 +43,9 @@ test('the glow stays inside its range, rises and falls smoothly, and repeats eve
   for (const seconds of [0.37, 1.2, 5.5]) assert.ok(Math.abs(pulseIntensity(seconds) - pulseIntensity(seconds + PULSE_PERIOD * 3)) < 1e-9, 'repeats every period');
 });
 
-test('the colour travels with the glow, from the marked-Yes green to pale tea green', () => {
+test('the colour travels with the glow, from the marked-Yes gold to pale cream', () => {
   assert.equal(PULSE_COLORS.from, PROFICIENCY_COLORS.yes, 'a pulsing sphere starts at the colour a steady one uses');
-  assert.equal(PULSE_COLORS.to, '#DBF3C9');
+  assert.equal(PULSE_COLORS.to, '#fff1c9');
   assert.equal(pulseWave(0), 0);
   assert.ok(Math.abs(pulseWave(PULSE_PERIOD / 2) - 1) < 1e-9, 'reaches the pale end exactly at the brightest moment');
   for (let i = 0; i <= 100; i++) { const wave = pulseWave(i * PULSE_PERIOD / 100); assert.ok(wave >= 0 && wave <= 1, `${wave} outside 0..1`); }

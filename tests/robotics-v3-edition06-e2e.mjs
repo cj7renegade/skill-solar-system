@@ -13,7 +13,7 @@ try{
   const answer=id=>evaluate(`JSON.parse(localStorage.getItem('skill-solar-system-v1')).nodes.find(n=>n.id===${JSON.stringify(id)}).proficiency80`);
   for(const id of ids){
     const node=data.nodes.find(n=>n.id===id),name=JSON.stringify(node.name);
-    await evaluate(`(()=>{[...document.querySelectorAll('.node-item')].find(b=>b.textContent===${name}).click();[...document.querySelectorAll('#inspector button')].find(b=>b.textContent==='Read subject details').click()})()`);await sleep(160);
+    await evaluate(`(()=>{[...document.querySelectorAll('.node-item')].find(b=>b.textContent===${name}).click();[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()})()`);await sleep(160);
     const text=await evaluate(`document.getElementById('details-body').innerText`);
     check(`${id} opens with its authored lesson`,text.includes('Explanation and worked example')&&text.includes('Practice question')&&text.includes('Full demonstration and evidence'));
     check(`${id} distinguishes introductory from full evidence`,/synthetic/i.test(node.lesson.practice_mode)&&/physical|actual/i.test(node.lesson.practice_mode));

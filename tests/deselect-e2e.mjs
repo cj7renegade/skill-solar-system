@@ -7,7 +7,8 @@ const app = await launchApp('sss-deselect-');
 try {
   const { evaluate, send, pageErrors } = app;
   const selectedName = () => evaluate(`document.querySelector('#inspector h3')?.textContent ?? null`);
-  const empty = () => evaluate(`!!document.querySelector('#inspector .empty')`);
+  // Nothing selected: the console shows the Today view (it replaced the old empty placeholder).
+const empty = () => evaluate(`!!document.querySelector('#inspector .today-title') && !document.querySelector('#inspector h3')`);
   const labelAt = name => evaluate(`(()=>{const l=[...document.querySelectorAll('#labels .node-label')].find(e=>e.textContent.startsWith(${JSON.stringify(name)}));return l?l.style.left+','+l.style.top:null;})()`);
   const canvas = await evaluate(`(()=>{const r=document.querySelector('#canvas canvas').getBoundingClientRect();return {x:r.left+r.width*0.15,y:r.top+r.height*0.2};})()`);
   const right = async (dx = 0) => {

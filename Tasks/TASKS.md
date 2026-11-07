@@ -9,6 +9,22 @@ goals … with Claude in the desktop app and bring back the hierarchies soon."*
 The previous queue (core lessons, step 7) is preserved in Git: merged in PRs #24 and #25, its final
 queue file at `63426b9`.
 
+## In progress: UX upgrade (branch `ux-hud-upgrade`, not pushed)
+
+JC's brief of 2026-11-06: make the app a learning tool (HUD, colours, helix structure, level of
+detail, path mode, panel, header). Plan and measurements: `docs/ux-upgrade-plan.md`. No map data
+changes; proficiency stays manual. Commit per phase.
+
+- [x] Phase 0: read the code, plan, baseline fps (59.9) and before screenshots
+- [x] Phase 1: learner HUD and frontier glow
+- [x] Phase 2: colour system, palette check and interactive legend
+- [x] Phase 3: milestone spine, stage rings, height ruler and course band labels
+- [x] Phase 4: level of detail and label budget
+- [x] Phase 5: path mode and 2D plan view
+- [x] Phase 6: right panel (Today, skill list and skill card)
+- [x] Phase 7: header, status, View popover and risky actions
+- [x] Verification: tests, map SHA-256 unchanged, final screenshots and report
+
 ## Done since the campaign started: the Humanoid Protocol Droid Helix map
 
 A new map, `Maps/Humanoid-Helix-Atlas.json`, was built on 2026-11-05 from a hierarchy JC authored in

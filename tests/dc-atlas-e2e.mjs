@@ -46,7 +46,7 @@ try {
   check('its sphere sits at the view centre after selection', Math.hypot(spot.x - middle.x, spot.y - middle.y) < 8, `${Math.round(Math.hypot(spot.x - middle.x, spot.y - middle.y))} px`);
   await wheel(-120, 35, middle); await sleep(300);
   await keep('02-dc-skill-close');
-  await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.textContent==='Read subject details').click()`); await sleep(400);
+  await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(400);
   const card = await evaluate(`document.getElementById('details-body').innerText`);
   check('the DC skill card shows both paragraphs and where it sits', target.details.split('\n\n').every(p => card.includes(p.slice(0, 60))) && /Electronics strand|strand of the spiral/.test(card), card.slice(0, 120));
   await keep('03-dc-skill-card');

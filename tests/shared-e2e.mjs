@@ -51,9 +51,9 @@ try {
   const selectedScene = await ui.labels();
   await ui.click('[data-subject="Physics"]', 250);
   check('toggling a subject off keeps the individual selection and the camera', !(await ui.pressed('Physics')) && await ui.highlighted() === 2 && await ui.selectedLabel() === 'Fractions' && await ui.labels() === selectedScene);
-  await ui.click('#show-proficiency', 250);
+  await ui.evaluate(`(()=>{const p=document.getElementById('view-popover');if(p.hidden)document.getElementById('view-settings').click();})()`); await ui.click('#show-proficiency', 250);
   check('highlights stay on with proficiency colouring', await ui.highlighted() === 2 && await ui.evaluate(`!!document.querySelector('[data-subject="Mathematics"][aria-pressed="true"]')`));
-  await ui.click('#show-proficiency', 250);
+  await ui.evaluate(`(()=>{const p=document.getElementById('view-popover');if(p.hidden)document.getElementById('view-settings').click();})()`); await ui.click('#show-proficiency', 250);
   await ui.click('#clear-highlights', 250);
   check('Clear highlights removes every highlight', await ui.highlighted() === 0 && await ui.evaluate(`![...document.querySelectorAll('[data-subject]')].some(b=>b.getAttribute('aria-pressed')==='true')`));
   await ui.click('[data-subject="Robotics"]', 250);
@@ -63,7 +63,7 @@ try {
 
   // --- Shared answers between a sub-map and the master -------------------------------------------
   check('the master\'s Yes reaches the sub-map, and the sub-map\'s own Yes starts a shared entry', await ui.value('m1') === true && /Applied shared proficiency to 1 skill\./.test(await ui.status()) && /Added 1 answer/.test(await ui.status()));
-  check('a map changed by shared answers is marked as a local draft', /Local draft/.test(await ui.evaluate(`document.getElementById('dirty').textContent`)));
+  check('a map changed by shared answers is marked as not yet exported', await ui.evaluate(`document.getElementById('dirty').dataset.exported`) === 'no');
   for (const [label, expected] of [['Yes', true], ['No', false], ['Clear', null]]) {
     await ui.open(files.sub); await ui.answer('Units', label); await ui.settled();
     await ui.open(files.master);
@@ -134,7 +134,7 @@ try {
   check('"Use this file\'s answers" replaces shared answers with the sub-map file\'s own, after confirming', app.dialogs.at(-1)?.includes('Replace the shared answers') && await ui.value('m2') === true && await ui.value('m1') === null && await ui.value('p1') === null);
 
   // --- Saving, restart, and unchanged map content ---------------------------------------------------------------
-  await ui.click('#save', 800); await ui.waitFor(`/saved to file/i.test(document.getElementById('status').textContent)`);
+  await ui.click('#file-menu', 200); await ui.click('#save', 800); await ui.waitFor(`/saved to file/i.test(document.getElementById('status').textContent)`);
   const saved = JSON.parse(readFileSync(path.join(app.dir, 'saved.json'), 'utf8'));
   const strip = g => JSON.stringify({ ...g, nodes: g.nodes.map(n => ({ ...n, proficiency80: null })) });
   check('Save map writes the effective answers and leaves every other field unchanged', saved.nodes.find(n => n.id === 'm2').proficiency80 === true && strip(saved) === strip(fixtures.master));

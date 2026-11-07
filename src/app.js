@@ -15,6 +15,11 @@ import { atlasFamily, emptyRecord, reconcile, recordAnswers, diffProficiency, va
 import { createRecordStore } from './proficiency-store.js';
 import { createTour } from './tour.js';
 import { undoLimit, trimHistory } from './history.js';
+import { renderHud, learnerState, activeTarget, storeTarget, reviewLeft } from './hud.js';
+import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
+import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from './learner.js';
+import { planLayout, renderPlan } from './plan.js';
+import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -28,7 +33,7 @@ const savePanels=()=>{try{localStorage.setItem(PANELS_CACHE,JSON.stringify(panel
 let spacing=1,spacingFrame=null;
 try{const saved=localStorage.getItem(SPACING_CACHE);if(saved!==null)spacing=spacingValue(saved);}catch{}
 const message=text=>{$('status').textContent=text;};
-try {const saved=localStorage.getItem(CACHE);if(saved){graph=normalize(JSON.parse(saved));dirty=true;message('Recovered local draft. Save map for a portable copy.');}}catch{message('No readable draft found. Open a saved JSON file to recover your work.');}
+try {const saved=localStorage.getItem(CACHE);if(saved){graph=normalize(JSON.parse(saved));dirty=true;}}catch{message('No readable draft found. Open a saved JSON file to recover your work.');}
 const emptyInspector=$('inspector').cloneNode(true);
 try { viewer=createViewer($('canvas'),$('labels'),id=>{selected=id;render();},(id,position)=>{change(next=>{Object.assign(next.nodes.find(n=>n.id===id),{position,layoutMode:'manual'});},'Node moved.');},id=>{selected=id;openDetails();}); }
 catch(error){$('render-error').hidden=false;$('render-error').textContent='3D view could not start. Enable hardware acceleration / WebGL in your graphics settings. The data console remains available. '+error.message;}
@@ -39,7 +44,18 @@ function field(title,input){return el('label',{class:'field'},document.createTex
 let mapChars=0;
 // Added to the status line whenever the draft could not be stored, so the next message never hides it.
 const DRAFT_WARNING=' Draft cache unavailable: save the map to a JSON file now.';
-function cache(){try{const text=JSON.stringify(graph);mapChars=text.length;localStorage.setItem(CACHE,text);return true;}catch{message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
+function cache(){try{const text=JSON.stringify(graph);mapChars=text.length;localStorage.setItem(CACHE,text);draftSaved=true;return true;}catch{draftSaved=false;message('Draft cache unavailable. Save map to a JSON file now.');return false;}}
+// One save indicator: every change is kept at once in the local draft and (answers) in the shared
+// record. "Saving…" while the shared record is being written, "Unsaved changes" if either could not
+// be stored, otherwise "Saved ✓". Exporting a portable file is separate, under File.
+let draftSaved=true;
+function renderSaveState(){
+  const failed=!draftSaved||sync==='failed'||sync==='unreadable',saving=sync==='saving';
+  const state=$('dirty');state.textContent=failed?'Unsaved changes':saving?'Saving…':'Saved ✓';
+  state.className=`save-state ${failed?'failed':saving?'saving':'saved'}`;
+  state.dataset.exported=dirty?'no':'yes';
+  state.title=failed?'A change could not be stored on this computer. Use File ▸ Save map to keep a copy now.':`Kept on this computer.${dirty?' Not exported since your last change: File ▸ Save map writes a portable copy.':' Matches the last exported file.'}`;
+}
 const safeStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{return null;}},setItem:(key,value)=>localStorage.setItem(key,value)};
 
 // Shared offline proficiency: one record per atlas family, stored outside map files. An opened map
@@ -47,7 +63,7 @@ const safeStorage={getItem:key=>{try{return localStorage.getItem(key);}catch{ret
 // commit() (console, guided review, edit mode, Undo/Redo). Nothing else in a map is shared.
 const records=createRecordStore(window.desktop?.proficiency,safeStorage);
 let family=null,record=null,recordError=null,fileAnswers=null,writes=Promise.resolve(),sync='none',syncDetail='';
-function setSync(state,detail=''){sync=state;syncDetail=detail;renderShared();}
+function setSync(state,detail=''){sync=state;syncDetail=detail;renderShared();renderSaveState();}
 function persistRecord(){
   if(!record)return Promise.resolve(false);
   const snapshot=record;setSync('saving');
@@ -95,31 +111,115 @@ function commit(mutator,status,source='edit',{share=true}={}){
 }
 function replace(next,status){
   listActivation.reset();closeDetails();
-  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
+  const normalized=normalize(next);history.push(clone(graph));trimHistory(history,undoLimit(mapChars));redo=[];graph=normalized;selected=null;dirty=true;subjects=pruneSubjects(subjects,graph);pathTarget=null;planOpen=false;$('plan-view').hidden=true;const cached=cache();render();viewer?.highlight(subjects);viewer?.fit();message(`${status}${cached?'':DRAFT_WARNING}`);
 }
 function render(){
   if(!graph.nodes.some(n=>n.id===selected))selected=null;
-  $('counts').textContent=`${graph.nodes.length} subjects / ${graph.edges.length} connections`;
-  $('dirty').textContent=dirty?'Local draft · save to file':'Saved to file';
-  $('map-name').textContent=graph.title||'Untitled map';
+  $('counts').textContent=`${graph.nodes.length.toLocaleString('en')} skills · ${graph.edges.length.toLocaleString('en')} links`;
+  renderSaveState();
+  $('map-name').textContent=graph.title||'Untitled map';$('header-map').textContent=graph.title||'Untitled map';
+  document.querySelector('.layout-tools').hidden=!editing;
+  const target=activeTarget(graph,safeStorage);$('path-mode').disabled=!target;$('path-mode').setAttribute('aria-pressed',String(!!pathTarget));$('path-mode').textContent=pathTarget?'Exit path':'Path mode';
   $('layout-help').textContent=isHelixMap(graph)?HELIX_LAYOUT_HELP:SPIRAL_LAYOUT_HELP;
-  $('layout-summary').textContent=isHelixMap(graph)?'Upward: helix level · Around: course · Proficiency is separate':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Connections above.';
-  viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
+  $('layout-summary').title=isHelixMap(graph)?'Height is the helix level: 1 + 3 × the longest chain of prerequisites below a skill. It shows how much rests underneath, not how hard the skill is, and it is separate from your proficiency.':'';
+  $('layout-summary').textContent=isHelixMap(graph)?'Height: helix level (longest prerequisite chain, not difficulty) · Around: course':graph.nodes.some(n=>n.layoutMode==='vortex')?'Upward: reference level · Around: domain · Proficiency is separate':'Foundations below. Links above.';
+  viewer?.path(pathState()?.remaining??null,false);viewer?.setGraph(graph,selected);viewer?.setEdit(editing);
+  renderLearner();renderPathCard();if(planOpen)renderPlanView();
   renderLegend();renderList();inspect();renderShared();if($('details-dialog').open)fillDetails();if($('chain-dialog').open)fillChain();document.querySelectorAll('[data-edit]').forEach(button=>button.disabled=!editing);
   $('undo').disabled=!editing||!history.length;$('redo').disabled=!editing||!redo.length;
 }
+// The learner HUD and the frontier glow, from the map's own answers and prerequisite links. Both are
+// recomputed only when the map version or the target changes (hud.js caches by map object).
+function learner(){return learnerState(graph,activeTarget(graph,safeStorage));}
+function flyTo(id){selected=id;render();viewer?.fly(id);}
+function renderLearner(){
+  const state=learner();
+  renderHud($('hud'),{graph,state,palette:palette(),reviewCount:reviewLeft(safeStorage,graph),el,actions:{
+    setTarget:id=>{storeTarget(safeStorage,graph,id);render();message(`Working toward ${graph.nodes.find(n=>n.id===id)?.name}.`);},
+    select:flyTo,openReview:()=>review.open(),pathTo:id=>setPath(id)}});
+  viewer?.frontier(state.frontier);viewer?.target(state.target);viewer?.keep(state.next.slice(0,8).map(x=>x.node.id));
+}
+// --- Path mode ----------------------------------------------------------------------------------
+// "Path to…" any skill or milestone: the remaining path stays lit on the map, everything else dims,
+// and a card lists what is left in a valid study order. Display state only; Esc or Exit leaves it.
+let pathTarget=null,planOpen=false;
+const pathCache=new WeakMap();
+function pathState(){
+  if(!pathTarget||!graph.nodes.some(n=>n.id===pathTarget))return null;
+  let byTarget=pathCache.get(graph);if(!byTarget)pathCache.set(graph,byTarget=new Map());
+  if(!byTarget.has(pathTarget)){
+    const index=learner().index,remaining=remainingPath(graph,pathTarget,index);
+    byTarget.set(pathTarget,{target:index.byId.get(pathTarget),remaining,order:studyOrder(graph,remaining,index),hours:totalHours(graph,remaining,index),
+      courses:new Set([...remaining].map(id=>{const n=index.byId.get(id);return n.courseCode??n.domain;})).size});
+  }
+  return byTarget.get(pathTarget);
+}
+function setPath(id){
+  pathTarget=id;if(!id)closePlan();render();
+  const p=pathState();if(p&&p.remaining.size)viewer?.fit(false,new Set([...p.remaining,p.target.id]));
+  message(p?`Path mode: ${p.remaining.size} skills left to reach ${p.target.name}. Esc leaves path mode.`:'Path mode off.');
+}
+function renderPathCard(){
+  const card=$('path-card'),p=pathState();card.replaceChildren();card.hidden=!p;$('hud').classList.toggle('path-on',!!p);
+  if(!p)return;
+  const left=p.remaining.size;
+  card.append(el('div',{class:'hud-label',text:'Path mode'}),
+    el('p',{class:'path-summary',id:'path-summary',text:left?`To reach ${p.target.name}: ${left.toLocaleString('en')} skill${left===1?'':'s'} left · ${formatHours(p.hours)} · ${p.courses} course${p.courses===1?'':'s'}`:`${p.target.name} is already marked proficient.`}),
+    el('div',{class:'button-row'},el('button',{id:'plan-toggle',text:planOpen?'Hide 2D plan':'2D plan',ariaPressed:String(planOpen),disabled:!left,onclick:()=>planOpen?closePlan():openPlan()}),el('button',{id:'exit-path',text:'Exit path (Esc)',onclick:()=>setPath(null)})));
+  if(!left)return;
+  const steps=el('ol',{class:'path-steps',id:'path-steps'}),shown=p.order.slice(0,150),front=learner().frontier;
+  const byId=learner().index.byId;
+  for(const id of shown){const n=byId.get(id),b=el('button',{class:'path-step'+(id===selected?' selected':''),title:front.has(id)?`${n.name} · ready to study`:n.name,onclick:()=>flyTo(id)},el('span',{class:'hud-next-name',text:n.name}),el('span',{class:'hud-hours',text:formatHours(effortHours(graph,n))}));b.dataset.id=id;steps.append(el('li',{class:front.has(id)?'ready':''},b));}
+  card.append(el('div',{class:'hud-label',text:'Study order'}),steps);
+  if(p.order.length>shown.length)card.append(el('p',{class:'hud-detail',text:`…and ${(p.order.length-shown.length).toLocaleString('en')} more. The 2D plan shows them all.`}));
+}
+// The 2D plan: the current path, or the isolated course or family when there is no path.
+function planSet(){
+  const p=pathState();if(p)return {ids:p.remaining,title:`Path to ${p.target.name} · ${p.remaining.size} skills, columns = prerequisite depth, rows = course`};
+  if(isolation){const codes=isolation.kind==='family'?Object.keys(FAMILIES.find(f=>f.id===isolation.id).courses):[isolation.id];const ids=new Set(graph.nodes.filter(n=>codes.includes(n.courseCode)).map(n=>n.id));return {ids,title:`${isolation.kind==='family'?FAMILIES.find(f=>f.id===isolation.id).name:isolation.id} · ${ids.size} skills`};}
+  return null;
+}
+function openPlan(){if(!planSet())return;planOpen=true;renderPlanView();renderPathCard();$('plan-close').focus();}
+function closePlan(){if(!planOpen)return;planOpen=false;$('plan-view').hidden=true;renderPathCard();}
+function renderPlanView(){
+  const set=planSet();$('plan-view').hidden=!planOpen||!set;if(!planOpen||!set)return;
+  const index=learner().index,pal=palette(),front=learner().frontier;
+  $('plan-title').textContent=set.title;
+  renderPlan($('plan-body'),planLayout(graph,set.ids,index,helixCourses(graph).map(([code])=>code)),{title:set.title,frontier:front,selected,
+    colorOf:n=>nodeColor(n,proficiencyOn,pal),onSelect:id=>{selected=id;render();viewer?.fly(id);}});
+}
+$('plan-close').onclick=closePlan;
 function renderList(){
   const scrollTop=$('node-list').scrollTop;
   const query=$('search').value.trim().toLowerCase();$('node-list').replaceChildren();
-  const nodes=graph.nodes.filter(n=>n.name.toLowerCase().includes(query)).sort((a,b)=>a.name.localeCompare(b.name));
-  for(const n of nodes){const dot=el('span',{class:'dot'});dot.style.background=nodeColor(n,proficiencyOn,palette());$('node-list').append(el('button',{class:'node-item'+(selected===n.id?' selected':''),onclick:event=>{const action=listActivation.click(n.id,event.clientX,event.clientY,performance.now());selected=n.id;render();viewer?.focus(n.id);if(action==='open'&&!editing)openDetails();}},dot,document.createTextNode(n.name)));}
-  if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No subjects found.'}));
+  // Ready to study first, then recently answered, then lowest level (panel.js); or A–Z.
+  const state=learner(),pal=palette();
+  const nodes=listOrder(graph.nodes.filter(n=>n.name.toLowerCase().includes(query)),{frontier:state.frontier,recent:recentAnswers(record,graph),mode:listSort});
+  for(const n of nodes){
+    const dot=el('span',{class:'dot'+(state.frontier.has(n.id)?' ready':'')});dot.style.background=nodeColor(n,proficiencyOn,pal);
+    const item=el('button',{class:'node-item'+(selected===n.id?' selected':''),title:state.frontier.has(n.id)?`${n.name} · ready to study`:n.name,onclick:event=>{const action=listActivation.click(n.id,event.clientX,event.clientY,performance.now());selected=n.id;render();viewer?.focus(n.id);if(action==='open'&&!editing)openDetails();}},dot,document.createTextNode(n.name));
+    item.dataset.name=n.name;$('node-list').append(item);
+  }
+  if(!nodes.length)$('node-list').append(el('p',{class:'caption',text:'No skills found.'}));
   $('node-list').scrollTop=scrollTop;
+}
+// Facts about a selected skill as chips: course, level, stage, tier, effort and its state.
+function skillChips(n,state){
+  const pal=palette(),chips=el('div',{class:'skill-chips'});
+  const chip=(text,title,color)=>{const c=el('span',{class:'chip',text,title});if(color)c.style.setProperty('--chip',color);chips.append(c);};
+  if(n.courseCode)chip(n.course?`${n.courseCode} · ${n.course}`:n.courseCode,'Course',pal?.[n.courseCode]);else chip(n.domain,'Domain',DOMAINS[n.domain]);
+  if(isHelixMap(graph)&&n.helixLevel!=null)chip(`Helix level ${n.helixLevel}/${graph.layout.topLevel}`,'Height on the helix: 1 + 3 × the longest prerequisite chain below this skill');
+  else if(n.skillLevel!=null)chip(`Level ${n.skillLevel}/100`,LEVEL_NOTE);
+  if(n.buildStage!=null){const names=graph.metadata?.humanoidHelixImport?.buildStages||{};chip(`Stage ${n.buildStage}${names[n.buildStage]?` · ${names[n.buildStage]}`:''}`,'Build stage');}
+  const tier=tierOf(graph,n);if(tier)chip(tier,'Level of the skill on the path');
+  chip(formatHours(effortHours(graph,n)),'Rough study effort: an estimate from the skill\'s tier, doubled for hands-on practice');
+  if(n.proficiency80===true)chip('✓ Proficient','Your own answer',PROFICIENCY_COLORS.yes);else if(state.frontier.has(n.id))chip('Ready to study','Every prerequisite is marked proficient',FRONTIER_GLOW);
+  return chips;
 }
 function inspect(){
   const panel=$('inspector');panel.replaceChildren();const n=graph.nodes.find(n=>n.id===selected);
-  if(!n){panel.append(...[...emptyInspector.childNodes].map(n=>n.cloneNode(true)));return;}
-  const cardToggle=el('button',{id:'inspector-toggle',text:panels.card?'▾':'▸',title:panels.card?'Collapse this subject card':'Expand this subject card',ariaLabel:panels.card?'Collapse this subject card':'Expand this subject card',onclick:()=>{panels.card=!panels.card;savePanels();inspect();}});
+  if(!n){panel.classList.remove('collapsed');renderToday(panel,{graph,state:learner(),record,reviewCount:reviewLeft(safeStorage,graph),el,palette:palette(),actions:{select:flyTo,openReview:()=>review.open()}});return;}
+  const cardToggle=el('button',{id:'inspector-toggle',text:panels.card?'▾':'▸',title:panels.card?'Collapse this skill card':'Expand this skill card',ariaLabel:panels.card?'Collapse this skill card':'Expand this skill card',onclick:()=>{panels.card=!panels.card;savePanels();inspect();}});
   cardToggle.setAttribute('aria-expanded',String(panels.card));
   const body=el('div',{class:'inspector-body'});
   panel.classList.toggle('collapsed',!panels.card);
@@ -127,8 +227,15 @@ function inspect(){
   if(!editing){
     // A map that records one says whether this subject has an authored lesson, so the reader knows
     // what opening the card will show. It describes the content, never the reader's proficiency.
-    const status=contentStatusLine(n);
-    body.append(...[el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),el('button',{text:'Read subject details',onclick:openDetails}),proficiencyControls(n)].filter(Boolean));
+    const status=contentStatusLine(n),state=learner(),taught=hasLesson(n);
+    body.append(...[skillChips(n,state),el('p',{text:n.description}),status&&el('p',{class:'lesson-status',text:status}),
+      el('div',{class:'button-row skill-actions'},
+        el('button',{id:'open-details',text:taught?'Open lesson':'Read skill details',title:taught?'Open the lesson card':'Open the full description and connections',onclick:openDetails}),
+        el('button',{id:'path-to-selected',text:'Path to this',title:`Light up everything left to learn before ${n.name}`,onclick:()=>setPath(n.id)}),
+        el('button',{id:'fly-to-selected',text:'Fly to',title:`Fly the camera to ${n.name}`,onclick:()=>viewer?.fly(n.id)})),
+      el('h4',{class:'mini-title',text:'Prerequisites and what it unlocks'}),
+      miniGraph(n,{index:state.index,frontier:state.frontier,onSelect:flyTo}),
+      proficiencyControls(n)].filter(Boolean));
     return;
   }
   const skillLevel=el('input',{type:'number',min:1,max:100,step:1,value:n.skillLevel??'',id:'node-level'});
@@ -141,24 +248,29 @@ function inspect(){
   const proficiency=el('select',{id:'node-proficiency'},el('option',{value:'unset',text:'Not marked',selected:n.proficiency80===null}),el('option',{value:'yes',text:'Yes',selected:n.proficiency80===true}),el('option',{value:'no',text:'No',selected:n.proficiency80===false}));
   const coords=n.position.map((v,i)=>el('input',{type:'number',value:Math.round(v*100)/100,step:'any',min:-100000,max:100000,disabled:!editing,id:['node-x','node-y','node-z'][i]}));
   const pinned=el('input',{type:'checkbox',checked:n.pinned,disabled:!editing,id:'node-pinned'});
-  body.append(field('Subject',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
-  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Subject updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its connections? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Subject deleted.');}})));
-  body.append(el('h3',{text:'Connections'}));
+  body.append(field('Skill',name),el('div',{class:'node-id',text:`ID · ${n.id}`}),field('Domain',domain),field('Reference level · 1–100 (blank = unassigned)',skillLevel),el('p',{class:'edge-note',text:'A reference rank, not proficiency. Apply saves the number; Arrange level spiral updates height and raises levels where prerequisites require it.'}),field('Short description',description),field('Detailed description · separate paragraphs with a blank line',details),field('Placement note · optional author explanation',note),field('Console icon',icon),field('Self-reported proficiency of at least 80%',proficiency),el('div',{class:'coords'},...coords.map((c,i)=>field(['X','Y · height','Z'][i],c))),el('p',{class:'edge-note',text:positionExplanation(graph,n)}),el('label',{},pinned,document.createTextNode(' Pin position during arrangement')));
+  body.append(el('div',{class:'button-row'},el('button',{text:'Apply changes',disabled:!editing,id:'apply-node',onclick:()=>change(next=>{const target=next.nodes.find(v=>v.id===n.id);if(coords.some(c=>!c.value.trim()))throw Error('Enter all three coordinates.');const position=editedPosition(target.position,coords.map(c=>c.value));if(position.some((v,i)=>v!==target.position[i]))target.layoutMode='manual';Object.assign(target,{skillLevel:skillLevel.value.trim()===''?null:Number(skillLevel.value),details:details.value,placementNote:note.value,icon:icon.value,proficiency80:proficiency.value==='unset'?null:proficiency.value==='yes',name:name.value.trim(),domain:domain.value,description:description.value,pinned:pinned.checked,position});},'Skill updated.')}),el('button',{text:'Delete',class:'danger',disabled:!editing,id:'delete-node',onclick:()=>{if(confirm(`Delete ${n.name} and its links? Undo is available.`))change(next=>Object.assign(next,removeNode(next,n.id)),'Skill deleted.');}})));
+  body.append(el('h3',{text:'Links'}));
   const links=graph.edges.filter(e=>e.source===n.id||e.target===n.id);
   for(const edge of links){
     const source=graph.nodes.find(x=>x.id===edge.source).name,target=graph.nodes.find(x=>x.id===edge.target).name;
     const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to';
-    body.append(el('div',{class:'edge-item'},el('span',{text:`${source} ${verb} ${target}`}),el('button',{text:'×',title:'Remove connection',ariaLabel:'Remove connection',disabled:!editing,onclick:()=>change(next=>{next.edges=next.edges.filter(e=>!(e.source===edge.source&&e.target===edge.target&&e.type===edge.type));},'Connection removed.')})));
+    body.append(el('div',{class:'edge-item'},el('span',{text:`${source} ${verb} ${target}`}),el('button',{text:'×',title:'Remove link',ariaLabel:'Remove link',disabled:!editing,onclick:()=>change(next=>{next.edges=next.edges.filter(e=>!(e.source===edge.source&&e.target===edge.target&&e.type===edge.type));},'Link removed.')})));
   }
-  if(!links.length)body.append(el('p',{class:'edge-note',text:'No connections yet.'}));
+  if(!links.length)body.append(el('p',{class:'edge-note',text:'No links yet.'}));
   if(!editing)return;
   const type=el('select',{id:'edge-type'},...options(TYPES,'supports'));
-  const direction=el('select',{id:'edge-direction'},el('option',{value:'out',text:'This subject → other subject'}),el('option',{value:'in',text:'Other subject → this subject'}));
+  const direction=el('select',{id:'edge-direction'},el('option',{value:'out',text:'This skill → other skill'}),el('option',{value:'in',text:'Other skill → this skill'}));
   const target=el('select',{id:'edge-target'},...graph.nodes.filter(x=>x.id!==n.id).map(x=>el('option',{value:x.id,text:x.name})));
-  body.append(el('h3',{text:'Add a connection'}),field('Relationship',type),field('Direction',direction),field('Other subject',target),el('p',{class:'edge-note',text:'Prerequisite: source must come before target. Supports: directional contribution. Related: no learning order.'}),el('button',{text:'Connect subjects',id:'connect',disabled:graph.nodes.length<2,onclick:()=>change(next=>{next.edges.push({source:direction.value==='out'?n.id:target.value,target:direction.value==='out'?target.value:n.id,type:type.value});},'Connection added.')}));
+  body.append(el('h3',{text:'Add a link'}),field('Relationship',type),field('Direction',direction),field('Other skill',target),el('p',{class:'edge-note',text:'Prerequisite: source must come before target. Supports: directional contribution. Related: no learning order.'}),el('button',{text:'Link skills',id:'connect',disabled:graph.nodes.length<2,onclick:()=>change(next=>{next.edges.push({source:direction.value==='out'?n.id:target.value,target:direction.value==='out'?target.value:n.id,type:type.value});},'Link added.')}));
 }
-$('edit-mode').onchange=e=>{listActivation.reset();closeDetails();editing=e.target.checked;render();message(editing?'Edit mode · Apply changes commits console edits.':'View mode · Select a subject to inspect.');};
+$('edit-mode').onchange=e=>{listActivation.reset();closeDetails();editing=e.target.checked;render();message(editing?'Edit mode · Apply changes commits console edits. Layout tools are at the end of the console.':'View mode.');};
 $('search').oninput=renderList;
+// The skill list's order: ready to study first (default) or A–Z, remembered on this computer.
+const LIST_SORT='skill-solar-system-list-sort';
+let listSort='suggested';try{listSort=localStorage.getItem(LIST_SORT)==='az'?'az':'suggested';}catch{}
+$('list-sort').value=listSort;
+$('list-sort').onchange=e=>{listSort=e.target.value==='az'?'az':'suggested';try{localStorage.setItem(LIST_SORT,listSort);}catch{}renderList();};
 // Find skill sits in the map tools, so searching still works when the console is hidden. It selects
 // and travels to a skill exactly as the console list does, and changes nothing in the map.
 let matches=[],activeMatch=-1;
@@ -198,6 +310,24 @@ function applyToolsPanel(){
 }
 $('view-tools-toggle').onclick=()=>{panels.tools=!panels.tools;savePanels();if(!panels.tools)closeFind();applyToolsPanel();};
 applyToolsPanel();
+// Two small menus: File (open, export) in the header and View (display settings) in the map tools.
+// Each opens on its button, closes on a second click, on Esc or on a click elsewhere, and returns
+// focus to its button when closed from the keyboard.
+const MENUS=[['file-menu','file-menu-items'],['view-settings','view-popover']];
+function setMenu(button,panel,open){$(panel).hidden=!open;$(button).setAttribute('aria-expanded',String(open));}
+for(const [button,panel] of MENUS){
+  $(button).onclick=e=>{e.stopPropagation();const open=$(panel).hidden;for(const [b,p] of MENUS)setMenu(b,p,false);setMenu(button,panel,open);if(open)$(panel).querySelector('button,input')?.focus();};
+  $(panel).addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();setMenu(button,panel,false);$(button).focus();}});
+}
+document.addEventListener('click',e=>{for(const [button,panel] of MENUS)if(!$(panel).hidden&&!$(panel).contains(e.target)&&e.target!==$(button))setMenu(button,panel,false);});
+$('load').addEventListener('click',()=>setMenu('file-menu','file-menu-items',false));$('save').addEventListener('click',()=>setMenu('file-menu','file-menu-items',false));
+// Path mode from the toolbar: the path to the active target, or back out of path mode.
+$('path-mode').onclick=()=>{if(pathTarget)setPath(null);else{const target=activeTarget(graph,safeStorage);if(target)setPath(target);}};
+// Grouping distant skills into subject clusters (level of detail), remembered on this computer.
+const GROUPS_CACHE='skill-solar-system-groups';
+try{if(localStorage.getItem(GROUPS_CACHE)==='off')$('show-groups').checked=false;}catch{}
+viewer?.grouping($('show-groups').checked);
+$('show-groups').onchange=e=>{viewer?.grouping(e.target.checked);try{localStorage.setItem(GROUPS_CACHE,e.target.checked?'on':'off');}catch{}};
 $('console-toggle').onclick=()=>{document.body.classList.toggle('console-hidden');$('console-toggle').setAttribute('aria-expanded',String(!document.body.classList.contains('console-hidden')));};
 function setSpacing(value){
   spacing=spacingValue(value);
@@ -212,7 +342,7 @@ $('reset-spacing').onclick=()=>{setSpacing(1);try{localStorage.setItem(SPACING_C
 $('home').onclick=()=>viewer?.fit();$('front').onclick=()=>viewer?.fit(true);
 $('show-proficiency').onchange=e=>{proficiencyOn=e.target.checked;viewer?.proficiency(proficiencyOn);renderLegend();renderList();};
 $('show-labels').onchange=e=>viewer?.labels(e.target.checked);$('selected-connections').onchange=e=>viewer?.selectedConnections(e.target.checked);
-$('add-node').onclick=()=>{const id=crypto.randomUUID();const base=graph.nodes.find(n=>n.id===selected)?.position||[0,0,0];change(next=>{next.nodes.push({id,name:'New subject',domain:'Robotics',description:'',details:'',placementNote:'',proficiency80:null,icon:'robot',layoutMode:'manual',position:[base[0]+40,base[1]+30,base[2]+30],pinned:false});},'New subject added. Edit its fields and apply changes.');selected=id;$('search').value='';render();$('node-name')?.focus();};
+$('add-node').onclick=()=>{const id=crypto.randomUUID();const base=graph.nodes.find(n=>n.id===selected)?.position||[0,0,0];change(next=>{next.nodes.push({id,name:'New skill',domain:'Robotics',description:'',details:'',placementNote:'',proficiency80:null,icon:'robot',layoutMode:'manual',position:[base[0]+40,base[1]+30,base[2]+30],pinned:false});},'New skill added. Edit its fields and apply changes.');selected=id;$('search').value='';render();$('node-name')?.focus();};
 // Undo and Redo restore whole map versions. Within the same map, reversed answers are written to
 // the shared record, so a reversed answer cannot return when a related map is opened. Crossing a
 // map change (for example undoing Open map) re-applies the shared answers to the restored map.
@@ -236,8 +366,8 @@ const helixArrange=()=>{if(confirm('Arrange the helix again? Height comes from e
 $('vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Arrange an upward spiral? Unassigned levels are estimated from prerequisites; existing levels are raised if needed to stay above their prerequisites. Pinned positions remain fixed. Undo restores the map.')){change(next=>Object.assign(next,arrangeVortex(next)),'Spiral arranged. Reference levels reconciled; pinned positions retained.');viewer?.fit();}};
 $('recalculate-vortex').onclick=()=>{if(isHelixMap(graph))return helixArrange();if(confirm('Recalculate ALL reference levels from the recorded prerequisite graph and arrange a spiral? This replaces edited levels but keeps proficiency and pinned positions. Undo is available.')){change(next=>Object.assign(next,arrangeVortex(next,{recalculate:true})),'Reference levels recalculated and spiral arranged.');viewer?.fit();}};
 $('arrange').onclick=()=>{if(confirm('Arrange unpinned nodes using strict prerequisites only? Supports links do not affect height. Undo restores your layout.'))change(next=>Object.assign(next,arrange(next)),'Dependency layout applied. Pinned nodes kept their positions.');};
-$('blank').onclick=()=>{if(editing&&confirm('Start an empty map? Save your current map first if you need a separate copy. Undo is available.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
-$('reset').onclick=()=>{if(editing&&confirm('Restore the starter map? Undo is available.')){replace(starter,'Starter restored.');loadRecord(graph);}};
+$('blank').onclick=()=>{if(editing&&confirm('Replace the whole current map with an empty map? Every skill and link disappears from view; your answers stay in the shared record. Undo brings the map back, and File ▸ Save map can export it first.')){replace({schemaVersion:1,title:'HelixSkill',nodes:[],edges:[]},'Empty map created.');loadRecord(graph);}};
+$('reset').onclick=()=>{if(editing&&confirm('Replace the whole current map with the small starter map? Undo brings the current map back, and File ▸ Save map can export it first.')){replace(starter,'Starter restored.');loadRecord(graph);}};
 $('load').onclick=()=>{if(!dirty||confirm('Open another map? Current changes are cached only until replacement. Save a file first if needed.'))$('file').click();};
 // Opening a map, from a file or from Your maps: validate it, then apply shared answers before anything (counts, review) reads it.
 async function openMap(name,size,readText){try{if(size>LIMITS.mapBytes)throw Error(`Map files must be smaller than ${LIMITS.mapBytes/1_000_000} MB.`);const parsed=validate(JSON.parse(await readText()));const answers=new Map(parsed.nodes.map(n=>[n.id,n.proficiency80??null]));const shared=await applyShared(normalize(parsed));fileAnswers={title:parsed.title||'',family:atlasFamily(parsed),answers};replace(shared.graph,`Opened ${name}.${shared.note}`);dirty=shared.changed>0;render();}catch(error){message(`Could not open map: ${error.message}`);}}
@@ -265,10 +395,13 @@ function panStep(time){
 }
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();$('save').click();return;}
+  // Esc leaves the 2D plan, then path mode, even from a focused button; text fields and dialogs keep their own Esc.
+  if(e.key==='Escape'&&(planOpen||pathTarget)&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&!document.querySelector('dialog[open]')){e.preventDefault();if(planOpen)closePlan();else setPath(null);return;}
   if(typingOrReading())return;
   const direction=panDirection(e.key);
   if(direction&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();heldKeys.set(e.key.toLowerCase(),direction);if(panFrame===null){panClock=performance.now();panFrame=requestAnimationFrame(panStep);}}
-  if(e.key==='Escape'){selected=null;render();viewer?.fit();}
+  // Esc steps back one level: the 2D plan, then path mode, then the selection.
+  if(e.key==='Escape'){if(planOpen){closePlan();return;}if(pathTarget){setPath(null);return;}selected=null;render();viewer?.fit();}
 });
 document.addEventListener('keyup',e=>heldKeys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',stopPanning);
@@ -288,43 +421,78 @@ function palette(){return isHelixMap(graph)?courseColors(helixCourses(graph)):nu
 // change the map, the selection or any answer. They reset when another map is opened.
 let helixFilters={},helixFilterMap=null;
 function setHelixFilter(key,value){helixFilters={...helixFilters,[key]:value};viewer?.filters(helixFilters);renderLegend();}
+// Legend isolation: a course or a whole family stays at full strength and every other skill fades.
+// Display state only, like the filters; a second click on the same row clears it.
+let isolation=null;
+function setIsolation(next){
+  isolation=next&&isolation&&next.kind===isolation.kind&&next.id===isolation.id?null:next;
+  const codes=!isolation?null:isolation.kind==='family'?Object.keys(FAMILIES.find(f=>f.id===isolation.id).courses):[isolation.id];
+  viewer?.isolate(codes&&new Set(codes));renderLegend();
+  const focus=isolation?$('legend').querySelector(`[data-isolate="${isolation.kind}:${isolation.id}"]`):null;focus?.focus();
+}
 function renderHelixLegend(legend){
-  if(helixFilterMap!==graph.title){helixFilters={};helixFilterMap=graph.title;viewer?.filters(helixFilters);}
+  if(helixFilterMap!==graph.title){helixFilters={};helixFilterMap=graph.title;viewer?.filters(helixFilters);isolation=null;viewer?.isolate(null);}
   const courses=helixCourses(graph),colors=courseColors(courses),count=test=>graph.nodes.filter(test).length;
+  // Courses by family: the family header isolates the family, a course row isolates the course. Each
+  // row shows its skill count and the share you have marked proficient (your own answers).
+  const stats=new Map(courses.map(([code])=>[code,{total:0,yes:0}]));
+  for(const n of graph.nodes){const s=stats.get(n.courseCode);if(s){s.total++;if(n.proficiency80===true)s.yes++;}}
+  const pct=s=>s.total?Math.round(100*s.yes/s.total):0;
+  const isolateButton=(kind,id,label,s,swatch,extra='')=>{
+    const on=isolation?.kind===kind&&isolation?.id===id,dot=el('span',{class:kind==='family'?'swatch':'dot'});dot.style.background=swatch;
+    const b=el('button',{class:`legend-item isolate ${kind}${on?' active':''}${extra}`,title:on?`Show every course again`:`Show only ${label}; other skills fade`,onclick:()=>setIsolation({kind,id})},dot,el('span',{class:'legend-name',text:label}),el('span',{class:'legend-count',text:`${s.total} · ${pct(s)}%`}));
+    b.dataset.isolate=`${kind}:${id}`;b.setAttribute('aria-pressed',String(on));return b;
+  };
+  legend.append(el('div',{class:'legend-heading',text:'Courses · click to isolate · skills · % proficient'}));
+  const names=Object.fromEntries(courses);
+  for(const family of FAMILIES){
+    const codes=Object.keys(family.courses).filter(code=>code in names);if(!codes.length)continue;
+    const total=codes.reduce((t,c)=>({total:t.total+stats.get(c).total,yes:t.yes+stats.get(c).yes}),{total:0,yes:0});
+    legend.append(isolateButton('family',family.id,family.name,total,`linear-gradient(90deg,${codes.map(c=>colors[c]).join(',')})`));
+    for(const code of codes)legend.append(isolateButton('course',code,`${code} · ${names[code]}`,stats.get(code),colors[code],' course'));
+  }
+  const other=courses.filter(([code])=>!familyOf(code));
+  for(const [code,name] of other)legend.append(isolateButton('course',code,`${code} · ${name}`,stats.get(code),colors[code],' course'));
+  if(isolation)legend.append(el('button',{class:'legend-clear',id:'clear-isolation',text:'Show all courses',onclick:()=>setIsolation(null)}));
+  legend.append(el('div',{class:'edge-note',text:'Octahedron = milestone (on the axis) · small sphere = checkpoint'}));
+  // The filters stay available, folded away under the key.
+  const filters=el('details',{class:'legend-filters',open:activeFilters(helixFilters).length>0},el('summary',{text:'Filters · dim other skills'}));
+  legend.append(filters);legend=filters;
   const select=(key,label,choices)=>{const s=el('select',{id:`helix-filter-${key}`,ariaLabel:label,title:label,onchange:e=>setHelixFilter(key,e.target.value)},el('option',{value:'',text:`Any ${label.toLowerCase()}`}),...choices.map(([value,text])=>el('option',{value,text})));s.value=helixFilters[key]||'';return el('label',{class:'helix-filter'},document.createTextNode(label),s);};
-  legend.append(el('div',{class:'legend-heading',text:'Filter · dims other skills'}));
   legend.append(select('course','Course',courses.map(([code,name])=>[code,`${name} (${count(n=>n.courseCode===code)})`])));
   const stages=[...new Set(graph.nodes.map(n=>n.buildStage).filter(v=>v!=null))].sort((a,b)=>a-b),stageNames=graph.metadata?.humanoidHelixImport?.buildStages||{};
   legend.append(select('stage','Build stage',[...stages.map(s=>[String(s),`${s} ${stageNames[s]||''}`.trim()]),['none','No stage (enrichment)']]));
   legend.append(select('path','On humanoid path',[['true','Yes'],['false','No']]));
   const tiers=[...new Set(graph.nodes.map(n=>tierOf(graph,n)).filter(Boolean))];
   legend.append(select('tier','Level',tiers.map(tier=>[tier,`${tier} (${count(n=>tierOf(graph,n)===tier)})`])));
+  helixExtras=legend;
   if(activeFilters(helixFilters).length){
     const shown=count(n=>matchesHelixFilters(graph,n,helixFilters));
     legend.append(el('div',{class:'edge-note',id:'helix-filter-count',text:`Showing ${shown} of ${graph.nodes.length} skills`}),el('button',{class:'legend-clear',id:'clear-helix-filters',text:'Clear filters',onclick:()=>{helixFilters={};viewer?.filters(helixFilters);renderLegend();}}));
   }
-  legend.append(el('div',{class:'legend-heading',text:'Sphere colour · course'}));
-  for(const [code,name] of courses){const dot=el('span',{class:'dot'});dot.style.background=colors[code];legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(`${code} · ${name}`)));}
-  legend.append(el('div',{class:'edge-note',text:'Octahedron = milestone (on the axis) · small sphere = checkpoint'}));
 }
+let helixExtras=null;
 function renderLegend(){
-  const legend=$('legend');legend.replaceChildren();
+  let legend=$('legend');legend.replaceChildren();
   legend.classList.toggle('helix-legend',isHelixMap(graph));
-  if(isHelixMap(graph))renderHelixLegend(legend);
-  const counts=domainCounts(graph);
-  legend.append(el('div',{class:'legend-heading',text:'Subjects · click to highlight'}));
+  helixExtras=null;if(isHelixMap(graph))renderHelixLegend(legend);
+  // On helix maps the six-subject highlight sits with the filters, under the course key.
+  const counts=domainCounts(graph),key=legend;legend=helixExtras||legend;
+  legend.append(el('div',{class:'legend-heading',text:'Domains · click to highlight'}));
   for(const [name,color]of Object.entries(DOMAINS)){
     const on=subjects.has(name),dot=el('span',{class:'dot'});dot.style.background=color;
     const button=el('button',{class:'legend-item subject'+(on?' active':''),disabled:!counts[name],title:counts[name]?`${on?'Remove the highlight from':'Highlight'} all ${counts[name]} ${name} skills`:`No ${name} skills in this map`,onclick:()=>setSubjects(toggleSubject(subjects,name))},dot,el('span',{text:name}),el('span',{class:'legend-count',text:String(counts[name])}));
     button.dataset.subject=name;button.setAttribute('aria-pressed',String(on));legend.append(button);
   }
   if(subjects.size)legend.append(el('button',{class:'legend-clear',id:'clear-highlights',text:'Clear highlights',onclick:()=>setSubjects(new Set())}));
+  legend=key;
   if(proficiencyOn){
     legend.append(el('div',{class:'legend-heading',text:'Sphere colour · proficiency'}));
-    for(const [name,color]of [['Yes',PROFICIENCY_COLORS.yes],['No or unanswered',PROFICIENCY_COLORS.no]]){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
+    for(const [name,color]of [['Proficient (Yes)',PROFICIENCY_COLORS.yes],['Not marked',PROFICIENCY_COLORS.unset],['Marked No (darker)',PROFICIENCY_COLORS.no]]){const dot=el('span',{class:'dot'});dot.style.background=color;legend.append(el('div',{class:'legend-item'},dot,document.createTextNode(name)));}
+    const glow=el('span',{class:'dot glow'});glow.style.background=PROFICIENCY_COLORS.unset;glow.style.boxShadow=`0 0 5px 3px ${FRONTIER_GLOW}`;legend.append(el('div',{class:'legend-item'},glow,document.createTextNode('Glow · ready to study')));
     legend.append(el('div',{class:'edge-note',text:'Manual self-report'}));
   }
-  legend.append(el('div',{class:'edge-note',text:'Gold → prerequisite'}),el('div',{class:'edge-note',text:'Dashed → supports'}),el('div',{class:'edge-note',text:'Violet — related'}));
+  legend.append(el('div',{class:'edge-note',text:'Links: gold → prerequisite · dashed → supports · violet — related'}));
 }
 function renderShared(){
   const mapFamily=atlasFamily(graph),summary=recordSummary(record),loaded=!!record&&record.family===mapFamily;
@@ -332,7 +500,7 @@ function renderShared(){
   $('export-record').disabled=!loaded;$('import-record').disabled=!loaded;
   $('adopt-file').disabled=!(loaded&&fileAnswers&&fileAnswers.family===mapFamily&&fileAnswers.title===(graph.title||''));
   const labels={none:'',ready:'Shared answers: up to date',saving:'Shared answers: saving…',saved:`Shared answers saved on ${records.location}`,failed:'Shared answers NOT saved · Retry',unreadable:'Shared record unreadable · Retry'};
-  const state=$('sync-state');state.textContent=labels[sync]||'';state.hidden=!labels[sync];state.disabled=!(sync==='failed'||sync==='unreadable');state.className=`sync-state ${sync}`;state.title=syncDetail;
+  const state=$('sync-state');state.textContent=labels[sync]||'';state.hidden=!(sync==='failed'||sync==='unreadable');   // the save indicator covers the rest; failures keep their Retry buttonstate.disabled=!(sync==='failed'||sync==='unreadable');state.className=`sync-state ${sync}`;state.title=syncDetail;
 }
 $('sync-state').onclick=async()=>{
   if(sync==='failed'){persistRecord();return;}
@@ -378,7 +546,7 @@ function proficiencyControls(node){
   const group=el('div',{class:'proficiency-controls'},el('h3',{text:'At least 80% proficient?'}),el('p',{class:'edge-note',text:'Your judgment only. No tests or automatic scoring.'}));
   const row=el('div',{class:'button-row'});
   for(const [label,value]of [['Yes',true],['No',false],['Clear',null]]){
-    const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated. Save map to keep it in the file.','console')});
+    const b=el('button',{text:label,class:node.proficiency80===value?'chosen':'',onclick:()=>commit(next=>{next.nodes.find(n=>n.id===node.id).proficiency80=value;},'Proficiency updated.','console')});
     b.setAttribute('aria-pressed',String(node.proficiency80===value));row.append(b);
   }
   group.append(row);
@@ -469,7 +637,7 @@ function updateChainAction(list){
   action.textContent=!changes.length?'Nothing to change':chain.value===null?`Clear ${count}`:`Mark ${count} ${proficiencyLabel(chain.value)}`;
   const checked=[...chain.selected].length;
   note.textContent=changes.length
-    ?`${checked} checked; ${changes.length} would change. Undo reverses the whole pass. Save map writes it to the JSON file.`
+    ?`${checked} checked; ${changes.length} would change. Undo reverses the whole pass. File ▸ Save map exports it.`
     :`${checked} checked, none of which would change. Pick another answer or check more skills.`;
 }
 function applyChain(list){
@@ -512,7 +680,7 @@ function lessonBlock(block){
 function prerequisiteLinks(node){
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const ids=graph.edges.filter(e=>e.type==='prerequisite'&&e.target===node.id).map(e=>e.source);
-  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this subject in this map.'});
+  if(!ids.length)return el('p',{class:'edge-note',text:'No prerequisite is recorded for this skill in this map.'});
   // render() refills an open card, which removes the button that was clicked, so keyboard focus is
   // placed deliberately on the new card rather than being dropped on the page body.
   const go=id=>{selected=id;render();viewer?.focus(id);($('details-body').querySelector('details.lesson-section>summary')||$('details-close')).focus();};
@@ -555,7 +723,7 @@ function fillDetails(){
   const names=new Map(graph.nodes.map(n=>[n.id,n.name]));
   const links=graph.edges.filter(e=>e.source===node.id||e.target===node.id);
   if(links.length){
-    const list=el('details',{class:'connections',open:links.length<=12},el('summary',{text:`Connections (${links.length})`}));
+    const list=el('details',{class:'connections',open:links.length<=12},el('summary',{text:`Links (${links.length})`}));
     for(const edge of links){
       const verb=edge.type==='prerequisite'?'is prerequisite for':edge.type==='supports'?'supports':'is related to',text=`${names.get(edge.source)} ${verb} ${names.get(edge.target)}`;
       list.append(edge.rationale&&edge.rationale.length>80?el('details',{class:'detail-link'},el('summary',{text}),el('p',{text:edge.rationale})):el('p',{class:'detail-link',text:text+(edge.rationale?' — '+edge.rationale:'')}));
@@ -571,7 +739,7 @@ $('canvas').tabIndex=0;
 $('canvas').addEventListener('pointerdown',()=>{$('canvas').focus({preventScroll:true});});
 // Guided proficiency review: answers use the normal commit path (history, draft cache, dirty state, shared record).
 const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-proficiency'),getGraph:()=>graph,storage:safeStorage,
-  apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Kept in the local draft; Save map writes the JSON file.`,'review');if(result.ok&&nextId)viewer?.focus(nextId);return result;},
+  apply:(id,value,nextId)=>{const name=graph.nodes.find(n=>n.id===id).name;if(nextId)selected=nextId;const result=commit(next=>{next.nodes.find(n=>n.id===id).proficiency80=value;},`Marked ${name}: ${proficiencyLabel(value)}. Saved on this computer; File ▸ Save map exports a file.`,'review');if(result.ok&&nextId)viewer?.focus(nextId);return result;},
   show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
   onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
 $('mark-proficiency').onclick=()=>review.open();

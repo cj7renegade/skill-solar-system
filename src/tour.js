@@ -6,44 +6,55 @@
 export const TOUR_STEPS = [
   { title: 'Welcome to your skill map', text: [
     'Each sphere is one skill. A line between two spheres records that one skill builds on the other.',
-    'Height is a reference level built from those links: foundations sit low, skills that build on them sit higher. Height is never difficulty and never a measure of what you know.',
-    'Use Next and Back to move through this tour. You can try every step while the tour is open.'] },
+    'Height is the longest chain of prerequisites below a skill: foundations sit low, skills that build on them sit higher. Height is never difficulty and never a measure of what you know.',
+    'Use Next and Back to move through this tour; you can try every step while it is open. HelixSkill 0.4.0 works offline, and your answers stay on this computer.'] },
   { target: '#viewport', title: 'Rotate the view', place: 'center', text: [
     'Hold the left mouse button on an empty part of the map and drag. The map turns around its centre, or around the skill you last clicked.',
     'Try it now: drag a little left and right.'] },
   { target: '#viewport', title: 'Zoom and travel', place: 'center', text: [
-    'Scroll the mouse wheel. Scrolling forward travels toward the spheres in front of you; scrolling back pulls away.',
-    'Travel speed adapts to how close you are, so you can cross the whole map from far away and still stop precisely next to one skill.'] },
+    'Scroll the mouse wheel. Scrolling forward travels toward the spheres in front of you; scrolling back pulls away. Travel speed adapts, so you can cross the map and still stop next to one skill.',
+    'From far away on a large map, each subject becomes one cluster with its name, and a gold core shows how much of it you have marked. Click a cluster to fly into it; zoom in and its skills appear.'] },
   { target: '#viewport', title: 'Pan sideways', place: 'center', text: [
     'Hold the right mouse button and drag to slide the view without turning it.',
     'Or hold an arrow key, or W, A, S, D. Holding a key keeps moving at a steady pace across the map.'] },
   { target: '#viewport', title: 'Pick a skill', place: 'center', text: [
-    'Click a sphere to select it. The camera turns toward it and orbits around it from then on, and its connections light up.',
-    'Double-click a sphere to open its full card.',
+    'Click a sphere to select it. The camera turns toward it and orbits around it from then on, and its links light up. Double-click a sphere to open its full card.',
     'Right-click anywhere on the map to deselect and stay where you are. Press Escape to deselect and see the whole map again.'] },
+  { target: '#hud-card', title: 'Your progress card', text: [
+    'The card at the top left shows the milestone you are working toward. Choose another in its menu; the progress bar counts the prerequisites you have marked proficient and the rough hours left.',
+    'Next up lists skills you are ready to study: everything they rest on is already marked Yes. Click one to fly there. Ready skills also glow softly on the map.'] },
+  { target: '#viewport', title: 'Reading the helix', place: 'center', text: [
+    'On the humanoid helix, milestones I01 to I09 sit on the spine up the centre; the ones you have completed are filled in. Your target is marked on it.',
+    'Faint rings mark where each stage begins, a ruler at the side gives the level, and each course band is labelled where it faces you. Skill labels are kept few and never overlap.'] },
+  { target: '#legend', title: 'Colours and courses', text: [
+    'Sphere colour shows the course (on the helix, in five colour families) or the domain on other maps. Each course shows how many skills it has and how many you have marked.',
+    'Click a course or a family to isolate it; click again to show everything. Proficiency view under View colours the map by your answers: gold for Yes, grey for not yet, dark slate for No.'] },
   { target: '.view-tools', title: 'Map tools', text: [
-    'Find skill: type part of a name, then choose a result. The camera travels to it.',
-    'Fit map shows everything at once. Front view looks at the map straight on.',
-    'Labels, Selected connections only and Sphere spacing change only what you see and never edit anything. Names too small to read stay hidden until you move closer.'] },
-  { target: '#legend', title: 'Colours and subjects', text: [
-    'Sphere colour shows the subject: Mathematics, Physics, Mechanics, Electronics, Computing or Robotics.',
-    'Click a subject in this legend to highlight where it sits. Turn on Proficiency in the map tools to colour the map by your own answers instead.'] },
+    'Find skill: type part of a name, then choose a result; the camera travels to it. Fit map shows everything at once, and Front view looks at the map straight on.',
+    'View holds the display settings: skill labels, selected links only, proficiency view, subject grouping and sphere spacing. They change only what you see, never the map.'] },
+  { target: '#path-mode', title: 'Path mode and the 2D plan', text: [
+    'Path mode lights up everything left to learn before your target and dims the rest. Its card says how many skills and hours remain and lists them in an order you can study them in.',
+    'Open the 2D plan to see the same path flat: columns from foundations to the target, one row per course. Press Escape to close the plan, and again to leave path mode.'] },
   { target: '#console', title: 'The console', text: [
-    'The list shows every skill by name. Type in its search box to narrow it, and click a name to travel there.',
-    'Below it, the subject card describes the selected skill. Read subject details opens the full card, with lessons where the map has them.'] },
+    'With nothing selected, Today lists what to study next, an unfinished review and what you answered lately.',
+    'The list below shows every skill, ready ones first (or A to Z). Type in its search box to narrow it, and click a name to travel there.',
+    'In Edit mode, Shift-drag a sphere to move it; the layout tools appear at the end of the console and each asks first.'] },
+  { target: '#inspector', title: 'The skill card', text: [
+    'A selected skill shows its course, level, stage, tier and rough hours. Path to this lights its own path, Fly to brings the camera to it, and Open lesson opens its lesson when there is one.',
+    'The small graph lists what it needs and what it unlocks; click any of them to go there.'] },
   { target: '#inspector', title: 'Your own answers', text: [
     'On a skill\'s card, "At least 80% proficient?" asks for your judgment only. Yes, No and Clear record it, and Undo reverses it.',
     'Opening cards, reading lessons or revealing practice answers never marks anything. Only you do.'] },
   { target: '#mark-proficiency', title: 'Guided review', text: [
     'Mark proficiency walks through the skills from the foundations upward, one at a time, so you can answer Yes or No quickly.',
-    'You can skip, go back, pause, and resume later exactly where you stopped.'] },
-  { target: '#map-picker', fallback: '#load', title: 'Opening and saving maps', text: [
-    'Your maps opens any map in the project\'s Maps folder in one click. Open map can open a map file from anywhere.',
-    'Save map writes a portable copy. The app also keeps a working draft, but that draft is a convenience, not a backup.'] },
+    'You can skip, go back, pause, and resume later exactly where you stopped. The progress card offers to resume an unfinished review.'] },
+  { target: '#map-picker', fallback: '#file-menu', title: 'Opening and saving maps', text: [
+    'Your maps opens any map in the project\'s Maps folder in one click. File ▸ Open map can open a map file from anywhere.',
+    'Every change is kept on this computer at once: the indicator at the bottom right says Saved ✓. File ▸ Save map exports a portable copy, which is your backup.'] },
   { target: '#tour-button', title: 'Using it well', text: [
-    'A good session: open your map, find a skill or start a review, read its card, answer honestly, then Save map.',
+    'A good session: open your map, pick something from Next up or start a review, read its card, answer honestly, then File ▸ Save map.',
     'Afterwards, close the app and double-click Backup-User-Data in the project folder. It keeps a verified copy of your maps and answers.',
-    'Never open the old copies in Maps\\Archived maps: they hold outdated answers. This tour is always here behind the Tour button.'] }
+    'Never open the old copies in Maps\Archived maps: they hold outdated answers. This tour is always here behind the Tour button.'] }
 ];
 
 const PAD = 8, GAP = 14;

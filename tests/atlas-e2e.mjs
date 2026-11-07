@@ -40,7 +40,7 @@ try {
   await wheel(-120, 40, middle); await sleep(300);
   await keep('02-close-selected-computing');
   check('the side panel shows the skill\'s one-sentence summary', (await evaluate(`document.getElementById('inspector').innerText`)).includes(target.description));
-  await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.textContent==='Read subject details').click()`); await sleep(400);
+  await evaluate(`[...document.querySelectorAll('#inspector button')].find(b=>b.id==='open-details').click()`); await sleep(400);
   const card = await evaluate(`document.getElementById('details-body').innerText`);
   check('the skill card shows both paragraphs and where it sits in the Computing strand', await evaluate(`document.getElementById('details-dialog').open`) && target.details.split('\n\n').every(p => card.includes(p.slice(0, 60))) && /Computing strand/.test(card), card.slice(0, 120));
   await keep('03-skill-card');
