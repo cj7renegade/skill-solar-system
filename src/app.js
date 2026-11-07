@@ -29,6 +29,7 @@ import { createGuidePanel } from './guide-panel.js';
 import { createLessonIndex, embeddedLesson, LESSON_FIELDS } from './lessons.js';
 import { readAppearance, applyAppearance } from './theme/appearance.js';
 import { createSettingsDialog } from './settings-dialog.js';
+import { renderStyleGuide } from './theme/styleguide.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 // Lessons live outside map files (src/lessons.js); every reader goes through lessonIndex.getLesson.
@@ -743,7 +744,8 @@ $('mark-proficiency').onclick=()=>review.open();
 const settingsDialog=createSettingsDialog({dialog:$('settings-dialog'),body:$('settings-body'),el,storage:safeStorage,onStyleGuide:()=>openStyleGuide()});
 $('settings-open').onclick=()=>{setMenu('file-menu','file-menu-items',false);settingsDialog.open();};
 $('settings-close').onclick=()=>settingsDialog.close();
-function openStyleGuide(){const d=$('styleguide-dialog');$('styleguide-body').replaceChildren(el('p',{text:'The style guide arrives in phase 2.'}),el('button',{text:'Close',onclick:()=>d.close()}));d.showModal();}
+// The Cyberpunk HUD style guide, with readouts from the open map (src/theme/styleguide.js).
+function openStyleGuide(){const d=$('styleguide-dialog');renderStyleGuide($('styleguide-body'),{graph,learner:learner(),onClose:()=>d.close()});d.showModal();d.querySelector('button')?.focus();}
 // The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
 // replies select a skill or show a path, the same as the HUD's buttons.
 const guidePanel=createGuidePanel({bridge:window.desktop?.guide,button:$('guide-button'),pill:$('guide-state'),panel:$('guide-panel'),el,getFamily:()=>atlasFamily(graph)||'default',

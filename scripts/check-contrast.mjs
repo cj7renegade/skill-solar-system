@@ -35,7 +35,7 @@ export const PAIRS = [
 
 export function check() { return PAIRS.map(([name, fg, bg, min, kind]) => ({ name, fg, bg, min, kind, ratio: Math.round(ratio(fg, bg) * 100) / 100, ok: ratio(fg, bg) >= min })); }
 
-if (process.argv[1]?.endsWith('check-contrast.mjs')) {
+if (typeof process !== 'undefined' && process.argv?.[1]?.endsWith('check-contrast.mjs')) {
   const results = check();
   for (const r of results) console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${r.ratio.toFixed(2).padStart(5)}:1  (min ${r.min})  ${r.name}  ${r.fg} on ${r.bg}`);
   const failed = results.filter(r => !r.ok);

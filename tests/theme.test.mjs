@@ -52,3 +52,31 @@ test('the Classic stylesheet is not touched by the theme, and every theme rule i
     assert.ok(/data-theme="cyberpunk"|\.cp-scope|data-atmosphere/.test(rule), rule);
   }
 });
+
+test('readouts are true: skill codes are stable per course and type, levels and stages come from the node', async () => {
+  const { skillCodes, levelReadout, stageReadout } = await import('../src/theme/readouts.js');
+  const node = (id, extra) => ({ id, name: id, domain: 'Robotics', position: [0, 0, 0], ...extra });
+  const graph = { nodes: [node('b', { courseCode: 'MTH', helixType: 'QUANT', helixLevel: 4 }), node('a', { courseCode: 'MTH', helixType: 'QUAL', helixLevel: 1 }), node('c', { assessmentMode: 'written calculation' }), node('d', {})], edges: [] };
+  const codes = skillCodes(graph);
+  assert.deepEqual(Object.fromEntries(codes), { a: 'MTH-QL-001', b: 'MTH-QNT-002', c: 'ROB-QNT-001', d: 'ROB-NA-002' });
+  assert.deepEqual(skillCodes({ ...graph, nodes: [...graph.nodes].reverse() }), codes, 'the order of the file does not change the codes');
+  assert.equal(levelReadout({ helixLevel: 64 }), 'LVL 064'); assert.equal(stageReadout({ buildStage: 3 }), 'STG-03'); assert.equal(stageReadout({}), 'STG --');
+});
+
+test('the style guide reads real data from the map and says so when it is missing', async () => {
+  const { guideData } = await import('../src/theme/styleguide.js');
+  const { learnerState } = await import('../src/hud.js');
+  const node = (id, extra) => ({ id, name: `Skill ${id}`, domain: 'Robotics', position: [0, 0, 0], proficiency80: null, ...extra });
+  const graph = { title: 'T', nodes: [node('a', { courseCode: 'MTH', helixLevel: 1, proficiency80: true }), node('b', { courseCode: 'MTH', helixLevel: 4 }), node('m', { nodeKind: 'milestone', helixLevel: 7 })],
+    edges: [{ source: 'a', target: 'b', type: 'prerequisite' }, { source: 'b', target: 'm', type: 'prerequisite' }] };
+  const d = guideData(graph, learnerState(graph, 'm'));
+  assert.equal(d.skills, 3); assert.equal(d.links, 2); assert.equal(d.sample.id, 'b', 'the sample is the first Next up skill');
+  assert.equal(d.target.percent, 33); assert.equal(d.completed, null); assert.deepEqual(d.courses, [{ code: 'MTH', name: 'MTH', total: 2, yes: 1, percent: 50 }]);
+  const bare = guideData({ title: '', nodes: [node('x', {})], edges: [] }, learnerState({ nodes: [node('x', {})], edges: [] }, null));
+  assert.equal(bare.target, null); assert.equal(bare.overall, null); assert.deepEqual(bare.courses, []);
+});
+
+test('the time readout uses the local date and time', async () => {
+  const { timeReadout } = await import('../src/theme/readouts.js');
+  assert.equal(timeReadout(new Date(2026, 10, 6, 22, 5)), '2026-11-06 22:05');
+});

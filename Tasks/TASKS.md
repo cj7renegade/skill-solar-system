@@ -18,7 +18,7 @@ Reference notes: `docs/cyberpunk-reference-notes.md`.
 
 - [x] All reference images viewed; notes written
 - [x] Phase 1: design tokens, bundled OFL fonts, Settings ▸ Appearance (theme, atmosphere, reduce motion, glow), contrast check
-- [ ] Phase 2: component kit and style-guide screen (Settings ▸ Developer ▸ Style guide), screenshots
+- [x] Phase 2: component kit and style-guide screen (Settings ▸ Developer ▸ Style guide), screenshots
 - [ ] **JC: review the style guide.** Tick this box to approve it; Phase 3 starts only after that.
 - [ ] Phase 3: apply the kit to the app shell (header, learner HUD, skill card, legend, toolbar, lesson viewer, dialogs)
 - [ ] Phase 4: 3D map styling (vignette, grid, milestone rings, stage rings, reticle, frontier pulse, optional bloom) with fps measured
