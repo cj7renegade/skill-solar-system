@@ -1,10 +1,8 @@
 # Cyberpunk HUD theme
 
 JC's brief of 2026-11-06. Reference notes: [cyberpunk-reference-notes.md](cyberpunk-reference-notes.md).
-Branch `cyberpunk-theme`, from `main`, which has the UX upgrade and the Guide. The AI lessons branch
-is not merged yet, so its components (lesson badge, lesson viewer, generating view) are styled in
-Phase 3 once it is: the kit already has the badges, the Alert block for safety sections and the
-scanning SegmentedProgress for "Generating…".
+Branch `cyberpunk-theme`. JC approved the style guide on 2026-11-06, and the branch was then rebased
+onto `main` after the AI lessons merge (PR #33), so the lesson components are styled too.
 
 ## Phase 1: tokens and theme switch (done)
 
@@ -22,7 +20,7 @@ scanning SegmentedProgress for "Generating…".
   - Glow: off, low (the default) or normal.
 - `Reference Design/` is excluded from the packaged build (`build.files`).
 
-## Phase 2: component kit and style guide (done; awaiting review)
+## Phase 2: component kit and style guide (done; approved by JC)
 
 The builders are in `src/theme/components.js` and the styles in `src/theme/components.css`. The style
 guide is `src/theme/styleguide.js`, opened from **File ▸ Settings… ▸ Developer ▸ Open style guide**.
@@ -97,3 +95,114 @@ guide is `src/theme/styleguide.js`, opened from **File ▸ Settings… ▸ Devel
 - **End-to-end** (`tests/styleguide-e2e.mjs`): Classic as the default; switching theme; fonts
   loading offline; atmosphere, reduced motion and glow; the style guide with every component; true
   readouts; a visible keyboard focus; text sizes; no decoration in reading content; the modal.
+
+## Phase 3: the app shell (done)
+
+`src/theme/app.css`, scoped to the Cyberpunk theme. Parts that exist in only one theme carry
+`.cp-only` or `.classic-only`.
+
+- **How frames are drawn.** App frames are layered backgrounds: four edge lines, two 45° cut lines
+  and a fill with the cut corners left open. Nothing is clipped, so focus rings, glow and dropdowns
+  stay visible.
+- **Header:**
+  - the map name in the display face, in amber (the active thing);
+  - monospace readouts: skill and link counts, and the Guide's online or offline state;
+  - the save state in the footer, gold when saved and red when it fails.
+- **Learner HUD:**
+  - a ProgressRing for the active milestone, amber and turning slowly, or gold when complete;
+  - a SegmentedProgress for overall progress, and the remaining prerequisites and hours in
+    monospace;
+  - Next up as compact rows with course chips and ~h readouts;
+  - the unfinished-review counter as an amber button.
+- **Skill card:**
+  - readouts for code, level, stage and effort (`MEC-NA-002 · LVL --- · STG --`; nothing is
+    invented when a map has no level or stage);
+  - chips with a course-colour dot;
+  - the description in the body face;
+  - prerequisites and unlocks as chip rows;
+  - the lesson badge with an icon (✓, ◇, ⚑, ○), Generate or Open lesson in amber, and Regenerate as
+    a link.
+- **Legend:** course and family rows as selectable chips; the isolated row is cyan, with its
+  `aria-pressed` state.
+- **Toolbar and View popover:** compact chamfered buttons.
+- **Lesson viewer:**
+  - section titles in the display face, in cyan;
+  - reading content in Inter at 16 px / 1.55 on a calm panel, with no decoration;
+  - the **safety section as the red Alert block**, with a hazard stripe;
+  - "Generating…" shows the scanning SegmentedProgress.
+- **Confirmations for risky actions** (`src/theme/confirm.js`):
+  - In Cyberpunk they are a HUD modal: red for destructive actions (delete skill, new empty map,
+    restore starter, replace shared answers, clear the Guide's history or notes, regenerate a
+    lesson), cyan for the others.
+  - Cancel has focus first and Escape cancels.
+  - Classic still uses the system dialog, unchanged.
+  - **File ▸ Open map** keeps the system dialog in both themes, because the file chooser must open
+    in the same click.
+- **Text size:** no visible UI text is below 12 px in Cyberpunk (checked end to end). Classic keeps
+  its own sizes.
+
+## Phase 4: the 3D map (done)
+
+- **Background:**
+  - The floor shader takes theme colours (`ENVIRONMENT_THEMES` in `src/environment.js`): a
+    near-black base with a subtle radial vignette.
+  - The floor grid is thin and cyan at low opacity, and thins out with distance.
+  - Classic's values are the originals, so its floor is identical.
+- **Milestones** keep their octahedra:
+  - each gets a thin tick ring that turns once every 24 s;
+  - the active milestone is amber with a strong emissive glow;
+  - completed milestones are gold.
+- **Stage rings, spine and ruler:** thin cyan; the rings carry 60 tick marks (a long one every 30°).
+  Their label plates are monospace on a dark plate with a cyan edge.
+- **Selected skill:** a bracket reticle (four corner brackets) drawn in screen space around the
+  sphere, scaled to its size on screen.
+- **Frontier skills:** the existing glow pulses softly.
+- **Labels:**
+  - skill nameplates on dark backing plates with a cyan edge;
+  - milestone codes, stages and the ruler in monospace;
+  - course bands and subject clusters in the display face.
+  - The label-overlap check measures widths in the theme's own font.
+- **Bloom** (Settings ▸ Appearance, **default off**): UnrealBloomPass with a high threshold, so only
+  bright emissive things bloom (the selection, the active milestone, frontier glow).
+- **Motion and atmosphere:**
+  - Ring turning and the frontier pulse run on a light 20 fps idle tick, only in Cyberpunk and only
+    when motion is allowed.
+  - Reduced motion stops them, and the system setting is followed.
+  - Atmosphere effects (scanlines) are off by default.
+
+### Frame rate (Humanoid map, 3,696 skills, `tests/theme-fps.mjs`)
+
+| Appearance | Orbit: median | Orbit: worst 5 % | Idle: median |
+| --- | --- | --- | --- |
+| Classic | 59.9 fps | 59.5 fps | 59.9 fps |
+| Cyberpunk HUD (default, bloom off) | 59.9 fps | 59.5 fps | 59.9 fps |
+| Cyberpunk HUD with bloom | 59.9 fps | 59.5 fps | 59.9 fps |
+
+- These were measured on this PC, with an 8-second pointer orbit.
+- **The display caps every row at 60 Hz,** so the theme causes no measurable drop at the 45 fps bar.
+  The extra GPU cost of bloom does not show at that cap, so bloom stays off by default as a quality
+  option.
+
+## Screenshots (`docs/screenshots/cyberpunk/`)
+
+- **Style guide:** `styleguide-01…08`.
+- **Both themes:** `app-classic-01…04` and `app-cyberpunk-01…04`: map overview, HUD and skill
+  card, lesson viewer, and lesson safety.
+- **Cyberpunk only:**
+  - `app-cyberpunk-05-warning-dialog` (the HUD danger modal; Classic uses the system dialog, which
+    cannot be captured);
+  - `-06-settings`;
+  - `-07-selected-reticle-bloom`;
+  - `-08-milestones-front`;
+  - `-09-active-milestone-ring`.
+
+## Deferred
+
+- **Boot reveal:** only on kit panels (style guide, modals). The app's own panels don't wipe in
+  when opened.
+- **Tooltips:** app controls keep the system's own tooltips (`title`). The HUD Tooltip is in the
+  kit, ready to use.
+- **Close-up labels:** when the camera flies very close, nameplates grow large. That is the
+  existing behaviour in both themes, and was not changed here.
+- **Skill codes** (`MTH-QNT-022`) are derived from the map (course, type, place in the course). They
+  are not stored in it, so they can shift if skills are added.

@@ -29,7 +29,10 @@ export function stageRings(graph) {
 
 // place(node) -> the node's drawn position (display spacing and band gaps applied).
 // state: { proficient(id), target }. Returns the scene group and the labels to project each frame.
-export function buildStructure(graph, place, { target = null, spacing = 1 } = {}) {
+// theme 'cyberpunk': the spine, stage rings and ruler in thin cyan, the rings with tick marks; Classic
+// keeps its original colours.
+export function buildStructure(graph, place, { target = null, spacing = 1, theme = 'classic' } = {}) {
+  const cp = theme === 'cyberpunk';
   const group = new THREE.Group(), labels = [];
   if (!graph?.nodes.length) return { group, labels };
   const milestones = graph.nodes.filter(n => n.nodeKind === 'milestone').map(n => ({ n, p: new THREE.Vector3(...place(n)) })).sort((a, b) => a.p.y - b.p.y);
@@ -42,7 +45,7 @@ export function buildStructure(graph, place, { target = null, spacing = 1 } = {}
 
   // The spine: one line through the milestones, bottom to top.
   if (milestones.length > 1) {
-    const spine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(milestones.map(m => m.p)), new THREE.LineBasicMaterial({ color: 0xe9bd79, transparent: true, opacity: .75 }));
+    const spine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(milestones.map(m => m.p)), new THREE.LineBasicMaterial({ color: cp ? 0x2ee6f0 : 0xe9bd79, transparent: true, opacity: cp ? .55 : .75 }));
     spine.raycast = () => {}; group.add(spine);
   }
   // How far the helix reaches at each height, for ring and ruler placement.
@@ -52,8 +55,15 @@ export function buildStructure(graph, place, { target = null, spacing = 1 } = {}
 
   for (const ring of stageRings(graph)) {
     const y = (ring.level - 1) * perLevel, radius = reachNear(y) + 90 * spacing;
-    const mesh = new THREE.Mesh(new THREE.RingGeometry(radius - 5 * spacing, radius, 160), new THREE.MeshBasicMaterial({ color: 0x9fb3cc, transparent: true, opacity: .22, side: THREE.DoubleSide, depthWrite: false }));
+    const mesh = new THREE.Mesh(new THREE.RingGeometry(radius - (cp ? 2 : 5) * spacing, radius, 160), new THREE.MeshBasicMaterial({ color: cp ? 0x2ee6f0 : 0x9fb3cc, transparent: true, opacity: cp ? .28 : .22, side: THREE.DoubleSide, depthWrite: false }));
     mesh.rotation.x = -Math.PI / 2; mesh.position.y = y; mesh.raycast = () => {}; group.add(mesh);
+    if (cp) { // tick marks on the outer edge: every 6°, a long one every 30°
+      const ticks = [];
+      for (let i = 0; i < 60; i++) { const a = i / 60 * Math.PI * 2, long = i % 5 === 0, r2 = radius + (long ? 22 : 10) * spacing;
+        ticks.push(new THREE.Vector3(Math.cos(a) * radius, y, Math.sin(a) * radius), new THREE.Vector3(Math.cos(a) * r2, y, Math.sin(a) * r2)); }
+      const tickLines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(ticks), new THREE.LineBasicMaterial({ color: 0x2ee6f0, transparent: true, opacity: .4, depthWrite: false }));
+      tickLines.raycast = () => {}; group.add(tickLines);
+    }
     labels.push({ kind: 'stage', text: ring.label, position: new THREE.Vector3(radius, y, 0) });
   }
 
@@ -65,7 +75,7 @@ export function buildStructure(graph, place, { target = null, spacing = 1 } = {}
     ruler.push(new THREE.Vector3(x - tick, y, 0), new THREE.Vector3(x, y, 0));
     labels.push({ kind: 'ruler', text: `L${level}`, position: new THREE.Vector3(x - tick, y, 0) });
   }
-  const rulerLines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(ruler), new THREE.LineBasicMaterial({ color: 0x7f91a8, transparent: true, opacity: .55 }));
+  const rulerLines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(ruler), new THREE.LineBasicMaterial({ color: cp ? 0x1d9aa3 : 0x7f91a8, transparent: true, opacity: cp ? .7 : .55 }));
   rulerLines.raycast = () => {}; group.add(rulerLines);
   labels.push({ kind: 'ruler-title', text: 'Height = helix level: the longest prerequisite chain below a skill. Not difficulty.', position: new THREE.Vector3(x, (top - 1) * perLevel, 0) });
 

@@ -6,13 +6,13 @@
 export const APPEARANCE_STORE = 'helixskill-appearance-v1';
 export const THEMES = [['classic', 'Classic'], ['cyberpunk', 'Cyberpunk HUD']];
 export const GLOWS = [['off', 'Off'], ['low', 'Low'], ['normal', 'Normal']];
-export const DEFAULTS = { theme: 'classic', atmosphere: false, reduceMotion: false, glow: 'low' };
+export const DEFAULTS = { theme: 'classic', atmosphere: false, reduceMotion: false, glow: 'low', bloom: false };
 
 export function readAppearance(storage) {
   let saved = {};
   try { saved = JSON.parse(storage.getItem(APPEARANCE_STORE) || '{}') || {}; } catch {}
   const pick = (value, list, fallback) => list.some(([k]) => k === value) ? value : fallback;
-  return { theme: pick(saved.theme, THEMES, DEFAULTS.theme), atmosphere: saved.atmosphere === true, reduceMotion: saved.reduceMotion === true, glow: pick(saved.glow, GLOWS, DEFAULTS.glow) };
+  return { theme: pick(saved.theme, THEMES, DEFAULTS.theme), atmosphere: saved.atmosphere === true, reduceMotion: saved.reduceMotion === true, glow: pick(saved.glow, GLOWS, DEFAULTS.glow), bloom: saved.bloom === true };
 }
 export function saveAppearance(storage, value) { try { storage.setItem(APPEARANCE_STORE, JSON.stringify(value)); } catch {} }
 

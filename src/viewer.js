@@ -12,6 +12,22 @@ import { isHelixMap, helixCourses, courseColors, matchesHelixFilters, activeFilt
 import { buildStructure } from './structure.js';
 import { clusterData, clusterMeshes, wantsDetail, placeLabels, LOD_MIN_NODES } from './lod.js';
 import { FRONTIER_GLOW } from './palette.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { Pass } from 'three/addons/postprocessing/Pass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+// The Cyberpunk HUD's 3D touches (Classic draws none of them): milestone tick rings that turn slowly,
+// amber for the active milestone and gold when complete; a bracket reticle on the selected skill;
+// a soft pulse on frontier skills; and optional bloom on bright, emissive elements only.
+const CP = { amber: 0xf5c518, gold: 0xe8b54a, cyan: 0x2ee6f0, ringPeriod: 24000, tickMs: 50 };
+function milestoneRing(color) {
+  const points = [], R = 26;
+  for (let i = 0; i < 96; i++) { const a = i / 96 * Math.PI * 2, b = (i + 1) / 96 * Math.PI * 2; if (i % 8 < 6) points.push(new THREE.Vector3(Math.cos(a) * R, 0, Math.sin(a) * R), new THREE.Vector3(Math.cos(b) * R, 0, Math.sin(b) * R)); }
+  for (let i = 0; i < 48; i++) { const a = i / 48 * Math.PI * 2, r2 = R + (i % 6 === 0 ? 6 : 3); points.push(new THREE.Vector3(Math.cos(a) * R, 0, Math.sin(a) * R), new THREE.Vector3(Math.cos(a) * r2, 0, Math.sin(a) * r2)); }
+  const ring = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color, transparent: true, opacity: .8, depthWrite: false }));
+  ring.raycast = () => {}; ring.userData.hudRing = true; return ring;
+}
 
 export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   const scene = new THREE.Scene();
@@ -40,7 +56,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   let structureLabels = [], targetId = null;
   function refreshStructure() {
     for (const child of [...structureGroup.children]) { structureGroup.remove(child); child.geometry?.dispose(); child.material?.dispose(); }
-    const built = buildStructure(graph, place, { target: targetId, spacing });
+    const built = buildStructure(graph, place, { target: targetId, spacing, theme });
     structureGroup.add(built.group);
     structureHost.replaceChildren();
     structureLabels = built.labels.map(l => { const el = document.createElement('div'); el.className = `structure-label ${l.kind}${l.active ? ' active' : ''}${l.done ? ' done' : ''}${l.side === -1 ? ' left' : ''}`; el.textContent = l.text; if (l.color) el.style.color = l.color; structureHost.append(el); return { ...l, el }; });
@@ -48,11 +64,13 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   }
   // Nameplate widths for the label budget's overlap test, measured once per label in the label font.
   const measure = document.createElement('canvas').getContext('2d');
-  const textWidth = l => { if (l.width === undefined) { measure.font = "11px 'Segoe UI', system-ui, sans-serif"; l.width = measure.measureText(l.text).width; } return l.width; };
+  const textWidth = l => { if (l.width === undefined) { measure.font = theme === 'cyberpunk' ? "11px Inter, 'Segoe UI', system-ui, sans-serif" : "11px 'Segoe UI', system-ui, sans-serif"; l.width = measure.measureText(l.text).width; } return l.width; };
   // Level of detail (src/lod.js). lodMix runs from 0 (subject clusters) to 1 (individual skills) and
   // eases between them; the selected skill, milestones and the Next up skills are always drawn.
+  let theme = 'classic', motion = true, rings = [], idleTimer = null, bloomOn = false, composer = null;
+  const reticle = document.createElement('div'); reticle.className = 'hud-reticle'; reticle.hidden = true; reticle.setAttribute('aria-hidden', 'true');
   const clusterGroup = new THREE.Group(); scene.add(clusterGroup);
-  const clusterHost = document.createElement('div'); clusterHost.className = 'cluster-labels'; clusterHost.id = 'cluster-labels'; structureHost.after(clusterHost);
+  const clusterHost = document.createElement('div'); clusterHost.className = 'cluster-labels'; clusterHost.id = 'cluster-labels'; structureHost.after(clusterHost); clusterHost.after(reticle);
   let clusters = [], clusterShell = null, clusterCore = null, clusterLabels = [], mapBox = new THREE.Box3(), keepIds = new Set();
   let detail = true, lodMix = 1, lodFrame = null, lodEnabled = true;
   // Path mode: the skills on a remaining path stay lit, everything else dims, and only the
@@ -252,7 +270,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
   function clear() {
     for(const child of [...group.children]) {group.remove(child);child.traverse(o=>{if(o.geometry && o.geometry!==sphere && o.geometry!==milestoneShape)o.geometry.dispose();if(o.material){for(const m of (Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}
     stopPulse(); pulsing=[];
-    labelHost.replaceChildren(); objects=[];labels=[];connections=[];reach=1000;navigationPoints=[];
+    labelHost.replaceChildren(); objects=[];labels=[];connections=[];reach=1000;navigationPoints=[];rings=[];
   }
   function rebuild() {
     clear(); if(!graph)return;
@@ -264,7 +282,10 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
       const offPath=!!pathIds&&n.id!==selected&&!pathIds.has(n.id);
       const color=nodeColor(n,proficiencyOn,palette),dimmed=offPath||filtering&&n.id!==selected&&!matchesHelixFilters(graph,n,helixFilters),faded=!dimmed&&!!isolated&&n.id!==selected&&!isolated.has(n.courseCode);
       const mesh = new THREE.Mesh(helix&&n.nodeKind==='milestone'?milestoneShape:sphere,new THREE.MeshStandardMaterial({color,roughness:.35,metalness:.2,emissive:color,emissiveIntensity:n.id===selected?.6:.12,transparent:true,opacity:dimmed?.05:faded?.15:proficiencyOn||pathIds||!selected||linked.has(n.id)?1:.23}));
-      if(helix&&n.nodeKind==='milestone'){mesh.material.wireframe=n.proficiency80!==true;if(n.id===targetId)mesh.material.emissiveIntensity=.9;}
+      if(helix&&n.nodeKind==='milestone'){mesh.material.wireframe=n.proficiency80!==true;if(n.id===targetId)mesh.material.emissiveIntensity=.9;
+        // Cyberpunk: the active milestone in amber with a glow, completed ones in gold, each with a tick ring.
+        if(theme==='cyberpunk'&&!proficiencyOn){const c=n.id===targetId?CP.amber:n.proficiency80===true?CP.gold:null;if(c!==null){mesh.material.color.setHex(c);mesh.material.emissive.setHex(c);mesh.material.emissiveIntensity=n.id===targetId?1:.5;}
+          const ring=milestoneRing(n.id===targetId?CP.amber:n.proficiency80===true?CP.gold:CP.cyan);mesh.add(ring);rings.push(ring);}}
       mesh.userData.base=mesh.material.opacity;mesh.userData.milestone=n.nodeKind==='milestone';mesh.position.fromArray(place(n));mesh.userData.id=n.id;mesh.scale.setScalar(markerScale(helix,n)*(n.id===selected?1.35:1));group.add(mesh);objects.push(mesh);
       const el=document.createElement('div');el.className='node-label'+(n.id===selected?' selected':'');el.textContent=n.name+(n.pinned?' · pinned':'');labelHost.append(el);labels.push({el,mesh,isSelected:n.id===selected,dimmed:dimmed||faded,milestone:helix&&n.nodeKind==='milestone',text:el.textContent});
     }
@@ -287,6 +308,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     updatePositions();
     draw();
     syncPulse();
+    syncIdle();
   }
   function updatePositions() {
     if(!graph)return;
@@ -308,10 +330,49 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     if(subjects.size||halos.size)refreshHalos();
     refreshFrontier();refreshStructure();refreshClusters();refreshPath();
   }
+  function animateHud(now = performance.now()) {
+    if (theme !== 'cyberpunk' || !motion) return;
+    const turn = (now % CP.ringPeriod) / CP.ringPeriod * Math.PI * 2;
+    for (const ring of rings) ring.rotation.y = turn;
+    if (frontierGlow) frontierGlow.material.opacity = .55 + .3 * (0.5 + 0.5 * Math.sin(now / 700));
+  }
   function renderScene() {
+    animateHud();
+    if (bloomOn && composer) { composer.render(); return; }
     renderer.clear();
     environment.render(renderer,camera);
     renderer.render(scene,camera);
+  }
+  // Optional bloom: the scene drawn into the composer, then a bloom pass with a high threshold so only
+  // bright emissive things (the selection, the active milestone, frontier glow) bloom.
+  class ScenePass extends Pass { render(r, write) { r.setRenderTarget(this.renderToScreen ? null : write); r.clear(); environment.render(r, camera); r.render(scene, camera); } }
+  function ensureComposer() {
+    if (composer) return composer;
+    const size = renderer.getSize(new THREE.Vector2());
+    composer = new EffectComposer(renderer);
+    composer.addPass(new ScenePass());
+    composer.addPass(new UnrealBloomPass(size, .55, .35, .82));
+    composer.addPass(new OutputPass());
+    composer.setSize(size.x, size.y);
+    return composer;
+  }
+  // While the Cyberpunk HUD shows turning rings or a pulsing frontier, a light idle tick redraws the
+  // scene (no nameplate work) at about 20 frames a second; nothing ticks in Classic or with reduced motion.
+  function syncIdle() {
+    clearInterval(idleTimer); idleTimer = null;
+    if (theme === 'cyberpunk' && motion && (rings.length || frontierGlow)) idleTimer = setInterval(() => { if (!document.hidden && !flight && !dragging) renderScene(); }, CP.tickMs);
+  }
+  // The selected skill's reticle: four corner brackets in screen space around its sphere.
+  function placeReticle(size) {
+    const mesh = theme === 'cyberpunk' && selected ? meshFor(selected) : null;
+    if (!mesh || !mesh.visible) { if (!reticle.hidden) reticle.hidden = true; return; }
+    const p = mesh.position.clone().project(camera);
+    if (p.z > 1 || Math.abs(p.x) > 1.1 || Math.abs(p.y) > 1.1) { reticle.hidden = true; return; }
+    const depth = -mesh.position.clone().applyMatrix4(camera.matrixWorldInverse).z;
+    const radius = Math.max(14, Math.min(90, 8 * mesh.scale.x * camera.projectionMatrix.elements[5] * size.height / 2 / Math.max(depth, 1) * 1.6));
+    reticle.hidden = false;
+    reticle.style.transform = `translate(${(p.x + 1) / 2 * size.width - radius}px, ${(1 - p.y) / 2 * size.height - radius}px)`;
+    reticle.style.width = reticle.style.height = `${radius * 2}px`;
   }
   function draw() {
     // Keep expanded maps visible even after panning or fitting a large atlas.
@@ -320,6 +381,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     controls.maxDistance=Math.max(20000,reach*8);
     renderScene();
     const size=host.getBoundingClientRect();
+    placeReticle(size);
     const cameraSpace=new THREE.Vector3();
     // Write the hidden flag only when it changes, so unchanged nameplates cost no DOM work.
     const hide=(el,value)=>{if(el.hidden!==value)el.hidden=value;};
@@ -420,7 +482,7 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     return placed;   // where orientation labels sit, so cluster names can keep clear of them
   }
   controls.addEventListener('change',draw);
-  new ResizeObserver(()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;camera.aspect=r.width/r.height;camera.updateProjectionMatrix();renderer.setSize(r.width,r.height);draw();}).observe(host);
+  new ResizeObserver(()=>{const r=host.getBoundingClientRect();if(!r.width||!r.height)return;camera.aspect=r.width/r.height;camera.updateProjectionMatrix();renderer.setSize(r.width,r.height);composer?.setSize(r.width,r.height);draw();}).observe(host);
   renderer.domElement.addEventListener('pointerdown',e=>{
     stopFlight(true);
     if(e.button!==0)return;down={x:e.clientX,y:e.clientY};
@@ -452,12 +514,16 @@ export function createViewer(host, labelHost, onSelect, onMove, onOpen=()=>{}) {
     const distance=extent/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*1.15/Math.min(camera.aspect||1,1);
     camera.position.copy(center).add(new THREE.Vector3(front?0:.18,front?0:.12,1).normalize().multiplyScalar(distance));controls.target.copy(center);controls.update();draw();
   }
-  return {spacing(value){
+  return {setTheme(name, options = {}){
+    theme = name === 'cyberpunk' ? 'cyberpunk' : 'classic'; motion = options.motion !== false; labelHost.dataset.theme = theme;
+    environment.setTheme(theme); if (graph) rebuild(); else draw(); syncIdle();
+  },setBloom(value){ bloomOn = !!value && theme === 'cyberpunk'; if (bloomOn) ensureComposer(); draw(); return bloomOn; },
+  spacing(value){
     const next=spacingValue(value);if(next===spacing||dragging)return;stopFlight(true);
     const shift=new THREE.Vector3(...spacingCameraShift(controls.target.toArray(),spacing,next));
     spacing=next;camera.position.add(shift);controls.target.add(shift);
     updatePositions();controls.update();draw();
-  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},filters(value){helixFilters={...value};rebuild();},isolate(codes){isolated=codes&&codes.size?new Set(codes):null;rebuild();},frontier(ids){frontierIds=new Set(ids);refreshFrontier();draw();},path(ids,now=true){const next=ids&&ids.size?new Set(ids):null;if(!next&&!pathIds)return;pathIds=next;if(now)rebuild();},grouping(value){lodEnabled=!!value;refreshClusters();draw();},keep(ids){const next=new Set(ids);if(next.size===keepIds.size&&[...next].every(id=>keepIds.has(id)))return;keepIds=next;applyLod();draw();},target(id){if(id===targetId)return;targetId=id;rebuild();},fly(id){const mesh=meshFor(id);if(mesh)approach(mesh.position,260*spacing,id);},pan(horizontal,vertical,seconds){
+  },setGraph(value,id){graph=JSON.parse(JSON.stringify(value));selected=id;rebuild();},setEdit(value){editable=value;},highlight(value){subjects=new Set(value);refreshHalos();draw();},labels(value){labelsOn=value;draw();},selectedConnections(value){selectedConnectionsOnly=value;rebuild();},proficiency(value){proficiencyOn=value;rebuild();},filters(value){helixFilters={...value};rebuild();},isolate(codes){isolated=codes&&codes.size?new Set(codes):null;rebuild();},frontier(ids){frontierIds=new Set(ids);refreshFrontier();draw();syncIdle();},path(ids,now=true){const next=ids&&ids.size?new Set(ids):null;if(!next&&!pathIds)return;pathIds=next;if(now)rebuild();},grouping(value){lodEnabled=!!value;refreshClusters();draw();},keep(ids){const next=new Set(ids);if(next.size===keepIds.size&&[...next].every(id=>keepIds.has(id)))return;keepIds=next;applyLod();draw();},target(id){if(id===targetId)return;targetId=id;rebuild();},fly(id){const mesh=meshFor(id);if(mesh)approach(mesh.position,260*spacing,id);},pan(horizontal,vertical,seconds){
     stopFlight(true);camera.updateMatrixWorld();
     const right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0).toArray();
     const up=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,1).toArray();

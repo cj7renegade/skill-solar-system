@@ -20,7 +20,8 @@ export function createSettingsDialog({ dialog, body, el, storage, root = documen
       toggle('settings-atmosphere', 'Atmosphere effects (faint scanlines; Cyberpunk HUD only)', a.atmosphere, atmosphere => set({ atmosphere })),
       toggle('settings-reduce-motion', 'Reduce motion', a.reduceMotion, reduceMotion => set({ reduceMotion }), 'Turns off panel reveals, scans and ring rotation. The system setting is followed too.'),
       select('settings-glow', 'Glow intensity', GLOWS, a.glow, glow => set({ glow })),
-      el('p', { class: 'edge-note', text: 'Classic is the current look. Cyberpunk HUD is in progress: its component kit can be reviewed in Developer ▸ Style guide; the app shell, lessons and 3D map are styled in later phases.' }));
+      toggle('settings-bloom', 'Bloom on bright 3D elements (quality; Cyberpunk HUD only)', a.bloom, bloom => set({ bloom }), 'Softly blooms the selection, the active milestone and frontier glow. Costs some speed on large maps.'),
+      el('p', { class: 'edge-note', text: 'These change only how HelixSkill looks, never a map, an answer or a lesson. The component kit is shown in Developer ▸ Style guide.' }));
     const developer = el('section', { class: 'settings-section', id: 'settings-developer', role: 'tabpanel' },
       el('p', { text: 'The style guide shows every Cyberpunk HUD component in every state, with readouts taken from the open map.' }),
       el('button', { id: 'settings-styleguide', text: 'Open style guide', onclick: () => { dialog.close(); onStyleGuide(); } }));
