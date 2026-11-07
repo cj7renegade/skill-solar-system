@@ -9,7 +9,20 @@ goals … with Claude in the desktop app and bring back the hierarchies soon."*
 The previous queue (core lessons, step 7) is preserved in Git: merged in PRs #24 and #25, its final
 queue file at `63426b9`.
 
-## In progress: AI Guide (branch `ai-guide`, not pushed)
+## In progress: AI lessons (branch `ai-lessons`, not pushed)
+
+JC's brief of 2026-11-06: replace the embedded lessons with on-demand 30-minute Claude lessons,
+cached locally, and archive the reviewed lessons (never delete them). Plan: `docs/ai-lessons-plan.md`.
+
+- [x] Plan written after reading the code and the docs
+- [ ] Phase 1: lesson store, migration (backup, dry run, apply), restore script, getLesson
+- [ ] Phase 2: one skill card for every node; lesson body removed from cards; demonstration checklist
+- [ ] Phase 3: generation pipeline in the main process (context, schema, validation, verification, streaming, retry, cache)
+- [ ] Phase 4: lesson viewer (math, code, answers, review/flag/regenerate) and review sessions use cached practice
+- [ ] Phase 5: settings, pricing config, usage and cap, pre-generate queue, export/import zip
+- [ ] Verification: unit tests, mocked integration test, real run on 3 skills (needs a key), counts unchanged, screenshots, report
+
+## Done: AI Guide (PR #32)
 
 JC, 2026-11-06: *"build the cloud version with Claude, guidance only. Also create an automatic state
 of the app where you can still use it offline but the AI is disconnected."* Notes: `docs/ai-guide.md`.
