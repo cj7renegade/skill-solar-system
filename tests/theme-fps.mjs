@@ -38,7 +38,7 @@ try {
   const set = (id, value) => `(()=>{const x=document.getElementById('${id}');x.value='${value}';x.dispatchEvent(new Event('change'));})()`;
   const results = {};
   results.classic = { orbit: await orbit(), idle: await idle() };
-  await appearance(set('settings-theme', 'cyberpunk'));
+  await appearance(`document.getElementById('settings-theme-cyberpunk').click()`);
   results.cyberpunk = { orbit: await orbit(), idle: await idle() };
   await appearance(`document.getElementById('settings-bloom').click()`);
   results.cyberpunkBloom = { orbit: await orbit(), idle: await idle() };

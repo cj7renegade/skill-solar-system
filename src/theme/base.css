@@ -20,5 +20,9 @@
 /* The settings dialog uses the app's dialog styles; these are its own parts. */
 .settings-tabs { display: flex; gap: 6px; margin: 4px 0 10px; }
 .settings-tabs button[aria-selected="true"] { border-color: var(--accent); color: var(--accent); }
-.settings-section label.row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
-.settings-section select { width: auto; min-width: 180px; }
+#settings-body { padding: 6px 24px 20px; }
+.settings-section .row { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+.settings-section .settings-label { min-width: 110px; }
+.settings-choice { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.settings-choice button[aria-checked="true"] { border-color: var(--accent); color: var(--accent); }
+:root[data-theme="cyberpunk"] .settings-choice button[aria-checked="true"] { --o: var(--cp-cyan); --f: var(--cp-cyan-soft); color: var(--cp-cyan); }

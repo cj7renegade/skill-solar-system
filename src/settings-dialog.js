@@ -12,8 +12,25 @@ export function createSettingsDialog({ dialog, body, el, storage, root = documen
   function render() {
     const a = readAppearance(storage);
     const tabButton = (key, label) => { const b = el('button', { id: `settings-tab-${key}`, text: label, role: 'tab', onclick: () => { tab = key; render(); } }); b.setAttribute('aria-selected', String(tab === key)); return b; };
-    const select = (id, label, options, value, onchange) => el('label', { class: 'row' }, document.createTextNode(label),
-      el('select', { id, ariaLabel: label, onchange: e => onchange(e.target.value) }, ...options.map(([k, text]) => el('option', { value: k, text, selected: k === value }))));
+    // A choice of a few options as on-screen buttons (a radio group), not a native dropdown: its popup
+    // list is drawn outside the page and did not take mouse clicks inside this dialog. Arrow keys move
+    // between the options, as in any radio group.
+    const select = (id, label, options, value, onchange) => {
+      const group = el('div', { id, class: 'settings-choice', role: 'radiogroup', ariaLabel: label });
+      options.forEach(([k, text], i) => {
+        const b = el('button', { id: `${id}-${k}`, type: 'button', text, class: k === value ? 'chosen' : '', role: 'radio', tabIndex: k === value ? 0 : -1, onclick: () => { if (k !== value) onchange(k); } });
+        b.setAttribute('aria-checked', String(k === value));
+        b.addEventListener('keydown', e => {
+          const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+          if (!step) return;
+          e.preventDefault();
+          const next = options[(i + step + options.length) % options.length][0];
+          onchange(next); body.querySelector(`#${id}-${next}`)?.focus();
+        });
+        group.append(b);
+      });
+      return el('div', { class: 'row' }, el('span', { class: 'settings-label', text: label }), group);
+    };
     const toggle = (id, label, checked, onchange, note) => el('label', { class: 'row', title: note || '' }, el('input', { id, type: 'checkbox', checked, onchange: e => onchange(e.target.checked) }), document.createTextNode(label));
     const appearance = el('section', { class: 'settings-section', id: 'settings-appearance', role: 'tabpanel' },
       select('settings-theme', 'Theme', THEMES, a.theme, theme => set({ theme })),

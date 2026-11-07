@@ -20,8 +20,9 @@ try {
   check('atmosphere effects are off by default', classic.atmosphere === 'off' && await evaluate(`getComputedStyle(document.getElementById('atmosphere')).display`) === 'none');
 
   await click('#file-menu', 200); await click('#settings-open', 300);
-  check('File ▸ Settings opens Appearance with Theme, Atmosphere, Reduce motion and Glow', await evaluate(`['settings-theme','settings-atmosphere','settings-reduce-motion','settings-glow'].every(id=>document.getElementById(id))`));
-  const choose = (id, value) => evaluate(`(()=>{const s=document.getElementById('${id}');s.value='${value}';s.dispatchEvent(new Event('change'));})()`);
+  check('File ▸ Settings opens Appearance with Theme, Atmosphere, Reduce motion and Glow (choices as buttons)', await evaluate(`['settings-theme','settings-atmosphere','settings-reduce-motion','settings-glow'].every(id=>document.getElementById(id))`));
+  // A real mouse click on the option button (the dropdowns these replaced ignored mouse clicks).
+  const choose = (id, value) => click(`#${id}-${value}`, 200);
   await choose('settings-theme', 'cyberpunk'); await sleep(200);
   const cp = await attrs();
   check('choosing Cyberpunk HUD applies the theme at once (near-black, Inter body)', cp.theme === 'cyberpunk' && cp.bg === 'rgb(7, 9, 13)' && /Inter/.test(cp.font), JSON.stringify(cp));

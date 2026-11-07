@@ -20,7 +20,7 @@ try {
   await open(file);
   const shown = sel => evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(sel)});return !!e&&getComputedStyle(e).display!=='none'&&e.getClientRects().length>0;})()`);
   check('Classic: Cyberpunk-only parts are hidden and the Classic bars are shown', !(await shown('#header-readouts')) && !(await shown('.hud-gauges')) && await shown('.hud-bar'));
-  const theme = async t => { await evaluate(`(()=>{const s=document.getElementById('settings-theme');if(!s){document.getElementById('settings-open').click();}const x=document.getElementById('settings-theme');x.value='${t}';x.dispatchEvent(new Event('change'));document.getElementById('settings-close').click();})()`); await sleep(300); };
+  const theme = async t => { await evaluate(`(()=>{document.getElementById('settings-open').click();document.getElementById('settings-theme-${t}').click();document.getElementById('settings-close').click();})()`); await sleep(300); };
   await theme('cyberpunk');
   check('Cyberpunk: header readouts show the true skill and link counts', await evaluate(`document.getElementById('header-readouts').textContent`) === '3 SKILLS2 LINKS' && await shown('#header-readouts'));
   check('the learner HUD shows a progress ring for the target and hides the Classic bars', await shown('.hud-gauges .cp-ring') && !(await shown('.hud-bar')) && /^33$/.test(await evaluate(`document.querySelector('.hud-gauges .cp-ring .value').textContent`)));

@@ -115,7 +115,7 @@ export function renderStyleGuide(host, { graph, learner, onClose }) {
   const inputs = section('Inputs', 'FIELD · DROPDOWN · TOGGLE · SLIDER',
     el('div', { class: 'sg-grid' },
       TextField({ label: 'Find skill', placeholder: 'Part of a name…' }), TextField({ label: 'Find skill (filled)', value: d.sample?.name ?? '' }), TextField({ label: 'Disabled', value: 'Not available', disabled: true }),
-      Dropdown({ label: 'Theme', options: [['classic', 'Classic'], ['cyberpunk', 'Cyberpunk HUD']], value: 'cyberpunk' }), Dropdown({ label: 'Disabled', options: [['x', 'Glow: low']], value: 'x', disabled: true }),
+      Dropdown({ label: 'Dropdown (example only)', options: [['a', 'First choice'], ['b', 'Second choice']], value: 'a' }), Dropdown({ label: 'Disabled', options: [['x', 'Glow: low']], value: 'x', disabled: true }),
       el('div', { class: 'cp-field' }, el('span', { text: 'Toggles' }), Toggle({ label: 'Atmosphere effects', checked: false }), Toggle({ label: 'Proficiency view', checked: true }), Toggle({ label: 'Disabled', checked: false, disabled: true })),
       Slider({ label: 'Sphere spacing', min: 0.5, max: 10, step: 0.05, value: 1, format: v => `${v.toFixed(2)}×` }), Slider({ label: 'Disabled', value: 40, unit: ' %', disabled: true })),
     caption('Toggles say ON/OFF in text. Fields and dropdowns glow cyan only while focused.'));
