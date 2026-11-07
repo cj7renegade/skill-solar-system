@@ -20,6 +20,7 @@ import { FAMILIES, familyOf, FRONTIER_GLOW } from './palette.js';
 import { remainingPath, studyOrder, totalHours, effortHours, formatHours } from './learner.js';
 import { planLayout, renderPlan } from './plan.js';
 import { listOrder, recentAnswers, renderToday, miniGraph } from './panel.js';
+import { createGuidePanel } from './guide-panel.js';
 
 const $=id=>document.getElementById(id), CACHE='skill-solar-system-v1';
 let graph=normalize(starter),selected=null,editing=false,dirty=false,history=[],redo=[],viewer,proficiencyOn=false,subjects=new Set();
@@ -381,7 +382,7 @@ refreshMapPicker();
 const TOUR_SEEN='skill-solar-system-tour-seen-v1';
 createTour({button:$('tour-button'),onOpen:()=>{$('tour-button').classList.remove('unseen');try{localStorage.setItem(TOUR_SEEN,'1');}catch{}}});
 try{if(!localStorage.getItem(TOUR_SEEN))$('tour-button').classList.add('unseen');}catch{}
-$('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(window.desktop){if(!await window.desktop.saveMap(text)){message('Save canceled.');return;}}else{const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const a=el('a',{href:url,download:'Skill-Solar-System.json'});a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}dirty=false;render();message(window.desktop?'Map saved to file.':'Map download requested. Keep the downloaded JSON as your saved copy.');refreshMapPicker();}catch(error){message(`Save failed: ${error.message}`);}};
+$('save').onclick=async()=>{try{const text=JSON.stringify(graph,null,2);if(window.desktop){if(!await window.desktop.saveMap(text)){message('Save canceled.');return;}}else{const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const a=el('a',{href:url,download:'Skill-Solar-System.json'});a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}dirty=false;render();guidePanel?.saveNotes();message(window.desktop?'Map saved to file.':'Map download requested. Keep the downloaded JSON as your saved copy.');refreshMapPicker();}catch(error){message(`Save failed: ${error.message}`);}};
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 // Held navigation keys pan continuously, scaled by frame time; releasing, blurring, typing, or opening a dialog stops them.
 const heldKeys=new Map();let panFrame=null,panClock=0;
@@ -743,6 +744,11 @@ const review=createReviewDialog({dialog:$('review-dialog'),opener:$('mark-profic
   show:id=>{if(!id)return;selected=id;render();viewer?.focus(id);},
   onOpen:()=>{stopPanning();listActivation.reset();closeDetails();}});
 $('mark-proficiency').onclick=()=>review.open();
+// The AI Guide (desktop only): reads the open map through its own read-only tools; links in its
+// replies select a skill or show a path, the same as the HUD's buttons.
+const guidePanel=createGuidePanel({bridge:window.desktop?.guide,button:$('guide-button'),pill:$('guide-state'),panel:$('guide-panel'),el,getFamily:()=>atlasFamily(graph)||'default',
+  getContext:()=>({graph,target:activeTarget(graph,safeStorage),selected,pathTarget,reviewLeft:reviewLeft(safeStorage,graph),record,today:new Date().toISOString().slice(0,10)}),
+  actions:{select:flyTo,path:id=>setPath(id)}});
 viewer?.spacing(spacing);
 $('sphere-spacing').value=String(spacing);$('spacing-value').value=`${spacing.toFixed(2)}×`;
 render();viewer?.fit();

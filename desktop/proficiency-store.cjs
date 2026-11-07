@@ -38,4 +38,4 @@ function createProficiencyStore(dir) {
   };
 }
 
-module.exports = { createProficiencyStore };
+module.exports = { createProficiencyStore, fileFor };

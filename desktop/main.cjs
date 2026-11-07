@@ -1,8 +1,9 @@
-const { app, BrowserWindow, session, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, session, ipcMain, dialog, safeStorage, net } = require('electron');
 const path = require('node:path');
 const { writeFileAtomic } = require('./save.cjs');
 const { createProficiencyStore } = require('./proficiency-store.cjs');
 const { listMaps, readMap } = require('./map-library.cjs');
+const { createGuide } = require('./guide.cjs');
 // The same id as build.appId, so a pinned taskbar shortcut and the running window share one button.
 app.setAppUserModelId('local.skillsolarsystem.atlas');
 // The folder the "Your maps" dropdown lists. Tests point it at their own folder.
@@ -45,6 +46,24 @@ app.whenReady().then(() => {
   // "Your maps": read-only. The page can list the Maps folder's maps and read one the list offers.
   ipcMain.handle('maps-list', event => { if (!fromWindow(event)) throw Error('Invalid request.'); return listMaps(MAPS_DIR); });
   ipcMain.handle('maps-read', (event, relative) => { if (!fromWindow(event)) throw Error('Invalid request.'); return readMap(MAPS_DIR, relative); });
+  // The AI Guide: the only part of HelixSkill that goes online, and only from this process. Tests
+  // swap in a scripted client (tests/electron-launcher.cjs) so no real request is ever made.
+  const SDK = require('@anthropic-ai/sdk');
+  const guide = createGuide({ dir: path.join(app.getPath('userData'), 'guide'), secure: safeStorage, SDK, online: () => net.isOnline(),
+    createClient: global.__sssGuideClient || (apiKey => new SDK.default({ apiKey, maxRetries: 1, timeout: 120_000 })),
+    onStatus: status => { if (!win.isDestroyed()) win.webContents.send('guide-status', status); } });
+  const guarded = handler => (event, ...args) => { if (!fromWindow(event)) throw Error('Invalid request.'); return handler(event, ...args); };
+  ipcMain.handle('guide-status', guarded(() => guide.status()));
+  ipcMain.handle('guide-retry', guarded(() => guide.probe()));
+  ipcMain.handle('guide-set-key', guarded((_, key) => guide.setKey(key)));
+  ipcMain.handle('guide-clear-key', guarded(() => guide.clearKey()));
+  ipcMain.handle('guide-settings', guarded((_, next) => guide.setSettings(next)));
+  ipcMain.handle('guide-turn', guarded((event, id, request) => guide.turn(id, request, text => { if (!event.sender.isDestroyed()) event.sender.send('guide-delta', id, text); })));
+  ipcMain.handle('guide-cancel', guarded((_, id) => guide.cancel(id)));
+  ipcMain.handle('guide-memory-load', guarded((_, family) => guide.loadMemory(family)));
+  ipcMain.handle('guide-memory-save', guarded((_, family, text) => guide.saveMemory(family, text)));
+  guide.load().catch(() => {});
+  app.on('before-quit', () => guide.stop());
   win.loadFile(path.join(__dirname, '../dist/index.html'));
 });
 app.on('window-all-closed', () => app.quit());

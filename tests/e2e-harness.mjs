@@ -58,8 +58,15 @@ export async function launchApp(prefix, options = {}) {
   await send('Runtime.enable'); await send('DOM.enable'); await send('Page.enable');
   await waitFor(`document.getElementById('counts').textContent.includes('skills')`);
 
-  const open = async file => { const { root: doc } = await send('DOM.getDocument'); const { nodeId } = await send('DOM.querySelector', { nodeId: doc.nodeId, selector: '#file' }); await send('DOM.setFileInputFiles', { nodeId, files: [file] }); await waitFor(`/Opened ${path.basename(file).replace(/[.]/g, '\\.')}/.test(document.getElementById('status').textContent)`); await sleep(200); };
-  const setFiles = async (selector, file) => { const { root: doc } = await send('DOM.getDocument'); const { nodeId } = await send('DOM.querySelector', { nodeId: doc.nodeId, selector }); await send('DOM.setFileInputFiles', { nodeId, files: [file] }); };
+  // A DOM node id can go stale if the page is still settling (CDP: "Could not find node with given id"),
+  // so the lookup is retried a few times before it counts as a failure.
+  const setFiles = async (selector, file) => {
+    for (let attempt = 1; ; attempt++) {
+      try { const { root: doc } = await send('DOM.getDocument'); const { nodeId } = await send('DOM.querySelector', { nodeId: doc.nodeId, selector }); await send('DOM.setFileInputFiles', { nodeId, files: [file] }); return; }
+      catch (error) { if (attempt >= 4 || !/Could not find node/.test(error.message)) throw error; await sleep(250); }
+    }
+  };
+  const open = async file => { await setFiles('#file', file); await waitFor(`/Opened ${path.basename(file).replace(/[.]/g, '\\.')}/.test(document.getElementById('status').textContent)`); await sleep(200); };
   const mouse = (type, p, extra = {}) => send('Input.dispatchMouseEvent', { type, x: p.x, y: p.y, ...extra });
   const center = sel => evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(sel)});if(!e)return null;const r=e.getBoundingClientRect();return {x:Math.round(r.left+r.width/2),y:Math.round(r.top+r.height/2)}})()`);
   const clickAt = async (p, wait = 450) => { await mouse('mouseMoved', p); await mouse('mousePressed', p, { button: 'left', buttons: 1, clickCount: 1 }); await mouse('mouseReleased', p, { button: 'left', buttons: 0, clickCount: 1 }); await sleep(wait); };

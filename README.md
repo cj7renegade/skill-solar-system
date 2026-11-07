@@ -222,11 +222,18 @@ It is an editorial plan, not a completeness claim. Node counts measure spheres, 
 - The renderer runs sandboxed with a strict Content Security Policy.
 - The Three.js renderer is bundled locally, so no network is needed after setup.
 
+**AI Guide (optional, online)**
+- Header ▸ **✦ Guide** opens a chat with Claude (Opus 5.5) for direction: what to study next, a plan, where you stand. Answers link to skills and paths.
+- Guidance only: it never teaches lessons or marks proficiency, and its tools only read the open map.
+- Needs an Anthropic API key (saved encrypted, or `ANTHROPIC_API_KEY`) and the internet. Without them, or when the connection drops, the header says **Offline** and everything else keeps working; it reconnects by itself.
+- It remembers: conversations are saved on this computer per map family, and when a conversation ends (or you use File ▸ Save map) it sums it up into short notes that the next conversation starts from.
+- A monthly spending limit ($10 by default) pauses it. Details: [docs/ai-guide.md](docs/ai-guide.md).
+
 ## Requirements
 
 - Windows (the included `.cmd` scripts target Windows; the npm scripts are cross-platform).
 - [Node.js](https://nodejs.org/) LTS with npm. The project was last built with Node.js 24.15.0 and npm 11.12.1.
-- Internet access once, to install the pinned dependencies (`three`, `electron`, `electron-builder`, `esbuild`).
+- Internet access once, to install the pinned dependencies (`three`, `electron`, `electron-builder`, `esbuild`, `@anthropic-ai/sdk`). The app itself runs offline; only the optional Guide goes online.
 
 ## Setup and launch
 

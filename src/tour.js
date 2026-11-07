@@ -7,7 +7,7 @@ export const TOUR_STEPS = [
   { title: 'Welcome to your skill map', text: [
     'Each sphere is one skill. A line between two spheres records that one skill builds on the other.',
     'Height is the longest chain of prerequisites below a skill: foundations sit low, skills that build on them sit higher. Height is never difficulty and never a measure of what you know.',
-    'Use Next and Back to move through this tour; you can try every step while it is open. HelixSkill 0.4.0 works offline, and your answers stay on this computer.'] },
+    'Use Next and Back to move through this tour; you can try every step while it is open. HelixSkill 0.4.0 works offline, and your answers stay on this computer; only the optional Guide goes online.'] },
   { target: '#viewport', title: 'Rotate the view', place: 'center', text: [
     'Hold the left mouse button on an empty part of the map and drag. The map turns around its centre, or around the skill you last clicked.',
     'Try it now: drag a little left and right.'] },
@@ -48,6 +48,9 @@ export const TOUR_STEPS = [
   { target: '#mark-proficiency', title: 'Guided review', text: [
     'Mark proficiency walks through the skills from the foundations upward, one at a time, so you can answer Yes or No quickly.',
     'You can skip, go back, pause, and resume later exactly where you stopped. The progress card offers to resume an unfinished review.'] },
+  { target: '#guide-button', title: 'Ask the Guide', text: [
+    'The Guide is an optional AI helper (Claude) for direction: what to study next, a plan for your week, where you stand. Its answers link to skills and paths you can click.',
+    'It needs an Anthropic API key and the internet. Without them, or when the connection drops, the header says Offline and everything else keeps working. It plans only: it never teaches lessons or marks anything.'] },
   { target: '#map-picker', fallback: '#file-menu', title: 'Opening and saving maps', text: [
     'Your maps opens any map in the project\'s Maps folder in one click. File ▸ Open map can open a map file from anywhere.',
     'Every change is kept on this computer at once: the indicator at the bottom right says Saved ✓. File ▸ Save map exports a portable copy, which is your backup.'] },

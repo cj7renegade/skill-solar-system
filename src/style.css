@@ -211,3 +211,23 @@
 .save-state{font-size:11px;white-space:nowrap}.save-state.saved{color:#8dc9ac}.save-state.saving{color:var(--accent)}.save-state.failed{color:#ffb4a8;font-weight:600}
 .navigation{font-size:11px;letter-spacing:.2px;color:#8b9bb0;bottom:12px}
 small,.eyebrow,.edge-note,.node-id,footer,.sync-state,.find-results .find-domain,.view-tools label,.switch,.offline,#legend button.legend-item,#legend .legend-clear,.layout-tools button,.shared-tools>button,.spacing-control button,.spacing-control output,#view-tools-toggle,.find-control input{font-size:11px}
+/* The AI Guide: the header indicator, the button and the panel over the right of the map. */
+.offline[data-state="online"]{color:#9cc8ff}.offline[data-state="connecting"]{color:var(--muted)}.offline[data-state="disconnected"],.offline[data-state="key-rejected"],.offline[data-state="paused"]{color:#e9bd79}
+.guide-button{font-size:12px;padding:6px 11px}.guide-button[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+.guide-panel{position:absolute;right:16px;top:16px;bottom:70px;width:min(390px,calc(100% - 32px));z-index:6;display:flex;flex-direction:column;gap:8px;background:#0d1726f5;border:1px solid var(--line);border-radius:10px;padding:12px;box-shadow:0 12px 32px #0009}
+.guide-head{display:flex;align-items:center;gap:8px}.guide-head h2{font-size:15px;margin:0}.guide-head button{padding:4px 9px;font-size:12px}
+.guide-panel-state{font-size:11px;color:var(--muted)}.guide-panel-state[data-state="online"]{color:#9cc8ff}
+.guide-banner-row{display:flex;gap:8px;align-items:flex-start}.guide-banner-row button{font-size:12px;padding:4px 9px;flex-shrink:0}
+.guide-banner{flex:1;font-size:12px;color:#f3dcb4;background:#2a2316;border:1px solid #5a4728;border-radius:6px;padding:7px 9px}
+.guide-settings{border:1px solid var(--line);border-radius:8px;padding:8px 10px;overflow:auto;max-height:55%}.guide-settings h3{margin:2px 0 8px}.guide-check{display:block;font-size:12px;margin:8px 0}
+.guide-log{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;min-height:60px}
+.guide-msg{border-radius:8px;padding:7px 10px;font-size:13px;line-height:1.5}.guide-msg p{margin:4px 0}.guide-msg ul,.guide-msg ol{margin:4px 0;padding-left:20px}.guide-msg h4{margin:6px 0 2px;font-size:13px}
+.guide-user{align-self:flex-end;max-width:85%;background:#1d2b3e;border:1px solid #2f4058}.guide-reply{background:#101c2c;border:1px solid #223249}.guide-reply.guide-failed{border-color:#5a4728;color:#f3dcb4}
+.guide-body{white-space:normal}.guide-step{font-size:11px;color:var(--muted);font-style:italic}.guide-msg code{font-family:Consolas,monospace;font-size:12px;background:#0b1320;padding:0 3px;border-radius:3px}
+.guide-link{display:inline;padding:0 5px;margin:0 1px;font-size:inherit;border-radius:4px;border-color:#3d5578;background:#16273c;color:#cfe2ff}.guide-link.guide-path{border-style:dashed}
+.guide-starters{display:flex;flex-wrap:wrap;gap:6px}.guide-starter{font-size:12px;padding:5px 9px;text-align:left}
+.guide-form{display:flex;flex-direction:column;gap:6px}.guide-form textarea{min-height:52px}.guide-form-buttons{display:flex;justify-content:flex-end;gap:6px}
+.guide-note{font-size:11px;color:var(--muted);margin:0}
+.guide-log-wrap{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;min-height:60px}.guide-log-wrap .guide-log{flex:none;overflow:visible}
+.guide-earlier{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px}.guide-earlier summary{cursor:pointer;color:var(--muted)}.guide-past{display:flex;flex-direction:column;gap:6px;margin:6px 0;opacity:.85}
+.guide-notes{white-space:pre-wrap;font-size:12px;background:#0b1320;border:1px solid #243247;border-radius:6px;padding:7px 9px;margin:4px 0}
