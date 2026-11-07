@@ -1,0 +1,254 @@
+{
+  "format": "helixskill-lesson",
+  "version": 1,
+  "nodeId": "hx-ai-python-ml-env",
+  "mapKey": "humanoid-helix-v1",
+  "source": "ai-generated",
+  "status": "unreviewed",
+  "promptVersion": "lesson-v1",
+  "model": "claude-haiku-5-5",
+  "createdAt": "2026-11-07T03:18:49.604Z",
+  "inputHash": "55829beb7605afe18886b3876d7e446faf10a2c6520a47065f2351d37a229f64",
+  "tokensIn": 3068,
+  "tokensOut": 6027,
+  "cost": 0.0034,
+  "seconds": 31.4,
+  "content": {
+    "title": "Set up a Python machine learning environment",
+    "estimatedMinutes": 30,
+    "objectives": [
+      "Create an isolated Python virtual environment and install NumPy, scikit-learn, Jupyter and PyTorch into it without touching the system Python.",
+      "Pin and record exact package versions so the environment can be rebuilt on another machine.",
+      "Check whether PyTorch can see a CUDA GPU and interpret the result correctly."
+    ],
+    "explanation": "A machine learning project depends on a stack of libraries, and each library depends on others. If you install everything into one shared Python, a later install can silently break an earlier project. An isolated environment is a private folder holding its own Python links and packages, so each project gets exactly what it needs.\n\nThe basic workflow has four steps. First, create the environment with the standard venv module, for example python -m venv .venv. Second, activate it, which makes its python and pip the default in that terminal. Third, install packages with pip while the environment is active. Fourth, record the exact versions with pip freeze so the setup can be reproduced later.\n\nNumPy is the array library: it stores numbers in a compact block of memory with a fixed dtype such as float32 or float64. Its memory use is predictable. For an array with n elements, each taking s bytes, the storage is $\\text{bytes} = n \\times s$. Halving the dtype size halves the memory, which matters when sensor logs or joint trajectories get large.\n\nscikit-learn, Jupyter and PyTorch sit on top of NumPy-style arrays. PyTorch is special because it can run its arithmetic on a GPU, but only if the installed build matches the GPU driver and CUDA runtime. The official PyTorch install selector on its website gives the correct command for your operating system and CUDA choice. A CPU-only build still works for learning, just more slowly.\n\nTo check the GPU, use the vendor tool nvidia-smi from the terminal to confirm the driver sees the card, then run python -c 'import torch; print(torch.cuda.is_available())' inside the environment. If nvidia-smi works but PyTorch prints False, the usual cause is a CPU-only PyTorch build or a mismatch between the build and the driver. Record both results rather than assuming.\n\nPinning means writing exact versions, for example numpy==1.26.4, into a requirements file, and rebuilding from that file in a new environment. This is the same discipline you may already use for fabrication drawings and material certificates: the record must match what you actually built.\n\nLooking ahead, the next skill is PyTorch tensors, shapes and broadcasting. Tensors behave much like NumPy arrays, so a clean, working environment here is what lets you move straight into that material.",
+    "workedExample": {
+      "problem": "You want to know how much memory a float32 NumPy array of shape (1000, 3) uses, and whether a second float64 copy would fit in 100 KB of spare RAM.",
+      "steps": [
+        "Count the elements: n = 1000 × 3 = 3000 elements.",
+        "Look up the dtype size: float32 uses s = 4 bytes per element.",
+        "Compute storage: bytes = 3000 × 4 = 12000 bytes.",
+        "A float64 copy doubles the size per element: s = 8 bytes, so bytes = 3000 × 8 = 24000 bytes.",
+        "Compare with 100 KB, which is 100000 bytes in SI units: 24000 bytes is less than 100000 bytes, so it fits.",
+        "Setup link: before any of this, confirm the environment is active so that NumPy you import is the one you installed, and record the version with pip freeze."
+      ],
+      "result": "The float32 array uses 12000 bytes and the float64 copy uses 24000 bytes; the float64 copy fits in 100000 bytes of spare RAM."
+    },
+    "guidedPractice": [
+      {
+        "id": "g1",
+        "prompt": "A NumPy array has shape (120, 6) and dtype float64. How many bytes does it occupy?",
+        "hints": [
+          "Multiply the number of rows by the number of columns to get the element count.",
+          "float64 uses 8 bytes per element."
+        ],
+        "solution": "Elements: 120 × 6 = 720. Bytes: 720 × 8 = 5760 bytes.",
+        "answer": "5760 bytes",
+        "finalValue": 5760,
+        "unit": "bytes"
+      },
+      {
+        "id": "g2",
+        "prompt": "The same (120, 6) array is converted to float32. How many bytes does it now occupy?",
+        "hints": [
+          "The element count stays at 720.",
+          "float32 uses 4 bytes per element."
+        ],
+        "solution": "Elements: 720. Bytes: 720 × 4 = 2880 bytes. The conversion halves the storage.",
+        "answer": "2880 bytes",
+        "finalValue": 2880,
+        "unit": "bytes"
+      },
+      {
+        "id": "g3",
+        "prompt": "A PyTorch float32 tensor has shape (2048, 2048). Express its storage in mebibytes (MiB), where 1 MiB = 1048576 bytes.",
+        "hints": [
+          "Element count is 2048 × 2048.",
+          "Each float32 element is 4 bytes; divide the total bytes by 1048576."
+        ],
+        "solution": "Elements: 2048 × 2048 = 4194304. Bytes: 4194304 × 4 = 16777216 bytes. In MiB: 16777216 / 1048576 = 16 MiB.",
+        "answer": "16 MiB",
+        "finalValue": 16,
+        "unit": "MiB"
+      }
+    ],
+    "independentPractice": [
+      {
+        "id": "p1",
+        "prompt": "A float32 array holds joint angle data with shape (50, 4, 3). How many bytes does it occupy?",
+        "hints": [
+          "Multiply all three dimensions to get the element count.",
+          "Each float32 element is 4 bytes."
+        ],
+        "solution": "Elements: 50 × 4 × 3 = 600. Bytes: 600 × 4 = 2400 bytes.",
+        "answer": "2400 bytes",
+        "finalValue": 2400,
+        "unit": "bytes"
+      },
+      {
+        "id": "p2",
+        "prompt": "A float16 array has shape (1000, 1000). How many bytes does it occupy?",
+        "hints": [
+          "float16 uses 2 bytes per element.",
+          "Count elements first."
+        ],
+        "solution": "Elements: 1000 × 1000 = 1000000. Bytes: 1000000 × 2 = 2000000 bytes.",
+        "answer": "2000000 bytes",
+        "finalValue": 2000000,
+        "unit": "bytes"
+      },
+      {
+        "id": "p3",
+        "prompt": "A joint logger samples 20 joints at 1000 Hz for 10 s, storing each reading as float64. How many bytes does the full log occupy, assuming one array with shape (samples, joints)?",
+        "hints": [
+          "Samples = sampling rate in Hz × duration in s.",
+          "Each float64 value is 8 bytes."
+        ],
+        "solution": "Samples: 1000 Hz × 10 s = 10000 samples. Elements: 10000 × 20 = 200000. Bytes: 200000 × 8 = 1600000 bytes.",
+        "answer": "1600000 bytes",
+        "finalValue": 1600000,
+        "unit": "bytes"
+      },
+      {
+        "id": "p4",
+        "prompt": "Describe, in your own words, the three commands you would run to create a virtual environment named .venv, activate it on Linux or macOS, and save the installed package versions to requirements.txt.",
+        "hints": [
+          "Creation uses the venv module of python.",
+          "Activation on Linux or macOS sources a script inside the environment folder."
+        ],
+        "solution": "Run python -m venv .venv to create the environment. Run source .venv/bin/activate to activate it. After installing packages with pip, run pip freeze > requirements.txt to record exact versions.",
+        "answer": "python -m venv .venv; source .venv/bin/activate; pip freeze > requirements.txt (after installs)",
+        "finalValue": null,
+        "unit": null
+      },
+      {
+        "id": "p5",
+        "prompt": "nvidia-smi lists a GPU, but python -c 'import torch; print(torch.cuda.is_available())' prints False. Name two likely causes and one step you would take to diagnose each.",
+        "hints": [
+          "Think about which PyTorch build was installed.",
+          "Think about compatibility between the driver and the CUDA runtime."
+        ],
+        "solution": "Likely cause one: a CPU-only PyTorch build was installed; diagnose by checking torch.version.cuda, which is None for CPU builds. Likely cause two: a mismatch between the PyTorch CUDA build and the installed driver; diagnose by comparing the CUDA version reported by nvidia-smi with the one the installed PyTorch build expects, then reinstalling using the official selector.",
+        "answer": "Cause 1: CPU-only PyTorch build (check torch.version.cuda). Cause 2: driver and CUDA build mismatch (compare nvidia-smi CUDA version with the PyTorch build, reinstall from the official selector).",
+        "finalValue": null,
+        "unit": null
+      }
+    ],
+    "checkForUnderstanding": [
+      {
+        "question": "Why should you run pip install only after activating the project's virtual environment?",
+        "answer": "Activation makes the environment's pip and python the defaults in the terminal, so packages land in the isolated environment rather than the shared system Python where they could conflict with other projects."
+      },
+      {
+        "question": "What does pip freeze produce, and why is it useful?",
+        "answer": "It prints the exact name and version of each installed package, which can be saved to a requirements file so the environment can be rebuilt identically later."
+      },
+      {
+        "question": "Does torch.cuda.is_available() returning True prove the GPU will train your model faster?",
+        "answer": "No. It only shows that PyTorch can use CUDA on this machine; speed depends on the workload, data transfer and code, so it should be checked with a timed test."
+      }
+    ],
+    "safety": {
+      "hazards": [
+        "Power supplies and internal GPU wiring carry mains or high-current DC; opening a PC while powered can cause electric shock or burns.",
+        "Static discharge can damage a GPU or motherboard when handling components.",
+        "GPUs and power supplies run hot under load and can cause burns or fire if airflow is blocked.",
+        "Installing packages from untrusted sources can run malicious code on your machine.",
+        "Running pip with administrator rights into the system Python can break operating system tools."
+      ],
+      "precautions": [
+        "Shut down, switch off at the wall and unplug the PC before opening the case or reseating a GPU.",
+        "Use an anti-static wrist strap or touch an earthed metal part before handling boards, and hold cards by their edges.",
+        "Keep vents clear and do not run the machine on soft surfaces while under load.",
+        "Install packages only from official indexes such as PyPI and the official PyTorch site, and check package names carefully.",
+        "Do not use sudo or administrator rights for pip inside a virtual environment; keep all installs inside the environment folder.",
+        "Do not disable driver checks, bypass signature verification or override any system protection to make an install succeed."
+      ],
+      "stopConditions": [
+        "Stop if you smell burning, see scorched connectors, or hear a crackling power supply; unplug the machine and inspect it before continuing.",
+        "Stop if a GPU or power connector feels hot to the touch under idle conditions.",
+        "Stop if an installer asks to modify system files or disable protections; investigate before proceeding.",
+        "Stop if the case must be opened while any part of the power chain is still connected."
+      ]
+    },
+    "demonstration": {
+      "description": "Demonstrate on a real machine, in front of a supervisor or with a recorded session: create a fresh virtual environment, install NumPy, scikit-learn, Jupyter and PyTorch, pin the versions to a requirements file, delete the environment, rebuild it from the file, and show the GPU check result with nvidia-smi and the PyTorch check.",
+      "evidence": [
+        "Terminal recording or screenshots showing python -m venv creation and activation of the environment.",
+        "The requirements file containing exact pinned versions of NumPy, scikit-learn, Jupyter and PyTorch.",
+        "Output of python -c 'import numpy, sklearn, torch; print(numpy.__version__, sklearn.__version__, torch.__version__)' run inside the environment.",
+        "Output of nvidia-smi showing the GPU name, driver version and CUDA version, or a clear note that no GPU is present.",
+        "Output of python -c 'import torch; print(torch.cuda.is_available(), torch.version.cuda)' with an explanation of the result.",
+        "Evidence of rebuilding the environment from the requirements file on a clean folder, with the same versions reported."
+      ],
+      "satisfiedByLesson": false
+    },
+    "keyTerms": [
+      {
+        "term": "Virtual environment",
+        "definition": "An isolated folder with its own Python links and installed packages, separate from other projects and the system Python."
+      },
+      {
+        "term": "Activation",
+        "definition": "Making a virtual environment's python and pip the defaults in the current terminal session."
+      },
+      {
+        "term": "Dtype",
+        "definition": "The data type of each array element, such as float32 or float64, which sets the number of bytes per element."
+      },
+      {
+        "term": "Pinning",
+        "definition": "Recording exact package versions so an environment can be rebuilt identically."
+      },
+      {
+        "term": "CUDA",
+        "definition": "NVIDIA's platform that lets software run computation on the GPU; PyTorch builds must match it."
+      },
+      {
+        "term": "Requirements file",
+        "definition": "A text file listing packages and versions that pip can use to reinstall an environment."
+      }
+    ],
+    "commonMistakes": [
+      "Installing packages before activating the environment, which puts them in the system Python instead.",
+      "Forgetting that a CPU-only PyTorch build will report no CUDA even when a GPU is present.",
+      "Using pip freeze output from a different environment without checking that it matches the project.",
+      "Assuming float64 is always better; it doubles memory compared with float32 and may be unnecessary.",
+      "Running installs with administrator rights, which can damage system Python tools."
+    ]
+  },
+  "userNotes": "",
+  "verification": null,
+  "context": {
+    "skill": {
+      "name": "Set up a Python machine learning environment",
+      "description": "Create an isolated Python environment with NumPy, scikit-learn, Jupyter and PyTorch, pin versions, and confirm whether a CUDA GPU is visible.",
+      "course": "AIL",
+      "courseName": "AI, Learning & Language",
+      "subject": "ML workflow",
+      "helixLevel": 34,
+      "buildStage": "3 · Robot arm",
+      "level": "Core",
+      "type": "QUAL",
+      "practice": "hands-on",
+      "assessmentMode": "supervised demonstration"
+    },
+    "safetyRequired": true,
+    "prerequisites": [
+      {
+        "name": "Package dependencies and environments",
+        "description": "Install third-party packages into an isolated environment and record exact versions so the project can be rebuilt elsewhere.",
+        "proficient": false
+      },
+      {
+        "name": "Array computing with NumPy",
+        "description": "Create, index, slice and reshape NumPy arrays, choose dtypes, and replace Python loops with array operations for sensor and joint data.",
+        "proficient": false
+      }
+    ],
+    "unlocks": [
+      "PyTorch tensors, shapes and broadcasting"
+    ],
+    "learner": "Self-taught adult builder working toward a humanoid robot; professional welder/fabricator."
+  }
+}

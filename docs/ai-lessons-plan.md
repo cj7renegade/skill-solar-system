@@ -189,3 +189,68 @@ The phase checkboxes are in `Tasks/TASKS.md`.
    by this lesson", and no code path from lessons writes proficiency.
 6. **The real end-to-end run on three skills needs an API key on this computer.** There is none
    today, so it is reported as pending if it can't be run.
+
+## Results
+
+### Migration (2026-11-06)
+
+- **Dry run**, then `--apply`, on the four top-level maps. The backup is
+  `backups/pre-ai-lessons/`: 4 maps with `SHA256SUMS`, plus `manifest.json`.
+
+  | Map | Nodes | Edges | Lessons moved | Graph and answers |
+  | --- | --- | --- | --- | --- |
+  | Humanoid Protocol Droid Helix.json | 3,422 | 11,281 | 350 | unchanged |
+  | Humanoid-Helix-Atlas.json | 3,696 | 12,138 | 350 | unchanged |
+  | Robotics-Atlas.json | 1,955 | 5,783 | 350 | unchanged |
+  | Skill-Solar-System.json | 1,769 | 5,142 | 0 (left byte-identical) | unchanged |
+
+- **Archives:** the 1,050 removed lessons are stored as 700 archive records, 350 for
+  `humanoid-helix-v1` and 350 for `sss-robotics-foundations-2026-09`. The two helix maps share a
+  family, and their lessons were byte-identical. Every archive re-serialises identically.
+- **Graph and answers:** compared with the backup, every map has the same node and edge counts and
+  the same node ids, positions, levels, courses and other fields, the same edges, and the same
+  `proficiency80` values. Only `lesson` and `lessonCard` are gone.
+- **Restore test.** `node scripts/restore-lessons.mjs` reports for all three maps "350 lessons would
+  be restored; byte-identical to the pre-migration file". The round trip is also covered by
+  `tests/lesson-migration.test.mjs`, applied on fixtures.
+
+### Real run (Claude Haiku 5.5, the cheapest model)
+
+Run with `npx electron scripts/real-lesson-run.cjs` using the key the app saved. The records,
+including the context each lesson was written from, are in `docs/samples/`, and the summary is in
+`docs/samples/run-summary.json`.
+
+| Skill | Type | Time | Tokens in / out | Est. cost | Answer check |
+| --- | --- | --- | --- | --- | --- |
+| Boolean algebra (`m-boolean`) | MTH QUANT | 29.5 s | 3,786 / 4,756 | $0.0029 | 0 of 8 checkable (answers are not single numbers) |
+| Right-triangle trigonometry (`m-trig`) | MTH QUANT | 27.1 s | 5,180 / 6,638 | $0.0040 | 8 of 8 agree |
+| Solder through-hole components (`hx-elx-soldering-tht`) | ELX hands-on | 32.0 s | 3,009 / 6,010 | $0.0034 | not QUANT; safety and demonstration present |
+| Set up a Python ML environment (`hx-ai-python-ml-env`) | AIL QUAL | 31.4 s | 3,068 / 6,027 | $0.0034 | not QUANT |
+
+- **Validation:** all four passed local validation first time; there were no retries or repairs.
+  The `m-trig` independent-practice answers were spot-checked by hand and are correct:
+  - 12/13 = 0.9231;
+  - 9 tan 40° = 7.552 m;
+  - 12 sin 15° = 3.106 m;
+  - 4/sin 25° = 9.465 m;
+  - 5/8 = 0.625.
+- **Cost on Sonnet 5.5 (estimate only):** at its prices ($2 in, $10 out per million tokens), the same
+  lessons would cost roughly $0.05–0.08 each, and Opus 5.5 about twice that. Sonnet itself was not
+  run.
+
+### Where the prompt and schema live
+
+- **Lesson prompt and schema:** `SYSTEM_PROMPT` and `LESSON_SCHEMA` in `desktop/lesson-gen.cjs`,
+  prompt version `lesson-v1`. The answer check is `VERIFY_PROMPT` and `VERIFY_SCHEMA`, and the repair
+  is `REPAIR_PROMPT` with the problem schema.
+- **Context:** `src/lesson-context.js`.
+- **Prices:** `desktop/claude-pricing.json`, checked 2026-11-06.
+
+### Screenshots
+
+`docs/screenshots/ai-lessons/` holds 11 screenshots, all using the real sample lessons:
+- the card with an AI lesson, a reviewed archive, no lesson yet, a milestone checklist, and offline
+  with Generate disabled;
+- the viewer: top, a practice answer shown, hands-on safety, the demonstration marked "not
+  satisfied", and a reviewed archive;
+- the Lessons settings.

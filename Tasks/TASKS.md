@@ -20,7 +20,8 @@ cached locally, and archive the reviewed lessons (never delete them). Plan: `doc
 - [x] Phase 3: generation pipeline in the main process (context, schema, validation, verification, streaming, retry, cache)
 - [x] Phase 4: lesson viewer (math, code, answers, review/flag/regenerate) and review sessions use cached practice
 - [x] Phase 5: settings, pricing config, usage and cap, pre-generate queue, export/import zip
-- [ ] Verification: unit tests, mocked integration test, real run on 3 skills (needs a key), counts unchanged, screenshots, report
+- [x] Verification: unit tests, mocked integration test, real run on 3 skills (+1 numeric) with Haiku 5.5, counts and answers unchanged, restore checked, screenshots
+- [ ] JC: decide the default model, the cap and how strict the answer check should be; review the branch
 
 ## Done: AI Guide (PR #32)
 

@@ -51,7 +51,7 @@ try {
   check('a skill with no lesson: badge No lesson yet, button Generate lesson (~30 min), enabled', c.badge === 'No lesson yet' && c.primary === 'Generate lesson (~30 min)' && !c.disabled, JSON.stringify(c));
   const shown = dialogs.length;
   await click('#lesson-primary', 50);
-  check('Ask before generating: a confirmation states the model, the wait and the rough cost', dialogs.length === shown + 1 && /Claude Sonnet 5\.5.*30–60 seconds.*\$0\.10–0\.25/.test(dialogs.at(-1)), dialogs.at(-1));
+  check('Ask before generating: a confirmation states the model, the wait and the rough cost', dialogs.length === shown + 1 && /Claude Sonnet 5\.5.*30–60 seconds.*\$0\.05–0\.15/.test(dialogs.at(-1)), dialogs.at(-1));
   check('a Generating… view with section progress and Cancel appears', await evaluate(`!!document.getElementById('lesson-generating')&&!!document.getElementById('lesson-cancel')&&document.querySelectorAll('.lesson-progress li').length===8`));
   await waitFor(`document.getElementById('lesson-viewer-badge')?.textContent==='AI-generated · not yet reviewed'`, 30000);
   check('the AI lesson opens with the badge AI-generated · not yet reviewed', true);

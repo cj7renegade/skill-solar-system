@@ -9,9 +9,9 @@ import { buildLessonContext } from './lesson-context.js';
 
 const MODEL_NAMES = { 'claude-sonnet-5-5': 'Claude Sonnet 5.5', 'claude-haiku-5-5': 'Claude Haiku 5.5', 'claude-opus-5-5': 'Claude Opus 5.5' };
 export const modelName = id => MODEL_NAMES[id] || id;
-// Honest rough figures for the confirmation: a lesson is ~3–6k tokens in and ~8–12k out, more with
-// the QUANT check. Shown as a range, never as a promise.
-const ESTIMATE = { 'claude-haiku-5-5': 'under $0.02', 'claude-sonnet-5-5': 'about $0.10–0.25', 'claude-opus-5-5': 'about $0.20–0.50' };
+// Honest rough figures for the confirmation, from the real run (docs/samples): a lesson is about
+// 3–5k tokens in and 5–7k out, a little more with the QUANT check. Shown as a range, never a promise.
+const ESTIMATE = { 'claude-haiku-5-5': 'under $0.01', 'claude-sonnet-5-5': 'about $0.05–0.15', 'claude-opus-5-5': 'about $0.10–0.30' };
 export const costEstimate = model => ESTIMATE[model] || 'a few cents';
 const PROGRESS_SECTIONS = ['objectives', 'explanation', 'workedExample', 'guidedPractice', 'independentPractice', 'checkForUnderstanding', 'keyTerms', 'commonMistakes'];
 

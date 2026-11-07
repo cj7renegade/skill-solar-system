@@ -229,6 +229,13 @@ It is an editorial plan, not a completeness claim. Node counts measure spheres, 
 - It remembers: conversations are saved on this computer per map family, and when a conversation ends (or you use File ▸ Save map) it sums it up into short notes that the next conversation starts from.
 - A monthly spending limit ($10 by default) pauses it. Details: [docs/ai-guide.md](docs/ai-guide.md).
 
+**Lessons (AI-generated on demand, cached)**
+- Lessons are no longer stored in map files. They are kept per atlas family in the app's lesson store, outside the maps. The 350 reviewed lessons were archived there unchanged; `scripts/restore-lessons.mjs` puts them back.
+- Every skill card has the same layout and a lesson badge (Reviewed, AI-generated · unreviewed, Flagged, or No lesson yet), with **Generate lesson (~30 min)** or **Open lesson**. Milestones and checkpoints show a demonstration checklist instead.
+- Lessons are written by Claude (Sonnet 5.5 by default) from the skill, its prerequisites and what it unlocks. For numeric skills, every practice answer is checked by an independent re-solve. Lessons can be marked reviewed, flagged with a note, or regenerated.
+- File ▸ Lessons… holds the model, learner profile, a $20 monthly cap, usage, pre-generating the next skills, and zip export and import.
+- Generating needs the Guide's API key and the internet. Saved and archived lessons open offline. Lessons never change proficiency, and AI practice is never a demonstration. Details: [docs/ai-lessons-plan.md](docs/ai-lessons-plan.md).
+
 ## Requirements
 
 - Windows (the included `.cmd` scripts target Windows; the npm scripts are cross-platform).
